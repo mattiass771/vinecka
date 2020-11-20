@@ -18,6 +18,8 @@ import { MdDelete } from "react-icons/md";
 
 import { Helmet } from "react-helmet";
 
+import ShowItem from './ShowItem'
+
 export default ({ shopData, isOwner, userId }) => {
   const [pageColor, setPageColor] = useState(shopData.shopPref.pageColor);
   const [showPageColor, setShowPageColor] = useState(false);
@@ -28,9 +30,6 @@ export default ({ shopData, isOwner, userId }) => {
   const [showItemsColor, setShowItemsColor] = useState(false);
   const [showAddedPopup, setShowAddedPopup] = useState(false)
   const [showMustLoginPopup, setShowMustLoginPopup] = useState(false)
-
-  const [size, setSize] = useState("")
-  const [color, setColor] = useState("")
 
   const shopId = shopData._id
 
@@ -74,125 +73,6 @@ export default ({ shopData, isOwner, userId }) => {
       .catch((err) => err && console.log("error setting itemsColor: " + err));
   }, [itemsColor]); //eslint-disable-line
 
-  const getColorByBgColor = (bgColor) => {
-    if (!bgColor) { return ''; }
-    return (parseInt(bgColor.replace('#', ''), 16) > 0xffffff / 2) ? '#333333' : 'whitesmoke';
-  }
-
-  const getImage = (image) => {
-    try {
-      const img = require(`../../../../../src/uploads/${image}`);
-      return img;
-    } catch {
-      return null;
-    }
-  };
-
-  const deleteCard = (e) => {
-    const itemId = e.currentTarget.parentNode.id;
-    axios
-      .post(
-        `http://localhost:5000/shop/${shopId}/delete-item/${itemId}`,
-        {}
-      )
-      .then(() => setShouldReload(!shouldReload))
-      .catch((err) => err && console.log(`Error ${err}`));
-  };
-
-  const displayShopItems = () => {
-    const output = shopItems.map((item) => {
-      const { _id, itemName, price, description, imageLink, sizes, colors } = item;
-      const image = getImage(imageLink)
-        ? getImage(imageLink)
-        : imageLink;
-
-      const showSizes = () => {
-        return sizes.map((el) => {
-          return <option key={el} value={el}>{el}</option>
-        })
-      }
-
-      const showColors = () => {
-        return colors.map((el) => {
-          return <option key={el} value={el}>{el}</option>
-        })
-      }
-
-      const addItemToCart = (e) => {
-        const itemId = e.currentTarget.parentNode.parentNode.id;
-        if (userId) {
-          axios
-            .post(`http://localhost:5000/users/${userId}/cart/add-cart-item/${shopId}/${itemId}`, {
-            shopId, itemId
-            })
-            .then(() => setShowAddedPopup(true))
-            .catch(err => err && console.log(err))
-            .then(() => setTimeout(() => setShowAddedPopup(false), 5000))
-        } else {
-          setShowMustLoginPopup(true)
-          setTimeout(() => setShowMustLoginPopup(false), 5000)
-        }
-      }
-
-      return (
-        <Col className="mt-2 mb-2" md={4} key={_id}>
-          <Card style={{ width: "18rem", backgroundColor: itemsColor, color: getColorByBgColor(itemsColor) }} id={_id}>
-            {isOwner &&
-            <Button
-              onClick={(e) => deleteCard(e)}
-              style={{
-                width: "40px",
-                height: "40px",
-                marginBottom: "-40px",
-                zIndex: "+5"
-              }}
-              variant="outline-danger"
-            >
-              <MdDelete style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
-            </Button>}
-            <Card.Img className="shop-item-img" variant="top" src={image} />
-            <Card.Body>
-              <Card.Title>
-                {itemName}
-              </Card.Title>
-              <Row>
-                <Col><h5>Price: {price} €</h5></Col>
-              </Row>
-              <Row className="mt-2">
-                {sizes ? 
-                <Col>
-                  <Form.Control
-                    as="select"
-                    value={size}
-                    onChange={(e) => setSize(e.target.value)}
-                  >
-                    {showSizes()}
-                  </Form.Control>
-                </Col> : null}
-                {colors ?
-                <Col>
-                  <Form.Control
-                    as="select"
-                    value={color}
-                    onChange={(e) => setColor(e.target.value)}
-                  >
-                    {showColors()}
-                  </Form.Control>
-                </Col> : null}
-              </Row>
-              <hr />
-              <Row>
-                <Col>{description}</Col>
-              </Row>
-              <Button onClick={(e) => addItemToCart(e)} className="mt-4" variant="dark">Add to cart.</Button>
-            </Card.Body>
-          </Card>
-        </Col>
-      );
-    });
-    return output;
-  };
-
   return (
     <Container className="text-center">
       <Helmet>
@@ -235,7 +115,18 @@ export default ({ shopData, isOwner, userId }) => {
         </Col>
       </Row></>}
       <Row>
-        {displayShopItems()}
+        {/* {displayShopItems()} */}
+        <ShowItem 
+          shopItems={shopItems} 
+          userId={userId} 
+          shopId={shopId} 
+          itemsColor={itemsColor}
+          setShouldReload={setShouldReload}
+          shouldReload={shouldReload}
+          setShowAddedPopup={setShowAddedPopup}
+          setShowMustLoginPopup={setShowMustLoginPopup}
+          isOwner={isOwner}
+          />
         {isOwner && 
         <Col style={{ paddingTop: "6rem" }} md={4}>
           <Card style={{ width: "12rem", backgroundColor: itemsColor }}>

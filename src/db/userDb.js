@@ -7,7 +7,10 @@ const Schema = mongoose.Schema;
 
 const shoppingCartSchema = new Schema({
   shopId: {type: String , required: true},
-  itemId: {type: String, required: true}
+  itemId: {type: String, required: true},
+  size: {type: String},
+  color: {type: String},
+  count: {type: Number}
 })
 
 const userSchema = new Schema({
@@ -31,9 +34,10 @@ router.route("/:userId/cart/").get((req,res) => {
 
 router.route("/:userId/cart/add-cart-item/:shopId/:itemId").post((req,res) => {
   const { shopId, itemId, userId } = req.params;
+  const {size, color, count} = req.body
 
   const addCartItem = new CartItem({
-    shopId, itemId
+    shopId, itemId, size, color, count
   });
 
   User.findById(userId, (err, userFound) => {
