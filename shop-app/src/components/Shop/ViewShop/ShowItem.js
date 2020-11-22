@@ -74,14 +74,13 @@ export default ({shopItems, shopId, userId, itemsColor, setShouldReload, shouldR
         const itemId = e.currentTarget.parentNode.parentNode.id;
         const passColor = color[_id] || colors[0]
         const passSize = size[_id] || sizes[0]
-        const count = 1
 
-        console.log(shopId, itemId, passColor, passSize, count)
+        console.log(shopId, itemId, passColor, passSize)
         
         if (userId) {
           axios
             .post(`http://localhost:5000/users/${userId}/cart/add-cart-item/${shopId}/${itemId}`, {
-            shopId, itemId, color: passColor, size: passSize, count
+            shopId, itemId, color: passColor, size: passSize
             })
             .then(() => setShowAddedPopup(true))
             .catch(err => err && console.log(err))

@@ -34,10 +34,10 @@ router.route("/:userId/cart/").get((req,res) => {
 
 router.route("/:userId/cart/add-cart-item/:shopId/:itemId").post((req,res) => {
   const { shopId, itemId, userId } = req.params;
-  const {size, color, count} = req.body
+  const {size, color} = req.body
 
   const addCartItem = new CartItem({
-    shopId, itemId, size, color, count
+    shopId, itemId, size, color
   });
 
   User.findById(userId, (err, userFound) => {

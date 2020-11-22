@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
+import Button from 'react-bootstrap/Button'
 
 export default ({userId}) => {
     const [shops, setShops] = useState('')
@@ -16,15 +17,16 @@ export default ({userId}) => {
                 .then((res) => {
                     const { shopName, owner } = res.data
                     const itemsArr = res.data.shopItems
+                    const { size, color } = cartItem
                     const findItem = itemsArr.find(el => el._id === cartItem.itemId)
                     const { itemName, price, imageLink } = findItem
                     const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
                     if (index >= 0) {
                         const prevItems = sortShop[index].itemData
-                        sortShop[index].itemData = [...prevItems, {itemName, price, imageLink}]
+                        sortShop[index].itemData = [...prevItems, {itemName, price, imageLink, size, color}]
                     } else {
                         const newShopId = cartItem.shopId
-                        sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemName, price, imageLink}]}]
+                        sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemName, price, imageLink, size, color}]}]
                     }
                 })
                 .catch(err => err && console.log(err))
@@ -42,26 +44,61 @@ export default ({userId}) => {
     }, [])
 
     const showItemData = (itemData) => {
-        return itemData.map((item, i) => {
+        let shopItemSet = new Set()
+        let sameData = []
+        for (let item of itemData) {
+            const checkIfShopHas = Object.values(item).toString()
+            if (shopItemSet.has(checkIfShopHas)) {
+                for (let val of sameData) {
+                    const findMatch = Object.values(val).toString()
+                    if (findMatch.substring(0,findMatch.lastIndexOf(',')) === checkIfShopHas) {
+                        val.count++
+                        break
+                    }
+                }
+            } else {
+                shopItemSet.add(checkIfShopHas)
+                sameData = [...sameData, { ...item, count: 1 }]
+            }
+        }
+        const outputData = sameData.map((item, i) => {
             return (
-                <Col key={i}>
+                <Col md={3} xs={6} lg={2} key={`${item.itemName}-${item.color}-${item.size}-${item.price}`} style={{textAlign: "center"}}>
                     <Image src={item.imageLink} rounded style={{height:75}} />
                     <h6>{item.itemName}</h6>
-                    <p>{item.price}</p>
+                    <p>{item.color}, {item.size}<br />
+                    Count: {item.count}<br />
+                    {item.price} €</p>
                 </Col>
             )
         })
+        return outputData
+    }
+
+    const getTotalPrice = (itemData) => {
+        let total = 0
+        for (let item of itemData) {
+            total += Number(item.price)
+        }
+        return total
     }
 
     const showCartItems = () => {
         return shops.map(shop => {
-            console.log(shop)
             return (
-                <Row key={shop.shopId}>
-                    <Col xs={12}>
-                        <h4>{shop.shopName}</h4>
-                        <p>{shop.owner}</p>
+                <Row key={shop.shopId} style={{marginBottom: "15px"}}>
+                    <Col style={{marginBottom: "50px"}} xs={12}>
                         <hr />
+                        <div style={{display: "flex", justifyContent:"space-between"}}>
+                            <div>
+                                <h4>{shop.shopName}</h4>
+                                <p>{shop.owner}</p>
+                            </div>
+                            <div className="text-right">
+                                <h5>Total: {getTotalPrice(shop.itemData)} €</h5>
+                                <Button variant="dark" size="sm">Proceed to Checkout</Button>
+                            </div>
+                        </div>
                     </Col>
                     {showItemData(shop.itemData)}
                 </Row>
