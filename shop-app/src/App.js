@@ -8,6 +8,7 @@ import Shop from "./components/Shop/Shop";
 import Login from "./components/Login/Login";
 import ShopOnline from "./components/Shop/shopOnline/ShopOnline"
 import ShoppingCart from "./components/Cart/ShoppingCart"
+import PayGate from "./components/Payment/PayGate"
 
 import Spinner from "react-bootstrap/Spinner";
 
@@ -80,6 +81,10 @@ export default () => {
           {!loadingData &&
           <Route exact path={`/:shopUrl`}>
             <ShopOnline userId={userData._id} />
+          </Route>}
+          {!loadingData &&
+          <Route exact path={`/shop/payment`}>
+            <PayGate />
           </Route>}
         </Switch>
       </div>

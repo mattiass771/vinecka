@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import axios from 'axios'
+import { Link } from "react-router-dom";
 
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
@@ -92,11 +93,13 @@ export default ({userId}) => {
                         <div style={{display: "flex", justifyContent:"space-between"}}>
                             <div>
                                 <h4>{shop.shopName}</h4>
-                                <p>{shop.owner}</p>
+                                <p>Owner: {shop.owner}</p>
                             </div>
                             <div className="text-right">
                                 <h5>Total: {getTotalPrice(shop.itemData)} €</h5>
-                                <Button variant="dark" size="sm">Proceed to Checkout</Button>
+                                <Link to="/shop/payment">
+                                    <Button variant="dark" size="sm">Proceed to Checkout</Button>
+                                </Link>
                             </div>
                         </div>
                     </Col>
