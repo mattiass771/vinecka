@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CreateShop from "./CreateShop";
-import ViewShop from "./ViewShop";
+import ShopsOverview from "./ShopsOverview";
 
 import Spinner from "react-bootstrap/Spinner";
 
@@ -9,11 +9,9 @@ import Spinner from "react-bootstrap/Spinner";
 export default ({ userData }) => {
   const [shopData, setShopData] = useState({});
   const [loading, setLoading] = useState(true);
-
-  const userId = userData._id;
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/shop/owner/${userId}`)
+      .get(`http://localhost:5000/shop/`)
       .then((res) => setShopData(res.data ? res.data : {}))
       .catch((err) => {
         if (err) return console.log(`Fetch error: ${err}`);
@@ -27,11 +25,7 @@ export default ({ userData }) => {
           style={{ marginLeft: "49%", marginTop: "20%" }}
           animation="border"
         />
-      ) : shopData.shopName ? (
-        <ViewShop shopData={shopData} isOwner={true} userId={userId} />
-      ) : (
-        <CreateShop userData={userData} />
-      )}
+      ) : <ShopsOverview userData={userData} shopData={shopData} />}
     </>
   );
 };

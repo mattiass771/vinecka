@@ -8,9 +8,6 @@ import Jumbotron from "react-bootstrap/Jumbotron";
 import InputGroup from "react-bootstrap/InputGroup"
 import Button from "react-bootstrap/Button"
 
-import JumboColor from "../SketchPicker/JumboColor";
-import JumboTextColor from "../SketchPicker/JumboTextColor";
-
 import {FaCheckSquare} from "react-icons/fa"
 
 // CreateShop.js

@@ -5,11 +5,10 @@ import axios from "axios"
 import ViewShop from "../ViewShop"
 import Spinner from "react-bootstrap/Spinner";
 
-export default ({userId}) => {
+export default ({userId, isOwner}) => {
     const {shopUrl} = useParams()
     const [isUrlAvailible, setIsUrlAvailible] = useState(true)
     const [shopData, setShopData] = useState({})
-    const [isOwner, setIsOwner] = useState(false)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -21,12 +20,6 @@ export default ({userId}) => {
                 setLoading(false)
             })
     }, [])
-
-    useEffect(() => {
-        if (shopData.ownerId !== undefined && shopData.ownerId === userId) {
-            setIsOwner(true)
-        }
-    }, [shopData])
 
     return (
         loading ? 

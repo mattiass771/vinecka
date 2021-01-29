@@ -26,7 +26,6 @@ const shopItemSchema = {
 const shopSchema = new Schema({
   shopName: { type: String, required: true, default: "New Shop" },
   owner: { type: String, required: true, default: "Who is the owner?" },
-  ownerId: { type: String, required: true, default: "no_id" },
   description: {
     type: String,
     required: true,
@@ -34,12 +33,6 @@ const shopSchema = new Schema({
   },
   url: {type: String, required: true},
   shopItems: [shopItemSchema],
-  shopPref: {
-    jumboColor: { type: String, required: true, default: "#c1c1c1" },
-    jumboTextColor: { type: String, required: true, default: "#333333" },
-    pageColor: { type: String, required: true, default: "whitesmoke" },
-    itemColor: { type: String, required: true, default: "#c1c1c1" }
-  }
 });
 
 const Shop = mongoose.model("Shop", shopSchema);

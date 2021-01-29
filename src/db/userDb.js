@@ -18,6 +18,7 @@ const userSchema = new Schema({
   password: { type: String, required: true, default: "password" },
   fullName: { type: String, required: true, default: "User Name" },
   email: { type: String, required: true, default: "example@egzamply.com" },
+  isOwner: { type: Boolean, required: true, default: false},
   shoppingCart: [shoppingCartSchema]
 });
 

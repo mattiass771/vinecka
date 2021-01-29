@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Container from "react-bootstrap/Container";
 
 import axios from "axios";
 
+import { SlideDown } from "react-slidedown";
+import "react-slidedown/lib/slidedown.css";
+
 import { MdDelete } from "react-icons/md";
 
-export default ({shopItems, shopId, userId, itemsColor, setShouldReload, shouldReload, setShowAddedPopup, setShowMustLoginPopup, isOwner}) => {
+export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setShowAddedPopup, setShowMustLoginPopup, isOwner}) => {
 
     const [size, setSize] = useState("")
     const [color, setColor] = useState("")
-
-    const getColorByBgColor = (bgColor) => {
-        if (!bgColor) { return ''; }
-        return (parseInt(bgColor.replace('#', ''), 16) > 0xffffff / 2) ? '#333333' : 'whitesmoke';
-      }
+    const [isHovered, setIsHovered] = useState("")
     
     const getImage = (image) => {
-    try {
-        const img = require(`../../../../../src/uploads/${image}`);
-        return img;
-    } catch {
-        return null;
-    }
+      try {
+          const img = require(`../../../../../src/uploads/${image}`);
+          return img;
+      } catch {
+          return null;
+      }
     };
 
     const deleteCard = (e) => {
@@ -39,7 +39,7 @@ export default ({shopItems, shopId, userId, itemsColor, setShouldReload, shouldR
         .catch((err) => err && console.log(`Error ${err}`));
     };
 
-    const output = shopItems.map((item) => {
+    return shopItems.map((item) => {
       const { _id, itemName, price, description, imageLink, sizes, colors } = item;
 
       const image = getImage(imageLink)
@@ -70,6 +70,18 @@ export default ({shopItems, shopId, userId, itemsColor, setShouldReload, shouldR
         setColor({...color, ...colorObj})
       }
 
+      const handleMouseOver = () => {
+        let hoverObj = {}
+        hoverObj[_id] = 'block'
+        setIsHovered({...isHovered, ...hoverObj})
+      }
+
+      const handleMouseLeave = () => {
+        let hoverObj = {}
+        hoverObj[_id] = 'none'
+        setIsHovered({...isHovered, ...hoverObj})
+      }
+
       const addItemToCart = (e) => {
         const itemId = e.currentTarget.parentNode.parentNode.id;
         const passColor = color[_id] || colors[0]
@@ -90,10 +102,9 @@ export default ({shopItems, shopId, userId, itemsColor, setShouldReload, shouldR
           setTimeout(() => setShowMustLoginPopup(false), 5000)
         }
       }
-
       return (
-        <Col className="mt-2 mb-2" md={4} key={_id}>
-          <Card style={{ width: "18rem", backgroundColor: itemsColor, color: getColorByBgColor(itemsColor) }} id={_id} >
+        <Col className="mt-2 mb-2" style={{color: "whitesmoke"}} md={6} lg={4} xl={3} key={_id}>
+          <Card onMouseEnter={() => handleMouseOver()} onMouseLeave={() => handleMouseLeave()} style={{height: "400px" }} id={_id} >
             {isOwner &&
             <Button
               onClick={(e) => deleteCard(e)}
@@ -108,44 +119,45 @@ export default ({shopItems, shopId, userId, itemsColor, setShouldReload, shouldR
               <MdDelete style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
             </Button>}
             <Card.Img className="shop-item-img" variant="top" src={image} />
-            <Card.Body>
-              <Card.Title>
-                {itemName}
-              </Card.Title>
-              <Row>
-                <Col><h5>Price: {price} €</h5></Col>
-              </Row>
-              <Row className="mt-2">
-                {sizes ? 
-                <Col>
-                  <Form.Control
-                    as="select"
-                    value={size[_id]}
-                    onChange={(e) => handleSize(e)}
-                  >
-                    {showSizes()}
-                  </Form.Control>
-                </Col> : null}
-                {colors ?
-                <Col>
-                  <Form.Control
-                    as="select"
-                    value={color[_id]}
-                    onChange={(e) => handleColor(e)}
-                  >
-                    {showColors()}
-                  </Form.Control>
-                </Col> : null}
-              </Row>
-              <hr />
-              <Row>
-                <Col>{description}</Col>
-              </Row>
-              <Button onClick={(e) => addItemToCart(e, size[_id], color[_id])} className="mt-4" variant="dark" id="kkt" >Add to cart.</Button>
+            <Card.Body style={{color: "Black"}}>
+              <Card.Title>{itemName}</Card.Title>
+              <Card.Text>{price} €</Card.Text>
             </Card.Body>
+              <Card.ImgOverlay style={{ background: "rgba(52,58,64,0.4)", display: `${isHovered[_id] === 'block' ? 'block' : 'none'}`}} >
+                <SlideDown className={"my-dropdown-slidedown"}>
+                <Button style={{width: "100%"}} onClick={(e) => addItemToCart(e, size[_id], color[_id])} variant="dark">Add to shopping cart.</Button>
+                <Container>
+                  <Row className="mt-2">
+                    {sizes ? 
+                    <Col>
+                      <Form.Control
+                        as="select"
+                        value={size[_id]}
+                        onChange={(e) => handleSize(e)}
+                      >
+                        {showSizes()}
+                      </Form.Control>
+                    </Col> : null}
+                    {colors ?
+                    <Col>
+                      <Form.Control
+                        as="select"
+                        value={color[_id]}
+                        onChange={(e) => handleColor(e)}
+                      >
+                        {showColors()}
+                      </Form.Control>
+                    </Col> : null}
+                  </Row>
+                  <hr />
+                  <Row>
+                    <Col>{description}</Col>
+                  </Row>
+                </Container>
+              </SlideDown>
+            </Card.ImgOverlay>
           </Card>
         </Col>
       );
     });
-    return output;
   };

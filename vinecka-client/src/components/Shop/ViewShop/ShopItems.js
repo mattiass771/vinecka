@@ -8,13 +8,9 @@ import Alert from "react-bootstrap/Alert"
 
 import axios from "axios";
 
-import PageColor from "../SketchPicker/PageColor";
-import ItemColor from "../SketchPicker/ItemColor";
 import AddItems from "./AddItems";
 
 import { FiPlusSquare } from "react-icons/fi";
-
-import { Helmet } from "react-helmet";
 
 import ShowItem from './ShowItem'
 
@@ -62,7 +58,6 @@ export default ({ shopData, isOwner, userId }) => {
           setShowAddItems={setShowAddItems}
         />}
       <Row>
-        {/* {displayShopItems()} */}
         <ShowItem 
           shopItems={shopItems} 
           userId={userId} 

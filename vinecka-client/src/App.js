@@ -26,8 +26,8 @@ export default () => {
       })
       .then((res) => {
         if (res.data) {
-          const { _id, userName, fullName, email, shopId } = res.data;
-          setUserData({ _id, userName, fullName, email, shopId });
+          const { _id, userName, fullName, email, shopId, isOwner } = res.data;
+          setUserData({ _id, userName, fullName, email, shopId, isOwner });
           setIsLoggedIn(userName ? true : false);
         } else {
           setUserData({})
@@ -80,7 +80,7 @@ export default () => {
           </Route>
           {!loadingData &&
           <Route exact path={`/:shopUrl`}>
-            <ShopOnline userId={userData._id} />
+            <ShopOnline userId={userData._id} isOwner={userData.isOwner} />
           </Route>}
           {!loadingData &&
           <Route exact path={`/shop/payment`}>
