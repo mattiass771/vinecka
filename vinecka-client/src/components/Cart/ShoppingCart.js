@@ -12,6 +12,7 @@ export default ({userId}) => {
     const [shops, setShops] = useState('')
  
     const sortItems = (cartItems) => {
+        console.log(cartItems)
         let sortShop = []
         for (let cartItem of cartItems) {
             axios.get(`http://localhost:5000/shop/${cartItem.shopId}`)
@@ -20,17 +21,25 @@ export default ({userId}) => {
                     const itemsArr = res.data.shopItems
                     const { size, color } = cartItem
                     const findItem = itemsArr.find(el => el._id === cartItem.itemId)
-                    const { itemName, price, imageLink } = findItem
-                    const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
-                    if (index >= 0) {
-                        const prevItems = sortShop[index].itemData
-                        sortShop[index].itemData = [...prevItems, {itemName, price, imageLink, size, color}]
+                    if (findItem === undefined) {
+                        axios.post(`http://localhost:5000/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`)
+                            .then((res) => console.log(res))
+                            .catch(err => err && console.log('could not delete item', err))
                     } else {
-                        const newShopId = cartItem.shopId
-                        sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemName, price, imageLink, size, color}]}]
+                        const { itemName, price, imageLink } = findItem
+                        const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
+                        if (index >= 0) {
+                            const prevItems = sortShop[index].itemData
+                            sortShop[index].itemData = [...prevItems, {itemName, price, imageLink, size, color}]
+                        } else {
+                            const newShopId = cartItem.shopId
+                            sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemName, price, imageLink, size, color}]}]
+                        }
                     }
                 })
-                .catch(err => err && console.log(err))
+                .catch(err => {
+                    if (err) return console.log(err)
+                })
                 .then(() => setShops([...sortShop]))
         }
     }

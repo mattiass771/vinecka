@@ -79,6 +79,7 @@ export default ({ userData }) => {
           </Col>
         </Row>
       </Container>
+      <hr />
     </SlideDown>
   );
 };

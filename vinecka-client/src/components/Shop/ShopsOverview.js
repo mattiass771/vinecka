@@ -7,28 +7,40 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
+import { Link } from "react-router-dom";
+
 export default ({userData, shopData}) => {
     const [showCreateShop, setShowCreateShop] = useState(false)
+    const [isHovered, setIsHovered] = useState("")
 
     const showShops = () => {
         return shopData.map(shop => {
-            const { _id, shopName, owner, description } = shop
+            const { _id, shopName, description, url } = shop
+            const handleMouseOver = () => {
+                let hoverObj = {}
+                hoverObj[_id] = 'none'
+                setIsHovered({...isHovered, ...hoverObj})
+            }
+            const handleMouseLeave = () => {
+                let hoverObj = {}
+                hoverObj[_id] = 'block'
+                setIsHovered({...isHovered, ...hoverObj})
+            }
             return (
                 <Col className="mt-2 mb-2" md={4} key={_id} >
-                    <Card style={{ textAlign:"center", color: "whitesmoke" }} id={_id} >
-                        <Card.Img src="https://miro.medium.com/max/295/1*i5iqn7xB-l0kLwsJJBYEWQ.jpeg" />
-                        <Card.ImgOverlay style={{ background: "rgba(52,58,64,0.4)", }} >
-                                <Card.Title>
-                                    {shopName}
-                                </Card.Title>
-                                <Card.Text>
-                                    <h6>Owner: {owner}</h6>
-                                </Card.Text>
-                                <Card.Text>
-                                    {description}
-                                </Card.Text>
-                        </Card.ImgOverlay>
-                    </Card>
+                    <Link to={`/${url}`}>
+                        <Card onMouseEnter={() => handleMouseOver()} onMouseLeave={() => handleMouseLeave()} style={{ textAlign:"center", color: "whitesmoke" }} id={_id} >
+                            <Card.Img src="https://miro.medium.com/max/295/1*i5iqn7xB-l0kLwsJJBYEWQ.jpeg" />
+                            <Card.ImgOverlay className={`${isHovered[_id] === 'none' ? 'fade-out' : 'fade-in'}`} style={{ background: "rgba(52,58,64,0.4)"}} >
+                                    <Card.Title>
+                                        {shopName}
+                                    </Card.Title>
+                                    <Card.Text>
+                                        {description}
+                                    </Card.Text>
+                            </Card.ImgOverlay>
+                        </Card>
+                    </Link>
                 </Col>
             )
         })
@@ -37,16 +49,15 @@ export default ({userData, shopData}) => {
     return (
         <Container>
             <Row>
+                {userData.isOwner && 
                 <Col className="text-center">
                     {showCreateShop ? 
                     <CreateShop userData={userData} /> :
                     <Button style={{marginTop: "20px"}} variant="dark" onClick={() => setShowCreateShop(true)}>New Shop</Button>
                     }
-                    
-                </Col>
+                </Col>}
             </Row>
-            <hr />
-            <Row>
+            <Row className="mt-4">
                 {showShops()}
             </Row>
         </Container>

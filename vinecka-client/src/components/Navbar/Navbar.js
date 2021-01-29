@@ -23,11 +23,11 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <Link className={`nav-elem`} to="/">
-            Home
+            Domov
           </Link>
 
           <Link className={`nav-elem`} to="/shop-page">
-            Shop
+            Vinarne
           </Link>
         </Nav>
         <Nav className="mr-sm-2">

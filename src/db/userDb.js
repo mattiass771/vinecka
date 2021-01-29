@@ -52,6 +52,19 @@ router.route("/:userId/cart/add-cart-item/:shopId/:itemId").post((req,res) => {
   });
 })
 
+router.route("/:userId/cart/delete-cart-item/:shopId/:itemId").post((req, res) => {
+  const { shopId, itemId, userId } = req.params;
+  User.findById(userId, (err, userFound) => {
+    if (err) return console.log(err);
+    userFound.shoppingCart = (userFound.shoppingCart).filter(obj => (obj.itemId !== itemId && obj.shopId !== shopId))
+
+    userFound
+      .save()
+      .then(() => res.json(`Item removed from your cart, because it is no longer available.`))
+      .catch((err) => res.status(400).json(`Error: ${err}`));
+  });
+});
+
 router.route("/").get((req, res) => {
   User.find()
     .then((users) => res.json(users))

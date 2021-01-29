@@ -83,7 +83,7 @@ export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setSh
       }
 
       const addItemToCart = (e) => {
-        const itemId = e.currentTarget.parentNode.parentNode.id;
+        const itemId = e.currentTarget.parentNode.parentNode.parentNode.id;
         const passColor = color[_id] || colors[0]
         const passSize = size[_id] || sizes[0]
 
@@ -123,8 +123,8 @@ export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setSh
               <Card.Title>{itemName}</Card.Title>
               <Card.Text>{price} €</Card.Text>
             </Card.Body>
-              <Card.ImgOverlay style={{ background: "rgba(52,58,64,0.4)", display: `${isHovered[_id] === 'block' ? 'block' : 'none'}`}} >
-                <SlideDown className={"my-dropdown-slidedown"}>
+            <Card.ImgOverlay style={{ background: "rgba(52,58,64,0.4)", display: `${isHovered[_id] === 'block' ? 'block' : 'none'}`}} >
+              <SlideDown className={"my-dropdown-slidedown"}>
                 <Button style={{width: "100%"}} onClick={(e) => addItemToCart(e, size[_id], color[_id])} variant="dark">Add to shopping cart.</Button>
                 <Container>
                   <Row className="mt-2">

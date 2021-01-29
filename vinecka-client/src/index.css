@@ -24,6 +24,18 @@ code {
   display: none;
 }
 
+/* Fades */
+
+.fade-out{
+  opacity:0;
+  transition:  opacity 0.5s 0.1s;
+
+}
+.fade-in{
+  opacity:1;
+  transition:  opacity 0.5s 0.1s;
+}
+
 /* NAVBAR */
 
 .nav-elem {
