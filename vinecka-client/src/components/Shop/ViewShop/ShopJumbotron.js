@@ -15,41 +15,9 @@ import {FaCheckSquare} from "react-icons/fa"
 
 // CreateShop.js
 export default ({ shopData, isOwner }) => {
-  const [jumboColor, setJumboColor] = useState(shopData.shopPref.jumboColor);
-  const [jumboTextColor, setJumboTextColor] = useState(
-    shopData.shopPref.jumboTextColor
-  );
-  const [showJumboColor, setShowJumboColor] = useState(false);
-  const [showJumboTextColor, setShowJumboTextColor] = useState(false);
   const { shopName, owner, description, url } = shopData;
   const [currentUrl, setCurrentUrl] = useState(url)
   const [isUrlAvailible, setIsUrlAvailible] = useState(true)
-
-  useEffect(() => {
-    const setColor = jumboColor.replace("#", "_");
-    axios
-      .put(
-        `http://localhost:5000/shop/${shopData._id}/update-pref/jumboColor/${setColor}`
-      )
-      .then((res) => {
-        return;
-      })
-      .catch((err) => err && console.log("error setting jumboColor: " + err));
-  }, [jumboColor]); //eslint-disable-line
-
-  useEffect(() => {
-    const setColor = jumboTextColor.replace("#", "_");
-    axios
-      .put(
-        `http://localhost:5000/shop/${shopData._id}/update-pref/jumboTextColor/${setColor}`
-      )
-      .then((res) => {
-        return;
-      })
-      .catch(
-        (err) => err && console.log("error setting jumboTextColor: " + err)
-      );
-  }, [jumboTextColor]); //eslint-disable-line
 
   useEffect(() => {
     axios
@@ -75,29 +43,10 @@ export default ({ shopData, isOwner }) => {
   }
 
   return (
-    <Jumbotron style={{ backgroundColor: jumboColor }} fluid>
-      <Container style={{ color: jumboTextColor }} className="text-center">
+    <Jumbotron fluid>
+      <Container className="text-center">
         <Row>
           <Col>
-          {isOwner &&
-            <>
-              <div>
-                <JumboTextColor
-                  setShowJumboTextColor={setShowJumboTextColor}
-                  showJumboTextColor={showJumboTextColor}
-                  setJumboTextColor={setJumboTextColor}
-                  jumboTextColor={jumboTextColor}
-                />
-              </div>
-              <div style={{ marginLeft: "90%", marginBottom: "-36px" }}>
-                <JumboColor
-                  setShowJumboColor={setShowJumboColor}
-                  showJumboColor={showJumboColor}
-                  setJumboColor={setJumboColor}
-                  jumboColor={jumboColor}
-                />
-              </div>
-            </>}
             <h2>{shopName}</h2>
             <p>{description}</p>
             <p>Owner: {owner}</p>
