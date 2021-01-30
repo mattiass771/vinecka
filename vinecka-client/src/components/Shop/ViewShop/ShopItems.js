@@ -73,6 +73,7 @@ export default ({ shopData, isOwner, userId }) => {
           <Card style={{ width: "12rem" }}>
             <Button
               variant="outline-dark"
+              style={{border: '0px'}}
               onClick={() => setShowAddItems(true)}
             >
               <FiPlusSquare

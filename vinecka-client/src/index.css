@@ -24,6 +24,15 @@ code {
   display: none;
 }
 
+.link-no-deco {
+  color: #333333;
+}
+
+a.link-no-deco:hover {
+  text-decoration: none;
+  color: #c1c1c1;
+}
+
 /* Fades */
 
 .fade-out{

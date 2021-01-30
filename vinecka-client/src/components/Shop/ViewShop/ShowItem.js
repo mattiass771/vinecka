@@ -123,7 +123,7 @@ export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setSh
               <Card.Title>{itemName}</Card.Title>
               <Card.Text>{price} €</Card.Text>
             </Card.Body>
-            <Card.ImgOverlay style={{ background: "rgba(52,58,64,0.4)", display: `${isHovered[_id] === 'block' ? 'block' : 'none'}`}} >
+            <Card.ImgOverlay style={{ background: "rgba(52,58,64,0.7)", display: `${isHovered[_id] === 'block' ? 'block' : 'none'}`}} >
               <SlideDown className={"my-dropdown-slidedown"}>
                 <Button style={{width: "100%"}} onClick={(e) => addItemToCart(e, size[_id], color[_id])} variant="dark">Add to shopping cart.</Button>
                 <Container>
