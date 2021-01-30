@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button'
 
 export default ({userId}) => {
     const [shops, setShops] = useState('')
-    const [totalFinal, setTotalFinal] = useState(0)
+    const [refresh, setRefresh] = useState(false)
  
     const sortItems = (cartItems) => {
         let sortShop = []
@@ -56,7 +56,7 @@ export default ({userId}) => {
                 .then((res) => res.data ? sortItems(res.data.shoppingCart) : [])
                 .catch(err => err && console.log(err))
         }
-    }, [])
+    }, [refresh])
 
     const getImage = (image) => {
         try {
@@ -67,15 +67,23 @@ export default ({userId}) => {
         }
     };
 
-    const showItemData = (itemData) => {
+    const removeItemFromCart = (e, itemId, shopId) => {
+        axios.post(`http://localhost:5000/users/${userId}/cart/delete-cart-item/${shopId}/${itemId}`)
+            .then((res) => console.log(res))
+            .catch(err => err && console.log('could not delete item', err))
+            .then(() => setRefresh(!refresh))
+    }
+
+    const showItemData = (itemData, shopId) => {
         const outputData = itemData.map((item, i) => {
             return (
-                <Col md={3} xs={6} lg={2} key={`${item.itemName}-${item.color}-${item.size}-${item.price}`} style={{textAlign: "center"}}>
+                <Col data-id={`${item.itemId}`} md={3} xs={6} lg={2} key={`${item.itemId}`} style={{textAlign: "center"}}>
                     <Image src={getImage(item.imageLink) ? getImage(item.imageLink) : ''} rounded style={{height:75}} />
                     <h6>{item.itemName}</h6>
                     <p>
                     Count: {item.count}<br />
                     {item.price} €</p>
+                    <Button style={{position: 'absolute', right: "20%", top: 0}} onClick={(e) => removeItemFromCart(e, item.itemId, shopId)} variant="danger" size="sm">X</Button>
                 </Col>
             )
         })
@@ -105,7 +113,7 @@ export default ({userId}) => {
                             </div>
                         </div>
                     </Col>
-                    {showItemData(shop.itemData)}
+                    {showItemData(shop.itemData, shop.shopId)}
                 </Row>
             )
         })

@@ -55,10 +55,13 @@ const shopRouter = require("./db/shopDb").router;
 app.use("/shop", shopRouter);
 const userRouter = require("./db/userDb").router;
 app.use("/users", userRouter);
+const orderRouter = require("./db/orderDb").router;
+app.use("/orders", orderRouter);
 
 // ACCESS USER DATABASE //
 const User = require("./db/userDb").User;
 const Shop = require("./db/shopDb").Shop;
+const Order = require("./db/orderDb").Order;
 
 // PASSPORT //
 passport.use(
