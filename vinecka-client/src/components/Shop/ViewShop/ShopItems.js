@@ -69,17 +69,16 @@ export default ({ shopData, isOwner, userId }) => {
           isOwner={isOwner}
           />
         {isOwner && 
-        <Col style={{ paddingTop: "6rem" }} md={4}>
-          <Card style={{ width: "12rem" }}>
+        <Col className="mt-2 mb-2" md={6} lg={4} xl={3}>
+          <Card style={{height: '400px'}}>
             <Button
               variant="outline-dark"
-              style={{border: '0px'}}
+              style={{ border: '0px', height: '100%'}}
               onClick={() => setShowAddItems(true)}
             >
               <FiPlusSquare
                 style={{
                   margin: "0 auto",
-                  height: "12rem",
                   fontSize: "400%"
                 }}
               />

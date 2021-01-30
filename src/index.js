@@ -127,7 +127,7 @@ app.post("/fileUpload/:shopId", (req, res) => {
   const dirPath = path.join(
     __dirname,
     "uploads",
-    req.params.shopId + "__" + file.name
+    req.params.shopId + "-" + file.name.replace(/_/g,'-')
   );
   file.mv(dirPath, (err) => {
     if (err) {

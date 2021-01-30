@@ -15,8 +15,7 @@ import { MdDelete } from "react-icons/md";
 
 export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setShowAddedPopup, setShowMustLoginPopup, isOwner}) => {
 
-    const [size, setSize] = useState("")
-    const [color, setColor] = useState("")
+    const [count, setCount] = useState("")
     const [isHovered, setIsHovered] = useState("")
     
     const getImage = (image) => {
@@ -40,34 +39,25 @@ export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setSh
     };
 
     return shopItems.map((item) => {
-      const { _id, itemName, price, description, imageLink, sizes, colors } = item;
+      const { _id, itemName, price, description, imageLink, maxCount } = item;
 
       const image = getImage(imageLink)
         ? getImage(imageLink)
         : imageLink;
 
-      const showSizes = () => {
-        return sizes.map((el) => {
-          return <option key={el} value={el}>{el}</option>
-        })
+      const showCount = () => {
+        let result = []
+        for (let num = 1; num<= (maxCount ?? 200); num++) {
+          result.push(<option key={num} value={num}>{num}</option>)
+        }
+        
+        return result
       }
 
-      const showColors = () => {
-        return colors.map((el) => {
-          return <option key={el} value={el}>{el}</option>
-        })
-      }
-
-      const handleSize = (e) => {
-        let sizeObj = {}
-        sizeObj[_id] = e.target.value
-        setSize({...size, ...sizeObj})
-      }
-
-      const handleColor = (e) => {
-        let colorObj = {}
-        colorObj[_id] = e.target.value
-        setColor({...color, ...colorObj})
+      const handleCount = (e) => {
+        let countObj = {}
+        countObj[_id] = e.target.value
+        setCount({...count, ...countObj})
       }
 
       const handleMouseOver = () => {
@@ -84,15 +74,14 @@ export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setSh
 
       const addItemToCart = (e) => {
         const itemId = e.currentTarget.parentNode.parentNode.parentNode.id;
-        const passColor = color[_id] || colors[0]
-        const passSize = size[_id] || sizes[0]
+        const passCount = count[_id] || 1
 
-        console.log(shopId, itemId, passColor, passSize)
+        console.log(shopId, itemId, passCount)
         
         if (userId) {
           axios
             .post(`http://localhost:5000/users/${userId}/cart/add-cart-item/${shopId}/${itemId}`, {
-            shopId, itemId, color: passColor, size: passSize
+            shopId, itemId, count: passCount
             })
             .then(() => setShowAddedPopup(true))
             .catch(err => err && console.log(err))
@@ -125,29 +114,18 @@ export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setSh
             </Card.Body>
             <Card.ImgOverlay style={{ background: "rgba(52,58,64,0.7)", display: `${isHovered[_id] === 'block' ? 'block' : 'none'}`}} >
               <SlideDown className={"my-dropdown-slidedown"}>
-                <Button style={{width: "100%"}} onClick={(e) => addItemToCart(e, size[_id], color[_id])} variant="dark">Add to shopping cart.</Button>
+                <Button style={{width: "100%"}} onClick={(e) => addItemToCart(e, count[_id])} variant="dark">Add to shopping cart.</Button>
                 <Container>
                   <Row className="mt-2">
-                    {sizes ? 
                     <Col>
                       <Form.Control
                         as="select"
-                        value={size[_id]}
-                        onChange={(e) => handleSize(e)}
+                        value={count[_id]}
+                        onChange={(e) => handleCount(e)}
                       >
-                        {showSizes()}
+                        {showCount()}
                       </Form.Control>
-                    </Col> : null}
-                    {colors ?
-                    <Col>
-                      <Form.Control
-                        as="select"
-                        value={color[_id]}
-                        onChange={(e) => handleColor(e)}
-                      >
-                        {showColors()}
-                      </Form.Control>
-                    </Col> : null}
+                    </Col>
                   </Row>
                   <hr />
                   <Row>

@@ -10,16 +10,16 @@ import Button from 'react-bootstrap/Button'
 
 export default ({userId}) => {
     const [shops, setShops] = useState('')
+    const [totalFinal, setTotalFinal] = useState(0)
  
     const sortItems = (cartItems) => {
-        console.log(cartItems)
         let sortShop = []
         for (let cartItem of cartItems) {
             axios.get(`http://localhost:5000/shop/${cartItem.shopId}`)
                 .then((res) => {
                     const { shopName, owner } = res.data
                     const itemsArr = res.data.shopItems
-                    const { size, color } = cartItem
+                    const { count, itemId } = cartItem
                     const findItem = itemsArr.find(el => el._id === cartItem.itemId)
                     if (findItem === undefined) {
                         axios.post(`http://localhost:5000/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`)
@@ -30,10 +30,15 @@ export default ({userId}) => {
                         const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
                         if (index >= 0) {
                             const prevItems = sortShop[index].itemData
-                            sortShop[index].itemData = [...prevItems, {itemName, price, imageLink, size, color}]
+                            const isInCart = prevItems.findIndex(el => el.itemId === itemId)
+                            if (isInCart !== -1) {
+                                sortShop[index].itemData[isInCart].count += count
+                            } else {
+                                sortShop[index].itemData = [...prevItems, {itemId, itemName, price, imageLink, count}]
+                            }
                         } else {
                             const newShopId = cartItem.shopId
-                            sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemName, price, imageLink, size, color}]}]
+                            sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemId, itemName, price, imageLink, count}]}]
                         }
                     }
                 })
@@ -53,30 +58,22 @@ export default ({userId}) => {
         }
     }, [])
 
-    const showItemData = (itemData) => {
-        let shopItemSet = new Set()
-        let sameData = []
-        for (let item of itemData) {
-            const checkIfShopHas = Object.values(item).toString()
-            if (shopItemSet.has(checkIfShopHas)) {
-                for (let val of sameData) {
-                    const findMatch = Object.values(val).toString()
-                    if (findMatch.substring(0,findMatch.lastIndexOf(',')) === checkIfShopHas) {
-                        val.count++
-                        break
-                    }
-                }
-            } else {
-                shopItemSet.add(checkIfShopHas)
-                sameData = [...sameData, { ...item, count: 1 }]
-            }
+    const getImage = (image) => {
+        try {
+          const img = require(`../../../../src/uploads/${image}`);
+          return img;
+        } catch {
+          return null;
         }
-        const outputData = sameData.map((item, i) => {
+    };
+
+    const showItemData = (itemData) => {
+        const outputData = itemData.map((item, i) => {
             return (
                 <Col md={3} xs={6} lg={2} key={`${item.itemName}-${item.color}-${item.size}-${item.price}`} style={{textAlign: "center"}}>
-                    <Image src={item.imageLink} rounded style={{height:75}} />
+                    <Image src={getImage(item.imageLink) ? getImage(item.imageLink) : ''} rounded style={{height:75}} />
                     <h6>{item.itemName}</h6>
-                    <p>{item.color}, {item.size}<br />
+                    <p>
                     Count: {item.count}<br />
                     {item.price} €</p>
                 </Col>
@@ -88,7 +85,7 @@ export default ({userId}) => {
     const getTotalPrice = (itemData) => {
         let total = 0
         for (let item of itemData) {
-            total += Number(item.price)
+            total += Number((item.price).replace(/,/g,"."))*item.count
         }
         return total
     }
@@ -102,13 +99,9 @@ export default ({userId}) => {
                         <div style={{display: "flex", justifyContent:"space-between"}}>
                             <div>
                                 <h4>{shop.shopName}</h4>
-                                <p>Owner: {shop.owner}</p>
                             </div>
                             <div className="text-right">
-                                <h5>Total: {getTotalPrice(shop.itemData)} €</h5>
-                                <Link to="/shop/payment">
-                                    <Button variant="dark" size="sm">Proceed to Checkout</Button>
-                                </Link>
+                                <h5>Suma: {(getTotalPrice(shop.itemData)).toFixed(2).toString().replace(/\./g,',')} €</h5>
                             </div>
                         </div>
                     </Col>
@@ -118,5 +111,27 @@ export default ({userId}) => {
         })
     }
 
-    return <Container style={{paddingTop: "50px"}}>{shops && showCartItems()}</Container>
+    const showTotalCartPrice = () => {
+        let result = 0
+        shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
+        return (
+            <Col>
+                <h3>Finalna suma: {result.toFixed(2).toString().replace(/\./g,',')} €</h3>
+                <Link to="/shop/payment">
+                    <Button variant="dark">Proceed to Checkout</Button>
+                </Link>
+            </Col>
+        )
+    }
+
+    return (
+        <Container style={{paddingTop: "50px"}}>
+            {shops && showCartItems()}
+            <Row className="text-center">
+               
+                    {shops && showTotalCartPrice()}
+               
+            </Row>
+        </Container>
+    )
 }

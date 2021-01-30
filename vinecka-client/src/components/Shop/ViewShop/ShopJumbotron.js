@@ -10,6 +10,13 @@ import InputGroup from "react-bootstrap/InputGroup"
 import Button from "react-bootstrap/Button"
 import Alert from "react-bootstrap/Alert"
 
+import Dropzone from "react-dropzone-uploader";
+
+import { BsUpload } from "react-icons/bs";
+
+import { SlideDown } from "react-slidedown";
+import "react-slidedown/lib/slidedown.css";
+
 // CreateShop.js
 export default ({ shopData, isOwner }) => {
   let history = useHistory();
@@ -22,6 +29,57 @@ export default ({ shopData, isOwner }) => {
   const [error, setError] = useState('')
   const [description, setDescription] = useState(shopData.description)
   const [owner, setOwner] = useState(shopData.owner)
+  const [imageLink, setImageLink] = useState('');
+  const [showImageFromDb, setShowImageFromDb] = useState(shopData.imageLink ? shopData.imageLink : '')
+  const [localUploading, setLocalUploading] = useState(false)
+
+  const getImage = (image) => {
+    try {
+      const img = require(`../../../../../src/uploads/${image}`);
+      return img;
+    } catch {
+      return null;
+    }
+  };
+
+  // specify upload params and url for your files
+  const getUploadParams = ({ meta }) => {
+    return { url: `http://localhost:5000/fileUpload/${shopData._id}` };
+  };
+
+  const deleteFile = (file) => {
+    axios
+      .get(`http://localhost:5000/deleteFile/${shopData._id}`, {
+        params: file
+      })
+      .then(() => 
+        {return}
+      )
+      .catch((err) => err && console.log(err));
+  };
+
+  // called every time a file's `status` changes
+  const handleChangeStatus = ({ meta, file }, status) => {
+    if (status === "removed") {
+      deleteFile(meta);
+    }
+    if (status === "done") {
+      setImageLink(`${shopData._id}-${meta.name.replace(/_/g,'-')}`);
+    }
+  };
+
+  useEffect(() => {
+    if (imageLink) {
+      axios
+      .put(
+        `http://localhost:5000/shop/${shopData._id}/update-shop/imageLink/${imageLink}`
+      )
+      .then((res) => {
+        return;
+      })
+      .catch((err) => err && handleError(err));
+    }
+  }, [imageLink])
 
   useEffect(() => {
     axios
@@ -93,7 +151,7 @@ export default ({ shopData, isOwner }) => {
   }
 
   return (
-    <Jumbotron fluid>
+    <Jumbotron style={{background: `url(${getImage(showImageFromDb) ? getImage(showImageFromDb) : ''}) no-repeat`, backgroundSize: 'cover'}} fluid>
       <Container className="text-center">
       {!editMode ?
         <Row>
@@ -105,48 +163,84 @@ export default ({ shopData, isOwner }) => {
           </Col>
         </Row>
         :
-        <Row className="justify-content-center">
-          <Col xs={8}>
-            <input 
-              className={'form-control text-center'}
-              value={shopName} 
-              onChange={(e) => setShopName(e.target.value)} 
-              onBlur={handleShopNameChange}
-              name="shopName"
-              placeholder="Nazov"
+        <>
+          <Row className="justify-content-center">
+            <Col xs={8}>
+              <input 
+                className={'form-control text-center'}
+                value={shopName} 
+                onChange={(e) => setShopName(e.target.value)} 
+                onBlur={handleShopNameChange}
+                name="shopName"
+                placeholder="Nazov"
+              />
+              <textarea 
+                style={{minHeight: '100px'}}
+                className={'form-control text-center'}
+                value={description} 
+                onChange={(e) => setDescription(e.target.value)} 
+                onBlur={handleDescriptionChange}
+                name="description"
+                placeholder="Popis"
+              />
+              <input 
+                className={'form-control text-center'}
+                value={owner} 
+                onChange={(e) => setOwner(e.target.value)} 
+                onBlur={handleOwnerChange}
+                name="owner"
+                placeholder="Majitel"
+              />
+              <div>
+                <InputGroup>
+              <p style={{marginRight: 10, marginTop: 5}}>www.vimko.sk/</p>
+                  <input 
+                    className={isUrlAvailible ? 'form-control text-center' : 'text-center form-control invalid-input'}
+                    value={currentUrl} 
+                    onChange={(e) => setCurrentUrl(e.target.value)} 
+                    name="currentUrl"
+                    onBlur={handleUrlChange}
+                  />
+                </InputGroup>
+                {!isUrlAvailible && <p style={{color: "red"}}>Adresa uz existuje, vyberte prosim inu.</p>}
+              </div>
+            </Col>
+          </Row>
+          <Row className="justify-content-md-center">
+            <Col className="text-center">
+              <Button variant="dark" onClick={() => setLocalUploading(!localUploading)}>Upload image</Button>
+            </Col>
+          </Row>
+        </>
+        }
+        {(localUploading && editMode) ? 
+        <SlideDown className={"my-dropdown-slidedown"}>
+        <Row>
+          <Col>
+            <Dropzone
+              maxFiles={1}
+              multiple={false}
+              canCancel={false}
+              getUploadParams={getUploadParams}
+              onChangeStatus={handleChangeStatus}
+              accept="image/*"
+              inputContent={() => (
+                <p
+                  className="text-center"
+                  key="label"
+                  style={{ marginTop: "15px", color: "#333333" }}
+                >
+                  Drop or click to choose image.
+                  <br />
+                  <BsUpload />
+                </p>
+              )}
+              classNames={{
+                dropzone: "dropzoning"
+              }}
             />
-            <textarea 
-              style={{minHeight: '100px'}}
-              className={'form-control text-center'}
-              value={description} 
-              onChange={(e) => setDescription(e.target.value)} 
-              onBlur={handleDescriptionChange}
-              name="description"
-              placeholder="Popis"
-            />
-            <input 
-              className={'form-control text-center'}
-              value={owner} 
-              onChange={(e) => setOwner(e.target.value)} 
-              onBlur={handleOwnerChange}
-              name="owner"
-              placeholder="Majitel"
-            />
-            <div>
-              <InputGroup>
-            <p style={{marginRight: 10, marginTop: 5}}>www.vimko.sk/</p>
-                <input 
-                  className={isUrlAvailible ? 'form-control text-center' : 'text-center form-control invalid-input'}
-                  value={currentUrl} 
-                  onChange={(e) => setCurrentUrl(e.target.value)} 
-                  name="currentUrl"
-                  onBlur={handleUrlChange}
-                />
-              </InputGroup>
-              {!isUrlAvailible && <p style={{color: "red"}}>Adresa uz existuje, vyberte prosim inu.</p>}
-            </div>
           </Col>
-        </Row>
+        </Row></SlideDown> : null
         }
         {isOwner &&
         <Row className="mt-4">

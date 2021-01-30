@@ -1,3 +1,4 @@
 .env
 /node_modules
 /vinecka-client/node_modules
+/src/uploads

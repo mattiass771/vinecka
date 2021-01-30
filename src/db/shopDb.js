@@ -19,8 +19,7 @@ const shopItemSchema = {
     default: "https://loading.io/icon/jzph2f"
   },
   customColor: { type: String },
-  sizes: {type: Array, default: []},
-  colors: {type: Array, default: []}
+  maxCount: {type: Number}
 };
 
 const shopSchema = new Schema({
@@ -30,6 +29,9 @@ const shopSchema = new Schema({
     type: String,
     required: true,
     default: "Add a brief description to your shop..."
+  },
+  imageLink: {
+    type: String,
   },
   url: {type: String, required: true},
   shopItems: [shopItemSchema],
@@ -155,15 +157,14 @@ router.route("/:shopId/update-item/:itemId/:find/:replace").put((req, res) => {
 });
 
 router.route("/:shopId/add-item").post((req, res) => {
-  const { itemName, price, description, imageLink, sizes, colors } = req.body;
+  const { itemName, price, description, imageLink, maxCount } = req.body;
 
   const addShopItem = new ShopItem({
     itemName,
     price,
     description,
     imageLink,
-    sizes,
-    colors
+    maxCount
   });
 
   Shop.findById(req.params.shopId, (err, shopFound) => {

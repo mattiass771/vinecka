@@ -21,11 +21,7 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
   const [description, setDescription] = useState("");
   const [imageLink, setImageLink] = useState("");
   const [canSaveItem, setCanSaveItem] = useState(false);
-  const [localUploading, setLocalUploading] = useState(false)
-  const [colors, setColors] = useState([])
-  const [sizes, setSizes] = useState("")
-  const [sizesArr, setSizesArr] = useState([])
-  const [colorsArr, setColorsArr] = useState([])
+  const [maxCount, setMaxCount] = useState('')
 
   const shopId = shopData._id;
 
@@ -35,7 +31,6 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
     setPrice("")
     setDescription("")
     setCanSaveItem(false)
-    setLocalUploading(false)
     setShowAddItems(false)
   }
 
@@ -56,8 +51,7 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
           price,
           description,
           imageLink,
-          sizes: sizesArr,
-          colors: colorsArr
+          maxCount: maxCount
         })
         .then(() => setShowAddItems(false))
         .catch((err) => err && console.log(err));
@@ -92,51 +86,9 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
       deleteFile(meta);
     }
     if (status === "done") {
-      setImageLink(`${shopId}__${meta.name}`);
+      setImageLink(`${shopId}-${meta.name}`);
     }
   };
-
-  const showElements = (arr, setFunction) => {
-    return arr.map((val, i) => 
-      i > 0 ? <Button onClick={() => setFunction(arr.filter(el => el !== val))} style={{marginLeft:"2px"}} size="sm" variant="outline-dark" key={val}>{val}</Button> : <Button onClick={() => setFunction(arr.filter(el => el !== val))} style={{marginLeft:"2px"}} size="sm" variant="outline-dark" key={val}>{val}</Button>
-    )
-  }
-
-  const handleSizesKeyPress = (e) => {
-    if (e.charCode === 13) {
-      e.preventDefault()
-      handleSizes()
-    } else return
-  }
-
-  const handleColorsKeyPress = (e) => {
-    if (e.charCode === 13) {
-      e.preventDefault()
-      handleColors()
-    } else return
-  }
-
-  const handleColors = () => {
-    const color = `${colors.substring(0,1).toUpperCase()}${colors.substring(1)}`
-    const arrCopy = new Set([...colorsArr, color])
-    const sorted = [...arrCopy]
-    sorted.sort()
-    setColorsArr(sorted)
-    setColors('')
-  }
-
-  const handleSizes = () => {
-    const arrCopy = [...sizesArr, sizes.toUpperCase()]
-    arrCopy.sort()
-    arrCopy.sort((a,b) => a-b)
-
-    const copySet = new Set([...sizesArr, sizes.toUpperCase()])
-    const sortBy = ['XXXXS', 'XXXS', 'XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL']
-    const sorted = sortBy.filter(val => copySet.has(val))
-    const final = new Set([...sorted, ...arrCopy])
-    setSizesArr([...final])
-    setSizes('')
-  }
 
   return (
     <Modal show={showAddItems} onHide={() => resetPropsOnHide()}>
@@ -170,53 +122,21 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
         </Row>
         <Row className="justify-content-md-center">
           <Col>
-            <label htmlFor="sizes">Sizes:</label>
+            <label htmlFor="sizes">Maximalny pocet flias v jednej objednavke:</label>
           </Col>
         </Row>
         <Row>
           <Col className="form-group">
           <InputGroup>
               <input
-                value={sizes}
+                value={maxCount}
                 className="form-control"
-                type="text"
+                type="number"
                 name="sizes"
-                onChange={(e) => setSizes(e.target.value)}
-                onKeyPress={e => handleSizesKeyPress(e)}
+                onChange={(e) => setMaxCount(e.target.value)}
+                placeholder="Nechaj prazdne ak nieje hranica"
               />
-              <Button onClick={handleSizes} variant="dark">
-                <FaCheckSquare style={{marginBottom:"3px",marginLeft:"-1px"}} />
-              </Button>
             </InputGroup>
-          </Col>
-        </Row>
-        <Row className="justify-content-md-center">
-          <Col>
-            <p>{showElements(sizesArr, setSizesArr)}</p>
-            <p className="text-center" style={{fontSize:"75%"}}><em>You can add your sizes in whatever format, its completely up to you. Click to remove added sizes.</em></p>
-          </Col>
-        </Row>
-        <Row>
-          <Col className="form-group">
-          <InputGroup>
-              <input
-                value={colors}
-                className="form-control"
-                type="text"
-                name="colors"
-                onChange={(e) => setColors(e.target.value)}
-                onKeyPress={e => handleColorsKeyPress(e)}
-              />
-              <Button onClick={handleColors} variant="dark">
-                <FaCheckSquare style={{marginBottom:"3px",marginLeft:"-1px"}} />
-              </Button>
-            </InputGroup>
-          </Col>
-        </Row>
-        <Row className="justify-content-md-center">
-          <Col>
-            <p>{showElements(colorsArr, setColorsArr)}</p>
-            <p className="text-center" style={{fontSize:"75%"}}><em>Click to remove added colors.</em></p>
           </Col>
         </Row>
         <Row className="justify-content-md-center">
@@ -232,26 +152,7 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
             />
           </Col>
         </Row>
-        <Row className="justify-content-md-center">
-          <Col className="form-group">
-            <label htmlFor="price">Image link:</label>
-            <input
-              value={imageLink}
-              className="form-control"
-              type="text"
-              name="imageLink"
-              onChange={(e) => setImageLink(e.target.value)}
-            />
-            <p className="text-center" style={{fontSize:"75%"}}><em>Because we are a small startup and we offer our services completely free for now, we encourage you to use some external image upload service (<a target="_blank" rel="noopener noreferrer" href="https://www.dropbox.com"><strong>dropbox</strong></a>, <a target="_blank" rel="noopener noreferrer" href="https://www.imgur.com"><strong>imgur</strong></a>, <a target="_blank" rel="noopener noreferrer" href="https://www.gyazo.com"><strong>gyazo</strong></a> and many others... ) and paste direct link to your image here. Thank you in advance! (Of course, if you want to upload images directly to our server, just click the link below.)</em></p>
-          </Col>
-        </Row>
-        <Row className="justify-content-md-center">
-          <Col className="text-center">
-            <Button variant="dark" onClick={() => setLocalUploading(true)}>Upload directly!</Button>
-          </Col>
-        </Row>
         <br />
-        {localUploading ? 
         <SlideDown className={"my-dropdown-slidedown"}>
         <Row>
           <Col>
@@ -278,9 +179,8 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
               }}
             />
           </Col>
-        </Row></SlideDown> : null
-        }
-        
+        </Row>
+      </SlideDown>
       </Modal.Body>
       <Modal.Footer>
         {canSaveItem ? (
