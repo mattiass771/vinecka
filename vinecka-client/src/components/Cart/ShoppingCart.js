@@ -9,10 +9,15 @@ import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import Button from 'react-bootstrap/Button'
 
+import PlaceOrder from './PlaceOrder'
+import SignUp from '../Login/SignUp'
+
 export default ({userId}) => {
     const [shops, setShops] = useState('')
     const [refresh, setRefresh] = useState(false)
     const [userInformation, setUserInformation] = useState('')
+    const [registration, setRegistration] = useState(false)
+    const [shipmentOnly, setShipmentOnly] = useState(false)
  
     const sortItems = (cartItems) => {
         let sortShop = []
@@ -139,15 +144,33 @@ export default ({userId}) => {
             .catch(err => err && console.log(err))
     }
 
+    const handleRegistration = () => {
+        setShipmentOnly(false)
+        setRegistration(true)
+    }
+
+    const handleShipmentOnly = () => {
+        setRegistration(false)
+        setShipmentOnly(true)
+    }
+
+
     const showTotalCartPrice = () => {
         let result = 0
         shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
         return (
             <Col>
                 <h3>Finalna suma: {result.toFixed(2).toString().replace(/\./g,',')} €</h3>
-                {/* <Link to="/shop/payment"> */}
-                    <Button onClick={() => createNewOrder()} variant="dark">Proceed to Checkout</Button>
-                {/* </Link> */}
+                {!userInformation ?
+                <Link to="/shop/payment">
+                    <Button onClick={() => createNewOrder()} variant="dark">Prejst k platbe</Button>
+                </Link> :
+                <p>
+                    <Button onClick={() => handleRegistration()} variant="dark">Dorucovacie udaje s registraciou</Button>
+                    &nbsp;&nbsp;
+                    <Button onClick={() => handleShipmentOnly()} variant="dark">Dorucovacie udaje bez registracie</Button>
+                </p>
+                }
             </Col>
         )
     }
@@ -157,6 +180,10 @@ export default ({userId}) => {
             {shops && showCartItems()}
             <Row className="text-center">
                 {shops && showTotalCartPrice()}
+            </Row>
+            <Row>
+                {registration && <SignUp />}
+                {shipmentOnly && <PlaceOrder />}
             </Row>
         </Container>
     )
