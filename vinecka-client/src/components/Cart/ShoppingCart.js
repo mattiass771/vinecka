@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import axios from 'axios'
 import { Link } from "react-router-dom";
+import { nanoid } from 'nanoid'
 
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
@@ -11,6 +12,7 @@ import Button from 'react-bootstrap/Button'
 export default ({userId}) => {
     const [shops, setShops] = useState('')
     const [refresh, setRefresh] = useState(false)
+    const [userInformation, setUserInformation] = useState('')
  
     const sortItems = (cartItems) => {
         let sortShop = []
@@ -53,7 +55,13 @@ export default ({userId}) => {
         if (userId) {
             axios
                 .get(`http://localhost:5000/users/${userId}`)
-                .then((res) => res.data ? sortItems(res.data.shoppingCart) : [])
+                .then((res) => {
+                    if (res.data) {
+                        const {shoppingCart, fullName, email, phone, address} = res.data
+                        sortItems(shoppingCart)
+                        setUserInformation({ fullName, email, phone, address })
+                    }
+                })
                 .catch(err => err && console.log(err))
         }
     }, [refresh])
@@ -119,15 +127,27 @@ export default ({userId}) => {
         })
     }
 
+    const createNewOrder = () => {
+        let result = 0
+        shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
+        console.log(shops, userId, result, nanoid(), userInformation)
+        const orderId = nanoid()
+        const total = result
+        const status = 'started'
+        axios.post(`http://localhost:5000/orders/add`, { orderId, userInformation, userId, shops, total, status })
+            .then(res => console.log(res.data))
+            .catch(err => err && console.log(err))
+    }
+
     const showTotalCartPrice = () => {
         let result = 0
         shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
         return (
             <Col>
                 <h3>Finalna suma: {result.toFixed(2).toString().replace(/\./g,',')} €</h3>
-                <Link to="/shop/payment">
-                    <Button variant="dark">Proceed to Checkout</Button>
-                </Link>
+                {/* <Link to="/shop/payment"> */}
+                    <Button onClick={() => createNewOrder()} variant="dark">Proceed to Checkout</Button>
+                {/* </Link> */}
             </Col>
         )
     }
@@ -136,9 +156,7 @@ export default ({userId}) => {
         <Container style={{paddingTop: "50px"}}>
             {shops && showCartItems()}
             <Row className="text-center">
-               
-                    {shops && showTotalCartPrice()}
-               
+                {shops && showTotalCartPrice()}
             </Row>
         </Container>
     )

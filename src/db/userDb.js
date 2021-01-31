@@ -1,3 +1,4 @@
+const { truncate } = require("fs");
 const mongoose = require("mongoose");
 const router = require("express").Router();
 
@@ -17,8 +18,10 @@ const userSchema = new Schema({
   userName: { type: String, required: true, default: "example@egzamply.com" },
   password: { type: String, required: true, default: "password" },
   fullName: { type: String, required: true, default: "User Name" },
-  email: { type: String, required: true, default: "example@egzamply.com" },
+  email: { type: String, required: true },
+  phone: { type: String, required: true},
   isOwner: { type: Boolean, required: true, default: false},
+  address: { type: String, required: true },
   shoppingCart: [shoppingCartSchema]
 });
 
@@ -85,13 +88,15 @@ router.route("/email/:userEmail").get((req, res) => {
 });
 
 router.route("/add-user").post((req, res) => {
-  const { userName, password, fullName, email } = req.body;
+  const { userName, password, fullName, email, phone, address } = req.body;
 
   const addUser = new User({
     userName,
     password,
     fullName,
-    email
+    email,
+    phone,
+    address
   });
 
   addUser

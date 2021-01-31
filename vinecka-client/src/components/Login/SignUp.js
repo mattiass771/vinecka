@@ -19,17 +19,26 @@ export default () => {
   const [passwordSecond, setPasswordSecond] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(false);
   const [emailExists, setEmailExists] = useState(null);
+  const [phone, setPhone] = useState("")
+
+  const [street, setStreet] = useState("")
+  const [postal, setPostal] = useState("")
+  const [city, setCity] = useState("")
 
   const handleSignUp = () => {
     const fullName = middleName
       ? firstName + " " + middleName + " " + lastName
       : firstName + " " + lastName;
+    const address = `${street},${postal.toString()},${city}`
+    console.log(typeof phone, phone, typeof address, address )
     axios
       .post(`http://localhost:5000/users/add-user`, {
         userName: email,
         password: passwordSecond,
         fullName: fullName,
-        email: email
+        email: email,
+        phone: phone,
+        address: address
       })
       .then((res) => console.log(res.data))
       .catch((err) => err && console.log(`Error: ${err}`))
@@ -70,8 +79,28 @@ export default () => {
     else if (name && name.length > 0) return "invalid-input";
   };
 
+  const checkIfCityMeetsCriteria = () => {
+    if (city && city.match(/^[a-z]+$/i)) return "";
+    else if (city && city.length > 0) return "invalid-input";
+  };
+
+  const checkIfStreetMeetsCriteria = () => {
+    if (street && street.match(/^[a-z ]+[0-9 ]+[/]{0,1}[a-z0-9 ]*$/i)) return "";
+    else if (street && street.length > 0) return "invalid-input";
+  };
+
+  const checkIfPhoneMeetsCriteria = () => {
+    if (phone && phone.match(/^[+]?[0-9]{6,14}[0-9]$/)) return "";
+    else if (phone && phone.length > 0) return "invalid-input";
+  };
+
+  const checkIfPostalMeetsCriteria = () => {
+    if (postal && postal.match(/^[0-9]{5}$/)) return "";
+    else if (postal && postal.length > 0) return "invalid-input";
+  };
+
   useEffect(() => {
-    if (passwordFirst === passwordSecond) setPasswordsMatch(true);
+    if (passwordFirst && passwordSecond && passwordFirst === passwordSecond) setPasswordsMatch(true);
     else setPasswordsMatch(false);
   }, [passwordSecond]); //eslint-disable-line
 
@@ -133,8 +162,8 @@ export default () => {
               onChange={(e) =>
                 setLastName(
                   e.target.value &&
-                    e.target.value[0].toUpperCase() +
-                      e.target.value.substring(1)
+                  e.target.value[0].toUpperCase() +
+                  e.target.value.substring(1)
                 )
               }
             />
@@ -148,6 +177,52 @@ export default () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onBlur={checkIfEmailInDatabase}
+            />
+          </Col>
+          <Col md={6} className={`text-center mt-1`}>
+            <label htmlFor="phone">Phone:</label>
+            <input
+              className={`form-control text-center ${checkIfPhoneMeetsCriteria()}`}
+              type="text"
+              name="phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value &&
+                (e.target.value).substring(0,16)
+                )}
+            />
+          </Col>
+          <Col md={6} className={`text-center mt-1`}>
+            <label htmlFor="street">Street and house no.:</label>
+            <input
+              className={`form-control text-center ${checkIfStreetMeetsCriteria()}`}
+              type="text"
+              name="street"
+              value={street}
+              onChange={(e) => setStreet(
+                e.target.value &&
+                e.target.value[0].toUpperCase() +
+                e.target.value.substring(1)
+              )}
+            />
+          </Col>
+          <Col md={6} className={`text-center mt-1`}>
+            <label htmlFor="postal">Postal:</label>
+            <input
+              className={`form-control text-center ${checkIfPostalMeetsCriteria()}`}
+              type="text"
+              name="postal"
+              value={postal}
+              onChange={(e) => setPostal(e.target.value && (e.target.value).substring(0,5))}
+            />
+          </Col>
+          <Col md={6} className={`text-center mt-1`}>
+            <label htmlFor="city">City:</label>
+            <input
+              className={`form-control text-center ${checkIfCityMeetsCriteria()}`}
+              type="text"
+              name="city"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
             />
           </Col>
           <Col md={6} className="text-center mt-1">
@@ -210,6 +285,10 @@ export default () => {
             checkIfNameMeetsCriteria(firstName) === "" &&
             checkIfNameMeetsCriteria(lastName) === "" &&
             checkIfPasswordMeetsCriteria() &&
+            checkIfPhoneMeetsCriteria() === "" &&
+            checkIfStreetMeetsCriteria() === "" &&
+            checkIfPostalMeetsCriteria() === "" &&
+            checkIfCityMeetsCriteria() === "" &&
             passwordsMatch &&
             emailExists === null ? (
               <Button onClick={handleSignUp} variant="dark">
