@@ -26,17 +26,17 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
             Domov
           </Link>
 
-          <Link className={`nav-elem`} to="/shop-page">
+          <Link className={`nav-elem`} to="/vinarne">
             Vinarne
           </Link>
         </Nav>
         <Nav className="mr-sm-2">
+            <Link className={`nav-elem`} to="/cart-page">
+              <FiShoppingCart />
+            </Link>
           {isLoggedIn ? (
             <>
               <span className={`nav-text mr-4`}>{welcomes[Math.floor(Math.random()*6)]}{userName.split(' ')[0]}!</span>
-              <Link className={`nav-elem`} to="/cart-page">
-                <FiShoppingCart />
-              </Link>
               <Link className={`nav-elem`} onClick={handleLogOut} to="">
                 Logout
               </Link>

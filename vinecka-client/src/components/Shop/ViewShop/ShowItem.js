@@ -75,9 +75,6 @@ export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setSh
       const addItemToCart = (e) => {
         const itemId = e.currentTarget.parentNode.parentNode.parentNode.id;
         const passCount = count[_id] || 1
-
-        console.log(shopId, itemId, passCount)
-        
         if (userId) {
           axios
             .post(`http://localhost:5000/users/${userId}/cart/add-cart-item/${shopId}/${itemId}`, {
@@ -87,8 +84,12 @@ export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setSh
             .catch(err => err && console.log(err))
             .then(() => setTimeout(() => setShowAddedPopup(false), 5000))
         } else {
-          setShowMustLoginPopup(true)
-          setTimeout(() => setShowMustLoginPopup(false), 5000)
+          const localShoppingCart = localStorage.getItem('shoppingCart')
+          localStorage.removeItem('shoppingCart')
+          const newShoppingCart = localShoppingCart ? [...JSON.parse(localShoppingCart), {shopId, itemId, count: passCount}] : [{shopId, itemId, count: passCount}]
+          localStorage.setItem('shoppingCart', JSON.stringify(newShoppingCart))
+          setShowAddedPopup(true)
+          setTimeout(() => setShowAddedPopup(false), 5000)
         }
       }
       return (

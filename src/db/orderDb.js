@@ -29,18 +29,22 @@ router.route("/delete-order/:orderId").delete((req, res) => {
 router.route("/add").post((req, res) => {
   const { orderId, userId, userInformation, shops, total, status } = req.body;
 
-  const addOrder = new Order({
-    orderId,
-    userId,
-    userInformation,
-    shops,
-    total,
-    status
-  });
-  addOrder
-    .save()
-    .then(() => res.json(`Order remembered!`))
-    .catch((err) => res.status(400).json(`Error: ${err}`));
+  if (typeof userInformation === 'object') {
+    const addOrder = new Order({
+      orderId,
+      userId,
+      userInformation,
+      shops,
+      total,
+      status
+    });
+    addOrder
+      .save()
+      .then(() => res.json(`Order remembered!`))
+      .catch((err) => res.status(400).json(`Error: ${err}`));
+  } else {
+      res.json(`User information missing, order not processed!`)
+  }
 });
 
 module.exports = {

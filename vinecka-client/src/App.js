@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar/Navbar";
 import axios from "axios";
 
 import Home from "./components/Home/Home";
-import Shop from "./components/Shop/Shop";
+import Vinarne from "./components/Shop/Vinarne";
 import Login from "./components/Login/Login";
 import ShopOnline from "./components/Shop/shopOnline/ShopOnline"
 import ShoppingCart from "./components/Cart/ShoppingCart"
@@ -56,12 +56,12 @@ export default () => {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route exact path="/shop-page">
+          <Route exact path="/vinarne">
           {loadingData ? 
           <Spinner
             style={{ marginLeft: "49%", marginTop: "20%" }}
             animation="border"
-          /> : isLoggedIn ? <Shop userData={userData} /> : <Login />}
+          /> : <Vinarne userData={userData} />}
           
           </Route>
           <Route exact path="/login-page">

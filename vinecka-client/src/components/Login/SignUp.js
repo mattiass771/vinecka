@@ -10,7 +10,7 @@ import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
 // Login.js
-export default () => {
+export default ({shoppingCart = false, handleLogin}) => {
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -42,7 +42,7 @@ export default () => {
       })
       .then((res) => console.log(res.data))
       .catch((err) => err && console.log(`Error: ${err}`))
-      .then(() => window.location.reload());
+      .then(() => shoppingCart ? handleLogin() : window.location.reload());
   };
 
   const checkIfPasswordMeetsCriteria = () => {

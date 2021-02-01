@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import axios from 'axios'
 import { Link } from "react-router-dom";
 import { nanoid } from 'nanoid'
@@ -11,13 +11,18 @@ import Button from 'react-bootstrap/Button'
 
 import PlaceOrder from './PlaceOrder'
 import SignUp from '../Login/SignUp'
+import Login from '../Login/Login'
 
 export default ({userId}) => {
+    const lastRef = useRef(null)
     const [shops, setShops] = useState('')
     const [refresh, setRefresh] = useState(false)
     const [userInformation, setUserInformation] = useState('')
+    const [login, setLogin] = useState(false)
     const [registration, setRegistration] = useState(false)
     const [shipmentOnly, setShipmentOnly] = useState(false)
+
+    const executeScroll = () => lastRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })   
  
     const sortItems = (cartItems) => {
         let sortShop = []
@@ -57,17 +62,39 @@ export default ({userId}) => {
     }
 
     useEffect(() => {
+        const localShoppingCart = localStorage.getItem('shoppingCart')
         if (userId) {
+            const parsedShoppingCart = localShoppingCart ? JSON.parse(localShoppingCart) : []
+            if (parsedShoppingCart.length !== 0) {
+                const addItemsToShoppingCartFromLocal = async () => {
+                    for (let cartItem of parsedShoppingCart) {
+                        const {shopId, itemId, count} = cartItem
+                        console.log('importing item ', itemId)
+                        await axios
+                            .post(`http://localhost:5000/users/${userId}/cart/add-cart-item/${shopId}/${itemId}`, {
+                                shopId, itemId, count
+                            })
+                            .then((res) => console.log(res))
+                            .catch(err => err && console.log(err))
+                    }
+                    localStorage.removeItem('shoppingCart')
+                    console.log('Importing done.')
+                }
+                addItemsToShoppingCartFromLocal()
+            }
             axios
                 .get(`http://localhost:5000/users/${userId}`)
                 .then((res) => {
                     if (res.data) {
                         const {shoppingCart, fullName, email, phone, address} = res.data
-                        sortItems(shoppingCart)
+                        sortItems([...shoppingCart, ...parsedShoppingCart])
                         setUserInformation({ fullName, email, phone, address })
                     }
                 })
                 .catch(err => err && console.log(err))
+        } else {
+            const localShoppingCart = localStorage.getItem('shoppingCart')
+            localShoppingCart && sortItems(JSON.parse(localShoppingCart))
         }
     }, [refresh])
 
@@ -145,13 +172,24 @@ export default ({userId}) => {
     }
 
     const handleRegistration = () => {
+        setTimeout(() => executeScroll(),500)
+        setLogin(false)
         setShipmentOnly(false)
         setRegistration(true)
     }
 
     const handleShipmentOnly = () => {
+        setTimeout(() => executeScroll(),500)
+        setLogin(false)
         setRegistration(false)
         setShipmentOnly(true)
+    }
+
+    const handleLogin = () => {
+        setTimeout(() => executeScroll(),500)
+        setRegistration(false)
+        setShipmentOnly(false)
+        setLogin(true)
     }
 
 
@@ -161,30 +199,59 @@ export default ({userId}) => {
         return (
             <Col>
                 <h3>Finalna suma: {result.toFixed(2).toString().replace(/\./g,',')} €</h3>
-                {!userInformation ?
-                <Link to="/shop/payment">
-                    <Button onClick={() => createNewOrder()} variant="dark">Prejst k platbe</Button>
-                </Link> :
-                <p>
-                    <Button onClick={() => handleRegistration()} variant="dark">Dorucovacie udaje s registraciou</Button>
-                    &nbsp;&nbsp;
-                    <Button onClick={() => handleShipmentOnly()} variant="dark">Dorucovacie udaje bez registracie</Button>
-                </p>
-                }
             </Col>
         )
     }
+
+    useEffect(() => {
+        return console.log(userInformation)
+    }, [userInformation])
 
     return (
         <Container style={{paddingTop: "50px"}}>
             {shops && showCartItems()}
             <Row className="text-center">
+                <Col>
+                    {!userInformation &&
+                        <p>
+                            <Button onClick={() => handleRegistration()} variant="dark">Dorucovacie udaje s registraciou</Button>
+                            &nbsp;&nbsp;
+                            <Button onClick={() => handleLogin()} variant="dark">Mam ucet a chcem sa prihlasit</Button>
+                            &nbsp;&nbsp;
+                            <Button onClick={() => handleShipmentOnly()} variant="dark">Dorucovacie udaje bez registracie</Button>
+                        </p>
+                    }
+                </Col>
+            </Row>
+            <Row className="text-center">
+                {login && <Login shoppingCart={true} />}
+                {registration && <SignUp shoppingCart={true} handleLogin={handleLogin} />}
+                {shipmentOnly && <PlaceOrder setUserInformation={setUserInformation} />}
+            </Row>
+            <Row className="text-center">
                 {shops && showTotalCartPrice()}
             </Row>
-            <Row>
-                {registration && <SignUp />}
-                {shipmentOnly && <PlaceOrder />}
+            <Row className="text-center">
+                <Col>
+                    {userInformation ?
+                    <Link to="/shop/payment">
+                        <Button ref={lastRef} onClick={() => createNewOrder()} variant="dark">Prejst k platbe</Button>
+                    </Link> :
+                    <>  
+                        {!shops && 
+                            <>
+                                <h4>Nakupny kosik je momentalne prazdny.</h4>
+                                <br />
+                                <br />
+                            </>
+                        }
+                        <Button disabled variant="dark">Prejst k platbe</Button>
+                    </>
+                }
+                </Col>
             </Row>
+            <br />
+            <div ref={lastRef}></div>
         </Container>
     )
 }
