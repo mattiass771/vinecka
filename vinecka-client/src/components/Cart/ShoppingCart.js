@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import Button from 'react-bootstrap/Button'
+import Spinner from "react-bootstrap/Spinner";
 
 import PlaceOrder from './PlaceOrder'
 import SignUp from '../Login/SignUp'
@@ -21,6 +22,7 @@ export default ({userId}) => {
     const [login, setLogin] = useState(false)
     const [registration, setRegistration] = useState(false)
     const [shipmentOnly, setShipmentOnly] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const executeScroll = () => lastRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })   
  
@@ -44,7 +46,8 @@ export default ({userId}) => {
                             const prevItems = sortShop[index].itemData
                             const isInCart = prevItems.findIndex(el => el.itemId === itemId)
                             if (isInCart !== -1) {
-                                sortShop[index].itemData[isInCart].count += count
+                                const prevCount = sortShop[index].itemData[isInCart].count
+                                sortShop[index].itemData[isInCart].count = Number(count) + Number(prevCount)
                             } else {
                                 sortShop[index].itemData = [...prevItems, {itemId, itemName, price, imageLink, count}]
                             }
@@ -62,6 +65,7 @@ export default ({userId}) => {
     }
 
     useEffect(() => {
+        setLoading(true)
         const localShoppingCart = localStorage.getItem('shoppingCart')
         if (userId) {
             const parsedShoppingCart = localShoppingCart ? JSON.parse(localShoppingCart) : []
@@ -96,6 +100,7 @@ export default ({userId}) => {
             const localShoppingCart = localStorage.getItem('shoppingCart')
             localShoppingCart && sortItems(JSON.parse(localShoppingCart))
         }
+        setLoading(false)
     }, [refresh])
 
     const getImage = (image) => {
@@ -108,10 +113,23 @@ export default ({userId}) => {
     };
 
     const removeItemFromCart = (e, itemId, shopId) => {
-        axios.post(`http://localhost:5000/users/${userId}/cart/delete-cart-item/${shopId}/${itemId}`)
-            .then((res) => console.log(res))
-            .catch(err => err && console.log('could not delete item', err))
-            .then(() => setRefresh(!refresh))
+        if (userId) {
+            axios.post(`http://localhost:5000/users/${userId}/cart/delete-cart-item/${shopId}/${itemId}`)
+                .then((res) => console.log(res))
+                .catch(err => err && console.log('could not delete item', err))
+                .then(() => setRefresh(!refresh))
+        } else {
+            const localShoppingCart = JSON.parse(localStorage.getItem('shoppingCart'))
+            const newLocalShoppingCart = localShoppingCart.filter(item => item.itemId !== itemId)
+            localStorage.removeItem('shoppingCart')
+            console.log(newLocalShoppingCart, shops)
+            if (newLocalShoppingCart.length !== 0) {
+                localStorage.setItem('shoppingCart', JSON.stringify(newLocalShoppingCart))
+            } else {
+                setShops('')
+            }
+            setRefresh(!refresh)
+        }
     }
 
     const showItemData = (itemData, shopId) => {
@@ -167,7 +185,16 @@ export default ({userId}) => {
         const total = result
         const status = 'started'
         axios.post(`http://localhost:5000/orders/add`, { orderId, userInformation, userId, shops, total, status })
-            .then(res => console.log(res.data))
+            .then(res => {
+                if (userId) {
+                    axios.get(`http://localhost:5000/users/${userId}/cart/clear-cart`)
+                        .then(res => console.log(res.data))
+                        .catch(error => error && console.log(error))
+                }
+                localStorage.removeItem('shoppingCart')
+                setShops('')
+                return
+            })
             .catch(err => err && console.log(err))
     }
 
@@ -209,10 +236,15 @@ export default ({userId}) => {
 
     return (
         <Container style={{paddingTop: "50px"}}>
-            {shops && showCartItems()}
+            {loading ? 
+                <Spinner
+                    style={{ marginLeft: "49%", marginTop: "20%" }}
+                    animation="border"
+                /> : 
+            (shops && showCartItems())}
             <Row className="text-center">
                 <Col>
-                    {!userInformation &&
+                    {(!userInformation && shops ) &&
                         <p>
                             <Button onClick={() => handleRegistration()} variant="dark">Dorucovacie udaje s registraciou</Button>
                             &nbsp;&nbsp;
@@ -229,11 +261,13 @@ export default ({userId}) => {
                 {shipmentOnly && <PlaceOrder setUserInformation={setUserInformation} />}
             </Row>
             <Row className="text-center">
+                <br />
+                <br />
                 {shops && showTotalCartPrice()}
             </Row>
             <Row className="text-center">
                 <Col>
-                    {userInformation ?
+                    {userInformation && shops ?
                     <Link to="/shop/payment">
                         <Button ref={lastRef} onClick={() => createNewOrder()} variant="dark">Prejst k platbe</Button>
                     </Link> :

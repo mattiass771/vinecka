@@ -1,3 +1,4 @@
+const moment = require('moment')
 const mongoose = require("mongoose");
 const router = require("express").Router();
 
@@ -10,6 +11,8 @@ const orderSchema = new Schema({
     shops: {type: Array, required: true},
     total: {type: Number, required: true},
     status: {type: String, required: true, default: 'placed'},
+    createdAt: { type: Date, required: true, default: moment().toISOString() },
+    paidAt: {type: Date},
   });
   
 const Order = mongoose.model("Order", orderSchema);

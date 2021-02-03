@@ -15,7 +15,6 @@ export default ({setUserInformation}) => {
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [emailExists, setEmailExists] = useState(null);
   const [phone, setPhone] = useState("")
 
   const [street, setStreet] = useState("")
@@ -30,10 +29,26 @@ export default ({setUserInformation}) => {
     return setUserInformation({ fullName, email, phone, address })
   };
 
+  useEffect(() => {
+    console.log('check')
+    if (
+      checkIfEmailMeetsCriteria() === "" &&
+      checkIfNameMeetsCriteria(firstName) === "" &&
+      checkIfNameMeetsCriteria(lastName) === "" &&
+      checkIfPhoneMeetsCriteria() === "" &&
+      checkIfStreetMeetsCriteria() === "" &&
+      checkIfPostalMeetsCriteria() === "" &&
+      checkIfCityMeetsCriteria() === ""
+    ) {
+      handleSignUp()
+    } else {
+      setUserInformation('')
+    }
+  }, [firstName, lastName, email, street, city, postal, phone])
+
   const checkIfEmailMeetsCriteria = () => {
     if (
       email &&
-      emailExists === null &&
       email.match(/[a-z]+[.]?[a-z]*[@][a-z]+[.][a-z]{1,5}/gi)
     )
       return "";
@@ -183,21 +198,7 @@ export default ({setUserInformation}) => {
         </Row>
         <Row className="justify-content-md-center">
           <Col md={6} className="text-center mt-3">
-            {checkIfEmailMeetsCriteria() === "" &&
-            checkIfNameMeetsCriteria(firstName) === "" &&
-            checkIfNameMeetsCriteria(lastName) === "" &&
-            checkIfPhoneMeetsCriteria() === "" &&
-            checkIfStreetMeetsCriteria() === "" &&
-            checkIfPostalMeetsCriteria() === "" &&
-            checkIfCityMeetsCriteria() === "" ? (
-              <Button onClick={handleSignUp} variant="dark">
-                Prejst k objednavke
-              </Button>
-            ) : (
-              <Button disabled variant="dark">
-                Prejst k objednavke
-              </Button>
-            )}
+            
           </Col>
         </Row>
       </Container>

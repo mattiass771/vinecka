@@ -68,6 +68,19 @@ router.route("/:userId/cart/delete-cart-item/:shopId/:itemId").post((req, res) =
   });
 });
 
+router.route("/:userId/cart/clear-cart").get((req, res) => {
+  const { userId } = req.params;
+  User.findById(userId, (err, userFound) => {
+    if (err) return console.log(err);
+    userFound.shoppingCart = []
+
+    userFound
+      .save()
+      .then(() => res.json(`Cart cleared.`))
+      .catch((err) => res.status(400).json(`Error: ${err}`));
+  });
+});
+
 router.route("/").get((req, res) => {
   User.find()
     .then((users) => res.json(users))
