@@ -19,7 +19,6 @@ export default ({ shopData, isOwner, userId }) => {
   const [shopItems, setShopItems] = useState(shopData.shopItems);
   const [shouldReload, setShouldReload] = useState(false);
   const [showAddedPopup, setShowAddedPopup] = useState(false)
-  const [showMustLoginPopup, setShowMustLoginPopup] = useState(false)
 
   const shopId = shopData._id
 
@@ -46,11 +45,6 @@ export default ({ shopData, isOwner, userId }) => {
           <p>Item added to cart!</p>
         </Alert>
       }
-      {showMustLoginPopup && 
-        <Alert style={{position: "fixed", top:56, right:0}} variant="danger" onClose={() => setShowMustLoginPopup(false)} dismissible>
-          <p>Sign in or register!</p>
-        </Alert>
-      }
       {isOwner &&
         <AddItems
           shopData={shopData}
@@ -65,7 +59,6 @@ export default ({ shopData, isOwner, userId }) => {
           setShouldReload={setShouldReload}
           shouldReload={shouldReload}
           setShowAddedPopup={setShowAddedPopup}
-          setShowMustLoginPopup={setShowMustLoginPopup}
           isOwner={isOwner}
           />
         {isOwner && 

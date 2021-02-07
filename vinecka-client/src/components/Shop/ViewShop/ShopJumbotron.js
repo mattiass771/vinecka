@@ -17,6 +17,9 @@ import { BsUpload } from "react-icons/bs";
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
+import options from '../../../config/options';
+const {MAX_HEIGHT_JUMBO} = options
+
 // CreateShop.js
 export default ({ shopData, isOwner }) => {
   let history = useHistory();
@@ -151,7 +154,7 @@ export default ({ shopData, isOwner }) => {
   }
 
   return (
-    <Jumbotron style={{background: `url(${getImage(showImageFromDb) ? getImage(showImageFromDb) : ''}) no-repeat`, backgroundSize: 'cover'}} fluid>
+    <Jumbotron style={{background: `url(${getImage(showImageFromDb) ? getImage(showImageFromDb) : ''}) no-repeat`, backgroundSize: 'cover' }} fluid>
       <Container className="text-center">
       {!editMode ?
         <Row>

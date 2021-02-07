@@ -184,7 +184,20 @@ router.route("/:id").delete((req, res) => {
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-//TODO: FIND AND DELETE ITEM
+router.route("/find-item-by-id/:itemId").get((req, res) => {
+  Shop.find((err, shopsFound) => {
+    if (err) return console.log(err.data);
+    let shopId = ''
+    const foundItem = shopsFound.map(shop => {
+      let newItem = (shop.shopItems).find(val => val._id.toString() === req.params.itemId)
+      if (newItem !== undefined) shopId = shop._id
+      return newItem
+    })
+    const result = foundItem.find(obj => obj && obj._id.toString() === req.params.itemId)
+    return res.send([result, shopId])
+  });
+})
+
 router.route("/:shopId/delete-item/:itemId").post((req, res) => {
   Shop.findById(req.params.shopId, (err, shopFound) => {
     if (err) return console.log(err.data);

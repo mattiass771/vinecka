@@ -29,6 +29,7 @@ export default ({userId}) => {
     const sortItems = (cartItems) => {
         let sortShop = []
         for (let cartItem of cartItems) {
+            console.log(cartItem)
             axios.get(`http://localhost:5000/shop/${cartItem.shopId}`)
                 .then((res) => {
                     const { shopName, owner } = res.data

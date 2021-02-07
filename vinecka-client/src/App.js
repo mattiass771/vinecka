@@ -54,7 +54,7 @@ export default () => {
       <div style={{marginTop: "56px"}}>
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Home userId={userData._id} isOwner={userData.isOwner}  />
           </Route>
           <Route exact path="/vinarne">
           {loadingData ? 
@@ -69,7 +69,7 @@ export default () => {
           <Spinner
             style={{ marginLeft: "49%", marginTop: "20%" }}
             animation="border"
-          /> : isLoggedIn ? <Home /> : <Login />}
+          /> : isLoggedIn ? <Home userId={userData._id} isOwner={userData.isOwner} /> : <Login />}
           </Route>
           <Route exact path="/cart-page">
             {loadingData ? 

@@ -13,8 +13,7 @@ import "react-slidedown/lib/slidedown.css";
 
 import { MdDelete } from "react-icons/md";
 
-export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setShowAddedPopup, setShowMustLoginPopup, isOwner}) => {
-
+export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setShouldReload, shouldReload, setShowAddedPopup, isOwner}) => {
     const [count, setCount] = useState("")
     const [isHovered, setIsHovered] = useState("")
     
@@ -40,6 +39,7 @@ export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setSh
 
     return shopItems.map((item) => {
       const { _id, itemName, price, description, imageLink, maxCount } = item;
+      const passShopId = shopId === 'home' ? item.shopId : shopId
 
       const image = getImage(imageLink)
         ? getImage(imageLink)
@@ -67,9 +67,7 @@ export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setSh
       }
 
       const handleMouseLeave = () => {
-        let hoverObj = {}
-        hoverObj[_id] = 'none'
-        setIsHovered({...isHovered, ...hoverObj})
+        setIsHovered("")
       }
 
       const addItemToCart = (e) => {
@@ -77,8 +75,8 @@ export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setSh
         const passCount = count[_id] || 1
         if (userId) {
           axios
-            .post(`http://localhost:5000/users/${userId}/cart/add-cart-item/${shopId}/${itemId}`, {
-            shopId, itemId, count: passCount
+            .post(`http://localhost:5000/users/${userId}/cart/add-cart-item/${passShopId}/${itemId}`, {
+            shopId: passShopId, itemId, count: passCount
             })
             .then(() => setShowAddedPopup(true))
             .catch(err => err && console.log(err))
@@ -86,14 +84,14 @@ export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setSh
         } else {
           const localShoppingCart = localStorage.getItem('shoppingCart')
           localStorage.removeItem('shoppingCart')
-          const newShoppingCart = localShoppingCart ? [...JSON.parse(localShoppingCart), {shopId, itemId, count: passCount}] : [{shopId, itemId, count: passCount}]
+          const newShoppingCart = localShoppingCart ? [...JSON.parse(localShoppingCart), {shopId: passShopId, itemId, count: passCount}] : [{shopId: passShopId, itemId, count: passCount}]
           localStorage.setItem('shoppingCart', JSON.stringify(newShoppingCart))
           setShowAddedPopup(true)
           setTimeout(() => setShowAddedPopup(false), 5000)
         }
       }
       return (
-        <Col className="mt-2 mb-2" style={{color: "whitesmoke"}} md={6} lg={4} xl={3} key={_id}>
+        <Col className="mt-2 mb-2" style={{color: "whitesmoke"}} xs={colXsSettings ?? 6} md={colMdSettings ?? 6} lg={colMdSettings ?? 4} xl={colMdSettings ?? 3} key={_id}>
           <Card onMouseEnter={() => handleMouseOver()} onMouseLeave={() => handleMouseLeave()} style={{height: "400px" }} id={_id} >
             {isOwner &&
             <Button
@@ -115,7 +113,7 @@ export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setSh
             </Card.Body>
             <Card.ImgOverlay style={{ background: "rgba(52,58,64,0.7)", display: `${isHovered[_id] === 'block' ? 'block' : 'none'}`}} >
               <SlideDown className={"my-dropdown-slidedown"}>
-                <Button style={{width: "100%"}} onClick={(e) => addItemToCart(e, count[_id])} variant="dark">Add to shopping cart.</Button>
+                <Button style={{width: "100%"}} onClick={(e) => addItemToCart(e)} variant="dark">Add to shopping cart.</Button>
                 <Container>
                   <Row className="mt-2">
                     <Col>
@@ -128,6 +126,10 @@ export default ({shopItems, shopId, userId, setShouldReload, shouldReload, setSh
                       </Form.Control>
                     </Col>
                   </Row>
+                  {isOwner &&
+                  <Row>
+                    <Col>{_id}</Col>
+                  </Row>}
                   <hr />
                   <Row>
                     <Col>{description}</Col>
