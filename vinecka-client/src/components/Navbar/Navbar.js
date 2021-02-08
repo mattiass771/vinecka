@@ -36,6 +36,9 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
             </Link>
           {isLoggedIn ? (
             <>
+              <Link className={`nav-elem`} to="/objednavky">
+                Objednavky
+              </Link>
               <span className={`nav-text mr-4`}>{welcomes[Math.floor(Math.random()*6)]}{userName.split(' ')[0]}!</span>
               <Link className={`nav-elem`} onClick={handleLogOut} to="">
                 Logout

@@ -10,9 +10,11 @@ const orderSchema = new Schema({
     userInformation: { type: Object, required: true },
     shops: {type: Array, required: true},
     total: {type: Number, required: true},
-    status: {type: String, required: true, default: 'placed'},
+    status: {type: String, required: true, default: 'vytvorena'},
     createdAt: { type: Date, required: true, default: moment().toISOString() },
     paidAt: {type: Date},
+    isShipped: {type: Boolean, required: true, default: false},
+    expireAt: { type: Date, default: Date.now, index: { expires: 900 }}
   });
   
 const Order = mongoose.model("Order", orderSchema);
@@ -27,6 +29,42 @@ router.route("/delete-order/:orderId").delete((req, res) => {
   Order.findByIdAndDelete(req.params.orderId)
     .then(() => res.json("Bye bye. :("))
     .catch((err) => res.status(400).json(`Error: ${err}`));
+});
+
+// REPLACE ATTRIBUTE WITH INPUT FOR SHOP
+router.route("/:orderId/update-shipped/").put((req, res) => {
+  const { orderId } = req.params;
+  const { isShipped } = req.body;
+
+  Order.findById(orderId, (err, orderFound) => {
+    if (err) return console.log(err.data);
+    orderFound.isShipped = isShipped;
+
+    orderFound
+      .save()
+      .then(() => res.json(`Status updated!`))
+      .catch((error) => res.status(400).json(`Error: ${error}`));
+  });
+});
+
+router.route("/:orderId/update-status/").put((req, res) => {
+  const { orderId } = req.params;
+  const { status } = req.body;
+
+  Order.findById(orderId, (err, orderFound) => {
+    if (err) return console.log(err.data);
+    if (orderFound) {
+      orderFound.status = status;
+      orderFound.expireAt = null;
+  
+      orderFound
+        .save()
+        .then(() => res.json(`Status updated!`))
+        .catch((error) => res.status(400).json(`Error: ${error}`));
+    } else {
+      return res.status(404).json(`Order missing, order not processed!`)
+    }
+  });
 });
 
 router.route("/add").post((req, res) => {
@@ -46,7 +84,7 @@ router.route("/add").post((req, res) => {
       .then(() => res.json(`Order remembered!`))
       .catch((err) => res.status(400).json(`Error: ${err}`));
   } else {
-      res.json(`User information missing, order not processed!`)
+      res.status(404).json(`User information missing, order not processed!`)
   }
 });
 

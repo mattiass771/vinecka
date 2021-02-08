@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react"
 import axios from 'axios'
-import { Link } from "react-router-dom";
 import { nanoid } from 'nanoid'
 
 import Row from 'react-bootstrap/Row'
@@ -13,6 +12,7 @@ import Spinner from "react-bootstrap/Spinner";
 import PlaceOrder from './PlaceOrder'
 import SignUp from '../Login/SignUp'
 import Login from '../Login/Login'
+import PayGate from './PayGate'
 
 export default ({userId}) => {
     const lastRef = useRef(null)
@@ -23,6 +23,9 @@ export default ({userId}) => {
     const [registration, setRegistration] = useState(false)
     const [shipmentOnly, setShipmentOnly] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [orderId, setOrderId] = useState(nanoid())
+    const [passOrderInfo, setPassOrderInfo] = useState({})
+    const [paymentPopup, setPaymentPopup] = useState(false)
 
     const executeScroll = () => lastRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })   
  
@@ -182,18 +185,12 @@ export default ({userId}) => {
         let result = 0
         shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
         console.log(shops, userId, result, nanoid(), userInformation)
-        const orderId = nanoid()
         const total = result
         const status = 'started'
+        setPassOrderInfo({ orderId, userInformation, userId, shops, total, status })
+        setPaymentPopup(true)
         axios.post(`http://localhost:5000/orders/add`, { orderId, userInformation, userId, shops, total, status })
             .then(res => {
-                if (userId) {
-                    axios.get(`http://localhost:5000/users/${userId}/cart/clear-cart`)
-                        .then(res => console.log(res.data))
-                        .catch(error => error && console.log(error))
-                }
-                localStorage.removeItem('shoppingCart')
-                setShops('')
                 return
             })
             .catch(err => err && console.log(err))
@@ -237,6 +234,9 @@ export default ({userId}) => {
 
     return (
         <Container style={{paddingTop: "50px"}}>
+            { passOrderInfo && paymentPopup &&
+                <PayGate orderInfo={passOrderInfo} setPaymentPopup={setPaymentPopup} paymentPopup={paymentPopup} />
+            }
             {loading ? 
                 <Spinner
                     style={{ marginLeft: "49%", marginTop: "20%" }}
@@ -269,9 +269,8 @@ export default ({userId}) => {
             <Row className="text-center">
                 <Col>
                     {userInformation && shops ?
-                    <Link to="/shop/payment">
                         <Button ref={lastRef} onClick={() => createNewOrder()} variant="dark">Prejst k platbe</Button>
-                    </Link> :
+                    :
                     <>  
                         {!shops && 
                             <>

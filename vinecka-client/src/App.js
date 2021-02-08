@@ -8,7 +8,9 @@ import Vinarne from "./components/Shop/Vinarne";
 import Login from "./components/Login/Login";
 import ShopOnline from "./components/Shop/shopOnline/ShopOnline"
 import ShoppingCart from "./components/Cart/ShoppingCart"
-import PayGate from "./components/Payment/PayGate"
+import PayGate from "./components/Cart/PayGate"
+import Orders from "./components/Payment/Orders"
+import SuccessPayment from "./components/Payment/SuccessPayment";
 
 import Spinner from "react-bootstrap/Spinner";
 
@@ -78,6 +80,14 @@ export default () => {
               animation="border"
             /> : <ShoppingCart userId={userData._id} />}
           </Route>
+          {!loadingData &&
+          <Route exact path={`/success-payment`}>
+            <SuccessPayment userId={userData._id} />
+          </Route>}
+          {!loadingData &&
+          <Route exact path={`/objednavky`}>
+            <Orders />
+          </Route>}
           {!loadingData &&
           <Route exact path={`/:shopUrl`}>
             <ShopOnline userId={userData._id} isOwner={userData.isOwner} />
