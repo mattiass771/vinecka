@@ -14,7 +14,9 @@ const orderSchema = new Schema({
     createdAt: { type: Date, required: true, default: moment().toISOString() },
     paidAt: {type: Date},
     isShipped: {type: Boolean, required: true, default: false},
-    expireAt: { type: Date, default: Date.now, index: { expires: 900 }}
+    expireAt: { type: Date, default: Date.now, index: { expires: 900 }},
+    paymentId: {type: String},
+    paymentResultCode: {type: String}
   });
   
 const Order = mongoose.model("Order", orderSchema);
@@ -66,6 +68,29 @@ router.route("/:orderId/update-status/").put((req, res) => {
     }
   });
 });
+
+// TODO
+router.route("/:orderId/process-payment/").post((req, res) => {
+  const { orderId } = req.params
+  const { paymentResultCode, paymentId } = req.body;
+  Order.findOne({orderId: orderId}, (err, orderFound) => {
+    if (err) return console.log(err.data);
+    if (orderFound) {
+      orderFound.status = paymentResultCode === "0" ? 'zaplatena' : 'odmietnuta';
+      orderFound.paymentResultCode = paymentResultCode
+      orderFound.paymentId = paymentId
+      orderFound.expireAt = null;
+  
+      orderFound
+        .save()
+        .then(() => res.json(`Payment updated!`))
+        .catch((error) => res.status(400).json(`Error: ${error}`));
+    } else {
+      return res.status(404).json(`Order missing, order not processed!`)
+    }
+  });
+});
+//
 
 router.route("/add").post((req, res) => {
   const { orderId, userId, userInformation, shops, total, status } = req.body;

@@ -186,7 +186,7 @@ export default ({userId}) => {
         shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
         console.log(shops, userId, result, nanoid(), userInformation)
         const total = result
-        const status = 'started'
+        const status = 'vytvorena'
         setPassOrderInfo({ orderId, userInformation, userId, shops, total, status })
         setPaymentPopup(true)
         axios.post(`http://localhost:5000/orders/add`, { orderId, userInformation, userId, shops, total, status })
