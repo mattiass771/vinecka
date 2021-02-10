@@ -7,12 +7,11 @@ const useQuery = () => {
     return new URLSearchParams(useLocation().search);
 }
 
-
 export default ({userId}) => {
     let query = useQuery();
-    const [orderId, setOrderId] = useState(query.get('Reference'))
-    const [result, setResult] = useState(query.get('ResultCode'))
-    const [paymentId, setPaymentId] = useState(query.get('PaymentRequestId'))
+    const orderId = query.get('Reference')
+    const result = query.get('ResultCode')
+    const paymentId = query.get('PaymentRequestId')
 
     useEffect(() => {
         if (orderId.length !== 0) {

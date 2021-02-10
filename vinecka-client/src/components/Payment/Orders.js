@@ -3,16 +3,24 @@ import axios from 'axios';
 import moment from 'moment';
 
 import Table from 'react-bootstrap/Table'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
-export default () => {
+export default ({userId, isOwner}) => {
     const [ordersData, setOrdersData] = useState([])
     const [shippedObj, setShippedObj] = useState({})
     const [refresh, setRefresh] = useState(false)
     const [expandedObj, setExpandedObj] = useState({})
 
+    // TODO: pridat moznost znovu zaplatit pri rejected order
+
     useEffect(() => {
         axios.get(`http://localhost:5000/orders`)
-            .then(res => setOrdersData(res.data))
+            .then(res => {
+                const result = res.data
+                const validatedOrdersData = isOwner ? result : result.filter(obj => obj.userId === userId)
+                setOrdersData(validatedOrdersData)
+            })
             .catch(err => err && console.log(err.data))
     }, [])
 
@@ -42,9 +50,20 @@ export default () => {
         setExpandedObj({...expandedObj, ...newObj})
     }
 
+    const showOrderDetails = (passShops) => {
+        return passShops.map(shop => {
+            const { shopName, itemData } = shop
+            return (
+                <Row>
+                    <Col><h5>{shopName}</h5></Col>
+                </Row>
+            )
+        })
+    }
+
     const ShowOrders = () => {
         return ordersData.map(order => {
-            const {_id, orderId, userInformation, createdAt, status, shops, isShipped} = order
+            const {_id, orderId, userInformation, createdAt, status, shops, isShipped, total } = order
             const {fullName, email, phone, address} = userInformation
             const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'red' : 'black';
             return (
@@ -53,7 +72,9 @@ export default () => {
                         <td>{orderId}</td>
                         <td>{email}</td>
                         <td>{moment(createdAt).format("DD MMM YYYY, HH:mm:ss")}</td>
+                        <td>{total.toFixed(2).toString().replace(/\./g,',')} €</td>
                         <td style={{color: statusColor}}>{(shippedObj[_id] ?? isShipped) ? <em style={{color: 'blue', float:'left'}}>odoslana</em> : status}
+                            {status === 'zaplatena' && isOwner &&
                             <input 
                                 style={{
                                     float: 'right', 
@@ -64,13 +85,13 @@ export default () => {
                                 name='checkShipping'
                                 checked={shippedObj[_id] ?? isShipped}
                                 onChange={(e) => handleShipping(e, _id)}
-                            />
+                            />}
                         </td>
                     </tr>
                     {expandedObj[_id] &&
                     <tr >
-                        <td className="text-center" colSpan="4">
-                            lalala<br/>lalalaa<br/>sksakmfas
+                        <td colSpan="4">
+                            {showOrderDetails(shops)}
                         </td>    
                     </tr>}
                 </tbody>
@@ -85,10 +106,11 @@ export default () => {
                     <th>ID</th>
                     <th>Email</th>
                     <th>Datum</th>
+                    <th>Total</th>
                     <th>Stav</th>
                 </tr>
             </thead>
-                <ShowOrders />
+            <ShowOrders />
         </Table>    
     )
 }

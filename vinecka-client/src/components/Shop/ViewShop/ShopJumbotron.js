@@ -33,8 +33,10 @@ export default ({ shopData, isOwner }) => {
   const [description, setDescription] = useState(shopData.description)
   const [owner, setOwner] = useState(shopData.owner)
   const [imageLink, setImageLink] = useState('');
+  const [overviewImage, setOverviewImage] = useState('');
   const [showImageFromDb, setShowImageFromDb] = useState(shopData.imageLink ? shopData.imageLink : '')
-  const [localUploading, setLocalUploading] = useState(false)
+  const [localUploadingTitle, setLocalUploadingTitle] = useState(false)
+  const [localUploadingOverview, setLocalUploadingOverview] = useState(false)
 
   const getImage = (image) => {
     try {
@@ -67,7 +69,11 @@ export default ({ shopData, isOwner }) => {
       deleteFile(meta);
     }
     if (status === "done") {
-      setImageLink(`${shopData._id}-${meta.name.replace(/_/g,'-')}`);
+      if (localUploadingTitle) {
+        setImageLink(`${shopData._id}-${meta.name.replace(/_/g,'-')}`);
+      } else if (localUploadingOverview) {
+        setOverviewImage(`${shopData._id}-${meta.name.replace(/_/g,'-')}`);
+      }
     }
   };
 
@@ -81,8 +87,21 @@ export default ({ shopData, isOwner }) => {
         return;
       })
       .catch((err) => err && handleError(err));
-    }
+    } 
   }, [imageLink])
+
+  useEffect(() => {
+    if (overviewImage) {
+      axios
+      .put(
+        `http://localhost:5000/shop/${shopData._id}/update-shop/overviewImage/${overviewImage}`
+      )
+      .then((res) => {
+        return;
+      })
+      .catch((err) => err && handleError(err));
+    } 
+  }, [overviewImage])
 
   useEffect(() => {
     axios
@@ -153,6 +172,16 @@ export default ({ shopData, isOwner }) => {
     }
   }
 
+  const handleLocalUploadingOverview = () => {
+    setLocalUploadingTitle(false)
+    setLocalUploadingOverview(true)
+  }
+
+  const handleLocalUploadingTitle = () => {
+    setLocalUploadingOverview(false)
+    setLocalUploadingTitle(true)
+  }
+
   return (
     <Jumbotron style={{background: `url(${getImage(showImageFromDb) ? getImage(showImageFromDb) : ''}) no-repeat`, backgroundSize: 'cover' }} fluid>
       <Container className="text-center">
@@ -211,12 +240,14 @@ export default ({ shopData, isOwner }) => {
           </Row>
           <Row className="justify-content-md-center">
             <Col className="text-center">
-              <Button variant="dark" onClick={() => setLocalUploading(!localUploading)}>Upload image</Button>
+              <Button variant="dark" onClick={() => handleLocalUploadingTitle()}>Upload title image</Button>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <Button variant="dark" onClick={() => handleLocalUploadingOverview()}>Upload overview image</Button>
             </Col>
           </Row>
         </>
         }
-        {(localUploading && editMode) ? 
+        {((localUploadingTitle || localUploadingOverview) && editMode) ? 
         <SlideDown className={"my-dropdown-slidedown"}>
         <Row>
           <Col>
@@ -233,7 +264,7 @@ export default ({ shopData, isOwner }) => {
                   key="label"
                   style={{ marginTop: "15px", color: "#333333" }}
                 >
-                  Drop or click to choose image.
+                  Drop or click to choose {localUploadingTitle ? 'title' : 'overview'} image.
                   <br />
                   <BsUpload />
                 </p>

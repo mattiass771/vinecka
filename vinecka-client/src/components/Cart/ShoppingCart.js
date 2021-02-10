@@ -32,7 +32,6 @@ export default ({userId}) => {
     const sortItems = (cartItems) => {
         let sortShop = []
         for (let cartItem of cartItems) {
-            console.log(cartItem)
             axios.get(`http://localhost:5000/shop/${cartItem.shopId}`)
                 .then((res) => {
                     const { shopName, owner } = res.data
@@ -121,7 +120,8 @@ export default ({userId}) => {
             axios.post(`http://localhost:5000/users/${userId}/cart/delete-cart-item/${shopId}/${itemId}`)
                 .then((res) => console.log(res))
                 .catch(err => err && console.log('could not delete item', err))
-                .then(() => setRefresh(!refresh))
+                .then(() => setRefresh(!refresh)) 
+            if (shops.length === 1) setShops('')
         } else {
             const localShoppingCart = JSON.parse(localStorage.getItem('shoppingCart'))
             const newLocalShoppingCart = localShoppingCart.filter(item => item.itemId !== itemId)
@@ -161,7 +161,7 @@ export default ({userId}) => {
     }
 
     const showCartItems = () => {
-        return shops.map(shop => {
+        return shops.sort().map(shop => {
             return (
                 <Row key={shop.shopId} style={{marginBottom: "15px"}}>
                     <Col style={{marginBottom: "50px"}} xs={12}>

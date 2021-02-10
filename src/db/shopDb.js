@@ -33,6 +33,9 @@ const shopSchema = new Schema({
   imageLink: {
     type: String,
   },
+  overviewImage: {
+    type: String,
+  },
   url: {type: String, required: true},
   shopItems: [shopItemSchema],
 });

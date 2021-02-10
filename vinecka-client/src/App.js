@@ -11,6 +11,8 @@ import ShoppingCart from "./components/Cart/ShoppingCart"
 import PayGate from "./components/Cart/PayGate"
 import Orders from "./components/Payment/Orders"
 import SuccessPayment from "./components/Payment/SuccessPayment";
+import RejectPayment from "./components/Payment/RejectPayment";
+import Vinka from "./components/Wines/Vinka";
 
 import Spinner from "react-bootstrap/Spinner";
 
@@ -64,7 +66,13 @@ export default () => {
             style={{ marginLeft: "49%", marginTop: "20%" }}
             animation="border"
           /> : <Vinarne userData={userData} />}
-          
+          </Route>
+          <Route exact path="/vinka">
+          {loadingData ? 
+          <Spinner
+            style={{ marginLeft: "49%", marginTop: "20%" }}
+            animation="border"
+          /> : <Vinka userData={userData} />}
           </Route>
           <Route exact path="/login-page">
             {loadingData ? 
@@ -85,8 +93,16 @@ export default () => {
             <SuccessPayment userId={userData._id} />
           </Route>}
           {!loadingData &&
+          <Route exact path={`/failed-payment`}>
+            <RejectPayment userId={userData._id} />
+          </Route>}
+          {!loadingData &&
+          <Route exact path={`/cancel-payment`}>
+            <RejectPayment userId={userData._id} />
+          </Route>}
+          {!loadingData &&
           <Route exact path={`/objednavky`}>
-            <Orders />
+            <Orders userId={userData._id} isOwner={userData.isOwner} />
           </Route>}
           {!loadingData &&
           <Route exact path={`/:shopUrl`}>

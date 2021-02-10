@@ -7,7 +7,7 @@ import crypto from 'crypto'
 import locutus from 'locutus/php/misc/pack'
 
 export default ({paymentPopup, setPaymentPopup, orderInfo}) => {
-    const {total, orderId, } = orderInfo
+    const {total, orderId } = orderInfo
 
     const toHexString = bytes => bytes.reduce((str, byte) => str + byte.toString(16).padStart(2, '0'), '');
 

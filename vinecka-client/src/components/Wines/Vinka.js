@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ShopsOverview from "./ShopsOverview";
+import WineOverview from "./WineOverview";
 
 import Spinner from "react-bootstrap/Spinner";
 
@@ -24,7 +24,7 @@ export default ({ userData }) => {
           style={{ marginLeft: "49%", marginTop: "20%" }}
           animation="border"
         />
-      ) : <ShopsOverview userData={userData} shopData={shopData} />}
+      ) : <WineOverview userData={userData} shopData={shopData} />}
     </>
   );
 };
