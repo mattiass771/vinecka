@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Link} from 'react-router-dom';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
@@ -13,9 +14,21 @@ import "react-slidedown/lib/slidedown.css";
 
 import { MdDelete } from "react-icons/md";
 
-export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setShouldReload, shouldReload, setShowAddedPopup, isOwner}) => {
+export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setShouldReload, shouldReload, setShowAddedPopup, isOwner, url}) => {
     const [count, setCount] = useState("")
     const [isHovered, setIsHovered] = useState("")
+    const [clicked, setClicked] = useState('')
+
+    const copyFunction = (passId) => {
+      const dummy = document.createElement("textarea");
+      document.body.appendChild(dummy);
+      dummy.value = passId;
+      dummy.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummy);
+      setClicked('#333333')
+      setTimeout(() => setClicked(''),150)
+    }
     
     const getImage = (image) => {
       try {
@@ -27,14 +40,14 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
     };
 
     const deleteCard = (e) => {
-    const itemId = e.currentTarget.parentNode.id;
-    axios
-        .post(
-        `http://localhost:5000/shop/${shopId}/delete-item/${itemId}`,
-        {}
-        )
-        .then(() => setShouldReload(!shouldReload))
-        .catch((err) => err && console.log(`Error ${err}`));
+      const itemId = e.currentTarget.parentNode.id;
+      axios
+          .post(
+          `http://localhost:5000/shop/${shopId}/delete-item/${itemId}`,
+          {}
+          )
+          .then(() => setShouldReload(!shouldReload))
+          .catch((err) => err && console.log(`Error ${err}`));
     };
 
     return shopItems.map((item) => {
@@ -92,7 +105,7 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
       }
       return (
         <Col className="mt-2 mb-2" style={{color: "whitesmoke"}} xs={colXsSettings ?? 6} md={colMdSettings ?? 6} lg={colMdSettings ?? 4} xl={colMdSettings ?? 3} key={_id}>
-          <Card onMouseEnter={() => handleMouseOver()} onMouseLeave={() => handleMouseLeave()} style={{height: "400px" }} id={_id} >
+          <Card onMouseEnter={() => handleMouseOver()} onMouseLeave={() => handleMouseLeave()} style={{height: "410px" }} id={_id} >
             {isOwner &&
             <Button
               onClick={(e) => deleteCard(e)}
@@ -128,12 +141,16 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
                   </Row>
                   {isOwner &&
                   <Row>
-                    <Col>{_id}</Col>
+                    <Col><a onClick={() => copyFunction(_id)} style={{textDecoration: 'none', cursor: 'pointer', color: clicked}}><strong>copy my id!</strong></a></Col>
                   </Row>}
-                  <hr />
-                  <Row>
+                  <Row style={{height: '240px', marginTop: '5px', marginBottom: '5px'}}>
                     <Col>{description}</Col>
                   </Row>
+                  {url && 
+                    <Link to={`/${url}`}>
+                      <Button style={{width: "100%"}} variant="dark">Visit shop.</Button>
+                    </Link>
+                  }
                 </Container>
               </SlideDown>
             </Card.ImgOverlay>

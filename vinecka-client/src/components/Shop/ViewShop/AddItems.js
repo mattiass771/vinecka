@@ -143,6 +143,7 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
           <Col className="form-group">
             <label htmlFor="price">Description:</label>
             <textarea
+              maxLength="230"
               value={description}
               className="form-control"
               name="description"

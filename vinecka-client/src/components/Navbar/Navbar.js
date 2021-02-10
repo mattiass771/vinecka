@@ -30,7 +30,7 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
             Vinarne
           </Link>
 
-          <Link className={`nav-elem`} to="/vinarne">
+          <Link className={`nav-elem`} to="/vinka">
             Vinka
           </Link>
         </Nav>
