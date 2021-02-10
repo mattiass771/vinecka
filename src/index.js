@@ -154,7 +154,7 @@ app.get("/deleteFile/:shopId", (req, res) => {
   const dirPath = path.join(
     __dirname,
     "uploads",
-    req.params.shopId + "__" + file
+    req.params.shopId + "-" + file
   );
   fs.unlink(dirPath, () => {
     res.send({

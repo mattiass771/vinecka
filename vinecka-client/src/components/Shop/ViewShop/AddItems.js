@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import Dropzone from "react-dropzone-uploader";
+import { BsUpload } from "react-icons/bs";
 
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
@@ -9,8 +10,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import InputGroup from "react-bootstrap/InputGroup"
 
-import { BsUpload } from "react-icons/bs";
-import {FaCheckSquare} from "react-icons/fa"
 
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
@@ -141,7 +140,7 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
         </Row>
         <Row className="justify-content-md-center">
           <Col className="form-group">
-            <label htmlFor="price">Description:</label>
+            <label htmlFor="description">Description:</label>
             <textarea
               maxLength="230"
               value={description}

@@ -191,7 +191,7 @@ export default ({ shopData, isOwner }) => {
             <h2>{shopName}</h2>
             <p>{description}</p>
             <p>{owner}</p>
-            <p><a className="link-no-deco" href="localhost:3000/testshop">www.vimko.sk/{currentUrl}</a></p>
+            <p><a className="link-no-deco" href={`http://localhost:3000/${currentUrl}`}>www.vimko.sk/{currentUrl}</a></p>
           </Col>
         </Row>
         :

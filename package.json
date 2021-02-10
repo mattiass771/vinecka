@@ -28,6 +28,7 @@
     "passport": "0.4.1",
     "passport-local": "1.0.0",
     "react-bootstrap": "1.4.0",
+    "react-datepicker": "^3.4.1",
     "react-dropzone-uploader": "2.11.0",
     "react-helmet": "6.1.0",
     "react-icons": "3.11.0",

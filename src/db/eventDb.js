@@ -4,11 +4,11 @@ const router = require("express").Router();
 const Schema = mongoose.Schema;
 
 const eventSchema = new Schema({
-    link: { type: String, required: true},
+    link: { type: String },
     description: { type: String, required: true},
     name: { type: String, required: true},
     imageLink: { type: String, required: true},
-    when: { type: Date, default: Date.now },
+    when: { type: String, required: true },
     where: { type: String }
   });
   
@@ -35,7 +35,13 @@ router.route("/add").post((req, res) => {
       .save()
       .then(() => res.json(`Your event is now online!`))
       .catch((err) => res.status(400).json(`Error: ${err}`));
-  });
+});
+
+router.route("/:id").delete((req, res) => {
+  Event.findByIdAndDelete(req.params.id)
+    .then(() => res.json("Event deleted."))
+    .catch((err) => res.status(400).json(`Error: ${err}`));
+});
 
 module.exports = {
     router,
