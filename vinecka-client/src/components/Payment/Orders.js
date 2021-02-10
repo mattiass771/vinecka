@@ -5,6 +5,7 @@ import moment from 'moment';
 import Table from 'react-bootstrap/Table'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
 
 export default ({userId, isOwner}) => {
     const [ordersData, setOrdersData] = useState([])
@@ -33,7 +34,7 @@ export default ({userId, isOwner}) => {
         newObj[_id] = newVal
         setShippedObj({...shippedObj, ...newObj})
 
-        const oldValue = false
+        const oldValue = expandedObj[_id] ?? false
         expandObj[_id] = oldValue
         setExpandedObj({...expandedObj, ...expandObj})
 
@@ -50,21 +51,64 @@ export default ({userId, isOwner}) => {
         setExpandedObj({...expandedObj, ...newObj})
     }
 
-    const showOrderDetails = (passShops) => {
-        return passShops.map(shop => {
-            const { shopName, itemData } = shop
+    const ShowItemDataForOrder = ({passItemData}) => {
+        let shopTotal = 0
+        return passItemData.map((item, i) => {
+            const { itemName, price, count, itemId } = item
+            shopTotal += (count * Number(price.replace(/,/g, '.')))
             return (
-                <Row>
-                    <Col><h5>{shopName}</h5></Col>
-                </Row>
+                <React.Fragment key={itemId}>
+                    <Col style={{border: '1px solid #cccccc'}} md={3}>
+                        ({count}) <strong>{itemName}</strong>, {price}€
+                    </Col>
+                    {!passItemData[i+1] && 
+                        <Col className="text-center" style={{border: '1px solid #cccccc', backgroundColor: "rgb(245, 245, 245)"}} md={2} order={12}>
+                            <h6 >spolu: <strong>{shopTotal.toFixed(2).toString().replace(/\./g, ',')} €</strong></h6>
+                        </Col>
+                    }
+                </React.Fragment>
             )
         })
     }
 
+
+    const ShowOrderDetails = ({passShops}) => {
+        return passShops.map((shop, i) => {
+            const { shopName, itemData, shopId } = shop
+            return (
+                <Container key={shopId} fluid>
+                    <Row>
+                        <Col md={2}><h5>{shopName}:</h5></Col>
+                    </Row>
+                    <Row>
+                        <ShowItemDataForOrder passItemData={itemData} />
+                    </Row>
+                    {passShops[i+1] && 
+                    <hr />}
+                </Container>
+            )
+        })
+    }
+
+    const ShowBuyerDetails = ({passUserInformation, buyerId}) => {
+        const { fullName, email, phone, address, iban } = passUserInformation
+        return (
+            <div className="text-center" key={buyerId}>
+                <Row>
+                    <Col md={{span: 2, offset: 1}}><strong>{fullName}</strong></Col>
+                    <Col md={2}><strong>{phone}</strong></Col>
+                    <Col md={3}><strong>{address}</strong></Col>
+                    <Col md={{span: 3}}><strong>{iban ?? 'IBAN NENAJDENY'}</strong></Col>
+                </Row>
+                <hr />
+            </div>
+        )
+    }
+
     const ShowOrders = () => {
         return ordersData.map(order => {
-            const {_id, orderId, userInformation, createdAt, status, shops, isShipped, total } = order
-            const {fullName, email, phone, address} = userInformation
+            const { _id, orderId, userInformation, createdAt, status, shops, isShipped, total, userId: buyerId } = order
+            const { email } = userInformation
             const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'red' : 'black';
             return (
                 <tbody key={orderId}>
@@ -89,9 +133,10 @@ export default ({userId, isOwner}) => {
                         </td>
                     </tr>
                     {expandedObj[_id] &&
-                    <tr >
-                        <td colSpan="4">
-                            {showOrderDetails(shops)}
+                    <tr style={{backgroundColor: status === 'zaplatena' ? '#f4fff4' : status === 'odmietnuta' ? '#ffecec' : 'rgb(250, 250, 250)' }}>
+                        <td colSpan="5">
+                            <ShowBuyerDetails passUserInformation={userInformation} buyerId={buyerId} />
+                            <ShowOrderDetails passShops={shops} />
                         </td>    
                     </tr>}
                 </tbody>

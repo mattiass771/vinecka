@@ -7,7 +7,7 @@ import {FiShoppingCart} from "react-icons/fi"
 
 // Navbar.js
 export default ({ isLoggedIn, handleLogOut, userName }) => {
-  const welcomes = ['We salute you, ', 'Welcome, ', 'Greetings, ', 'Hello, ', 'Hi there, ', 'Nice to see you, ']
+  const welcomes = ['Ahoj, ', 'Zdravicko, ', 'Pekny den, ', 'Vitaj, ', 'Zdar vinku, ', 'Na zdravie, ']
   return (
     <Navbar fixed="top" bg="dark" variant="dark">
       <Navbar.Brand>
@@ -32,6 +32,10 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
 
           <Link className={`nav-elem`} to="/vinka">
             Vinka
+          </Link>
+
+          <Link className={`nav-elem`} to="/akcie">
+            Akcie
           </Link>
         </Nav>
         <Nav className="mr-sm-2">

@@ -33,6 +33,10 @@ a.link-no-deco:hover {
   color: #c1c1c1;
 }
 
+tr.inner-table:hover {
+  background-color: rgb(250, 250, 250) !important;
+}
+
 /* Fades */
 
 .fade-out{

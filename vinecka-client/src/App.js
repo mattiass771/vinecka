@@ -13,6 +13,7 @@ import Orders from "./components/Payment/Orders"
 import SuccessPayment from "./components/Payment/SuccessPayment";
 import RejectPayment from "./components/Payment/RejectPayment";
 import Vinka from "./components/Wines/Vinka";
+import Events from "./components/Events/Events";
 
 import Spinner from "react-bootstrap/Spinner";
 
@@ -55,65 +56,51 @@ export default () => {
   return (
     <div>
       <Navbar userName={userData.fullName} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
+      {loadingData ? 
+            <Spinner
+              style={{ marginLeft: "49%", marginTop: "20%" }}
+              animation="border"
+            /> :
       <div style={{marginTop: "56px"}}>
         <Switch>
           <Route exact path="/">
             <Home userId={userData._id} isOwner={userData.isOwner}  />
           </Route>
           <Route exact path="/vinarne">
-          {loadingData ? 
-          <Spinner
-            style={{ marginLeft: "49%", marginTop: "20%" }}
-            animation="border"
-          /> : <Vinarne userData={userData} />}
+            <Vinarne userData={userData} />
           </Route>
           <Route exact path="/vinka">
-          {loadingData ? 
-          <Spinner
-            style={{ marginLeft: "49%", marginTop: "20%" }}
-            animation="border"
-          /> : <Vinka userData={userData} />}
+            <Vinka userData={userData} />
           </Route>
           <Route exact path="/login-page">
-            {loadingData ? 
-          <Spinner
-            style={{ marginLeft: "49%", marginTop: "20%" }}
-            animation="border"
-          /> : isLoggedIn ? <Home userId={userData._id} isOwner={userData.isOwner} /> : <Login />}
+            {isLoggedIn ? <Home userId={userData._id} isOwner={userData.isOwner} /> : <Login />}
           </Route>
           <Route exact path="/cart-page">
-            {loadingData ? 
-            <Spinner
-              style={{ marginLeft: "49%", marginTop: "20%" }}
-              animation="border"
-            /> : <ShoppingCart userId={userData._id} />}
+            <ShoppingCart userId={userData._id} />
           </Route>
-          {!loadingData &&
           <Route exact path={`/success-payment`}>
             <SuccessPayment userId={userData._id} />
-          </Route>}
-          {!loadingData &&
+          </Route>
           <Route exact path={`/failed-payment`}>
             <RejectPayment userId={userData._id} />
-          </Route>}
-          {!loadingData &&
+          </Route>
           <Route exact path={`/cancel-payment`}>
             <RejectPayment userId={userData._id} />
-          </Route>}
-          {!loadingData &&
+          </Route>
           <Route exact path={`/objednavky`}>
             <Orders userId={userData._id} isOwner={userData.isOwner} />
-          </Route>}
-          {!loadingData &&
+          </Route>
+          <Route exact path={`/akcie`}>
+            <Events isOwner={userData.isOwner} />
+          </Route>
           <Route exact path={`/:shopUrl`}>
             <ShopOnline userId={userData._id} isOwner={userData.isOwner} />
-          </Route>}
-          {!loadingData &&
+          </Route>
           <Route exact path={`/shop/payment`}>
             <PayGate />
-          </Route>}
+          </Route>
         </Switch>
-      </div>
+      </div>}
     </div>
   );
 };

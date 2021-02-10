@@ -61,12 +61,11 @@ const orderRouter = require("./db/orderDb").router;
 app.use("/orders", orderRouter);
 const homeRouter = require("./db/homeDb").router;
 app.use("/home", homeRouter);
+const eventsRouter = require("./db/eventDb").router;
+app.use("/events", eventsRouter);
 
 // ACCESS USER DATABASE //
 const User = require("./db/userDb").User;
-const Shop = require("./db/shopDb").Shop;
-const Order = require("./db/orderDb").Order;
-const Home = require("./db/homeDb").Home;
 
 // PASSPORT //
 passport.use(
