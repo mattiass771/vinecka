@@ -3,6 +3,10 @@ import { Route, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import axios from "axios";
 
+import "./index.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-dropzone-uploader/dist/styles.css";
+
 import Home from "./components/Home/Home";
 import Vinarne from "./components/Shop/Vinarne";
 import Login from "./components/Login/Login";
