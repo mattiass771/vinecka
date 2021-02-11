@@ -108,7 +108,7 @@ export default ({userId}) => {
 
     const getImage = (image) => {
         try {
-          const img = require(`../../../../src/uploads/${image}`);
+          const img = require(`../../../../src/uploads/${image.replace(/_/g, '-')}`);
           return img;
         } catch {
           return null;

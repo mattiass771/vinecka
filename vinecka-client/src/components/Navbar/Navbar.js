@@ -36,6 +36,10 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
           <Link className={`nav-elem`} to="/akcie">
             Akcie
           </Link>
+
+          <Link className={`nav-elem`} to="/sluzby">
+            Sluzby
+          </Link>
         </Nav>
         <Nav className="mr-sm-2">
             <Link className={`nav-elem`} to="/cart-page">

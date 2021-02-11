@@ -21,6 +21,9 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
   const [imageLink, setImageLink] = useState("");
   const [canSaveItem, setCanSaveItem] = useState(false);
   const [maxCount, setMaxCount] = useState('')
+  const [color, setColor] = useState("");
+  const [type, setType] = useState("");
+  const [taste, setTaste] = useState("");
 
   const shopId = shopData._id;
 
@@ -35,7 +38,7 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
 
   const getImage = (image) => {
     try {
-      const img = require(`../../../../../src/uploads/${image}`);
+      const img = require(`../../../../../src/uploads/${image.replace(/_/g, '-')}`);
       return img;
     } catch {
       return null;
@@ -43,14 +46,17 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
   };
 
   const handleSaveItem = () => {
-    if (imageLink && description && price && itemName) {
+    if (imageLink && description && price && itemName && color) {
       axios
         .post(`http://localhost:5000/shop/${shopId}/add-item`, {
           itemName,
           price,
           description,
           imageLink,
-          maxCount: maxCount
+          maxCount: maxCount,
+          color,
+          type,
+          taste
         })
         .then(() => setShowAddItems(false))
         .catch((err) => err && console.log(err));
@@ -69,10 +75,10 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
   };
   useEffect(() => {
     const isAlready = getImage(imageLink) ? getImage(imageLink) : imageLink;
-    if (isAlready && imageLink && description && price && itemName) {
+    if (isAlready && imageLink && description && price && itemName && color) {
       setCanSaveItem(true);
     }
-  }, [imageLink, description, price, itemName]);
+  }, [imageLink, description, price, itemName, color]);
 
   // specify upload params and url for your files
   const getUploadParams = ({ meta }) => {
@@ -116,6 +122,43 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
               type="text"
               name="price"
               onChange={(e) => setPrice(e.target.value)}
+            />
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col className="form-group">
+            <label htmlFor="color">Farba:</label>
+            <input
+              value={color}
+              className="form-control"
+              type="text"
+              name="color"
+              placeholder="povinne"
+              onChange={(e) => setColor(e.target.value)}
+            />
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col className="form-group">
+            <label htmlFor="taste">Chut:</label>
+            <input
+              value={taste}
+              className="form-control"
+              type="text"
+              name="taste"
+              onChange={(e) => setTaste(e.target.value)}
+            />
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col className="form-group">
+            <label htmlFor="type">Druh:</label>
+            <input
+              value={type}
+              className="form-control"
+              type="text"
+              name="type"
+              onChange={(e) => setType(e.target.value)}
             />
           </Col>
         </Row>

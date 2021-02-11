@@ -37,6 +37,26 @@ router.route("/add").post((req, res) => {
       .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
+router.route("/update-event/:eventId").post((req, res) => {
+  const { eventId } = req.params
+  const { name, link, description, imageLink, when, where } = req.body;
+
+  Event.findById(eventId, (err, eventFound) => {
+    if (err) return console.log(err.data);
+    eventFound.name = name
+    eventFound.link = link
+    eventFound.description = description
+    eventFound.imageLink = imageLink
+    eventFound.when = when
+    eventFound.where = where
+    
+    eventFound
+      .save()
+      .then(() => res.json(`Event updated!`))
+      .catch((error) => res.status(400).json(`Error: ${error}`));
+  });
+});
+
 router.route("/:id").delete((req, res) => {
   Event.findByIdAndDelete(req.params.id)
     .then(() => res.json("Event deleted."))

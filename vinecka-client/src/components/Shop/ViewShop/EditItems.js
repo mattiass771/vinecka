@@ -21,6 +21,9 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
   const [imageLink, setImageLink] = useState("");
   const [canSaveItem, setCanSaveItem] = useState(false);
   const [maxCount, setMaxCount] = useState('')
+  const [color, setColor] = useState("");
+  const [type, setType] = useState("");
+  const [taste, setTaste] = useState("");
 
   const [itemData, setItemData] = useState({...itemDataProp})
 
@@ -35,7 +38,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
 
   const getImage = (image) => {
     try {
-      const img = require(`../../../../../src/uploads/${image}`);
+      const img = require(`../../../../../src/uploads/${image.replace(/_/g, '-')}`);
       return img;
     } catch {
       return null;
@@ -88,6 +91,33 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
         })
         .catch((err) => err && console.log(err));
     }
+    if (color) {
+      axios
+        .put(`http://localhost:5000/shop/${shopId}/update-item/${itemId}/color/${color}`, {})
+        .then(() => {
+          setShowEditItems('')
+          setShouldReload(!shouldReload)
+        })
+        .catch((err) => err && console.log(err));
+    }
+    if (type) {
+      axios
+        .put(`http://localhost:5000/shop/${shopId}/update-item/${itemId}/type/${type}`, {})
+        .then(() => {
+          setShowEditItems('')
+          setShouldReload(!shouldReload)
+        })
+        .catch((err) => err && console.log(err));
+    }
+    if (taste) {
+      axios
+        .put(`http://localhost:5000/shop/${shopId}/update-item/${itemId}/taste/${taste}`, {})
+        .then(() => {
+          setShowEditItems('')
+          setShouldReload(!shouldReload)
+        })
+        .catch((err) => err && console.log(err));
+    }
   };
 
   const deleteFile = (file) => {
@@ -102,10 +132,10 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
   };
   useEffect(() => {
     const isAlready = getImage(imageLink) ? getImage(imageLink) : imageLink;
-    if (isAlready || imageLink || description || price || itemName) {
+    if (isAlready || imageLink || description || price || itemName || color || type || taste) {
       setCanSaveItem(true);
     }
-  }, [imageLink, description, price, itemName]);
+  }, [imageLink, description, price, itemName, color, type, taste]);
 
   const getUploadParams = ({ meta }) => {
     return { url: `http://localhost:5000/fileUpload/${shopId}` };
@@ -152,6 +182,43 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
               type="text"
               name="price"
               onChange={(e) => setPrice(e.target.value)}
+            />
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col className="form-group">
+            <label htmlFor="color">Farba:</label>
+            <input
+              value={color || itemData.color}
+              className="form-control"
+              type="text"
+              name="color"
+              placeholder="povinne"
+              onChange={(e) => setColor(e.target.value)}
+            />
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col className="form-group">
+            <label htmlFor="taste">Chut:</label>
+            <input
+              value={taste || itemData.taste}
+              className="form-control"
+              type="text"
+              name="taste"
+              onChange={(e) => setTaste(e.target.value)}
+            />
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col className="form-group">
+            <label htmlFor="type">Druh:</label>
+            <input
+              value={type || itemData.type}
+              className="form-control"
+              type="text"
+              name="type"
+              onChange={(e) => setType(e.target.value)}
             />
           </Col>
         </Row>

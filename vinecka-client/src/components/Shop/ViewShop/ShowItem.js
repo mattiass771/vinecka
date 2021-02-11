@@ -36,7 +36,7 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
     
     const getImage = (image) => {
       try {
-          const img = require(`../../../../../src/uploads/${image}`);
+          const img = require(`../../../../../src/uploads/${image.replace(/_/g, '-')}`);
           return img;
       } catch {
           return null;
@@ -136,6 +136,7 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
               style={{
                 width: "40px",
                 height: "40px",
+                marginBottom: "-40px",
                 marginLeft: "40px",
                 zIndex: "+5"
               }}
@@ -144,7 +145,7 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
               <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
             </Button>}
             {editing[_id] && <EditItems shouldReload={shouldReload} setShouldReload={setShouldReload} itemDataProp={item} showEditItems={editing[_id]} setShowEditItems={setEditing} shopId={passShopId} itemId={_id} />}
-            <Card.Img className="shop-item-img" variant="top" src={image} />
+            <Card.Img className="shop-item-img mt-4" variant="top" src={image} />
             <Card.Body style={{color: "Black"}}>
               <Card.Title>{itemName}</Card.Title>
               <Card.Text>{price} €</Card.Text>

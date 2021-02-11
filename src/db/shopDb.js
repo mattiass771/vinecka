@@ -8,6 +8,9 @@ const Schema = mongoose.Schema;
 const shopItemSchema = {
   itemName: { type: String, required: true, default: "New Item" },
   price: { type: String, required: true, default: "Price" },
+  color: { type: String},
+  type: { type: String },
+  taste: { type: String },
   description: {
     type: String,
     required: true,
@@ -141,14 +144,17 @@ router.route("/:shopId/update-pref/:find/:replace").put((req, res) => {
 });
 
 router.route("/:shopId/add-item").post((req, res) => {
-  const { itemName, price, description, imageLink, maxCount } = req.body;
+  const { itemName, price, description, imageLink, maxCount,color, type, taste } = req.body;
 
   const addShopItem = new ShopItem({
     itemName,
     price,
     description,
     imageLink,
-    maxCount
+    maxCount,
+    color,
+    type,
+    taste
   });
 
   Shop.findById(req.params.shopId, (err, shopFound) => {

@@ -63,6 +63,8 @@ const homeRouter = require("./db/homeDb").router;
 app.use("/home", homeRouter);
 const eventsRouter = require("./db/eventDb").router;
 app.use("/events", eventsRouter);
+const servicesRouter = require("./db/serviceDb").router;
+app.use("/services", servicesRouter);
 
 // ACCESS USER DATABASE //
 const User = require("./db/userDb").User;

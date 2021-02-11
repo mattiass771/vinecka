@@ -14,6 +14,7 @@ import SuccessPayment from "./components/Payment/SuccessPayment";
 import RejectPayment from "./components/Payment/RejectPayment";
 import Vinka from "./components/Wines/Vinka";
 import Events from "./components/Events/Events";
+import Services from "./components/Services/Services";
 
 import Spinner from "react-bootstrap/Spinner";
 
@@ -92,6 +93,9 @@ export default () => {
           </Route>
           <Route exact path={`/akcie`}>
             <Events isOwner={userData.isOwner} />
+          </Route>
+          <Route exact path={`/sluzby`}>
+            <Services isOwner={userData.isOwner} />
           </Route>
           <Route exact path={`/:shopUrl`}>
             <ShopOnline userId={userData._id} isOwner={userData.isOwner} />

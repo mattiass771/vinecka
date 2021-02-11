@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import moment from 'moment'
 
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
@@ -8,14 +7,14 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 
-import AddEvent from './AddEvent'
-import EditEvent from './EditEvent'
+import AddService from './AddService'
+import EditService from './EditService'
 
 import {MdDateRange, MdLocationOn, MdDelete, MdEdit} from 'react-icons/md'
 
 export default ({isOwner}) => {
-    const [eventsData, setEventsData] = useState([])
-    const [eventPopup, setEventPopup] = useState(false)
+    const [servicesData, setServicesData] = useState([])
+    const [servicePopup, setServicePopup] = useState(false)
     const [refresh, setRefresh] = useState(false)
     const [editing, setEditing] = useState('')
 
@@ -35,22 +34,17 @@ export default ({isOwner}) => {
         }
     };
 
-    const deleteCard = (eventId) => {
-        axios.delete(`http://localhost:5000/events/${eventId}/`)
+    const deleteCard = (serviceId) => {
+        axios.delete(`http://localhost:5000/services/${serviceId}/`)
             .then(() => setRefresh(!refresh))
             .catch((err) => err && console.log(`Error ${err}`));
     };
 
-    const sortEventsData = (data) => {
-        return data.sort((a, b) => (a.when < b.when) ? 1 : -1)
-    }
-
     useEffect(() => {
-        axios.get(`http://localhost:5000/events/`)
+        axios.get(`http://localhost:5000/services/`)
             .then(res => {
-                const events = res.data
-                const result = sortEventsData(events)
-                setEventsData(result)
+                const result = res.data
+                setServicesData(result)
             })
             .catch(err => err && console.log(err))
     }, [refresh])
@@ -60,12 +54,12 @@ export default ({isOwner}) => {
         win.focus();
     }
 
-    const ShowEvents = () => {
-        return eventsData.map(event => {
-            const { _id, name, link, description, imageLink, when, where } = event
+    const ShowServices = () => {
+        return servicesData.map(service => {
+            const { _id, name, link, description, imageLink, when, where } = service
             return (
                 <Col key={_id} style={{maxWidth:'800px'}} className="mt-4" md={12} lg={6}>
-                    <Card className="h-100" id={_id}>
+                    <Card bg="dark" text="white" className="h-100" id={_id}>
                         {isOwner &&
                             <Button
                                 onClick={() => deleteCard(_id)}
@@ -95,11 +89,11 @@ export default ({isOwner}) => {
                             </Button>}
                             
                         {editing &&
-                            <EditEvent refresh={refresh} setRefresh={setRefresh} setEventPopup={setEditing} eventPopup={editing[_id]} eventData={event} />
+                            <EditService refresh={refresh} setRefresh={setRefresh} setServicePopup={setEditing} servicePopup={editing[_id]} serviceData={service} />
                         }
                         <Card.Img variant="top" style={{ height: '350px' }} src={getImage(imageLink) ? getImage(imageLink) : imageLink} />
                         <Card.Body>
-                            <Card.Title>{name}<Button onClick={() => handleSubmit(link)} size="sm" variant="dark" style={{float: 'right', marginTop: '-5px'}}>Viac info</Button></Card.Title>
+                            <Card.Title>{name}<Button onClick={() => handleSubmit(link)} size="sm" variant="outline-light" style={{float: 'right', marginTop: '-5px'}}>Viac info</Button></Card.Title>
                             <Card.Text>{description}</Card.Text>
                         </Card.Body>
                         {(when || where) &&
@@ -114,15 +108,15 @@ export default ({isOwner}) => {
 
     return (
         <Container className="mb-4">
-            {eventPopup &&
-                <AddEvent refresh={refresh} setRefresh={setRefresh} setEventPopup={setEventPopup} eventPopup={eventPopup} />
+            {servicePopup &&
+                <AddService refresh={refresh} setRefresh={setRefresh} setServicePopup={setServicePopup} servicePopup={servicePopup} />
             }
             {isOwner &&
             <Row className="justify-content-center" >
-                <Button className="mt-4" variant="dark" onClick={() => setEventPopup(true)}>Pridat Event</Button>
+                <Button className="mt-4" variant="dark" onClick={() => setServicePopup(true)}>Pridat Sluzbu</Button>
             </Row>}
             <Row className="justify-content-center justify-content-md-start" >
-                <ShowEvents />
+                <ShowServices />
             </Row>
         </Container>
     )

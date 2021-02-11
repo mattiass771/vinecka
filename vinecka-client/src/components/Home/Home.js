@@ -11,8 +11,17 @@ import Col from "react-bootstrap/Col";
 import Alert from "react-bootstrap/Alert";
 import Carousel from "react-bootstrap/Carousel";
 import Spinner from "react-bootstrap/Spinner";
+import Button from "react-bootstrap/Button";
+
+import UpdateEvents from './UpdateEvents';
+import UpdateServices from './UpdateServices';
+import UpdateDescription from './UpdateDescription';
 
 import options from '../../config/options';
+
+import { MdEdit,MdMailOutline } from "react-icons/md";
+import { BiCodeAlt } from "react-icons/bi";
+import { FaFacebookF,FaInstagram } from "react-icons/fa";
 
 const {MAX_HEIGHT_JUMBO} = options
 
@@ -26,13 +35,30 @@ export default ({userId, isOwner}) => {
   const [isIdAvail, setIsIdAvail] = useState(['','','',''])
   const [tempId, setTempId] = useState([])
 
+  const [eventsData, setEventsData] = useState([])
+  const [servicesData, setServicesData] = useState([])
+  const [descriptionGeneral, setDescriptionGeneral] = useState('')
+
+  const [eventsPopup, setEventsPopup] = useState(false)
+  const [servicesPopup, setServicesPopup] = useState(false)
+  const [descriptionsPopup, setDescriptionsPopup] = useState(false)
+
+  const [forceRefresh, setForceRefresh] = useState(false)
+
   useEffect(() => {
     setLoading(true)
     axios.get(`http://localhost:5000/home/`)
       .then(res => {
         const featured = res.data.featuredWines
+        const events = [res.data.descriptionEvents, res.data.imageLinkEvents]
+        const services = [res.data.descriptionServices, res.data.imageLinkServices]
+        const description = res.data.descriptionGeneral
+        setEventsData(events)
+        setServicesData(services)
+        setDescriptionGeneral(description)
         setFeaturedIds(featured)
         setTempId(featured)
+        setFeaturedWines([])
         featured.map(item => {
           axios.get(`http://localhost:5000/shop/find-item-by-id/${item}`)
             .then(res => {
@@ -48,16 +74,94 @@ export default ({userId, isOwner}) => {
       .then(res => setCarouselData(res.data))
       .catch(err => err && console.log('Error while fetching shops for carousel, ', err))
       .then(() => setLoading(false))  
-  }, [])
+  }, [forceRefresh])
 
   const getImage = (image) => {
     try {
-        const img = require(`../../../../src/uploads/${image}`);
+        const img = require(`../../../../src/uploads/${image.replace(/_/g, '-')}`);
         return img;
     } catch {
         return null;
     }
   };
+
+  const ShowEvents = () => {
+    return (
+      <Row className="mt-4 mb-4">
+        <Col className="text-left mt-4 mb-4">
+          {eventsData[0]}
+        </Col>
+        <Col className="mt-4 mb-4">
+          {isOwner &&
+            <Button
+              onClick={() => setEventsPopup(true)}
+              style={{
+                width: "40px",
+                height: "40px",
+                marginBottom: "-40px",
+                zIndex: "+1",
+                position:'absolute'
+              }}
+              variant="outline-warning"
+            >
+              <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
+            </Button>}
+          <img src={getImage(eventsData[1]) ? getImage(eventsData[1]) : eventsData[1]} /> 
+        </Col>
+      </Row>
+    )
+  }
+
+  const ShowServices = () => {
+    return (
+      <Row className="mt-4 mb-4 pt-4 pb-4">
+        <Col className="mt-4 mb-4">
+          {isOwner &&
+            <Button
+              onClick={() => setServicesPopup(true)}
+              style={{
+                width: "40px",
+                height: "40px",
+                marginBottom: "-40px",
+                zIndex: "+1",
+                position:'absolute'
+              }}
+              variant="outline-warning"
+            >
+              <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
+            </Button>}
+          <img src={getImage(servicesData[1]) ? getImage(servicesData[1]) : servicesData[1]} /> 
+        </Col>
+        <Col className="mt-4 mb-4">
+          {servicesData[0]}
+        </Col>
+      </Row>
+    )
+  }
+
+  const ShowGeneral = () => {
+    return (
+      <Row className="text-center mt-4 mb-4">
+        <Col className="mt-4 mb-4">
+          {isOwner &&
+            <Button
+              onClick={() => setDescriptionsPopup(true)}
+              style={{
+                width: "40px",
+                height: "40px",
+                marginBottom: "-40px",
+                zIndex: "+1",
+                position:'absolute'
+              }}
+              variant="outline-warning"
+            >
+              <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
+            </Button>}
+          {descriptionGeneral}
+        </Col>
+      </Row>
+    )
+  }
 
   const showCarouselWithData = () => {
     return carouselData.map(shop => {
@@ -84,10 +188,15 @@ export default ({userId, isOwner}) => {
   }
 
   const handleSuccessFeatureChange = () => {
-    setFeaturedIds(tempId)
-    axios.post(`http://localhost:5000/home/featured-wines`, {featuredWines: tempId})
-      .then(res => console.log(res.data))
-      .catch(err => err && console.log(err))
+    for (let i = 0; i<featuredIds.length; i++) {
+      if (featuredIds[i] !== tempId[i]) {
+        setFeaturedIds(tempId)
+        axios.post(`http://localhost:5000/home/featured-wines`, {featuredWines: tempId})
+          .then(res => window.location.reload())
+          .catch(err => err && console.log(err))
+        break;
+      }
+    }
   }
 
   const handleFeaturedIds = (e, i) => {
@@ -114,7 +223,7 @@ export default ({userId, isOwner}) => {
     setTempId(newTempIds)
   }
 
-  const showUpdateFeaturedWines = () => {
+  const ShowUpdateFeaturedWines = () => {
     return tempId.map((featured, i) => {
       return (
         <Col key={`featuerd-${i}`} sm={6} md={3} className={`text-center mt-1`}>
@@ -144,17 +253,65 @@ export default ({userId, isOwner}) => {
             <p>Item added to cart!</p>
           </Alert>
       }
+      {eventsPopup &&
+        <UpdateEvents eventsText={eventsData[0]} eventsImage={eventsData[1]} eventsPopup={eventsPopup} setEventsPopup={setEventsPopup} forceRefresh={forceRefresh} setForceRefresh={setForceRefresh} />
+      }
+      {servicesPopup &&
+        <UpdateServices servicesText={servicesData[0]} servicesImage={servicesData[1]} servicesPopup={servicesPopup} setServicesPopup={setServicesPopup} forceRefresh={forceRefresh} setForceRefresh={setForceRefresh} />
+      }
+      {descriptionsPopup &&
+        <UpdateDescription descriptionsText={descriptionGeneral} descriptionsPopup={descriptionsPopup} setDescriptionsPopup={setDescriptionsPopup} forceRefresh={forceRefresh} setForceRefresh={setForceRefresh} />
+      }
       <Carousel indicators={false} style={{maxHeight: MAX_HEIGHT_JUMBO}}>
         {carouselData && showCarouselWithData()}  
       </Carousel>
-      <div style={{background: 'rgba(52,58,64, 0.2)'}}>
+      <div>
         <Container>
+          <ShowGeneral />
+        </Container>
+      </div>
+      <div style={{background: 'rgba(52,58,64, 0.2)'}}>
+        <Container className="pt-3 pb-3">
           {isOwner &&
           <Row>
-            {showUpdateFeaturedWines()}
+            <ShowUpdateFeaturedWines />
           </Row>}
-          <Row className="text-center">
+          <Row className="text-center pt-4 pb-4">
             <ShowItem colXsSettings={6} colMdSettings={3} shopItems={featuredWines} shopId={'home'} userId={userId} setShouldReload={false} shouldReload={false} setShowAddedPopup={setShowAddedPopup} isOwner={false} />
+          </Row>
+        </Container>
+      </div>
+      <div>
+        <Container>
+          <ShowEvents />
+        </Container>
+      </div>
+      <div style={{background: 'rgba(52,58,64, 0.2)'}}>
+        <Container>
+          <ShowServices />
+        </Container>
+      </div>
+      <div>
+        <Container>
+          <Row className="text-center pt-4 pb-4 mb-4">
+            <Col>
+              <a rel="noopener noreferrer" target="_blank" href="https://github.com/mattiass771" style={{textDecoration: 'none', color: '#333333'}}>
+                <BiCodeAlt style={{fontSize: '150%', marginTop: '-2px'}} /> by <strong>MZ</strong>
+              </a>
+            </Col>
+            <Col>
+              <a rel="noopener noreferrer" target="_blank" href="https://facebook.com" style={{textDecoration: 'none', color: '#333333'}}>
+                <FaFacebookF style={{fontSize: '130%', marginTop: '-2px', marginRight: '-4px'}} />acebook.com<strong>/masvino</strong>
+              </a>
+            </Col>
+            <Col>
+              <a rel="noopener noreferrer" target="_blank" href="https://instagram.com" style={{textDecoration: 'none', color: '#333333'}}>
+                <FaInstagram style={{fontSize: '150%', marginTop: '-2px'}} /><strong>#masvino</strong>
+              </a>
+            </Col>
+            <Col>
+              <MdMailOutline style={{fontSize: '150%', marginTop: '-2px'}} /><strong style={{color: '#333333'}}>masvino@mail.com</strong>
+            </Col>
           </Row>
         </Container>
       </div>
