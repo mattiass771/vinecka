@@ -140,25 +140,6 @@ router.route("/:shopId/update-pref/:find/:replace").put((req, res) => {
   });
 });
 
-// REPLACE ATTRIBUTE WITH INPUT FOR SHOP-ITEMS
-router.route("/:shopId/update-item/:itemId/:find/:replace").put((req, res) => {
-  const { shopId, find, replace, itemId } = req.params;
-
-  const newValue = replace.replace(/_/g, " ");
-
-  Shop.findById(shopId, (err, shopFound) => {
-    if (err) return console.log(err.data);
-    shopFound.shopItems.find((val) => val._id.toString() === itemId)[
-      find
-    ] = newValue;
-
-    shopFound
-      .save()
-      .then(() => res.json(`Item updated!`))
-      .catch((error) => res.status(400).json(`Error: ${error}`));
-  });
-});
-
 router.route("/:shopId/add-item").post((req, res) => {
   const { itemName, price, description, imageLink, maxCount } = req.body;
 

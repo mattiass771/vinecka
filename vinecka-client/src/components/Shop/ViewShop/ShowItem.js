@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {Link} from 'react-router-dom';
+
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
@@ -12,12 +13,15 @@ import axios from "axios";
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdEdit } from "react-icons/md";
+
+import EditItems from "./EditItems";
 
 export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setShouldReload, shouldReload, setShowAddedPopup, isOwner, url}) => {
     const [count, setCount] = useState("")
     const [isHovered, setIsHovered] = useState("")
     const [clicked, setClicked] = useState('')
+    const [editing, setEditing] = useState('')
 
     const copyFunction = (passId) => {
       const dummy = document.createElement("textarea");
@@ -73,6 +77,13 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
         setCount({...count, ...countObj})
       }
 
+      const handleEditing = (e) => {
+        const itemId = e.currentTarget.parentNode.id;
+        let editingObj = {}
+        editingObj[itemId] = true
+        setEditing({...editing, ...editingObj})
+      }
+
       const handleMouseOver = () => {
         let hoverObj = {}
         hoverObj[_id] = 'block'
@@ -119,6 +130,20 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
             >
               <MdDelete style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
             </Button>}
+            {isOwner &&
+            <Button
+              onClick={(e) => handleEditing(e)}
+              style={{
+                width: "40px",
+                height: "40px",
+                marginLeft: "40px",
+                zIndex: "+5"
+              }}
+              variant="outline-warning"
+            >
+              <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
+            </Button>}
+            {editing[_id] && <EditItems shouldReload={shouldReload} setShouldReload={setShouldReload} itemDataProp={item} showEditItems={editing[_id]} setShowEditItems={setEditing} shopId={passShopId} itemId={_id} />}
             <Card.Img className="shop-item-img" variant="top" src={image} />
             <Card.Body style={{color: "Black"}}>
               <Card.Title>{itemName}</Card.Title>
