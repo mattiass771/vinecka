@@ -29,7 +29,7 @@ export default ({userId, isOwner}) => {
         /> :
         isUrlAvailible && shopData._id ? 
         <ViewShop shopData={shopData} isOwner={isOwner} userId={userId} /> :
-        <h5 style={{ marginTop: "20%" }} className="text-center">No shop found. The url http://localhost:3000/{shopUrl} is still available.</h5>
+        <h5 style={{ marginTop: "20%" }} className="text-center">No shop found. The url https://mas-vino.herokuapp.com/{shopUrl} is still available.</h5>
         
     )
 }

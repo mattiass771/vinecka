@@ -88,8 +88,9 @@ export default ({userId, isOwner}) => {
   const ShowEvents = () => {
     return (
       <Row className="mt-4 mb-4">
-        <Col className="text-left mt-4 mb-4">
-          {eventsData[0]}
+        <Col className="mt-4 mb-4">
+          {eventsData[0]} <br/>
+          <Link to="/akcie"><Button variant="dark">Zoznam akcii</Button></Link>
         </Col>
         <Col className="mt-4 mb-4">
           {isOwner &&
@@ -106,7 +107,7 @@ export default ({userId, isOwner}) => {
             >
               <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
             </Button>}
-          <img src={getImage(eventsData[1]) ? getImage(eventsData[1]) : eventsData[1]} /> 
+          <img className="w-100" src={getImage(eventsData[1]) ? getImage(eventsData[1]) : eventsData[1]} /> 
         </Col>
       </Row>
     )
@@ -130,10 +131,11 @@ export default ({userId, isOwner}) => {
             >
               <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
             </Button>}
-          <img src={getImage(servicesData[1]) ? getImage(servicesData[1]) : servicesData[1]} /> 
+          <img className="w-100" src={getImage(servicesData[1]) ? getImage(servicesData[1]) : servicesData[1]} /> 
         </Col>
         <Col className="mt-4 mb-4">
-          {servicesData[0]}
+          {servicesData[0]} <br/>
+          <Link to="/sluzby"><Button variant="dark">Zoznam sluzieb</Button></Link>
         </Col>
       </Row>
     )

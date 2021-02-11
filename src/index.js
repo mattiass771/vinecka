@@ -108,11 +108,11 @@ app.use(passport.session());
 app.post(
   "/login",
   passport.authenticate("local", {
-    failureRedirect: "http://localhost:3000/login-page"
+    failureRedirect: "https://mas-vino.herokuapp.com/login-page"
   }),
   (req, res) => {
-    if (req.query.shopping === 'cart') return res.redirect('http://localhost:3000/cart-page')
-    return res.redirect('http://localhost:3000/')
+    if (req.query.shopping === 'cart') return res.redirect('https://mas-vino.herokuapp.com/cart-page')
+    return res.redirect('https://mas-vino.herokuapp.com/')
   }
 );
 
