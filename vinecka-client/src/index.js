@@ -1,14 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
-import "./index.css";
 import App from "./App";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "react-dropzone-uploader/dist/styles.css";
 
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
+    <App />,
   document.getElementById("root")
 );

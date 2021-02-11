@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import axios from "axios";
 
 import "./index.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "react-dropzone-uploader/dist/styles.css";
 
 import Home from "./components/Home/Home";
@@ -59,56 +58,64 @@ export default () => {
       .then(() => window.location.reload());
   };
   return (
-    <div>
-      <Navbar userName={userData.fullName} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
-      {loadingData ? 
-            <Spinner
-              style={{ marginLeft: "49%", marginTop: "20%" }}
-              animation="border"
-            /> :
-      <div style={{marginTop: "56px"}}>
-        <Switch>
-          <Route exact path="/">
-            <Home userId={userData._id} isOwner={userData.isOwner}  />
-          </Route>
-          <Route exact path="/vinarne">
-            <Vinarne userData={userData} />
-          </Route>
-          <Route exact path="/vinka">
-            <Vinka userData={userData} />
-          </Route>
-          <Route exact path="/login-page">
-            {isLoggedIn ? <Home userId={userData._id} isOwner={userData.isOwner} /> : <Login />}
-          </Route>
-          <Route exact path="/cart-page">
-            <ShoppingCart userId={userData._id} />
-          </Route>
-          <Route exact path={`/success-payment`}>
-            <SuccessPayment userId={userData._id} />
-          </Route>
-          <Route exact path={`/failed-payment`}>
-            <RejectPayment userId={userData._id} />
-          </Route>
-          <Route exact path={`/cancel-payment`}>
-            <RejectPayment userId={userData._id} />
-          </Route>
-          <Route exact path={`/objednavky`}>
-            <Orders userId={userData._id} isOwner={userData.isOwner} />
-          </Route>
-          <Route exact path={`/akcie`}>
-            <Events isOwner={userData.isOwner} />
-          </Route>
-          <Route exact path={`/sluzby`}>
-            <Services isOwner={userData.isOwner} />
-          </Route>
-          <Route exact path={`/:shopUrl`}>
-            <ShopOnline userId={userData._id} isOwner={userData.isOwner} />
-          </Route>
-          <Route exact path={`/shop/payment`}>
-            <PayGate />
-          </Route>
-        </Switch>
-      </div>}
-    </div>
+    <Router>
+      <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+        crossorigin="anonymous"
+      />
+      <div>
+        <Navbar userName={userData.fullName} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
+        {loadingData ? 
+              <Spinner
+                style={{ marginLeft: "49%", marginTop: "20%" }}
+                animation="border"
+              /> :
+        <div style={{marginTop: "56px"}}>
+          <Switch>
+            <Route exact path="/">
+              <Home userId={userData._id} isOwner={userData.isOwner}  />
+            </Route>
+            <Route exact path="/vinarne">
+              <Vinarne userData={userData} />
+            </Route>
+            <Route exact path="/vinka">
+              <Vinka userData={userData} />
+            </Route>
+            <Route exact path="/login-page">
+              {isLoggedIn ? <Home userId={userData._id} isOwner={userData.isOwner} /> : <Login />}
+            </Route>
+            <Route exact path="/cart-page">
+              <ShoppingCart userId={userData._id} />
+            </Route>
+            <Route exact path={`/success-payment`}>
+              <SuccessPayment userId={userData._id} />
+            </Route>
+                <Route exact path={`/failed-payment`}>
+              <RejectPayment userId={userData._id} />
+            </Route>
+            <Route exact path={`/cancel-payment`}>
+              <RejectPayment userId={userData._id} />
+            </Route>
+            <Route exact path={`/objednavky`}>
+              <Orders userId={userData._id} isOwner={userData.isOwner} />
+            </Route>
+            <Route exact path={`/akcie`}>
+              <Events isOwner={userData.isOwner} />
+            </Route>
+            <Route exact path={`/sluzby`}>
+              <Services isOwner={userData.isOwner} />
+            </Route>
+            <Route exact path={`/:shopUrl`}>
+              <ShopOnline userId={userData._id} isOwner={userData.isOwner} />
+            </Route>
+            <Route exact path={`/shop/payment`}>
+              <PayGate />
+            </Route>
+          </Switch>
+        </div>}
+      </div>    
+    </Router>
   );
 };
