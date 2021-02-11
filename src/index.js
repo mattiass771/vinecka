@@ -169,10 +169,10 @@ app.get("/deleteFile/:shopId", (req, res) => {
 
 // ACCESS APP IN PRODUCTION //
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("geroproject/build"));
+  app.use(express.static(path.resolve(__dirname, "..", "vinecka-client/build")));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client/public", "index.html"));
+    res.sendFile(path.resolve(__dirname, "..", "vinecka-client/build", "index.html"));
   });
 }
 
