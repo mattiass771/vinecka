@@ -5,7 +5,11 @@
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon src/index.js",
-    "client": "cd vinecka-client && npm start"
+    "client": "cd vinecka-client && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd vinecka-client && npm run build",
+    "install-client": "cd vinecka-client && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build"
   },
   "author": "",
   "license": "ISC",
