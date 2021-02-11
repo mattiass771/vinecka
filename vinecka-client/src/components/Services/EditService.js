@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import moment from 'moment'
 
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Col, Row } from 'react-bootstrap'
 
@@ -41,7 +39,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh, serviceData
 
     const deleteFile = (file) => {
         axios
-          .get(`http://localhost:5000/deleteFile/${idFromName}`, {
+          .get(`https://mas-vino.herokuapp.com/deleteFile/${idFromName}`, {
             params: file
           })
           .then(() => 
@@ -51,7 +49,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh, serviceData
     };
 
     const getUploadParams = ({ meta }) => {
-        return { url: `http://localhost:5000/fileUpload/${idFromName}` };
+        return { url: `https://mas-vino.herokuapp.com/fileUpload/${idFromName}` };
     };
 
     const handleChangeStatus = ({ meta, file }, status) => {
@@ -65,7 +63,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh, serviceData
 
     const handleSave = () => {
         console.log(serviceData)
-        axios.post(`http://localhost:5000/services/update-service/${serviceData._id}`, {name, link, description, imageLink})
+        axios.post(`https://mas-vino.herokuapp.com/services/update-service/${serviceData._id}`, {name, link, description, imageLink})
             .then(res => {
                 console.log(res.data)
                 setRefresh(!refresh)

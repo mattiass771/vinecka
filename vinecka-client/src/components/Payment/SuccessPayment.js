@@ -15,12 +15,12 @@ export default ({userId}) => {
 
     useEffect(() => {
         if (orderId.length !== 0) {
-            axios.post(`http://localhost:5000/orders/${orderId}/process-payment/`, {paymentResultCode: result, paymentId})
+            axios.post(`https://mas-vino.herokuapp.com/orders/${orderId}/process-payment/`, {paymentResultCode: result, paymentId})
                 .then(res => console.log(res.data))
                 .catch(err => err && console.log(err))
                 .then(() => {
                     if (userId) {
-                        axios.get(`http://localhost:5000/users/${userId}/cart/clear-cart`)
+                        axios.get(`https://mas-vino.herokuapp.com/users/${userId}/cart/clear-cart`)
                             .then(res => console.log(res.data))
                             .catch(error => error && console.log(error))
                     }

@@ -12,7 +12,7 @@ export default ({userId, isOwner}) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/shop/link/${shopUrl}`)
+        axios.get(`https://mas-vino.herokuapp.com/shop/link/${shopUrl}`)
             .then((res) => res.data ? setShopData(res.data) : setShopData({}))
             .catch((err) => err && console.log(err))
             .then(() => {

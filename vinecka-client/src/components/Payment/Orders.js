@@ -16,7 +16,7 @@ export default ({userId, isOwner}) => {
     // TODO: pridat moznost znovu zaplatit pri rejected order
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/orders`)
+        axios.get(`https://mas-vino.herokuapp.com/orders`)
             .then(res => {
                 const result = res.data
                 const validatedOrdersData = isOwner ? result : result.filter(obj => obj.userId === userId)
@@ -38,7 +38,7 @@ export default ({userId, isOwner}) => {
         expandObj[_id] = oldValue
         setExpandedObj({...expandedObj, ...expandObj})
 
-        axios.put(`http://localhost:5000/orders/${_id}/update-shipped/`, {isShipped: newVal})
+        axios.put(`https://mas-vino.herokuapp.com/orders/${_id}/update-shipped/`, {isShipped: newVal})
             .then(res => console.log(res.data))
             .catch(err => err && console.log(err))
             .then(() => setRefresh(!refresh))

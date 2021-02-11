@@ -31,7 +31,7 @@ export default ({shoppingCart = false}) => {
         </Row>
         <Row className="justify-content-md-center">
           <Col md={6} className="text-center mt-1">
-            <form action={shoppingCart ? 'http://localhost:5000/login?shopping=cart' : 'http://localhost:5000/login'} method="post">
+            <form action={shoppingCart ? 'https://mas-vino.herokuapp.com/login?shopping=cart' : 'https://mas-vino.herokuapp.com/login'} method="post">
               <input
                 className="form-control text-center"
                 type="text"

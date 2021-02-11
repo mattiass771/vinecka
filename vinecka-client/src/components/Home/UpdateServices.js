@@ -30,7 +30,7 @@ export default ({servicesPopup, setServicesPopup, forceRefresh, setForceRefresh,
 
     const deleteFile = (file) => {
         axios
-          .get(`http://localhost:5000/deleteFile/${IMAGE_PREFIX}`, {
+          .get(`https://mas-vino.herokuapp.com/deleteFile/${IMAGE_PREFIX}`, {
             params: file
           })
           .then(() => 
@@ -40,7 +40,7 @@ export default ({servicesPopup, setServicesPopup, forceRefresh, setForceRefresh,
     };
 
     const getUploadParams = ({ meta }) => {
-        return { url: `http://localhost:5000/fileUpload/${IMAGE_PREFIX}` };
+        return { url: `https://mas-vino.herokuapp.com/fileUpload/${IMAGE_PREFIX}` };
     };
 
     const handleChangeStatus = ({ meta, file }, status) => {
@@ -53,7 +53,7 @@ export default ({servicesPopup, setServicesPopup, forceRefresh, setForceRefresh,
     };
 
     const handleSave = () => {
-        axios.put(`http://localhost:5000/home/services-description`, { descriptionServices: description, imageLinkServices: imageLink })
+        axios.put(`https://mas-vino.herokuapp.com/home/services-description`, { descriptionServices: description, imageLinkServices: imageLink })
             .then(res => {
                 console.log(res.data)
                 setForceRefresh(!forceRefresh)

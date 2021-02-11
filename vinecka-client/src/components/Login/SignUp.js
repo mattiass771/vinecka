@@ -32,7 +32,7 @@ export default ({shoppingCart = false, handleLogin}) => {
     const address = `${street},${postal.toString()},${city}`
     console.log(typeof phone, phone, typeof address, address )
     axios
-      .post(`http://localhost:5000/users/add-user`, {
+      .post(`https://mas-vino.herokuapp.com/users/add-user`, {
         userName: email,
         password: passwordSecond,
         fullName: fullName,
@@ -59,7 +59,7 @@ export default ({shoppingCart = false, handleLogin}) => {
 
   const checkIfEmailInDatabase = () => {
     axios
-      .get(`http://localhost:5000/users/email/${email}`)
+      .get(`https://mas-vino.herokuapp.com/users/email/${email}`)
       .then((res) => setEmailExists(res.data))
       .catch((err) => err && console.log(`Error: ${err}`));
   };

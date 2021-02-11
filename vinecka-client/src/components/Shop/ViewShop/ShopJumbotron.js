@@ -49,12 +49,12 @@ export default ({ shopData, isOwner }) => {
 
   // specify upload params and url for your files
   const getUploadParams = ({ meta }) => {
-    return { url: `http://localhost:5000/fileUpload/${shopData._id}` };
+    return { url: `https://mas-vino.herokuapp.com/fileUpload/${shopData._id}` };
   };
 
   const deleteFile = (file) => {
     axios
-      .get(`http://localhost:5000/deleteFile/${shopData._id}`, {
+      .get(`https://mas-vino.herokuapp.com/deleteFile/${shopData._id}`, {
         params: file
       })
       .then(() => 
@@ -81,7 +81,7 @@ export default ({ shopData, isOwner }) => {
     if (imageLink) {
       axios
       .put(
-        `http://localhost:5000/shop/${shopData._id}/update-shop/imageLink/${imageLink}`
+        `https://mas-vino.herokuapp.com/shop/${shopData._id}/update-shop/imageLink/${imageLink}`
       )
       .then((res) => {
         return;
@@ -94,7 +94,7 @@ export default ({ shopData, isOwner }) => {
     if (overviewImage) {
       axios
       .put(
-        `http://localhost:5000/shop/${shopData._id}/update-shop/overviewImage/${overviewImage}`
+        `https://mas-vino.herokuapp.com/shop/${shopData._id}/update-shop/overviewImage/${overviewImage}`
       )
       .then((res) => {
         return;
@@ -105,7 +105,7 @@ export default ({ shopData, isOwner }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/shop/link/${currentUrl}`)
+      .get(`https://mas-vino.herokuapp.com/shop/link/${currentUrl}`)
       .then((res) => {
         if (res.data && currentUrl !== newUrl) setIsUrlAvailible(false)
         else setIsUrlAvailible(true)
@@ -123,7 +123,7 @@ export default ({ shopData, isOwner }) => {
     if (isUrlAvailible) {
       axios
       .put(
-        `http://localhost:5000/shop/${shopData._id}/update-shop/url/${currentUrl}`
+        `https://mas-vino.herokuapp.com/shop/${shopData._id}/update-shop/url/${currentUrl}`
       )
       .then((res) => {
         return setNewUrl(currentUrl);
@@ -137,7 +137,7 @@ export default ({ shopData, isOwner }) => {
     if (shopName) {
       axios
       .put(
-        `http://localhost:5000/shop/${shopData._id}/update-shop/shopName/${shopName}`
+        `https://mas-vino.herokuapp.com/shop/${shopData._id}/update-shop/shopName/${shopName}`
       )
       .then((res) => {
         return;
@@ -150,7 +150,7 @@ export default ({ shopData, isOwner }) => {
     if (description) {
       axios
       .put(
-        `http://localhost:5000/shop/${shopData._id}/update-shop/description/${description}`
+        `https://mas-vino.herokuapp.com/shop/${shopData._id}/update-shop/description/${description}`
       )
       .then((res) => {
         return;
@@ -163,7 +163,7 @@ export default ({ shopData, isOwner }) => {
     if (owner) {
       axios
       .put(
-        `http://localhost:5000/shop/${shopData._id}/update-shop/owner/${owner}`
+        `https://mas-vino.herokuapp.com/shop/${shopData._id}/update-shop/owner/${owner}`
       )
       .then((res) => {
         return;

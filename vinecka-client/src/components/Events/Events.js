@@ -36,7 +36,7 @@ export default ({isOwner}) => {
     };
 
     const deleteCard = (eventId) => {
-        axios.delete(`http://localhost:5000/events/${eventId}/`)
+        axios.delete(`https://mas-vino.herokuapp.com/events/${eventId}/`)
             .then(() => setRefresh(!refresh))
             .catch((err) => err && console.log(`Error ${err}`));
     };
@@ -46,7 +46,7 @@ export default ({isOwner}) => {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/events/`)
+        axios.get(`https://mas-vino.herokuapp.com/events/`)
             .then(res => {
                 const events = res.data
                 const result = sortEventsData(events)

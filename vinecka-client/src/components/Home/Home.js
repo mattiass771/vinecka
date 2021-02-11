@@ -47,7 +47,7 @@ export default ({userId, isOwner}) => {
 
   useEffect(() => {
     setLoading(true)
-    axios.get(`http://localhost:5000/home/`)
+    axios.get(`https://mas-vino.herokuapp.com/home/`)
       .then(res => {
         const featured = res.data.featuredWines
         const events = [res.data.descriptionEvents, res.data.imageLinkEvents]
@@ -60,7 +60,7 @@ export default ({userId, isOwner}) => {
         setTempId(featured)
         setFeaturedWines([])
         featured.map(item => {
-          axios.get(`http://localhost:5000/shop/find-item-by-id/${item}`)
+          axios.get(`https://mas-vino.herokuapp.com/shop/find-item-by-id/${item}`)
             .then(res => {
               const response = res.data
               const newObj = {...response[0], shopId: response[1]}
@@ -70,7 +70,7 @@ export default ({userId, isOwner}) => {
         })
       })
       .catch(err => err && console.log('Error while fetching featured wines, ', err))
-    axios.get(`http://localhost:5000/shop/`)
+    axios.get(`https://mas-vino.herokuapp.com/shop/`)
       .then(res => setCarouselData(res.data))
       .catch(err => err && console.log('Error while fetching shops for carousel, ', err))
       .then(() => setLoading(false))  
@@ -191,7 +191,7 @@ export default ({userId, isOwner}) => {
     for (let i = 0; i<featuredIds.length; i++) {
       if (featuredIds[i] !== tempId[i]) {
         setFeaturedIds(tempId)
-        axios.post(`http://localhost:5000/home/featured-wines`, {featuredWines: tempId})
+        axios.post(`https://mas-vino.herokuapp.com/home/featured-wines`, {featuredWines: tempId})
           .then(res => window.location.reload())
           .catch(err => err && console.log(err))
         break;
@@ -202,7 +202,7 @@ export default ({userId, isOwner}) => {
   const handleFeaturedIds = (e, i) => {
     const newValue = tempId[i]
     let newIdAvail = [...isIdAvail]
-    axios.get(`http://localhost:5000/shop/find-item-by-id/${newValue}`)
+    axios.get(`https://mas-vino.herokuapp.com/shop/find-item-by-id/${newValue}`)
       .then(res => {
         if (res.data[0]) {
           newIdAvail[i] = ''

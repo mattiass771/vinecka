@@ -20,7 +20,7 @@ export default ({ userData }) => {
   const handleOpenShop = () => {
     console.log(owner, shopName, ownerId, description, shortid.generate())
     axios
-      .post(`http://localhost:5000/shop/add`, {
+      .post(`https://mas-vino.herokuapp.com/shop/add`, {
         shopName,
         owner,
         ownerId,

@@ -35,13 +35,13 @@ export default ({isOwner}) => {
     };
 
     const deleteCard = (serviceId) => {
-        axios.delete(`http://localhost:5000/services/${serviceId}/`)
+        axios.delete(`https://mas-vino.herokuapp.com/services/${serviceId}/`)
             .then(() => setRefresh(!refresh))
             .catch((err) => err && console.log(`Error ${err}`));
     };
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/services/`)
+        axios.get(`https://mas-vino.herokuapp.com/services/`)
             .then(res => {
                 const result = res.data
                 setServicesData(result)

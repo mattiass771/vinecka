@@ -47,7 +47,7 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
       const itemId = e.currentTarget.parentNode.id;
       axios
           .post(
-          `http://localhost:5000/shop/${shopId}/delete-item/${itemId}`,
+          `https://mas-vino.herokuapp.com/shop/${shopId}/delete-item/${itemId}`,
           {}
           )
           .then(() => setShouldReload(!shouldReload))
@@ -99,7 +99,7 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
         const passCount = count[_id] || 1
         if (userId) {
           axios
-            .post(`http://localhost:5000/users/${userId}/cart/add-cart-item/${passShopId}/${itemId}`, {
+            .post(`https://mas-vino.herokuapp.com/users/${userId}/cart/add-cart-item/${passShopId}/${itemId}`, {
             shopId: passShopId, itemId, count: passCount
             })
             .then(() => setShowAddedPopup(true))

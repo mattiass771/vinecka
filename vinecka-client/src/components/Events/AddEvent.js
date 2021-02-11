@@ -35,7 +35,7 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh}) => {
 
     const deleteFile = (file) => {
         axios
-          .get(`http://localhost:5000/deleteFile/${idFromName}`, {
+          .get(`https://mas-vino.herokuapp.com/deleteFile/${idFromName}`, {
             params: file
           })
           .then(() => 
@@ -45,7 +45,7 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh}) => {
     };
 
     const getUploadParams = ({ meta }) => {
-        return { url: `http://localhost:5000/fileUpload/${idFromName}` };
+        return { url: `https://mas-vino.herokuapp.com/fileUpload/${idFromName}` };
     };
 
     const handleChangeStatus = ({ meta, file }, status) => {
@@ -62,7 +62,7 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh}) => {
     },[startDate])
 
     const handleSave = () => {
-        axios.post(`http://localhost:5000/events/add`, {name, link, description, imageLink, where, when})
+        axios.post(`https://mas-vino.herokuapp.com/events/add`, {name, link, description, imageLink, where, when})
             .then(res => {
                 setRefresh(!refresh)
                 setEventPopup(false)
