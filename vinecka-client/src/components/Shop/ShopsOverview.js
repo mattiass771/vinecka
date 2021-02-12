@@ -36,7 +36,7 @@ export default ({userData, shopData}) => {
                 setIsHovered({...isHovered, ...hoverObj})
             }
             return (
-                <Col className="mt-2 mb-2" md={4} key={_id} >
+                <Col className="mt-2 mb-2" style={maxHeight: "310px"} md={4} key={_id} >
                     <Link to={`/${url}`}>
                         <Card className="h-100" onMouseEnter={() => handleMouseOver()} onMouseLeave={() => handleMouseLeave()} style={{ textAlign:"center", color: "whitesmoke" }} id={_id} >
                             <Card.Img className="h-100" src={getImage(overviewImage) ? getImage(overviewImage) : `https://miro.medium.com/max/295/1*i5iqn7xB-l0kLwsJJBYEWQ.jpeg`} />
