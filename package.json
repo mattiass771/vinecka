@@ -2,10 +2,10 @@
   "name": "shop-app-project",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon src/index.js",
-    "start": "node src/index.js",
+    "start:dev": "nodemon index.js",
+    "start": "node index.js",
     "client": "cd vinecka-client && npm start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cd vinecka-client && npm run build",

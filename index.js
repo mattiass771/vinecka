@@ -138,7 +138,6 @@ app.post("/fileUpload/:shopId", (req, res) => {
 
   const dirPath = path.join(
     __dirname,
-    "..",
     "vinecka-client/public/uploads",
     req.params.shopId + "-" + file.name.replace(/_/g,'-')
   );
@@ -157,7 +156,6 @@ app.get("/deleteFile/:shopId", (req, res) => {
   const file = req.query.name;
   const dirPath = path.join(
     __dirname,
-    "..",
     "vinecka-client/public/uploads",
     req.params.shopId + "-" + file
   );
@@ -172,10 +170,10 @@ app.get("/deleteFile/:shopId", (req, res) => {
 
 // ACCESS APP IN PRODUCTION //
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.resolve(__dirname, "..", "vinecka-client/build")));
+  app.use(express.static(path.resolve(__dirname, "vinecka-client/build")));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "..", "vinecka-client/build", "index.html"));
+    res.sendFile(path.resolve(__dirname, "vinecka-client/build", "index.html"));
   });
 }
 
