@@ -153,7 +153,11 @@ app.post("/fileUpload/:shopId", (req, res) => {
     return res.status(400).json({ msg: "No file uploaded" });
   }
 
+  console.log('files,', req.files[0])
+
   const file = req.files.file;
+
+  console.log('file, ',file)
 
   const imageName = req.params.shopId + "-" + file.name.replace(/_/g,'-')
 
@@ -161,7 +165,7 @@ app.post("/fileUpload/:shopId", (req, res) => {
 
   const data = {
     Key: imageName,
-    Body: file,
+    Body: file.buffer,
     ContentType: 'image/jpeg',
     ACL: 'public-read'
   }
