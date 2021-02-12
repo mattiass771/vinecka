@@ -141,7 +141,7 @@ app.post("/fileUpload/:shopId", (req, res) => {
       console.error("moving file error " + err);
       return res.status(500).send(err);
     }
-    console.log()
+    console.log('filename: ', file.name, 'file: ', file, 'path: ', `${__dirname}/vinecka-client/public/uploads/${req.params.shopId + "-" + file.name.replace(/_/g,'-')}`)
     res.json({ fileName: file.name });
   });
 });
