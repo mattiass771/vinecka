@@ -40,7 +40,9 @@ export default ({ shopData, isOwner }) => {
 
   const getImage = (image) => {
     try {
-      const img = require(`../../../../public/uploads/${image.replace(/_/g, '-')}`);
+      let img;
+      axios.get(`https://vineckabucket.s3.eu-central-1.amazonaws.com/${image.replace(/_/g, '-')}`)
+        .then(res => img = res.data).catch(err => img = null)
       return img;
     } catch {
       return null;

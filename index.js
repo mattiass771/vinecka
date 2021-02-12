@@ -14,18 +14,11 @@ const AWS = require('aws-sdk')
 
 require("dotenv").config();
 
-// CONVERT IMAGE TO BUFFER
-const getImgBuffer = (base64) => {
-  const base64str = base64.replace(/^data:image\/\w+;base64,/, '')
-  return Buffer.from(base64str, 'base64')
-}
-
 // AWS Config
-const { ACCESS_KEY_ID, SECRET_ACCESS_KEY } = process.env
 
 AWS.config.update({
-  accessKeyId: 'AKIAIYNLYBPFVKVU2JFQ',
-  secretAccessKey: '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',
+  accessKeyId: process.env.ACCESS_KEY_ID,
+  secretAccessKey: process.env.SECRET_ACCESS_KEY,
   region: 'eu-central-1'
 })
 
@@ -153,15 +146,9 @@ app.post("/fileUpload/:shopId", (req, res) => {
     return res.status(400).json({ msg: "No file uploaded" });
   }
 
-  console.log('files,', req.files[0])
-
   const file = req.files.file;
 
-  console.log('file, ',file)
-
   const imageName = req.params.shopId + "-" + file.name.replace(/_/g,'-')
-
-  const uploadPath = path.resolve(__dirname, 'vinecka-client/public/uploads', imageName)
 
   const data = {
     Key: imageName,
@@ -174,34 +161,27 @@ app.post("/fileUpload/:shopId", (req, res) => {
     if (err) { 
       console.log(err);
       console.log('Error uploading data: ', data); 
+      return res.json({ msg: "Error uploading data." });
     } else {
       console.log('successfully uploaded the image!');
+      return res.status(200).json({ msg: "Data uploaded successfuly." }); 
     }
   });
-
-  // file.mv(uploadPath, (err) => {
-  //   if (err) {
-  //     console.error("moving file error " + err);
-  //     return res.status(500).send(err);
-  //   }
-  //   res.json({ fileName: file.name });
-  // });
 });
 
 app.get("/deleteFile/:shopId", (req, res) => {
   const file = req.query.name;
-  const dirPath = path.join(
-    __dirname,
-    "vinecka-client/public/uploads",
-    req.params.shopId + "-" + file
-  );
-  fs.unlink(dirPath, () => {
-    res.send({
-      status: "200",
-      responseType: "string",
-      response: "success"
-    });
-  });
+  const params = { Key: file }
+  s3Bucket.deleteObject(params, function(err, data) {
+    if (err) {
+      console.log(err, err.stack);
+      return res.json({ msg: "Error deleting data." }); 
+    }
+    else     {
+      console.log('Image ', file, 'deleted from aws s3.');    
+      return res.status(200).json({ msg: `${file} deleted successfuly.` }); 
+    }            
+});
 });
 
 // ACCESS APP IN PRODUCTION //
