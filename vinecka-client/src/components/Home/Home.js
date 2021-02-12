@@ -87,57 +87,48 @@ export default ({userId, isOwner}) => {
 
   const ShowEvents = () => {
     return (
-      <Row className="mt-4 mb-4">
-        <Col className="mt-4 mb-4">
-          {eventsData[0]} <br/>
-          <Link to="/akcie"><Button variant="dark">Zoznam akcii</Button></Link>
-        </Col>
-        <Col className="mt-4 mb-4">
-          {isOwner &&
-            <Button
-              onClick={() => setEventsPopup(true)}
-              style={{
-                width: "40px",
-                height: "40px",
-                marginBottom: "-40px",
-                zIndex: "+1",
-                position:'absolute'
-              }}
-              variant="outline-warning"
-            >
-              <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
-            </Button>}
-          <img className="w-100" src={getImage(eventsData[1]) ? getImage(eventsData[1]) : eventsData[1]} /> 
-        </Col>
-      </Row>
+      <Col md={6} className="mt-4 mb-4">
+        {isOwner &&
+          <Button
+            onClick={() => setEventsPopup(true)}
+            style={{
+              width: "40px",
+              height: "40px",
+              marginBottom: "-40px",
+              zIndex: "+1",
+              position:'absolute'
+            }}
+            variant="outline-warning"
+          >
+            <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
+          </Button>
+          }
+          <Link to="/akcie"><img className="w-100" src={getImage(eventsData[1]) ? getImage(eventsData[1]) : eventsData[1]} /> </Link>
+      </Col>
     )
   }
 
   const ShowServices = () => {
     return (
-      <Row className="mt-4 mb-4 pt-4 pb-4">
-        <Col className="mt-4 mb-4">
-          {isOwner &&
-            <Button
-              onClick={() => setServicesPopup(true)}
-              style={{
-                width: "40px",
-                height: "40px",
-                marginBottom: "-40px",
-                zIndex: "+1",
-                position:'absolute'
-              }}
-              variant="outline-warning"
-            >
-              <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
-            </Button>}
-          <img className="w-100" src={getImage(servicesData[1]) ? getImage(servicesData[1]) : servicesData[1]} /> 
-        </Col>
-        <Col className="mt-4 mb-4">
-          {servicesData[0]} <br/>
-          <Link to="/sluzby"><Button variant="dark">Zoznam sluzieb</Button></Link>
-        </Col>
-      </Row>
+      <Col md={6} className="mt-4 mb-4">
+        {isOwner &&
+          <Button
+            onClick={() => setServicesPopup(true)}
+            style={{
+              width: "40px",
+              height: "40px",
+              marginBottom: "-40px",
+              zIndex: "+1",
+              position:'absolute'
+            }}
+            variant="outline-warning"
+          >
+            <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
+          </Button>}
+          <Link to="/sluzby">
+            <img className="w-100" src={getImage(servicesData[1]) ? getImage(servicesData[1]) : servicesData[1]} /> 
+          </Link>
+      </Col>
     )
   }
 
@@ -285,15 +276,13 @@ export default ({userId, isOwner}) => {
       </div>
       <div>
         <Container>
+        <Row className="mt-4 mb-4">
           <ShowEvents />
+          <ShowServices />
+        </Row>
         </Container>
       </div>
       <div style={{background: 'rgba(52,58,64, 0.2)'}}>
-        <Container>
-          <ShowServices />
-        </Container>
-      </div>
-      <div>
         <Container>
           <Row className="text-center pt-4 pb-4 mb-4">
             <Col>

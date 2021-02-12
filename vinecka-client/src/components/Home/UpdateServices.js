@@ -65,21 +65,6 @@ export default ({servicesPopup, setServicesPopup, forceRefresh, setForceRefresh,
     return (
         <Modal show={servicesPopup} onHide={() => setServicesPopup(false)}>
             <Modal.Body className="text-center">
-                <Row className="justify-content-center">
-                    <Col className="form-group text-center mt-1">
-                    <label htmlFor="description">Description:</label>
-                    <textarea
-                        value={description}
-                        className="form-control text-center"
-                        name="description"
-                        type="text"
-                        style={{ resize: "none", minHeight: "400px" }}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="povinne"
-                    />
-                    </Col>
-                </Row>
-                <br />
                 <SlideDown className={"my-dropdown-slidedown"}>
                 {
                 imageLink ? 
