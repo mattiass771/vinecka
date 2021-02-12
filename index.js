@@ -9,8 +9,27 @@ const passport = require("passport");
 const Strategy = require("passport-local").Strategy;
 const fileUpload = require("express-fileupload");
 const fs = require("fs");
+const { Buffer } = require('buffer')
+const AWS = require('aws-sdk')
 
 require("dotenv").config();
+
+// CONVERT IMAGE TO BUFFER
+const getImgBuffer = (base64) => {
+  const base64str = base64.replace(/^data:image\/\w+;base64,/, '')
+  return Buffer.from(base64str, 'base64')
+}
+
+// AWS Config
+const { ACCESS_KEY_ID, SECRET_ACCESS_KEY } = process.env
+
+AWS.config.update({
+  accessKeyId: ACCESS_KEY_ID,
+  secretAccessKey: SECRET_ACCESS_KEY,
+  region: 'eu-central-1'
+})
+
+const s3Bucket = new AWS.S3({ params: { Bucket: 'vineckabucket' }})
 
 // CREATE SESSION //
 
@@ -127,10 +146,7 @@ app.get("/get-user-data", (req, res) => {
 
 // FILE UPLOADER//
 //Upload Endpoint
-app.use(fileUpload({
-  useTempFiles : true,
-  tempFileDir : '/tmp/'
-}));
+app.use(fileUpload());
 
 app.post("/fileUpload/:shopId", (req, res) => {
   if (req.files === null) {
@@ -145,13 +161,31 @@ app.post("/fileUpload/:shopId", (req, res) => {
 
   console.log('uploadPath: ',uploadPath)
 
-  file.mv(uploadPath, (err) => {
-    if (err) {
-      console.error("moving file error " + err);
-      return res.status(500).send(err);
+  const buf = getImgBuffer(file)
+
+  const data = {
+    Key: imageName,
+    Body: buf,
+    ContentEncoding: 'base64',
+    ContentType: 'image/jpeg'
+  }
+
+  s3Bucket.putObject(data, (err, data) => {
+    if (err) { 
+      console.log(err);
+      console.log('Error uploading data: ', data); 
+    } else {
+      console.log('successfully uploaded the image!');
     }
-    res.json({ fileName: file.name });
   });
+
+  // file.mv(uploadPath, (err) => {
+  //   if (err) {
+  //     console.error("moving file error " + err);
+  //     return res.status(500).send(err);
+  //   }
+  //   res.json({ fileName: file.name });
+  // });
 });
 
 app.get("/deleteFile/:shopId", (req, res) => {

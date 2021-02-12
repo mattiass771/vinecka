@@ -15,8 +15,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.842.0",
     "body-parser": "^1.19.0",
     "bootstrap": "4.5.3",
+    "buffer": "^6.0.3",
     "cookie-session": "1.4.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
