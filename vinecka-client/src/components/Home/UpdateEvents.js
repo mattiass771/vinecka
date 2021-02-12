@@ -21,7 +21,7 @@ export default ({eventsPopup, setEventsPopup, forceRefresh, setForceRefresh, eve
     const getImage = (image) => {
         try {
             console.log(image)
-          const img = require(`../../../../src/uploads/${image.replace(/_/g, '-')}`);
+          const img = require(`../../../public/uploads/${image.replace(/_/g, '-')}`);
           return img;
         } catch {
           return null;

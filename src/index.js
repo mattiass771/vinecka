@@ -138,9 +138,11 @@ app.post("/fileUpload/:shopId", (req, res) => {
 
   const dirPath = path.join(
     __dirname,
-    "uploads",
+    "..",
+    "vinecka-client/public/uploads",
     req.params.shopId + "-" + file.name.replace(/_/g,'-')
   );
+  console.log(dirPath)
   file.mv(dirPath, (err) => {
     if (err) {
       console.error("moving file error " + err);
@@ -155,7 +157,8 @@ app.get("/deleteFile/:shopId", (req, res) => {
   const file = req.query.name;
   const dirPath = path.join(
     __dirname,
-    "uploads",
+    "..",
+    "vinecka-client/public/uploads",
     req.params.shopId + "-" + file
   );
   fs.unlink(dirPath, () => {

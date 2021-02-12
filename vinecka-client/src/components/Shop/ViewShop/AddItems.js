@@ -38,7 +38,7 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
 
   const getImage = (image) => {
     try {
-      const img = require(`../../../../../src/uploads/${image.replace(/_/g, '-')}`);
+      const img = require(`../../../../public/uploads/${image.replace(/_/g, '-')}`);
       return img;
     } catch {
       return null;
