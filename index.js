@@ -159,10 +159,6 @@ app.post("/fileUpload/:shopId", (req, res) => {
 
   const uploadPath = path.resolve(__dirname, 'vinecka-client/public/uploads', imageName)
 
-  console.log('uploadPath: ',uploadPath)
-
-  const buf = getImgBuffer(file)
-
   const data = {
     Key: imageName,
     Body: file,
