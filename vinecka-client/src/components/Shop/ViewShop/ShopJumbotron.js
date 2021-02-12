@@ -13,6 +13,7 @@ import Alert from "react-bootstrap/Alert"
 import Dropzone from "react-dropzone-uploader";
 
 import { BsUpload } from "react-icons/bs";
+import { MdDelete } from "react-icons/md";
 
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
@@ -75,6 +76,15 @@ export default ({ shopData, isOwner }) => {
         setOverviewImage(`${shopData._id}-${meta.name.replace(/_/g,'-')}`);
       }
     }
+  };
+
+  const deleteCard = (e) => {
+    axios
+        .delete(
+        `https://mas-vino.herokuapp.com/shop/${shopData._id}`
+        )
+        .then(() => history.push(`/vinarne`))
+        .catch((err) => err && console.log(`Error ${err}`));
   };
 
   useEffect(() => {
@@ -191,12 +201,24 @@ export default ({ shopData, isOwner }) => {
             <h2>{shopName}</h2>
             <p>{description}</p>
             <p>{owner}</p>
-            <p><a className="link-no-deco" href={`https://mas-vino.herokuapp.com/${currentUrl}`}>www.vimko.sk/{currentUrl}</a></p>
+            <p><a className="link-no-deco" href={`https://mas-vino.herokuapp.com/${currentUrl}`}>https://mas-vino.herokuapp.com/{currentUrl}</a></p>
           </Col>
         </Row>
         :
         <>
           <Row className="justify-content-center">
+            <Button
+              onClick={(e) => deleteCard(e)}
+              style={{
+                width: "40px",
+                height: "40px",
+                marginBottom: "-40px",
+                zIndex: "+5"
+              }}
+              variant="outline-danger"
+            >
+              <MdDelete style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
+            </Button>
             <Col xs={8}>
               <input 
                 className={'form-control text-center'}
