@@ -29,7 +29,7 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh, eventData}) => 
     const getImage = (image) => {
         try {
             console.log(image)
-          const img = require(`../../../public/uploads/${image.replace(/_/g, '-')}`);
+          const img = `https://vineckabucket.s3.eu-central-1.amazonaws.com/${image.replace(/_/g, '-')}`
           return img;
         } catch {
           return null;

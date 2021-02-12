@@ -38,9 +38,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
 
   const getImage = (image) => {
     try {
-      let img;
-      axios.get(`https://vineckabucket.s3.eu-central-1.amazonaws.com/${image.replace(/_/g, '-')}`)
-        .then(res => img = res.data).catch(err => img = null)
+      const img = `https://vineckabucket.s3.eu-central-1.amazonaws.com/${image.replace(/_/g, '-')}`
       return img;
     } catch {
       return null;
