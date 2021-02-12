@@ -24,8 +24,8 @@ const getImgBuffer = (base64) => {
 const { ACCESS_KEY_ID, SECRET_ACCESS_KEY } = process.env
 
 AWS.config.update({
-  accessKeyId: ACCESS_KEY_ID,
-  secretAccessKey: SECRET_ACCESS_KEY,
+  accessKeyId: 'AKIAIYNLYBPFVKVU2JFQ',
+  secretAccessKey: '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',
   region: 'eu-central-1'
 })
 
