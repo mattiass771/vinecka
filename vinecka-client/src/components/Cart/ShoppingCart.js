@@ -34,29 +34,31 @@ export default ({userId}) => {
         for (let cartItem of cartItems) {
             axios.get(`https://mas-vino.herokuapp.com/shop/${cartItem.shopId}`)
                 .then((res) => {
-                    const { shopName, owner } = res.data
-                    const itemsArr = res.data.shopItems
-                    const { count, itemId } = cartItem
-                    const findItem = itemsArr.find(el => el._id === cartItem.itemId)
-                    if (findItem === undefined) {
-                        axios.post(`https://mas-vino.herokuapp.com/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`)
-                            .then((res) => console.log(res))
-                            .catch(err => err && console.log('could not delete item', err))
-                    } else {
-                        const { itemName, price, imageLink } = findItem
-                        const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
-                        if (index >= 0) {
-                            const prevItems = sortShop[index].itemData
-                            const isInCart = prevItems.findIndex(el => el.itemId === itemId)
-                            if (isInCart !== -1) {
-                                const prevCount = sortShop[index].itemData[isInCart].count
-                                sortShop[index].itemData[isInCart].count = Number(count) + Number(prevCount)
-                            } else {
-                                sortShop[index].itemData = [...prevItems, {itemId, itemName, price, imageLink, count}]
-                            }
+                    if (res.data) {
+                        const { shopName, owner } = res.data
+                        const itemsArr = res.data.shopItems
+                        const { count, itemId } = cartItem
+                        const findItem = itemsArr.find(el => el._id === cartItem.itemId)
+                        if (findItem === undefined) {
+                            axios.post(`https://mas-vino.herokuapp.com/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`)
+                                .then((res) => console.log(res))
+                                .catch(err => err && console.log('could not delete item', err))
                         } else {
-                            const newShopId = cartItem.shopId
-                            sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemId, itemName, price, imageLink, count}]}]
+                            const { itemName, price, imageLink } = findItem
+                            const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
+                            if (index >= 0) {
+                                const prevItems = sortShop[index].itemData
+                                const isInCart = prevItems.findIndex(el => el.itemId === itemId)
+                                if (isInCart !== -1) {
+                                    const prevCount = sortShop[index].itemData[isInCart].count
+                                    sortShop[index].itemData[isInCart].count = Number(count) + Number(prevCount)
+                                } else {
+                                    sortShop[index].itemData = [...prevItems, {itemId, itemName, price, imageLink, count}]
+                                }
+                            } else {
+                                const newShopId = cartItem.shopId
+                                sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemId, itemName, price, imageLink, count}]}]
+                            }
                         }
                     }
                 })
