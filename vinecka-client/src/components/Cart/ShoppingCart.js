@@ -34,7 +34,7 @@ export default ({userId}) => {
         for (let cartItem of cartItems) {
             axios.get(`https://mas-vino.herokuapp.com/shop/${cartItem.shopId}`)
                 .then((res) => {
-                    if (res.data) {
+                    if (res.data && res.data.shopName) {
                         const { shopName, owner } = res.data
                         const itemsArr = res.data.shopItems
                         const { count, itemId } = cartItem
