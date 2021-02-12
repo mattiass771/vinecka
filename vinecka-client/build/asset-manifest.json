@@ -1,42 +1,25 @@
 {
   "files": {
     "main.css": "/static/css/main.8dd39de3.chunk.css",
-    "main.js": "/static/js/main.4fb20596.chunk.js",
-    "main.js.map": "/static/js/main.4fb20596.chunk.js.map",
+    "main.js": "/static/js/main.9c0afcbd.chunk.js",
+    "main.js.map": "/static/js/main.9c0afcbd.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.0227d7fa.js",
     "runtime-main.js.map": "/static/js/runtime-main.0227d7fa.js.map",
     "static/css/2.08959c15.chunk.css": "/static/css/2.08959c15.chunk.css",
-    "static/js/2.c70e50d6.chunk.js": "/static/js/2.c70e50d6.chunk.js",
-    "static/js/2.c70e50d6.chunk.js.map": "/static/js/2.c70e50d6.chunk.js.map",
+    "static/js/2.9b9035f3.chunk.js": "/static/js/2.9b9035f3.chunk.js",
+    "static/js/2.9b9035f3.chunk.js.map": "/static/js/2.9b9035f3.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.cc0ed4b1c6c55a55a0bb85bc6c01955d.js": "/precache-manifest.cc0ed4b1c6c55a55a0bb85bc6c01955d.js",
+    "precache-manifest.7695c79956bcc72998f324d0ae249e5a.js": "/precache-manifest.7695c79956bcc72998f324d0ae249e5a.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.08959c15.chunk.css.map": "/static/css/2.08959c15.chunk.css.map",
     "static/css/main.8dd39de3.chunk.css.map": "/static/css/main.8dd39de3.chunk.css.map",
-    "static/js/2.c70e50d6.chunk.js.LICENSE.txt": "/static/js/2.c70e50d6.chunk.js.LICENSE.txt",
-    "static/media/6014651360620a02d885ca30-unnamed.jpg": "/static/media/6014651360620a02d885ca30-unnamed.3f91fec2.jpg",
-    "static/media/60150cabc76e990c50481bec-Vina-Ane-Centenaria-600.png": "/static/media/60150cabc76e990c50481bec-Vina-Ane-Centenaria-600.6a4628f6.png",
-    "static/media/60150cabc76e990c50481bec-blurred-pastel-bokeh-lights-background-89245-17.jpg": "/static/media/60150cabc76e990c50481bec-blurred-pastel-bokeh-lights-background-89245-17.fbf6a8a1.jpg",
-    "static/media/60150cabc76e990c50481bec-icone-st-joseph.jpg": "/static/media/60150cabc76e990c50481bec-icone-st-joseph.88ae7aad.jpg",
-    "static/media/60150cabc76e990c50481bec-objednavka.JPG": "/static/media/60150cabc76e990c50481bec-objednavka.7f9a0a02.JPG",
-    "static/media/60150cabc76e990c50481bec-weicher-pastell-und-gelb-der-abstrakten-unschaerfelichtsteigung-rosa-fuer-tapetenhintergrund-7636-1347.jpg": "/static/media/60150cabc76e990c50481bec-weicher-pastell-und-gelb-der-abstrakten-unschaerfelichtsteigung-rosa-fuer-tapetenhintergrund-7636-1347.af63822b.jpg",
-    "static/media/601825a222ae9d2e6002e307-weicher-pastell-und-gelb-der-abstrakten-unschaerfelichtsteigung-rosa-fuer-tapetenhintergrund-7636-1347.jpg": "/static/media/601825a222ae9d2e6002e307-weicher-pastell-und-gelb-der-abstrakten-unschaerfelichtsteigung-rosa-fuer-tapetenhintergrund-7636-1347.af63822b.jpg",
-    "static/media/a-IMG-5218.jpg": "/static/media/a-IMG-5218.ac4542c2.jpg",
-    "static/media/ahoj-udalost-svatyjozef.png": "/static/media/ahoj-udalost-svatyjozef.f7a9ac09.png",
-    "static/media/homescreen-event-image-playa-del-carmen-fishingzone-82.png": "/static/media/homescreen-event-image-playa-del-carmen-fishingzone-82.96966ca1.png",
-    "static/media/homescreen-service-image-playa-del-carmen-fishingzone-82.png": "/static/media/homescreen-service-image-playa-del-carmen-fishingzone-82.96966ca1.png",
-    "static/media/silvia-gulačová-12-122485-inspirational-clip-art-wine-spilled-wine-clipart-clipart-wine-png.png": "/static/media/silvia-gulačová-12-122485-inspirational-clip-art-wine-spilled-wine-clipart-clipart-wine-png.117f848b.png",
-    "static/media/silvia-gulačová-IMG-5218.jpg": "/static/media/silvia-gulačová-IMG-5218.ac4542c2.jpg",
-    "static/media/silvia-gulačová-aoe2.PNG": "/static/media/silvia-gulačová-aoe2.a081637f.PNG",
-    "static/media/silvia-gulačová-playa-del-carmen-fishingzone-82.png": "/static/media/silvia-gulačová-playa-del-carmen-fishingzone-82.96966ca1.png",
-    "static/media/winter-bootcamp--2019-12-122485-inspirational-clip-art-wine-spilled-wine-clipart-clipart-wine-png.png": "/static/media/winter-bootcamp--2019-12-122485-inspirational-clip-art-wine-spilled-wine-clipart-clipart-wine-png.117f848b.png",
-    "static/media/winter-bootcamp--2019-playa-del-carmen-fishingzone-82.png": "/static/media/winter-bootcamp--2019-playa-del-carmen-fishingzone-82.96966ca1.png"
+    "static/js/2.9b9035f3.chunk.js.LICENSE.txt": "/static/js/2.9b9035f3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.0227d7fa.js",
     "static/css/2.08959c15.chunk.css",
-    "static/js/2.c70e50d6.chunk.js",
+    "static/js/2.9b9035f3.chunk.js",
     "static/css/main.8dd39de3.chunk.css",
-    "static/js/main.4fb20596.chunk.js"
+    "static/js/main.9c0afcbd.chunk.js"
   ]
 }

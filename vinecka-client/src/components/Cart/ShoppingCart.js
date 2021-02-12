@@ -230,10 +230,6 @@ export default ({userId}) => {
         )
     }
 
-    useEffect(() => {
-        return console.log(userInformation)
-    }, [userInformation])
-
     return (
         <Container style={{paddingTop: "50px"}}>
             { passOrderInfo && paymentPopup &&
@@ -270,11 +266,11 @@ export default ({userId}) => {
             </Row>
             <Row className="text-center">
                 <Col>
-                    {userInformation && shops ?
+                    {userInformation && shops.length > 0 ?
                         <Button ref={lastRef} onClick={() => createNewOrder()} variant="dark">Prejst k platbe</Button>
                     :
                     <>  
-                        {!shops && 
+                        {shops.length === 0 && 
                             <>
                                 <h4>Nakupny kosik je momentalne prazdny.</h4>
                                 <br />
