@@ -165,9 +165,9 @@ app.post("/fileUpload/:shopId", (req, res) => {
 
   const data = {
     Key: imageName,
-    Body: buf,
-    ContentEncoding: 'base64',
-    ContentType: 'image/jpeg'
+    Body: file,
+    ContentType: 'image/jpeg',
+    ACL: 'public-read'
   }
 
   s3Bucket.putObject(data, (err, data) => {
