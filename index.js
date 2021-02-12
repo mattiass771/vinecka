@@ -141,7 +141,7 @@ app.post("/fileUpload/:shopId", (req, res) => {
 
   const imageName = req.params.shopId + "-" + file.name.replace(/_/g,'-')
 
-  const uploadPath = path.resolve(__dirname, 'static/public/uploads', imageName)
+  const uploadPath = path.resolve(__dirname, 'vinecka-client/public/uploads', imageName)
 
   console.log('uploadPath: ',uploadPath)
 
