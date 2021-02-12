@@ -136,18 +136,12 @@ app.post("/fileUpload/:shopId", (req, res) => {
 
   const file = req.files.file;
 
-  const dirPath = path.join(
-    __dirname,
-    "vinecka-client/public/uploads",
-    req.params.shopId + "-" + file.name.replace(/_/g,'-')
-  );
-  console.log(dirPath)
-  file.mv(dirPath, (err) => {
+  file.mv(`${__dirname}/vinecka-client/public/uploads/${req.params.shopId + "-" + file.name.replace(/_/g,'-')}`, (err) => {
     if (err) {
       console.error("moving file error " + err);
       return res.status(500).send(err);
     }
-
+    console.log()
     res.json({ fileName: file.name });
   });
 });
