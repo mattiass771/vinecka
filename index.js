@@ -127,7 +127,10 @@ app.get("/get-user-data", (req, res) => {
 
 // FILE UPLOADER//
 //Upload Endpoint
-app.use(fileUpload());
+app.use(fileUpload({
+  useTempFiles : true,
+  tempFileDir : '/tmp/'
+}));
 
 app.post("/fileUpload/:shopId", (req, res) => {
   if (req.files === null) {
@@ -136,12 +139,18 @@ app.post("/fileUpload/:shopId", (req, res) => {
 
   const file = req.files.file;
 
-  file.mv(`${__dirname}/vinecka-client/public/uploads/${req.params.shopId + "-" + file.name.replace(/_/g,'-')}`, (err) => {
+  const imageName = req.params.shopId + "-" + file.name.replace(/_/g,'-')
+
+  const uploadPath = path.resolve(__dirname, '/vinecka-client/public/uploads/', imageName)
+
+  console.log('uploadPath: ',uploadPath)
+
+  file.mv(uploadPath, (err) => {
     if (err) {
       console.error("moving file error " + err);
       return res.status(500).send(err);
     }
-    console.log('filename: ', file.name, 'file: ', file, 'path: ', `${__dirname}/vinecka-client/public/uploads/${req.params.shopId + "-" + file.name.replace(/_/g,'-')}`)
+    console.log('filename: ', file.name, 'file: ', file)
     res.json({ fileName: file.name });
   });
 });
