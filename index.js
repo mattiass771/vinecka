@@ -165,8 +165,8 @@ app.post("/fileUpload/:shopId", (req, res) => {
 
   const data = {
     Key: imageName,
-    Body: file.buffer,
-    ContentType: 'image/jpeg',
+    Body: file.data,
+    ContentType: file.mimetype,
     ACL: 'public-read'
   }
 
