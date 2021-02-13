@@ -54,8 +54,8 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
           .catch((err) => err && console.log(`Error ${err}`));
     };
 
-    return shopItems.map((item) => {
-      const { _id, itemName, price, description, imageLink, maxCount } = item;
+    return shopItems.map((item, i) => {
+      const { _id, itemName, price, description, imageLink, maxCount, color, taste } = item;
       const passShopId = shopId === 'home' ? item.shopId : shopId
 
       const image = getImage(imageLink)
@@ -115,7 +115,7 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
         }
       }
       return (
-        <Col className="mt-2 mb-2" style={{color: "whitesmoke"}} xs={colXsSettings ?? 6} md={colMdSettings ?? 6} lg={colMdSettings ?? 4} xl={colMdSettings ?? 3} key={_id}>
+        <Col className={`mt-2 mb-2 ${(shopId === 'home' && i>1) && 'd-none'} ${(shopId === 'home' && i===2) && 'd-none d-lg-block'} ${(shopId === 'home' && i===3) && 'd-none d-xl-block'}`} style={{color: "whitesmoke", overflow:"hidden"}} xs={12} md={6} lg={4} xl={3} key={_id}>
           <Card onMouseEnter={() => handleMouseOver()} onMouseLeave={() => handleMouseLeave()} style={{height: "410px" }} id={_id} >
             {isOwner &&
             <Button
@@ -145,13 +145,14 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
               <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
             </Button>}
             {editing[_id] && <EditItems shouldReload={shouldReload} setShouldReload={setShouldReload} itemDataProp={item} showEditItems={editing[_id]} setShowEditItems={setEditing} shopId={passShopId} itemId={_id} />}
-            <Card.Img className="shop-item-img mt-4" variant="top" src={image} />
-            <Card.Body style={{color: "Black"}}>
-              <Card.Title>{itemName}</Card.Title>
-              <Card.Text>{price} €</Card.Text>
-            </Card.Body>
-            <Card.ImgOverlay style={{ background: "rgba(52,58,64,0.7)", display: `${isHovered[_id] === 'block' ? 'block' : 'none'}`}} >
-              <SlideDown className={"my-dropdown-slidedown"}>
+            <img className="shop-item-img" style={{height: "408px"}} src={image} />
+            <div style={{color: "black", marginTop: "-110px" , backgroundColor: "rgba(255,255,255, 0.7)"}}>
+              <Card.Title className="mt-1 mb-1">{itemName}</Card.Title>
+              {(color && taste) && 
+              <Card.Text className="mt-1 mb-1">{`${color[0].toUpperCase()}${color.substring(1).toLowerCase()}, ${taste[0].toUpperCase()}${taste.substring(1).toLowerCase()}`}</Card.Text>}
+              <Card.Text className={`mt-1 mb-1 pb-4`}>{price} €</Card.Text>
+            </div>
+            <Card.ImgOverlay className={`${isHovered[_id] === 'block' ? 'fade-in' : 'fade-out'}`} style={{ background: "rgba(52,58,64,0.7)"}} >
                 <Button style={{width: "100%"}} onClick={(e) => addItemToCart(e)} variant="dark">Add to shopping cart.</Button>
                 <Container>
                   <Row className="mt-2">
@@ -178,7 +179,6 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
                     </Link>
                   }
                 </Container>
-              </SlideDown>
             </Card.ImgOverlay>
           </Card>
         </Col>

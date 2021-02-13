@@ -41,6 +41,7 @@ const shopSchema = new Schema({
   },
   url: {type: String, required: true},
   shopItems: [shopItemSchema],
+  textColor: { type: String, required: true, default: "#333333"}
 });
 
 const Shop = mongoose.model("Shop", shopSchema);

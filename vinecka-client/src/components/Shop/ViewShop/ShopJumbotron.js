@@ -38,6 +38,21 @@ export default ({ shopData, isOwner }) => {
   const [showImageFromDb, setShowImageFromDb] = useState(shopData.imageLink ? shopData.imageLink : '')
   const [localUploadingTitle, setLocalUploadingTitle] = useState(false)
   const [localUploadingOverview, setLocalUploadingOverview] = useState(false)
+  const [textColor, setTextColor] = useState(shopData.textColor)
+
+  useEffect(() => {
+    console.log(textColor)
+    if (textColor !== shopData.textColor) {
+      axios
+      .put(
+        `https://mas-vino.herokuapp.com/shop/${shopData._id}/update-shop/textColor/${textColor}`
+      )
+      .then((res) => {
+        return;
+      })
+      .catch((err) => err && handleError(err));
+    } 
+  }, [textColor])
 
   const getImage = (image) => {
     try {
@@ -193,7 +208,7 @@ export default ({ shopData, isOwner }) => {
   }
 
   return (
-    <Jumbotron style={{background: `url(${getImage(showImageFromDb) ? getImage(showImageFromDb) : ''}) no-repeat`, backgroundSize: 'cover' }} fluid>
+    <Jumbotron style={{color: textColor === 'white' ? 'whitesmoke' : '#333333', background: `url(${getImage(showImageFromDb) ? getImage(showImageFromDb) : ''}) no-repeat`, backgroundSize: 'cover' }} fluid>
       <Container className="text-center">
       {!editMode ?
         <Row>
@@ -201,11 +216,17 @@ export default ({ shopData, isOwner }) => {
             <h2>{shopName}</h2>
             <p>{description}</p>
             <p>{owner}</p>
-            <p><a className="link-no-deco" href={`https://mas-vino.herokuapp.com/${currentUrl}`}>https://mas-vino.herokuapp.com/{currentUrl}</a></p>
           </Col>
         </Row>
         :
         <>
+          <Row className="justify-content-md-center pb-2">
+            <Col className="text-center">
+              <Button variant={`${textColor === 'white' ? 'light' : 'dark'}`} onClick={() => setTextColor('white')} >Biely text</Button>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <Button variant={`${textColor === 'white' ? 'dark' : 'light'}`} onClick={() => setTextColor('black')} >Cierny text</Button>
+            </Col>
+          </Row>
           <Row className="justify-content-center">
             <Button
               onClick={(e) => deleteCard(e)}

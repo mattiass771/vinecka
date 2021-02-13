@@ -32,21 +32,17 @@ export default ({userData, shopData}) => {
             }
             const handleMouseLeave = () => {
                 let hoverObj = {}
-                hoverObj[_id] = 'block'
-                setIsHovered({...isHovered, ...hoverObj})
+                setIsHovered('')
             }
             return (
-                <Col className="mt-2 mb-2" style={maxHeight: "310px"} md={4} key={_id} >
+                <Col className="mt-2 mb-2" style={{maxHeight: "310px"}} md={4} key={_id} >
                     <Link to={`/${url}`}>
                         <Card className="h-100" onMouseEnter={() => handleMouseOver()} onMouseLeave={() => handleMouseLeave()} style={{ textAlign:"center", color: "whitesmoke" }} id={_id} >
                             <Card.Img className="h-100" src={getImage(overviewImage) ? getImage(overviewImage) : `https://miro.medium.com/max/295/1*i5iqn7xB-l0kLwsJJBYEWQ.jpeg`} />
                             <Card.ImgOverlay className={`${isHovered[_id] === 'none' ? 'fade-out' : 'fade-in'}`} style={{ background: "rgba(52,58,64,0.4)"}} >
-                                    <Card.Title>
+                                    <h3 style={{paddingTop: "50%"}}>
                                         {shopName}
-                                    </Card.Title>
-                                    <Card.Text>
-                                        {description}
-                                    </Card.Text>
+                                    </h3>
                             </Card.ImgOverlay>
                         </Card>
                     </Link>
