@@ -64,7 +64,7 @@ export default ({userId, isOwner}) => {
             .then(res => {
               const response = res.data
               const newObj = {...response[0], shopId: response[1]}
-              return setFeaturedWines(prev => [...prev, newObj])
+              return setFeaturedWines([...featuredWines, newObj])
             })
             .catch(err => err && console.log('Error while setting full featured wines, ', err))
         })
