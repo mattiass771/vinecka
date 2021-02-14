@@ -20,6 +20,11 @@ code {
     monospace;
 }
 
+.card {
+  -webkit-box-shadow: 0px 0px 10px -2px #333333; 
+  box-shadow: 0px 0px 10px -2px #333333;
+}
+
 .display-none {
   display: none;
 }

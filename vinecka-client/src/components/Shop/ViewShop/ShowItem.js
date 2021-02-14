@@ -117,7 +117,7 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
         }
       }
       return (
-        <Col className={`mt-2 mb-2 ${(shopId === 'home' && i>1) && 'd-none'} ${(shopId === 'home' && i===2) && 'd-none d-lg-block'} ${(shopId === 'home' && i===3) && 'd-none d-xl-block'}`} style={{color: "whitesmoke", overflow:"hidden"}} xs={12} md={6} lg={4} xl={3} key={_id}>
+        <Col className={`pt-2 pb-2 ${(shopId === 'home' && i>1) && 'd-none'} ${(shopId === 'home' && i===2) && 'd-none d-lg-block'} ${(shopId === 'home' && i===3) && 'd-none d-xl-block'}`} style={{color: "whitesmoke", overflow:"hidden"}} xs={12} md={6} lg={4} xl={3} key={_id}>
           <Card onMouseEnter={() => handleMouseOver()} onMouseLeave={() => handleMouseLeave()} style={{height: "410px" }} id={_id} >
             {isOwner &&
             <Button
@@ -147,7 +147,7 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
               <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
             </Button>}
             {editing[_id] && <EditItems shouldReload={shouldReload} setShouldReload={setShouldReload} itemDataProp={item} showEditItems={editing[_id]} setShowEditItems={setEditing} shopId={passShopId} itemId={_id} />}
-            <img className="shop-item-img" style={{height: "408px"}} src={image} />
+            <img className="shop-item-img" style={{height: "407px"}} src={image} />
             <div style={{color: "black", marginTop: "-110px" , backgroundColor: "rgba(255,255,255, 0.7)"}}>
               <Card.Title className="mt-1 mb-1">{itemName}</Card.Title>
               {(color && taste) && 
