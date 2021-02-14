@@ -12,7 +12,7 @@ export default ({ userData, shopData }) => {
 
   const ShowWines = () => {
     return shopData.map((shop,i) => {
-      const {shopItems, url, shopId} = shop
+      const {shopItems, url, _id: shopId} = shop
       return (
         <ShowItem key={`${shopId}-${i}`} shopItems={shopItems} url={url} shopId={shopId} userId={userId} setShouldReload={false} shouldReload={false} setShowAddedPopup={setShowAddedPopup} isOwner={false} />
       )

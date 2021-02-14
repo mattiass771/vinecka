@@ -95,7 +95,9 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
       }
 
       const addItemToCart = (e) => {
-        const itemId = e.currentTarget.parentNode.parentNode.parentNode.id;
+        console.log(e.currentTarget.parentNode.parentNode)
+        const itemId = e.currentTarget.parentNode.parentNode.id;
+        console.log(itemId)
         const passCount = count[_id] || 1
         if (userId) {
           axios

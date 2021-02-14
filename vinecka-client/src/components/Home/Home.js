@@ -16,12 +16,11 @@ import Button from "react-bootstrap/Button";
 import UpdateEvents from './UpdateEvents';
 import UpdateServices from './UpdateServices';
 import UpdateDescription from './UpdateDescription';
+import UpdateFeatured from './UpdateFeatured';
 
 import options from '../../config/options';
 
-import { MdEdit,MdMailOutline } from "react-icons/md";
-import { BiCodeAlt } from "react-icons/bi";
-import { FaFacebookF,FaInstagram } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
 
 const {MAX_HEIGHT_JUMBO} = options
 
@@ -32,8 +31,6 @@ export default ({userId, isOwner}) => {
   const [loading, setLoading] = useState(false)
   const [showAddedPopup, setShowAddedPopup] = useState(false)
   const [featuredIds, setFeaturedIds] = useState([])
-  const [isIdAvail, setIsIdAvail] = useState(['','','',''])
-  const [tempId, setTempId] = useState([])
 
   const [eventsData, setEventsData] = useState([])
   const [servicesData, setServicesData] = useState([])
@@ -42,11 +39,14 @@ export default ({userId, isOwner}) => {
   const [eventsPopup, setEventsPopup] = useState(false)
   const [servicesPopup, setServicesPopup] = useState(false)
   const [descriptionsPopup, setDescriptionsPopup] = useState(false)
+  const [featuredsPopup, setFeaturedsPopup] = useState(false)
 
   const [forceRefresh, setForceRefresh] = useState(false)
 
   useEffect(() => {
     setLoading(true)
+    setFeaturedWines([])
+    setFeaturedIds([])
     axios.get(`https://mas-vino.herokuapp.com/home/`)
       .then(res => {
         const featured = res.data.featuredWines
@@ -57,14 +57,12 @@ export default ({userId, isOwner}) => {
         setServicesData(services)
         setDescriptionGeneral(description)
         setFeaturedIds(featured)
-        setTempId(featured)
-        setFeaturedWines([])
         featured.map(item => {
           axios.get(`https://mas-vino.herokuapp.com/shop/find-item-by-id/${item}`)
             .then(res => {
               const response = res.data
               const newObj = {...response[0], shopId: response[1]}
-              return setFeaturedWines([...featuredWines, newObj])
+              return setFeaturedWines(prev => [...prev, newObj])
             })
             .catch(err => err && console.log('Error while setting full featured wines, ', err))
         })
@@ -73,7 +71,7 @@ export default ({userId, isOwner}) => {
     axios.get(`https://mas-vino.herokuapp.com/shop/`)
       .then(res => setCarouselData(res.data))
       .catch(err => err && console.log('Error while fetching shops for carousel, ', err))
-      .then(() => setLoading(false))  
+      .then(() => setLoading(false))
   }, [forceRefresh])
 
   const getImage = (image) => {
@@ -156,6 +154,27 @@ export default ({userId, isOwner}) => {
     )
   }
 
+  const ShowUpdateFeatured = () => {
+    return <Row>
+        <Col className="mb-4">
+          {isOwner &&
+            <Button
+              onClick={() => setFeaturedsPopup(true)}
+              style={{
+                width: "40px",
+                height: "40px",
+                marginBottom: "-40px",
+                zIndex: "+1",
+                position:'absolute'
+              }}
+              variant="outline-warning"
+            >
+              <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
+            </Button>}
+        </Col>
+      </Row>
+  }
+
   const showCarouselWithData = () => {
     return carouselData.map(shop => {
       const {shopName, owner, url, imageLink} = shop
@@ -163,7 +182,7 @@ export default ({userId, isOwner}) => {
         ? getImage(imageLink)
         : imageLink;
       return (
-        <Carousel.Item key={`id-${image}`} style={{maxHeight: MAX_HEIGHT_JUMBO}}>
+        <Carousel.Item key={`${url}-${imageLink}`} style={{maxHeight: MAX_HEIGHT_JUMBO}}>
             <Link to={`/${url}`}>
             <img
               className="d-block w-100"
@@ -176,59 +195,6 @@ export default ({userId, isOwner}) => {
             </Carousel.Caption>
           </Link>
         </Carousel.Item>
-      )
-    })
-  }
-
-  const handleSuccessFeatureChange = () => {
-    for (let i = 0; i<featuredIds.length; i++) {
-      if (featuredIds[i] !== tempId[i]) {
-        setFeaturedIds(tempId)
-        axios.post(`https://mas-vino.herokuapp.com/home/featured-wines`, {featuredWines: tempId})
-          .then(res => window.location.reload())
-          .catch(err => err && console.log(err))
-        break;
-      }
-    }
-  }
-
-  const handleFeaturedIds = (e, i) => {
-    const newValue = tempId[i]
-    let newIdAvail = [...isIdAvail]
-    axios.get(`https://mas-vino.herokuapp.com/shop/find-item-by-id/${newValue}`)
-      .then(res => {
-        if (res.data[0]) {
-          newIdAvail[i] = ''
-          setIsIdAvail(newIdAvail)
-          handleSuccessFeatureChange()
-        } else {
-          newIdAvail[i] = 'invalid-input'
-          setIsIdAvail(newIdAvail)
-        }
-      })
-      .catch(err => console.log(err))
-  }
-
-  const handleTempId = (e, i) => {
-    const newValue = e.target.value
-    let newTempIds = [...tempId]
-    newTempIds[i] = newValue
-    setTempId(newTempIds)
-  }
-
-  const ShowUpdateFeaturedWines = () => {
-    return tempId.map((featured, i) => {
-      return (
-        <Col key={`featuerd-${i}`} sm={6} md={3} className={`text-center mt-1`}>
-          <input
-            className={`form-control text-center ${isIdAvail[i]}`}
-            type="text"
-            name={`featured-${i}`}
-            value={featured}
-            onChange={(e) => handleTempId(e, i)}
-            onBlur={(e) => handleFeaturedIds(e, i)}
-          />
-        </Col>
       )
     })
   }
@@ -255,6 +221,9 @@ export default ({userId, isOwner}) => {
       {descriptionsPopup &&
         <UpdateDescription descriptionsText={descriptionGeneral} descriptionsPopup={descriptionsPopup} setDescriptionsPopup={setDescriptionsPopup} forceRefresh={forceRefresh} setForceRefresh={setForceRefresh} />
       }
+      {featuredsPopup &&
+        <UpdateFeatured getImage={getImage} featuredIds={featuredIds} featuredsPopup={featuredsPopup} setFeaturedsPopup={setFeaturedsPopup} forceRefresh={forceRefresh} setForceRefresh={setForceRefresh} />
+      }
       <Carousel indicators={false} style={{maxHeight: MAX_HEIGHT_JUMBO}}>
         {carouselData && showCarouselWithData()}  
       </Carousel>
@@ -267,7 +236,7 @@ export default ({userId, isOwner}) => {
         <Container className="pt-3 pb-3">
           {isOwner &&
           <Row>
-            <ShowUpdateFeaturedWines />
+            <ShowUpdateFeatured />
           </Row>}
           <Row className="text-center pt-4 pb-4">
             <ShowItem colXsSettings={6} colMdSettings={3} shopItems={featuredWines} shopId={'home'} userId={userId} setShouldReload={false} shouldReload={false} setShowAddedPopup={setShowAddedPopup} isOwner={false} />
@@ -280,30 +249,6 @@ export default ({userId, isOwner}) => {
           <ShowEvents />
           <ShowServices />
         </Row>
-        </Container>
-      </div>
-      <div style={{background: 'rgba(52,58,64, 0.2)'}}>
-        <Container>
-          <Row className="text-center pt-4 pb-4 mb-4">
-            <Col>
-              <a rel="noopener noreferrer" target="_blank" href="https://github.com/mattiass771" style={{textDecoration: 'none', color: '#333333'}}>
-                <BiCodeAlt style={{fontSize: '150%', marginTop: '-2px'}} /> by <strong>MZ</strong>
-              </a>
-            </Col>
-            <Col>
-              <a rel="noopener noreferrer" target="_blank" href="https://facebook.com" style={{textDecoration: 'none', color: '#333333'}}>
-                <FaFacebookF style={{fontSize: '130%', marginTop: '-2px', marginRight: '-4px'}} />acebook.com<strong>/masvino</strong>
-              </a>
-            </Col>
-            <Col>
-              <a rel="noopener noreferrer" target="_blank" href="https://instagram.com" style={{textDecoration: 'none', color: '#333333'}}>
-                <FaInstagram style={{fontSize: '150%', marginTop: '-2px'}} /><strong>#masvino</strong>
-              </a>
-            </Col>
-            <Col>
-              <MdMailOutline style={{fontSize: '150%', marginTop: '-2px'}} /><strong style={{color: '#333333'}}>masvino@mail.com</strong>
-            </Col>
-          </Row>
         </Container>
       </div>
     </>

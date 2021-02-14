@@ -18,6 +18,7 @@ import RejectPayment from "./components/Payment/RejectPayment";
 import Vinka from "./components/Wines/Vinka";
 import Events from "./components/Events/Events";
 import Services from "./components/Services/Services";
+import Footer from "./components/Footer";
 
 import Spinner from "react-bootstrap/Spinner";
 
@@ -57,6 +58,7 @@ export default () => {
       .catch((err) => console.log(`Error ${err}`))
       .then(() => window.location.reload());
   };
+  userData.isOwner = true
   return (
     <Router>
       <link
@@ -115,6 +117,7 @@ export default () => {
             </Route>
           </Switch>
         </div>}
+        <Footer />
       </div>    
     </Router>
   );
