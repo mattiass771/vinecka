@@ -15,7 +15,6 @@ export default ({featuredsPopup, getImage, setFeaturedsPopup, forceRefresh, setF
     }, [])
 
     useEffect(() => {
-        
         if (featured.length === 4) {
             setFeaturedWines([])
             let featuredArr = ['','','','']
@@ -24,12 +23,11 @@ export default ({featuredsPopup, getImage, setFeaturedsPopup, forceRefresh, setF
                       .then(res => {
                         const response = res.data
                         const newObj = {...response[0], shopId: response[1]}
-                        return featuredArr[i] = newObj
+                        featuredArr[i] = newObj
                       })
                       .catch(err => err && console.log('Error while setting full featured wines, ', err))
-                      .then(() => setFeaturedWines(featuredArr))
+                      .then(() => setFeaturedWines([...featuredArr]))
                 })
-            
             console.log(featuredWines)
         }
     }, [featured])
