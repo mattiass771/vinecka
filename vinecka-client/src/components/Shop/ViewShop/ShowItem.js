@@ -118,7 +118,7 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
       }
       return (
         <Col className={`pt-2 pb-2 ${(shopId === 'home' && i>1) && 'd-none'} ${(shopId === 'home' && i===2) && 'd-none d-lg-block'} ${(shopId === 'home' && i===3) && 'd-none d-xl-block'}`} style={{color: "whitesmoke", overflow:"hidden"}} xs={12} md={6} lg={4} xl={3} key={_id}>
-          <Card onMouseEnter={() => handleMouseOver()} onMouseLeave={() => handleMouseLeave()} style={{height: "410px" }} id={_id} >
+          <Card onMouseEnter={() => handleMouseOver()} onMouseLeave={() => handleMouseLeave()} style={{height: "410px", maxWidth: "300px"}} id={_id} >
             {isOwner &&
             <Button
               onClick={(e) => deleteCard(e)}
