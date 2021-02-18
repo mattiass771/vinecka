@@ -136,7 +136,7 @@ export default ({userId, isOwner}) => {
 
   const ShowGeneral = () => {
     return (
-      <Row className="text-center mt-4 mb-4">
+      <Row className="text-center mb-2">
         <Col className="mt-4 mb-4">
           {isOwner &&
             <Button
@@ -233,6 +233,22 @@ export default ({userId, isOwner}) => {
       </Carousel>
       <div>
         <Container>
+          <Row className="text-center justify-content-center mt-4">
+            <Col className="pt-2" xs={4}>
+              <hr />
+            </Col>
+            <Col xs={4}>
+              <h1>Naše vína</h1>
+            </Col>
+            <Col className="pt-2"  xs={4}>
+              <hr />
+            </Col>
+          </Row>
+          <Row className="text-center justify-content-center">
+            <Col>
+              <em style={{fontSize: "200%"}}>Niečo o našich vínach a možno aj nie.</em>
+            </Col>
+          </Row>
           <ShowGeneral />
         </Container>
       </div>
@@ -249,23 +265,23 @@ export default ({userId, isOwner}) => {
       </div>
       <div>
         <Container className="pt-3 pb-3">
-            <Row className="text-center pt-4 pb-4">
-              <Col>
+            <Row className="text-center pt-2 pb-4">
+              <Col className="mt-4" lg={3} sm={6} xs={12}>
                 <p style={{height: "50px"}}><HiOutlineBadgeCheck style={{fontSize: "300%"}} /></p>
                 <h5>OVERENÍ PREDAJCOVIA</h5>
                 Kvalitné vína od poctivých lokálnych výrobcov, ktorí vykonávajú svoju prácu telom i dušou.
               </Col>
-              <Col>
+              <Col className="mt-4" lg={3} sm={6} xs={12}>
                 <p style={{height: "50px"}}><GrDeliver style={{fontSize: "300%"}} /></p>
                 <h5>ROZVOZ</h5>
                 ZDARMA: Pri kúpe nad 150 Eur (Pezinok a okolie). Možná dohoda a dovoz i ďalej, volajte na 0948 721 868.
               </Col>
-              <Col>
+              <Col className="mt-4" lg={3} sm={6} xs={12}>
                 <p style={{height: "50px"}}><GoPackage style={{fontSize: "300%"}} /></p>
                 <h5>OSOBNÝ ODBER</h5>
                 Sacherka Cafe, Radničné nám. 42/5, 902 01 Pezinok. Možná dohoda, volajte na 0948 721 868.
               </Col>
-              <Col>
+              <Col className="mt-4" lg={3} sm={6} xs={12}>
                 <p style={{height: "50px"}}><RiSecurePaymentFill style={{fontSize: "300%"}} /></p>
                 <h5>PLATBA</h5>
                 Hotovosťou pri dobierke, alebo bežnými platobnými kartami, či cez internet banking.
