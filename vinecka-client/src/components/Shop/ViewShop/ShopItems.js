@@ -42,7 +42,7 @@ export default ({ shopData, isOwner, userId }) => {
     <Container className="text-center">
       {showAddedPopup &&
         <Alert style={{position: "fixed", top:56, right:0}} variant="success" onClose={() => setShowAddedPopup(false)} dismissible>
-          <p>Item added to cart!</p>
+          Polozka bola pridana do kosika!
         </Alert>
       }
       {isOwner &&

@@ -208,8 +208,8 @@ export default ({userId, isOwner}) => {
     :
     <>
       {showAddedPopup &&
-          <Alert style={{position: "fixed", zIndex: '9', top:56, right:0}} variant="success" onClose={() => setShowAddedPopup(false)} dismissible>
-            <p>Item added to cart!</p>
+          <Alert style={{position: "fixed", zIndex: '+5', top:56, right:0}} variant="success" onClose={() => setShowAddedPopup(false)} dismissible>
+            Polozka bola pridana do kosika!
           </Alert>
       }
       {eventsPopup &&

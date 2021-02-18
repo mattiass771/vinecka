@@ -11,6 +11,14 @@ body {
   scrollbar-width: none;  /* Firefox */
 }
 
+#navibar {
+  z-index: +9;
+  position: fixed; /* Make it stick/fixed */
+  top: 0; /* Stay on top */
+  width: 100%; /* Full width */
+  transition: top 0.3s; /* Transition effect when sliding down (and up) */
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
@@ -38,6 +46,7 @@ code {
 a.link-no-deco:hover {
   text-decoration: none;
   color: #c1c1c1;
+  cursor:pointer;
 }
 
 tr.inner-table:hover {
