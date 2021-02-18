@@ -21,6 +21,10 @@ import UpdateFeatured from './UpdateFeatured';
 import options from '../../config/options';
 
 import { MdEdit } from "react-icons/md";
+import { HiOutlineBadgeCheck } from "react-icons/hi";
+import { GrDeliver } from "react-icons/gr";
+import { GoPackage } from "react-icons/go";
+import { RiSecurePaymentFill } from "react-icons/ri";
 
 const {MAX_HEIGHT_JUMBO} = options
 
@@ -244,6 +248,32 @@ export default ({userId, isOwner}) => {
         </Container>
       </div>
       <div>
+        <Container className="pt-3 pb-3">
+            <Row className="text-center pt-4 pb-4">
+              <Col>
+                <p style={{height: "50px"}}><HiOutlineBadgeCheck style={{fontSize: "300%"}} /></p>
+                <h5>OVERENÍ PREDAJCOVIA</h5>
+                Kvalitné vína od poctivých lokálnych výrobcov, ktorí vykonávajú svoju prácu telom i dušou.
+              </Col>
+              <Col>
+                <p style={{height: "50px"}}><GrDeliver style={{fontSize: "300%"}} /></p>
+                <h5>ROZVOZ</h5>
+                ZDARMA: Pri kúpe nad 150 Eur (Pezinok a okolie). Možná dohoda a dovoz i ďalej, volajte na 0948 721 868.
+              </Col>
+              <Col>
+                <p style={{height: "50px"}}><GoPackage style={{fontSize: "300%"}} /></p>
+                <h5>OSOBNÝ ODBER</h5>
+                Sacherka Cafe, Radničné nám. 42/5, 902 01 Pezinok. Možná dohoda, volajte na 0948 721 868.
+              </Col>
+              <Col>
+                <p style={{height: "50px"}}><RiSecurePaymentFill style={{fontSize: "300%"}} /></p>
+                <h5>PLATBA</h5>
+                Hotovosťou pri dobierke, alebo bežnými platobnými kartami, či cez internet banking.
+              </Col>
+            </Row>
+        </Container>
+      </div>
+      <div style={{background: 'rgba(52,58,64, 0.2)'}}>
         <Container>
         <Row className="mt-4 mb-4">
           <ShowEvents />
