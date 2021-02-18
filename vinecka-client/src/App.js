@@ -73,7 +73,7 @@ export default () => {
                 style={{ marginLeft: "49%", marginTop: "20%" }}
                 animation="border"
               /> :
-        <div style={{marginTop: "56px"}}>
+        <div>
           <Switch>
             <Route exact path="/">
               <Home userId={userData._id} isOwner={userData.isOwner}  />

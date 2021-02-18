@@ -7,20 +7,9 @@ import {FiShoppingCart} from "react-icons/fi"
 
 // Navbar.js
 export default ({ isLoggedIn, handleLogOut, userName }) => {
- 
-  let prevScrollpos = window.pageYOffset;
-  window.onscroll = () => {
-    const currentScrollPos = window.pageYOffset;
-    if (prevScrollpos > currentScrollPos) {
-      document.getElementById("navibar").style.top = "0";
-    } else {
-      document.getElementById("navibar").style.top = "-50px";
-    }
-    prevScrollpos = currentScrollPos;
-  }
 
   return (
-    <Navbar id="navibar" bg="dark" variant="dark" expand="md">
+    <Navbar fixed="top" bg="dark" variant="dark" expand="md">
       <Navbar.Brand>
         <img
           alt=""

@@ -186,10 +186,10 @@ export default ({userId, isOwner}) => {
         ? getImage(imageLink)
         : imageLink;
       return (
-        <Carousel.Item key={`${url}-${imageLink}`} style={{maxHeight: MAX_HEIGHT_JUMBO}}>
+        <Carousel.Item key={`${url}-${imageLink}`} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight:"300px"}}>
             <Link to={`/${url}`}>
             <img
-              className="d-block w-100"
+              className="d-block w-100 h-100"
               src={image}
               alt={`Carousel-${imageLink}`}
             />
@@ -228,19 +228,19 @@ export default ({userId, isOwner}) => {
       {featuredsPopup &&
         <UpdateFeatured getImage={getImage} featuredIds={featuredIds} featuredsPopup={featuredsPopup} setFeaturedsPopup={setFeaturedsPopup} forceRefresh={forceRefresh} setForceRefresh={setForceRefresh} />
       }
-      <Carousel indicators={false} style={{maxHeight: MAX_HEIGHT_JUMBO}}>
+      <Carousel indicators={false} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight:"300px"}}>
         {carouselData && showCarouselWithData()}  
       </Carousel>
       <div>
         <Container>
           <Row className="text-center justify-content-center mt-4">
-            <Col className="pt-2" xs={4}>
+            <Col className="pt-2" xs={2} sm={3} md={4}>
               <hr />
             </Col>
-            <Col xs={4}>
+            <Col xs={8} sm={6} md={4}>
               <h1>Naše vína</h1>
             </Col>
-            <Col className="pt-2"  xs={4}>
+            <Col className="pt-2"  xs={2} sm={3} md={4}>
               <hr />
             </Col>
           </Row>
