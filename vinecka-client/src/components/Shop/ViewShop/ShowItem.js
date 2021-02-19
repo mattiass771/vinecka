@@ -155,7 +155,7 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
               <Card.Text className={`mt-1 mb-1 pb-4`}>{price} €</Card.Text>
             </div>
             <Card.ImgOverlay className={`${isHovered[_id] === 'block' ? 'fade-in' : 'fade-out'}`} style={{ background: "rgba(52,58,64,0.7)"}} >
-                <Button style={{width: "100%"}} onClick={(e) => addItemToCart(e)} variant="dark">Add to shopping cart.</Button>
+                <Button style={{width: "100%"}} onClick={(e) => addItemToCart(e)} variant="dark">Pridať do košíka.</Button>
                 <Container>
                   <Row className="mt-2">
                     <Col>
@@ -177,7 +177,7 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
                   </Row>
                   {url && 
                     <Link to={`/${url}`}>
-                      <Button style={{width: "100%"}} variant="dark">Visit shop.</Button>
+                      <Button style={{width: "100%"}} variant="dark">Navštíviť vináreň.</Button>
                     </Link>
                   }
                 </Container>

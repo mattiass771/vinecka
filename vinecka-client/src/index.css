@@ -16,6 +16,32 @@ body {
   display: none;
 }
 
+
+@media only screen and (max-width: 800px) {
+  .carousel-image {
+    min-height: 225 !important;
+    max-width: 125% !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .carousel-image {
+    min-height: 225 !important;
+    max-width: 150% !important;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .carousel-image {
+    min-height: 225 !important;
+    max-width: 165% !important;
+  }
+}
+
+Button {
+  background-color: #373f27 !important;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -69,7 +95,7 @@ tr.inner-table:hover {
 
 .navilink {
   text-decoration: none;
-  color: #c1c1c1
+  color: whitesmoke
 }
 
 .navilink:hover {

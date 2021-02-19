@@ -22,7 +22,7 @@ import options from '../../config/options';
 
 import { MdEdit } from "react-icons/md";
 import { HiOutlineBadgeCheck } from "react-icons/hi";
-import { GrDeliver } from "react-icons/gr";
+import { FiTruck } from "react-icons/fi";
 import { GoPackage } from "react-icons/go";
 import { RiSecurePaymentFill } from "react-icons/ri";
 
@@ -89,7 +89,7 @@ export default ({userId, isOwner}) => {
 
   const ShowEvents = () => {
     return (
-      <Col md={6} className="mt-4 mb-4">
+      <Col md={6} style={{padding: '0'}}>
         {isOwner &&
           <Button
             onClick={() => setEventsPopup(true)}
@@ -112,7 +112,7 @@ export default ({userId, isOwner}) => {
 
   const ShowServices = () => {
     return (
-      <Col md={6} className="mt-4 mb-4">
+      <Col md={6} style={{padding: '0'}}>
         {isOwner &&
           <Button
             onClick={() => setServicesPopup(true)}
@@ -189,8 +189,8 @@ export default ({userId, isOwner}) => {
         <Carousel.Item key={`${url}-${imageLink}`} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight: MIN_HEIGHT_JUMBO}}>
             <Link to={`/${url}`}>
             <img
-              className="d-block"
               style={{minHeight: MIN_HEIGHT_JUMBO, maxWidth: "100%"}}
+              className="d-block carousel-image"
               src={image}
               alt={`Carousel-${imageLink}`}
             />
@@ -232,9 +232,9 @@ export default ({userId, isOwner}) => {
       <Carousel indicators={false} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight: MIN_HEIGHT_JUMBO}}>
         {carouselData && showCarouselWithData()}  
       </Carousel>
-      <div>
+      <div style={{backgroundColor: '#d3d01c3d'}}>
         <Container>
-          <Row className="text-center justify-content-center mt-4">
+          <Row className="text-center justify-content-center pt-4">
             <Col className="pt-2" xs={2} sm={3} md={4}>
               <hr />
             </Col>
@@ -253,7 +253,7 @@ export default ({userId, isOwner}) => {
           <ShowGeneral />
         </Container>
       </div>
-      <div style={{background: 'rgba(52,58,64, 0.2)'}}>
+      <div>
         <Container className="pt-3 pb-3">
           {isOwner &&
           <Row>
@@ -264,7 +264,7 @@ export default ({userId, isOwner}) => {
           </Row>
         </Container>
       </div>
-      <div>
+      <div style={{backgroundColor: '#d3d01c3d'}}>
         <Container className="pt-3 pb-3">
             <Row className="text-center pt-2 pb-4">
               <Col className="mt-4" lg={3} sm={6} xs={12}>
@@ -273,7 +273,7 @@ export default ({userId, isOwner}) => {
                 Kvalitné vína od poctivých lokálnych výrobcov, ktorí vykonávajú svoju prácu telom i dušou.
               </Col>
               <Col className="mt-4" lg={3} sm={6} xs={12}>
-                <p style={{height: "50px"}}><GrDeliver style={{fontSize: "300%"}} /></p>
+                <p style={{height: "50px"}}><FiTruck style={{fontSize: "300%", color: 'whitesmoke !important'}} /></p>
                 <h5>ROZVOZ</h5>
                 ZDARMA: Pri kúpe nad 150 Eur (Pezinok a okolie). Možná dohoda a dovoz i ďalej, volajte na 0948 721 868.
               </Col>
@@ -290,13 +290,11 @@ export default ({userId, isOwner}) => {
             </Row>
         </Container>
       </div>
-      <div style={{background: 'rgba(52,58,64, 0.2)'}}>
-        <Container>
-        <Row className="mt-4 mb-4">
+      <div>  
+        <Row>
           <ShowEvents />
           <ShowServices />
         </Row>
-        </Container>
       </div>
     </>
   );

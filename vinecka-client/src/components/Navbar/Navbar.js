@@ -18,6 +18,8 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
     transition: 'top 0.6s',
     width: '100%',
     zIndex: '+8',
+    backgroundColor: '#373f27',
+    fontSize: '120%'
   }
 
   const logoStyles = {
@@ -39,7 +41,7 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
 
   return (
     <React.Fragment>
-      <div className="text-center w-100" style={{...logoStyles, top: visible ? '0' : '-156px', borderBottom: "1px solid whitesmoke"}} bg="dark" variant="dark" expand="md">
+      <div className="text-center w-100" style={{...logoStyles, top: visible ? '0' : '-156px', borderBottom: "1px solid whitesmoke"}}>
         <img
           alt=""
           src={logo}
@@ -47,7 +49,7 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
           height="100"
         />
       </div>
-    <Navbar className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-156px', paddingTop: '108px'}} bg="dark" variant="dark" expand="md">
+    <Navbar className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-156px', paddingTop: '108px'}} variant="dark" expand="md">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="row justify-content-lg-center">
         <Nav className="ml-4 ml-md-0">
