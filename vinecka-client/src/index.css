@@ -9,7 +9,7 @@ body {
   color: #333333 !important;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
-  padding-top: 56px;
+  padding-top: 156px;
 }
 
 ::-webkit-scrollbar {
@@ -60,31 +60,21 @@ tr.inner-table:hover {
 
 /* NAVBAR */
 
-.nav-elem {
-  margin-right: 16px;
+.navihover:hover {
+  background-color: #b4b4b4bd;
+  margin-top: -8px;
+  margin-bottom: -8px;
+  padding-top: 16px;
 }
 
-.nav-elem:hover {
-  background-color: whitesmoke;
-  color: darkgray;
+.navilink {
   text-decoration: none;
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 1);
-  -moz-box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 1);
-  box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 1);
+  color: #c1c1c1
 }
 
-.nav-elem:active {
-  background-color: lightgray;
-}
-
-.nav-elem {
+.navilink:hover {
   text-decoration: none;
-  color: whitesmoke;
-}
-
-.nav-text {
-  text-decoration: none;
-  color: whitesmoke;
+  color: whitesmoke
 }
 
 .form-control:focus {

@@ -1,67 +1,121 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
+
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+
+import logo from "./logo.png"
 
 import {FiShoppingCart} from "react-icons/fi"
 
 // Navbar.js
 export default ({ isLoggedIn, handleLogOut, userName }) => {
+  const [prevScrollPos, setPrevScrollPos] = useState(0); 
+  const [visible, setVisible] = useState(true);
+
+  const navbarStyles = {
+    position: 'fixed',
+    transition: 'top 0.6s',
+    width: '100%',
+    zIndex: '+8',
+  }
+
+  const logoStyles = {
+    position: 'fixed',
+    transition: 'top 0.6s',
+    zIndex: '+9',
+  }
+
+  const handleScroll = () => {
+    const currentScrollPos = window.pageYOffset;
+    setVisible((prevScrollPos > currentScrollPos) || currentScrollPos < 50);
+    setPrevScrollPos(currentScrollPos);
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prevScrollPos, visible, handleScroll]);
 
   return (
-    <Navbar fixed="top" bg="dark" variant="dark" expand="md">
-      <Navbar.Brand>
+    <React.Fragment>
+      <div className="text-center w-100" style={{...logoStyles, top: visible ? '0' : '-156px', borderBottom: "1px solid whitesmoke"}} bg="dark" variant="dark" expand="md">
         <img
           alt=""
-          src="https://st2.depositphotos.com/8301258/11284/v/950/depositphotos_112842636-stock-illustration-logo-shop-bags-icon-symbol.jpg"
-          width="30"
-          height="30"
-          className="d-inline-block align-top"
+          src={logo}
+          width="auto"
+          height="100"
         />
-      </Navbar.Brand>
+      </div>
+    <Navbar className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-156px', paddingTop: '108px'}} bg="dark" variant="dark" expand="md">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Link className={`nav-elem`} to="/">
-            Domov
-          </Link>
-
-          <Link className={`nav-elem`} to="/vinarne">
-            Vinarne
-          </Link>
-
-          <Link className={`nav-elem`} to="/vinka">
-            Vinka
-          </Link>
-
-          <Link className={`nav-elem`} to="/akcie">
-            Akcie
-          </Link>
-
-          <Link className={`nav-elem`} to="/sluzby">
-            Sluzby
-          </Link>
-        </Nav>
-        <Nav className="mr-sm-2">
-            <Link className={`nav-elem`} to="/cart-page">
-              <FiShoppingCart />
+      <Navbar.Collapse id="basic-navbar-nav" className="row justify-content-lg-center">
+        <Nav className="ml-4 ml-md-0">
+          <Nav.Link className="navihover" active>
+            <Link className="navilink" to="/">
+              Domov
             </Link>
+          </Nav.Link>
+
+          <Nav.Link className="navihover" active>
+            <Link className="navilink" to="/vinarne">
+              Vinarne
+            </Link>
+          </Nav.Link>
+
+          <Nav.Link className="navihover">
+            <Link className="navilink" to="/vinka">
+                Vinka
+            </Link>
+          </Nav.Link>
+
+          <Nav.Link className="navihover">
+            <Link className="navilink" to="/akcie">
+              Akcie
+            </Link>
+          </Nav.Link>
+
+          <Nav.Link className="navihover">
+            <Link className="navilink" to="/sluzby">
+              Sluzby
+            </Link>
+          </Nav.Link>
+
+          <Nav.Link className="navihover">
+            <Link className="navilink" to="/kontakt">
+              Kontakt
+            </Link>
+          </Nav.Link>
+        </Nav>
+        <Nav style={{position: "absolute", right: 16}}>
+            <Nav.Link className="navihover">
+              <Link className="navilink" to="/cart-page">
+                <FiShoppingCart />
+              </Link> 
+            </Nav.Link>
           {isLoggedIn ? (
             <>
-              <Link className={`nav-elem`} to="/objednavky">
-                Objednavky
-              </Link>
-              <Link className={`nav-elem`} onClick={handleLogOut} to="">
+              <Nav.Link className="navihover">
+                <Link className="navilink" to="/objednavky">
+                  Objednavky
+                </Link>
+              </Nav.Link>
+              <Nav.Link className="navihover">
+                <Link className="navilink" onClick={handleLogOut} to="">
                 Logout
-              </Link>
+                </Link>
+              </Nav.Link>
             </>
           ) : (
-            <Link className={`nav-elem`} to="/login-page">
-              Login
-            </Link>
+            <Nav.Link className="navihover">
+              <Link className="navilink" to="/login-page">
+                Login
+              </Link>
+            </Nav.Link>
           )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>
+    </React.Fragment>
   );
 };

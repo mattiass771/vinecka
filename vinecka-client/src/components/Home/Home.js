@@ -26,7 +26,7 @@ import { GrDeliver } from "react-icons/gr";
 import { GoPackage } from "react-icons/go";
 import { RiSecurePaymentFill } from "react-icons/ri";
 
-const {MAX_HEIGHT_JUMBO} = options
+const {MAX_HEIGHT_JUMBO, MIN_HEIGHT_JUMBO} = options
 
 //Home.js
 export default ({userId, isOwner}) => {
@@ -186,14 +186,15 @@ export default ({userId, isOwner}) => {
         ? getImage(imageLink)
         : imageLink;
       return (
-        <Carousel.Item key={`${url}-${imageLink}`} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight:"300px"}}>
+        <Carousel.Item key={`${url}-${imageLink}`} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight: MIN_HEIGHT_JUMBO}}>
             <Link to={`/${url}`}>
             <img
-              className="d-block w-100 h-100"
+              className="d-block"
+              style={{minHeight: MIN_HEIGHT_JUMBO, maxWidth: "100%"}}
               src={image}
               alt={`Carousel-${imageLink}`}
             />
-            <Carousel.Caption>
+            <Carousel.Caption style={{zIndex:'+1'}}>
               <h3>{shopName}</h3>
               <p>{owner}</p>
             </Carousel.Caption>
@@ -228,7 +229,7 @@ export default ({userId, isOwner}) => {
       {featuredsPopup &&
         <UpdateFeatured getImage={getImage} featuredIds={featuredIds} featuredsPopup={featuredsPopup} setFeaturedsPopup={setFeaturedsPopup} forceRefresh={forceRefresh} setForceRefresh={setForceRefresh} />
       }
-      <Carousel indicators={false} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight:"300px"}}>
+      <Carousel indicators={false} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight: MIN_HEIGHT_JUMBO}}>
         {carouselData && showCarouselWithData()}  
       </Carousel>
       <div>
@@ -246,7 +247,7 @@ export default ({userId, isOwner}) => {
           </Row>
           <Row className="text-center justify-content-center">
             <Col>
-              <em style={{fontSize: "200%"}}>Niečo o našich vínach a možno aj nie.</em>
+              <em style={{fontSize: "200%"}}>Tie najlepšie vínka z Malokarpatskej oblasti.</em>
             </Col>
           </Row>
           <ShowGeneral />
