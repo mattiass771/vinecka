@@ -21,6 +21,7 @@ export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldR
     const [clicked, setClicked] = useState('')
     const [editing, setEditing] = useState('')
     const [showAddedPopup, setShowAddedPopup] = useState(false)
+    const [hoverTimeout, setHoverTimeout] = useState('')
 
     const copyFunction = (passId) => {
       const dummy = document.createElement("textarea");
@@ -57,10 +58,12 @@ export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldR
       let hoverObj = {}
       hoverObj[id] = 'block'
       setIsHovered(hoverObj)
+      setTimeout(() => setHoverTimeout(hoverObj), 250)
     }
 
     const handleMouseLeave = () => {
       setIsHovered("")
+      setHoverTimeout("")
     }
 
     return shopItems.map((item, i) => {
@@ -100,26 +103,30 @@ export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldR
             .post(`https://mas-vino.herokuapp.com/users/${userId}/cart/add-cart-item/${passShopId}/${itemId}`, {
             shopId: passShopId, itemId, count: passCount
             })
-            .then(() => setShowAddedPopup(true))
+            .then(() => {
+              setShowAddedPopup(false)
+              setTimeout(() => setShowAddedPopup(true), 50)
+            })
             .catch(err => err && console.log(err))
-            .then(() => setTimeout(() => setShowAddedPopup(false), 5000))
+            .then(() => setTimeout(() => setShowAddedPopup(false), 1500))
         } else {
           const localShoppingCart = localStorage.getItem('shoppingCart')
           localStorage.removeItem('shoppingCart')
           const newShoppingCart = localShoppingCart ? [...JSON.parse(localShoppingCart), {shopId: passShopId, itemId, count: passCount}] : [{shopId: passShopId, itemId, count: passCount}]
           localStorage.setItem('shoppingCart', JSON.stringify(newShoppingCart))
-          setShowAddedPopup(true)
-          setTimeout(() => setShowAddedPopup(false), 5000)
+          setShowAddedPopup(false)
+          setTimeout(() => setShowAddedPopup(true), 50)
+          setTimeout(() => setShowAddedPopup(false), 1500)
         }
       }
       return (
         <Col className={`pt-2 pb-2 ${(shopId === 'home' && i>1) && 'd-none'} ${(shopId === 'home' && i===2) && 'd-none d-lg-block'} ${(shopId === 'home' && i===3) && 'd-none d-xl-block'}`} style={{color: "whitesmoke", overflow:"hidden"}} xs={12} md={6} lg={4} xl={3} key={_id}>
           {showAddedPopup &&
-            <Alert style={{position: "fixed", zIndex: '+9', top:156, right:0}} variant="success" onClose={() => setShowAddedPopup(false)} dismissible>
+            <Alert style={{position: "fixed", zIndex: '+9', top:156, right:0}} variant="success">
               Polozka bola pridana do kosika!
             </Alert>
           }
-          <Card onMouseEnter={() => handleMouseOver(_id)} onMouseLeave={() => handleMouseLeave()} style={{height: "410px", maxWidth: "300px"}} id={_id} >
+          <Card onMouseEnter={() => handleMouseOver(_id)} onTouchStart={() => handleMouseOver(_id)} onMouseLeave={() => handleMouseLeave()} style={{height: "410px", maxWidth: "300px"}} id={_id} >
             {isOwner &&
             <Button
               onClick={(e) => deleteCard(e)}
@@ -156,10 +163,10 @@ export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldR
               <Card.Text className={`mt-1 mb-1 pb-4`}>{price} €</Card.Text>
             </div>
             <Card.ImgOverlay className={`${isHovered[_id] === 'block' ? 'fade-in' : 'fade-out'}`} style={{ background: "rgba(52,58,64,0.7)"}} >
-                {isHovered[_id] === 'block' &&
+                {isHovered[_id] === 'block' && hoverTimeout[_id] &&
                 <Button style={{width: "100%"}} onClick={(e) => addItemToCart(e)} variant="dark">Pridať do košíka.</Button>}
                 <Container>
-                {isHovered[_id] === 'block' &&
+                {isHovered[_id] === 'block' && hoverTimeout[_id] &&
                   <Row className="mt-2">
                     <Col>
                       <Form.Control
@@ -171,14 +178,14 @@ export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldR
                       </Form.Control>
                     </Col>
                   </Row>}
-                  {(isOwner && isHovered[_id] === 'block') &&
-                  <Row>
+                  {(isOwner && isHovered[_id] === 'block') && hoverTimeout[_id] &&
+                  <><Row>
                     <Col><a onClick={() => copyFunction(_id)} style={{textDecoration: 'none', cursor: 'pointer', color: clicked}}><strong>copy my id!</strong></a></Col>
-                  </Row>}
+                  </Row>
                   <Row style={{height: '240px', marginTop: '5px', marginBottom: '5px'}}>
                     <Col>{description}</Col>
-                  </Row>
-                  {(url && isHovered[_id] === 'block') &&
+                  </Row></>}
+                  {(url && isHovered[_id] === 'block') && hoverTimeout[_id] &&
                     <Link to={`/${url}`}>
                       <Button style={{width: "100%"}} variant="dark">Navštíviť vináreň.</Button>
                     </Link>

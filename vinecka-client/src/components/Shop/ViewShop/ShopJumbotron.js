@@ -41,7 +41,6 @@ export default ({ shopData, isOwner }) => {
   const [textColor, setTextColor] = useState(shopData.textColor)
 
   useEffect(() => {
-    console.log(textColor)
     if (textColor !== shopData.textColor) {
       axios
       .put(
@@ -214,7 +213,7 @@ export default ({ shopData, isOwner }) => {
                       background: `url(${getImage(showImageFromDb) ? getImage(showImageFromDb) : ''}) no-repeat`, 
                       backgroundSize: 'cover'
                       }} fluid>
-      <Container className="text-center">
+    <Container className="text-center">
       {!editMode ?
         <Row style={{padding: '15px', backgroundColor: textColor === 'white' ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.25)', borderRadius: '7.5px'}}>
           <Col>
