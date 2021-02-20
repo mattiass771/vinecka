@@ -92,10 +92,6 @@ export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldR
         setEditing({...editing, ...editingObj})
       }
 
-      useEffect(() => {
-        console.log(isHovered)
-      }, [])
-
       const addItemToCart = (e) => {
         const itemId = e.currentTarget.parentNode.parentNode.id;
         const passCount = count[_id] || 1
