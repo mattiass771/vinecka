@@ -245,16 +245,16 @@ export default ({userId}) => {
                 <Col>
                     {(!userInformation && shops ) &&
                         <p>
-                            <Button onClick={() => handleRegistration()} variant="dark">Dorucovacie udaje s registraciou</Button>
+                            <Button className="mt-2" onClick={() => handleRegistration()} variant="dark">Dorucovacie udaje s registraciou</Button>
                             &nbsp;&nbsp;
-                            <Button onClick={() => handleLogin()} variant="dark">Mam ucet a chcem sa prihlasit</Button>
+                            <Button className="mt-2" onClick={() => handleLogin()} variant="dark">Mam ucet a chcem sa prihlasit</Button>
                             &nbsp;&nbsp;
-                            <Button onClick={() => handleShipmentOnly()} variant="dark">Dorucovacie udaje bez registracie</Button>
+                            <Button className="mt-2" onClick={() => handleShipmentOnly()} variant="dark">Dorucovacie udaje bez registracie</Button>
                         </p>
                     }
                 </Col>
             </Row>
-            <Row className="text-center">
+            <Row ref={lastRef} className="text-center">
                 {login && <Login shoppingCart={true} />}
                 {registration && <SignUp shoppingCart={true} handleLogin={handleLogin} />}
                 {shipmentOnly && <PlaceOrder setUserInformation={setUserInformation} />}
@@ -267,7 +267,7 @@ export default ({userId}) => {
             <Row className="text-center">
                 <Col>
                     {userInformation && shops.length > 0 ?
-                        <Button ref={lastRef} onClick={() => createNewOrder()} variant="dark">Prejst k platbe</Button>
+                        <Button onClick={() => createNewOrder()} variant="dark">Prejst k platbe</Button>
                     :
                     <>  
                         {shops.length === 0 && 
@@ -282,8 +282,6 @@ export default ({userId}) => {
                 }
                 </Col>
             </Row>
-            <br />
-            <div ref={lastRef}></div>
         </Container>
     )
 }
