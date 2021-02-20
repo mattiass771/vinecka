@@ -208,10 +208,15 @@ export default ({ shopData, isOwner }) => {
   }
 
   return (
-    <Jumbotron style={{color: textColor === 'white' ? 'whitesmoke' : '#333333', background: `url(${getImage(showImageFromDb) ? getImage(showImageFromDb) : ''}) no-repeat`, backgroundSize: 'cover'}} fluid>
+    <Jumbotron style={{
+                      color: textColor === 'white' ? 'whitesmoke' : '#333333', 
+                      fontSize: '120%',
+                      background: `url(${getImage(showImageFromDb) ? getImage(showImageFromDb) : ''}) no-repeat`, 
+                      backgroundSize: 'cover'
+                      }} fluid>
       <Container className="text-center">
       {!editMode ?
-        <Row>
+        <Row style={{padding: '15px', backgroundColor: textColor === 'white' ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.25)', borderRadius: '7.5px'}}>
           <Col>
             <h2>{shopName}</h2>
             <p>{description}</p>

@@ -56,17 +56,17 @@ export default ({ userData, shopData }) => {
   const filterData = (items) => {      
     if (typeFilter.length !== 0 || tasteFilter.length !== 0 || colorFilter.length !== 0) {
       const filteredDataByColor = colorFilter.length !== 0 ? items.filter(item => {
-        if (colorFilter.includes((item.color).toLowerCase())) {
+        if (colorFilter.includes((item.color).toLowerCase().trim())) {
           return item
         } 
       }) : items
       const filteredDataByTaste = tasteFilter.length !== 0 ? filteredDataByColor.filter(item => {
-        if (tasteFilter.includes((item.taste).toLowerCase())) {
+        if (tasteFilter.includes((item.taste).toLowerCase().trim())) {
           return item
         } 
       }) : filteredDataByColor
       const filteredDataByType = typeFilter.length !== 0 ? filteredDataByTaste.filter(item => {
-        if (typeFilter.includes((item.type).toLowerCase())) {
+        if (typeFilter.includes((item.type).toLowerCase().trim())) {
           return item
         } 
       }) : filteredDataByTaste
@@ -78,17 +78,17 @@ export default ({ userData, shopData }) => {
 
   const handleColorDrop = (val) => {
     setColorDrop(val)
-    setColorFilter([...colorFilter, val.toLowerCase()].sort())
+    setColorFilter([...colorFilter, val.toLowerCase().trim()].sort())
   }
 
   const handleTasteDrop = (val) => {
     setTasteDrop(val)
-    setTasteFilter([...tasteFilter, val.toLowerCase()].sort())
+    setTasteFilter([...tasteFilter, val.toLowerCase().trim()].sort())
   } 
   
   const handleTypeDrop = (val) => {
     setTypeDrop(val)
-    setTypeFilter([...typeFilter, val.toLowerCase()].sort())
+    setTypeFilter([...typeFilter, val.toLowerCase().trim()].sort())
   }
 
   const getAllWineTypes = () => {
@@ -138,7 +138,7 @@ export default ({ userData, shopData }) => {
   return (
     <Container>
       {showAddedPopup &&
-        <Alert style={{position: "fixed", top:56, zIndex: '+5', right:0}} variant="success" onClose={() => setShowAddedPopup(false)} dismissible>
+        <Alert style={{position: "fixed", top:156, zIndex: '+9', right:0}} variant="success" onClose={() => setShowAddedPopup(false)} dismissible>
           Polozka bola pridana do kosika!
         </Alert>
       }

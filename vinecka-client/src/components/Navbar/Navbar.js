@@ -13,6 +13,15 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
   const [prevScrollPos, setPrevScrollPos] = useState(0); 
   const [visible, setVisible] = useState(true);
 
+  const limit = Math.max( 
+    document.body.scrollHeight, 
+    document.body.offsetHeight, 
+    document.documentElement.clientHeight, 
+    document.documentElement.scrollHeight, 
+    document.documentElement.offsetHeight 
+    );
+
+
   const navbarStyles = {
     position: 'fixed',
     transition: 'top 0.6s',
@@ -30,7 +39,10 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
 
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
-    setVisible((prevScrollPos > currentScrollPos) || currentScrollPos < 50);
+    if ((limit - currentScrollPos) < 1100 && currentScrollPos > 50) setVisible(false)
+    else {
+      setVisible((prevScrollPos > currentScrollPos) || currentScrollPos < 50 );
+    }
     setPrevScrollPos(currentScrollPos);
   }
 
@@ -54,63 +66,63 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
       <Navbar.Collapse id="basic-navbar-nav" className="row justify-content-lg-center">
         <Nav className="ml-4 ml-md-0">
           <Nav.Link className="navihover" active>
-            <Link className="navilink" to="/">
+            <Link className="navilink pt-4 pb-3" to="/">
               Domov
             </Link>
           </Nav.Link>
 
           <Nav.Link className="navihover" active>
-            <Link className="navilink" to="/vinarne">
+            <Link className="navilink pt-3 pb-3" to="/vinarne">
               Vinarne
             </Link>
           </Nav.Link>
 
           <Nav.Link className="navihover">
-            <Link className="navilink" to="/vinka">
+            <Link className="navilink pt-3 pb-3" to="/vinka">
                 Vinka
             </Link>
           </Nav.Link>
 
           <Nav.Link className="navihover">
-            <Link className="navilink" to="/akcie">
+            <Link className="navilink pt-3 pb-3" to="/akcie">
               Akcie
             </Link>
           </Nav.Link>
 
           <Nav.Link className="navihover">
-            <Link className="navilink" to="/sluzby">
+            <Link className="navilink pt-3 pb-3" to="/sluzby">
               Sluzby
             </Link>
           </Nav.Link>
 
           <Nav.Link className="navihover">
-            <Link className="navilink" to="/kontakt">
+            <Link className="navilink pt-3 pb-3" to="/kontakt">
               Kontakt
             </Link>
           </Nav.Link>
         </Nav>
         <Nav style={{position: "absolute", right: 16}}>
             <Nav.Link className="navihover">
-              <Link className="navilink" to="/cart-page">
+              <Link className="navilink pt-3 pb-3" to="/cart-page">
                 <FiShoppingCart />
               </Link> 
             </Nav.Link>
           {isLoggedIn ? (
             <>
               <Nav.Link className="navihover">
-                <Link className="navilink" to="/objednavky">
+                <Link className="navilink pt-3 pb-3" to="/objednavky">
                   Objednavky
                 </Link>
               </Nav.Link>
               <Nav.Link className="navihover">
-                <Link className="navilink" onClick={handleLogOut} to="">
+                <Link className="navilink pt-3 pb-3" onClick={handleLogOut} to="">
                 Logout
                 </Link>
               </Nav.Link>
             </>
           ) : (
             <Nav.Link className="navihover">
-              <Link className="navilink" to="/login-page">
+              <Link className="navilink pt-3 pb-3" to="/login-page">
                 Login
               </Link>
             </Nav.Link>
