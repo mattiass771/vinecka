@@ -34,7 +34,6 @@ export default ({userId, isOwner}) => {
   const [carouselData, setCarouselData] = useState('')
   const [featuredWines, setFeaturedWines] = useState([])
   const [loading, setLoading] = useState(false)
-  const [showAddedPopup, setShowAddedPopup] = useState(false)
   const [featuredIds, setFeaturedIds] = useState([])
 
   const [eventsData, setEventsData] = useState([])
@@ -231,11 +230,6 @@ export default ({userId, isOwner}) => {
     />
     :
     <>
-      {showAddedPopup &&
-          <Alert style={{position: "fixed", zIndex: '+9', top:156, right:0}} variant="success" onClose={() => setShowAddedPopup(false)} dismissible>
-            Polozka bola pridana do kosika!
-          </Alert>
-      }
       {eventsPopup &&
         <UpdateEvents eventsText={eventsData[0]} eventsImage={eventsData[1]} eventsPopup={eventsPopup} setEventsPopup={setEventsPopup} forceRefresh={forceRefresh} setForceRefresh={setForceRefresh} />
       }
@@ -279,7 +273,7 @@ export default ({userId, isOwner}) => {
             <ShowUpdateFeatured />
           </Row>}
           <Row className="text-center pt-4 pb-4">
-            <ShowItem colXsSettings={6} colMdSettings={3} shopItems={featuredWines} shopId={'home'} userId={userId} setShouldReload={false} shouldReload={false} setShowAddedPopup={setShowAddedPopup} isOwner={false} />
+            <ShowItem colXsSettings={6} colMdSettings={3} shopItems={featuredWines} shopId={'home'} userId={userId} setShouldReload={false} shouldReload={false} isOwner={false} />
           </Row>
         </Container>
       </div>

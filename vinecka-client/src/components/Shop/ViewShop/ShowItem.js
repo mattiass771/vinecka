@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {Link} from 'react-router-dom';
 
 import Row from "react-bootstrap/Row";
@@ -7,21 +7,20 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
+import Alert from "react-bootstrap/Alert";
 
 import axios from "axios";
-
-import { SlideDown } from "react-slidedown";
-import "react-slidedown/lib/slidedown.css";
 
 import { MdDelete, MdEdit } from "react-icons/md";
 
 import EditItems from "./EditItems";
 
-export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setShouldReload, shouldReload, setShowAddedPopup, isOwner, url}) => {
+export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldReload, isOwner, url}) => {
     const [count, setCount] = useState("")
     const [isHovered, setIsHovered] = useState("")
     const [clicked, setClicked] = useState('')
     const [editing, setEditing] = useState('')
+    const [showAddedPopup, setShowAddedPopup] = useState(false)
 
     const copyFunction = (passId) => {
       const dummy = document.createElement("textarea");
@@ -54,6 +53,16 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
           .catch((err) => err && console.log(`Error ${err}`));
     };
 
+    const handleMouseOver = (id) => {
+      let hoverObj = {}
+      hoverObj[id] = 'block'
+      setIsHovered(hoverObj)
+    }
+
+    const handleMouseLeave = () => {
+      setIsHovered("")
+    }
+
     return shopItems.map((item, i) => {
       const { _id, itemName, price, description, imageLink, maxCount, color, taste } = item;
       const passShopId = shopId === 'home' ? item.shopId : shopId
@@ -66,8 +75,7 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
         let result = []
         for (let num = 1; num<= (maxCount ?? 200); num++) {
           result.push(<option key={num} value={num}>{num}</option>)
-        }
-        
+        } 
         return result
       }
 
@@ -84,20 +92,12 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
         setEditing({...editing, ...editingObj})
       }
 
-      const handleMouseOver = () => {
-        let hoverObj = {}
-        hoverObj[_id] = 'block'
-        setIsHovered({...isHovered, ...hoverObj})
-      }
-
-      const handleMouseLeave = () => {
-        setIsHovered("")
-      }
+      useEffect(() => {
+        console.log(isHovered)
+      }, [])
 
       const addItemToCart = (e) => {
-        console.log(e.currentTarget.parentNode.parentNode)
         const itemId = e.currentTarget.parentNode.parentNode.id;
-        console.log(itemId)
         const passCount = count[_id] || 1
         if (userId) {
           axios
@@ -118,7 +118,12 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
       }
       return (
         <Col className={`pt-2 pb-2 ${(shopId === 'home' && i>1) && 'd-none'} ${(shopId === 'home' && i===2) && 'd-none d-lg-block'} ${(shopId === 'home' && i===3) && 'd-none d-xl-block'}`} style={{color: "whitesmoke", overflow:"hidden"}} xs={12} md={6} lg={4} xl={3} key={_id}>
-          <Card onMouseEnter={() => handleMouseOver()} onMouseLeave={() => handleMouseLeave()} style={{height: "410px", maxWidth: "300px"}} id={_id} >
+          {showAddedPopup &&
+            <Alert style={{position: "fixed", zIndex: '+9', top:156, right:0}} variant="success" onClose={() => setShowAddedPopup(false)} dismissible>
+              Polozka bola pridana do kosika!
+            </Alert>
+          }
+          <Card onMouseEnter={() => handleMouseOver(_id)} onMouseLeave={() => handleMouseLeave()} style={{height: "410px", maxWidth: "300px"}} id={_id} >
             {isOwner &&
             <Button
               onClick={(e) => deleteCard(e)}
@@ -188,4 +193,4 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
         </Col>
       );
     });
-  };
+  });

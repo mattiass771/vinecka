@@ -4,7 +4,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert"
 
 import axios from "axios";
 
@@ -18,7 +17,6 @@ export default ({ shopData, isOwner, userId }) => {
   const [showAddItems, setShowAddItems] = useState(false);
   const [shopItems, setShopItems] = useState(shopData.shopItems);
   const [shouldReload, setShouldReload] = useState(false);
-  const [showAddedPopup, setShowAddedPopup] = useState(false)
 
   const shopId = shopData._id
 
@@ -40,11 +38,6 @@ export default ({ shopData, isOwner, userId }) => {
 
   return (
     <Container className="text-center">
-      {showAddedPopup &&
-        <Alert style={{position: "fixed", zIndex: '+9', top:156, right:0}} variant="success" onClose={() => setShowAddedPopup(false)} dismissible>
-          Polozka bola pridana do kosika!
-        </Alert>
-      }
       {isOwner &&
         <AddItems
           shopData={shopData}
@@ -58,7 +51,6 @@ export default ({ shopData, isOwner, userId }) => {
           shopId={shopId} 
           setShouldReload={setShouldReload}
           shouldReload={shouldReload}
-          setShowAddedPopup={setShowAddedPopup}
           isOwner={isOwner}
           />
         {isOwner && 

@@ -13,7 +13,6 @@ import {BsTrash, BsTrashFill} from "react-icons/bs";
 //Shop.js
 export default ({ userData, shopData }) => {
   const [initialData, setInitialData] = useState([])
-  const [showAddedPopup, setShowAddedPopup] = useState(false)
   const {userId} = userData
 
   const [wineTypes, setWineTypes] = useState([])
@@ -102,7 +101,7 @@ export default ({ userData, shopData }) => {
       const {shopItems, url, _id: shopId} = shop
       const filteredShopItems = filterData(shopItems)
       return (
-        <ShowItem key={`${shopId}-${i}`} shopItems={filteredShopItems ? filteredShopItems : shopItems} url={url} shopId={shopId} userId={userId} setShouldReload={false} shouldReload={false} setShowAddedPopup={setShowAddedPopup} isOwner={false} />
+        <ShowItem key={`${shopId}-${i}`} shopItems={filteredShopItems ? filteredShopItems : shopItems} url={url} shopId={shopId} userId={userId} setShouldReload={false} shouldReload={false} isOwner={false} />
       )
     })
   }
@@ -137,11 +136,6 @@ export default ({ userData, shopData }) => {
   
   return (
     <Container>
-      {showAddedPopup &&
-        <Alert style={{position: "fixed", top:156, zIndex: '+9', right:0}} variant="success" onClose={() => setShowAddedPopup(false)} dismissible>
-          Polozka bola pridana do kosika!
-        </Alert>
-      }
       <Row className="mb-4 text-center justify-content-center">
         <Col>
           <Form.Control
