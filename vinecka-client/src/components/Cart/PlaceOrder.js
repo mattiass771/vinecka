@@ -86,7 +86,7 @@ export default ({setUserInformation}) => {
         <br />
         <Row className="justify-content-md-center">
           <Col md={6} className="text-center mt-1">
-            <label htmlFor="firstName">First Name:</label>
+            <label htmlFor="firstName">Meno:</label>
             <input
               className={`form-control text-center ${checkIfNameMeetsCriteria(
                 firstName
@@ -104,7 +104,7 @@ export default ({setUserInformation}) => {
             />
           </Col>
           <Col md={6} className="text-center mt-1">
-            <label htmlFor="middleName">Middle Name (Optional):</label>
+            <label htmlFor="middleName">Stredné meno (voliteľné):</label>
             <input
               className={`form-control text-center ${checkIfNameMeetsCriteria(
                 middleName
@@ -122,7 +122,7 @@ export default ({setUserInformation}) => {
             />
           </Col>
           <Col md={6} className="text-center mt-1">
-            <label htmlFor="lastName">Last Name:</label>
+            <label htmlFor="lastName">Priezvisko:</label>
             <input
               className={`form-control text-center ${checkIfNameMeetsCriteria(
                 lastName
@@ -150,7 +150,7 @@ export default ({setUserInformation}) => {
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
-            <label htmlFor="phone">Phone:</label>
+            <label htmlFor="phone">Telefon:</label>
             <input
               className={`form-control text-center ${checkIfPhoneMeetsCriteria()}`}
               type="text"
@@ -162,7 +162,7 @@ export default ({setUserInformation}) => {
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
-            <label htmlFor="street">Street and house no.:</label>
+            <label htmlFor="street">Ulica a cislo domu:</label>
             <input
               className={`form-control text-center ${checkIfStreetMeetsCriteria()}`}
               type="text"
@@ -176,7 +176,7 @@ export default ({setUserInformation}) => {
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
-            <label htmlFor="postal">Postal:</label>
+            <label htmlFor="postal">PSČ:</label>
             <input
               className={`form-control text-center ${checkIfPostalMeetsCriteria()}`}
               type="text"
@@ -186,7 +186,7 @@ export default ({setUserInformation}) => {
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
-            <label htmlFor="city">City:</label>
+            <label htmlFor="city">Mesto:</label>
             <input
               className={`form-control text-center ${checkIfCityMeetsCriteria()}`}
               type="text"

@@ -115,7 +115,7 @@ export default ({shoppingCart = false, handleLogin}) => {
         </Row>
         <Row className="justify-content-md-center">
           <Col md={6} className="text-center mt-1">
-            <label htmlFor="firstName">First Name:</label>
+            <label htmlFor="firstName">Meno:</label>
             <input
               className={`form-control text-center ${checkIfNameMeetsCriteria(
                 firstName
@@ -133,7 +133,7 @@ export default ({shoppingCart = false, handleLogin}) => {
             />
           </Col>
           <Col md={6} className="text-center mt-1">
-            <label htmlFor="middleName">Middle Name (Optional):</label>
+            <label htmlFor="middleName">Stredné meno (voliteľné):</label>
             <input
               className={`form-control text-center ${checkIfNameMeetsCriteria(
                 middleName
@@ -151,7 +151,7 @@ export default ({shoppingCart = false, handleLogin}) => {
             />
           </Col>
           <Col md={6} className="text-center mt-1">
-            <label htmlFor="lastName">Last Name:</label>
+            <label htmlFor="lastName">Priezvisko:</label>
             <input
               className={`form-control text-center ${checkIfNameMeetsCriteria(
                 lastName
@@ -180,7 +180,7 @@ export default ({shoppingCart = false, handleLogin}) => {
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
-            <label htmlFor="phone">Phone:</label>
+            <label htmlFor="phone">Telefon:</label>
             <input
               className={`form-control text-center ${checkIfPhoneMeetsCriteria()}`}
               type="text"
@@ -192,7 +192,7 @@ export default ({shoppingCart = false, handleLogin}) => {
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
-            <label htmlFor="street">Street and house no.:</label>
+            <label htmlFor="street">Ulica a číslo domu:</label>
             <input
               className={`form-control text-center ${checkIfStreetMeetsCriteria()}`}
               type="text"
@@ -206,7 +206,7 @@ export default ({shoppingCart = false, handleLogin}) => {
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
-            <label htmlFor="postal">Postal:</label>
+            <label htmlFor="postal">PSČ:</label>
             <input
               className={`form-control text-center ${checkIfPostalMeetsCriteria()}`}
               type="text"
@@ -216,7 +216,7 @@ export default ({shoppingCart = false, handleLogin}) => {
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
-            <label htmlFor="city">City:</label>
+            <label htmlFor="city">Mesto:</label>
             <input
               className={`form-control text-center ${checkIfCityMeetsCriteria()}`}
               type="text"
@@ -226,7 +226,7 @@ export default ({shoppingCart = false, handleLogin}) => {
             />
           </Col>
           <Col md={6} className="text-center mt-1">
-            <label htmlFor="passwordFirst">New Password:</label>
+            <label htmlFor="passwordFirst">Nové heslo:</label>
             <input
               className={`form-control text-center ${
                 !checkIfPasswordMeetsCriteria() && passwordFirst.length > 0
@@ -240,7 +240,7 @@ export default ({shoppingCart = false, handleLogin}) => {
             />
           </Col>
           <Col md={6} className="text-center mt-1">
-            <label htmlFor="passwordSecond">Repeat Password:</label>
+            <label htmlFor="passwordSecond">Zopakovať heslo:</label>
             <input
               className="form-control text-center"
               type="password"
@@ -254,8 +254,7 @@ export default ({shoppingCart = false, handleLogin}) => {
           <Row className="justify-content-md-center">
             <Col md={6} className="text-center mt-3">
               <em style={{ color: "#7b1818" }}>
-                Password must be at least 8 characters long and must contain one
-                lowercase, one uppercase character and one number.
+                Heslo musí mať 8 znakov a musí pozostávať z najmenej jedného veľkého, malého písmena a musí obsahovať minimálne jednu číslicu.
               </em>
             </Col>
           </Row>
@@ -266,7 +265,7 @@ export default ({shoppingCart = false, handleLogin}) => {
             {emailExists && (
               <>
                 <em style={{ color: "#7b1818" }}>
-                  This e-mail is already registered in our system!
+                  Tento e-mail už existuje v našom systéme.
                 </em>
                 <br />
                 <br />
@@ -274,7 +273,7 @@ export default ({shoppingCart = false, handleLogin}) => {
             )}
             {checkIfPasswordMeetsCriteria() && !passwordsMatch && (
               <>
-                <em style={{ color: "#7b1818" }}>Passwords must match!</em>
+                <em style={{ color: "#7b1818" }}>Heslá musia byť rovnaké!</em>
               </>
             )}
           </Col>
@@ -292,11 +291,11 @@ export default ({shoppingCart = false, handleLogin}) => {
             passwordsMatch &&
             emailExists === null ? (
               <Button onClick={handleSignUp} variant="dark">
-                Sign up!
+                Prihlásiť sa!
               </Button>
             ) : (
               <Button disabled variant="dark">
-                Sign up!
+                Prihlásiť sa!
               </Button>
             )}
           </Col>

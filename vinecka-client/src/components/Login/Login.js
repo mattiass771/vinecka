@@ -35,14 +35,14 @@ export default ({shoppingCart = false}) => {
               <input
                 className="form-control text-center"
                 type="text"
-                placeholder="username"
+                placeholder="e-mail"
                 name="username"
               />
               <br />
               <input
                 className="form-control text-center"
                 type="password"
-                placeholder="password"
+                placeholder="heslo"
                 name="password"
               />
               <br />
@@ -62,7 +62,7 @@ export default ({shoppingCart = false}) => {
             <Row className={`justify-content-md-center`}>
               <Col md={6} className="text-center mt-1">
                 <Button onClick={showSignUp} variant="dark">
-                  Hey, I am new here!
+                  Ešte nemám prihlásenie.
                 </Button>
               </Col>
             </Row>

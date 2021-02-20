@@ -272,7 +272,7 @@ export default ({userId}) => {
                     <>  
                         {shops.length === 0 && 
                             <>
-                                <h4>Nakupny kosik je momentalne prazdny.</h4>
+                                <h4>Nakupny kosik je momentálne prazdny.</h4>
                                 <br />
                                 <br />
                             </>
