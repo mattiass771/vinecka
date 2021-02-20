@@ -26,7 +26,7 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
     position: 'fixed',
     transition: 'top 0.6s',
     width: '100%',
-    zIndex: '+8',
+    zIndex: '+2',
     backgroundColor: '#373f27',
     fontSize: '120%'
   }
@@ -34,7 +34,7 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
   const logoStyles = {
     position: 'fixed',
     transition: 'top 0.6s',
-    zIndex: '+9',
+    zIndex: '+3',
   }
 
   const handleScroll = () => {

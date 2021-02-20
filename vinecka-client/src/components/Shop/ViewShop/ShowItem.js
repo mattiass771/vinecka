@@ -155,8 +155,10 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
               <Card.Text className={`mt-1 mb-1 pb-4`}>{price} €</Card.Text>
             </div>
             <Card.ImgOverlay className={`${isHovered[_id] === 'block' ? 'fade-in' : 'fade-out'}`} style={{ background: "rgba(52,58,64,0.7)"}} >
-                <Button style={{width: "100%"}} onClick={(e) => addItemToCart(e)} variant="dark">Pridať do košíka.</Button>
+                {isHovered[_id] === 'block' &&
+                <Button style={{width: "100%"}} onClick={(e) => addItemToCart(e)} variant="dark">Pridať do košíka.</Button>}
                 <Container>
+                {isHovered[_id] === 'block' &&
                   <Row className="mt-2">
                     <Col>
                       <Form.Control
@@ -167,15 +169,15 @@ export default ({colMdSettings, colXsSettings, shopItems, shopId, userId, setSho
                         {showCount()}
                       </Form.Control>
                     </Col>
-                  </Row>
-                  {isOwner &&
+                  </Row>}
+                  {(isOwner && isHovered[_id] === 'block') &&
                   <Row>
                     <Col><a onClick={() => copyFunction(_id)} style={{textDecoration: 'none', cursor: 'pointer', color: clicked}}><strong>copy my id!</strong></a></Col>
                   </Row>}
                   <Row style={{height: '240px', marginTop: '5px', marginBottom: '5px'}}>
                     <Col>{description}</Col>
                   </Row>
-                  {url && 
+                  {(url && isHovered[_id] === 'block') &&
                     <Link to={`/${url}`}>
                       <Button style={{width: "100%"}} variant="dark">Navštíviť vináreň.</Button>
                     </Link>
