@@ -18,12 +18,12 @@ body {
 }
 
 .home-page {
-  /* background: url(./bg.png) no-repeat center center fixed; 
+  background: url(./poz.png) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover; */
-  background-color: whitesmoke;
+  background-size: cover;
+  /* background-color: whitesmoke; */
 }
 
 ::-webkit-scrollbar {
