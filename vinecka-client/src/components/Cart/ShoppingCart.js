@@ -231,7 +231,7 @@ export default ({userId}) => {
     }
 
     return (
-        <Container style={{paddingTop: "50px"}}>
+        <Container style={{paddingTop: "50px", backgroundColor: "white", paddingBottom: "50px"}}>
             { passOrderInfo && paymentPopup &&
                 <PayGate orderInfo={passOrderInfo} setPaymentPopup={setPaymentPopup} paymentPopup={paymentPopup} />
             }

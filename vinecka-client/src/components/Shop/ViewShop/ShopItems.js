@@ -37,7 +37,7 @@ export default ({ shopData, isOwner, userId }) => {
   }, [shouldReload]); //eslint-disable-line
 
   return (
-    <Container className="text-center">
+    <Container className="text-center pt-4 pb-4 mb-4">
       {isOwner &&
         <AddItems
           shopData={shopData}

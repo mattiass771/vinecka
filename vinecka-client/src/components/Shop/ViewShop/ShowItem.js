@@ -179,12 +179,13 @@ export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldR
                     </Col>
                   </Row>}
                   {(isOwner && isHovered[_id] === 'block') && hoverTimeout[_id] &&
-                  <><Row>
+                  <Row>
                     <Col><a onClick={() => copyFunction(_id)} style={{textDecoration: 'none', cursor: 'pointer', color: clicked}}><strong>copy my id!</strong></a></Col>
-                  </Row>
+                  </Row>}
+                  {isHovered[_id] === 'block' && hoverTimeout[_id] &&
                   <Row style={{height: '240px', marginTop: '5px', marginBottom: '5px'}}>
                     <Col>{description}</Col>
-                  </Row></>}
+                  </Row>}
                   {(url && isHovered[_id] === 'block') && hoverTimeout[_id] &&
                     <Link to={`/${url}`}>
                       <Button style={{width: "100%"}} variant="dark">Navštíviť vináreň.</Button>

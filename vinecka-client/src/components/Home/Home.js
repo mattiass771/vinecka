@@ -199,10 +199,10 @@ export default ({userId, isOwner}) => {
 
   const showCarouselWithData = () => {
     return carouselData.map(shop => {
-      const {shopName, owner, url, imageLink} = shop
-      const image = getImage(imageLink)
+      const {shopName, owner, url, imageLink, textColor} = shop
+      const image = imageLink
         ? getImage(imageLink)
-        : imageLink;
+        : 'https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1200,h_630,f_auto/w_80,x_15,y_15,g_south_west,l_klook_water/activities/liole38z42thwanpxlrw/Lunch%20and%20Tasting%20at%20the%20Winery%20Tenuta%20Torciano.jpg';
       return (
         <Carousel.Item key={`${url}-${imageLink}`} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight: MIN_HEIGHT_JUMBO }}>
             <Link to={`/${url}`}>
@@ -212,7 +212,7 @@ export default ({userId, isOwner}) => {
               src={image}
               alt={`Carousel-${imageLink}`}
             />
-            <Carousel.Caption style={{zIndex:'+1'}}>
+            <Carousel.Caption style={{zIndex:'+1' ,marginBottom: "75px", color: textColor === 'white' ? 'whitesmoke' : '#333333'}}>
               <h3>{shopName}</h3>
               <p>{owner}</p>
             </Carousel.Caption>
@@ -245,7 +245,7 @@ export default ({userId, isOwner}) => {
       <Carousel indicators={false} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight: MIN_HEIGHT_JUMBO }}>
         {carouselData && showCarouselWithData()}  
       </Carousel>
-      <svg preserveAspectRatio="none" height="20%" width="100%" style={{position: "absolute", top: 376, left: 0}} xmlns="http://www.w3.org/2000/svg" viewBox="130 -70 1200 390"><path fill="white" fill-opacity="1" d="M0,288L60,277.3C120,267,240,245,360,213.3C480,181,600,139,720,112C840,85,960,75,1080,85.3C1200,96,1320,128,1380,144L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+      <svg className="d-none d-lg-block" preserveAspectRatio="none" height="20%" width="100%" style={{position: "absolute", top: 376, left: 0}} xmlns="http://www.w3.org/2000/svg" viewBox="130 -70 1200 390"><path fill="white" fill-opacity="1" d="M0,288L60,277.3C120,267,240,245,360,213.3C480,181,600,139,720,112C840,85,960,75,1080,85.3C1200,96,1320,128,1380,144L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
       <div className="pb-4" style={{backgroundColor: 'white', color: "rgba(55, 63, 39, 1)"}}>
         <Container>
           <Row className="text-center justify-content-center pt-4">
