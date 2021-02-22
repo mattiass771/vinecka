@@ -93,7 +93,7 @@ export default ({userId, isOwner}) => {
 
   const ShowEvents = () => {
     return (
-      <Col md={6} style={{paddingRight:'0'}}>
+      <Col md={6} style={{padding:'35px'}}>
         {isOwner &&
           <Button
             onClick={() => setEventsPopup(true)}
@@ -110,9 +110,9 @@ export default ({userId, isOwner}) => {
           </Button>
           }
           <Link to={`/akcie`}>
-            <Card className="h-100 w-100" onMouseEnter={() => setIsHoveredEvents('block')} onMouseLeave={() => setIsHoveredEvents('none')} style={{ textAlign:"center", color: "whitesmoke", background: 'rgba(0,0,0,0.1)' }} >
+            <Card className="h-100 w-100" onMouseEnter={() => setIsHoveredEvents('block')} onMouseLeave={() => setIsHoveredEvents('none')} style={{ textAlign:"center", color: "whitesmoke", background: 'rgba(52,58,64,0)', border: '1.5px solid white' }} >
                 <Card.Img className="h-100 w-100" src={getImage(eventsData[1]) ? getImage(eventsData[1]) : eventsData[1]} />
-                <Card.ImgOverlay className={isHoveredEvents === 'none' ? 'fade-out' : 'fade-in'} style={{ background: "rgba(52,58,64,0.4)"}} >
+                <Card.ImgOverlay className={isHoveredEvents === 'none' ? 'fade-in' : 'fade-out'} style={{ background: "rgba(52,58,64,0.3)"}} >
                 </Card.ImgOverlay>
             </Card>
         </Link>
@@ -122,7 +122,7 @@ export default ({userId, isOwner}) => {
 
   const ShowServices = () => {
     return (
-      <Col md={6} style={{paddingLeft:'0'}}>
+      <Col md={6} style={{padding:'35px'}}>
         {isOwner &&
           <Button
             onClick={() => setServicesPopup(true)}
@@ -138,9 +138,9 @@ export default ({userId, isOwner}) => {
             <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
           </Button>}
         <Link to={`/sluzby`}>
-            <Card className="h-100 w-100" onMouseEnter={() => setIsHoveredServices('block')} onMouseLeave={() => setIsHoveredServices('none')} style={{ textAlign:"center", color: "whitesmoke", background: 'rgba(0,0,0,0.1)' }} >
-                <Card.Img className="h-100 w=100" src={getImage(servicesData[1]) ? getImage(servicesData[1]) : servicesData[1]} />
-                <Card.ImgOverlay className={isHoveredServices === 'none' ? 'fade-out' : 'fade-in'} style={{ background: "rgba(52,58,64,0.4)"}} >
+            <Card className="h-100 w-100" onMouseEnter={() => setIsHoveredServices('block')} onMouseLeave={() => setIsHoveredServices('none')} style={{ textAlign:"center", color: "whitesmoke", background: 'rgba(52,58,64,0)', background: 'rgba(52,58,64,0)', border: '1.5px solid white'}} >
+                <Card.Img className="h-100 w-100" src={getImage(servicesData[1]) ? getImage(servicesData[1]) : servicesData[1]} />
+                <Card.ImgOverlay className={isHoveredServices === 'none' ? 'fade-in' : 'fade-out'} style={{ background: "rgba(52,58,64,0.3)"}} >
                   <div></div>
                 </Card.ImgOverlay>
             </Card>
@@ -226,6 +226,7 @@ export default ({userId, isOwner}) => {
       animation="border"
     />
     :
+    <>
     <div className="home-page">
       {eventsPopup &&
         <UpdateEvents eventsText={eventsData[0]} eventsImage={eventsData[1]} eventsPopup={eventsPopup} setEventsPopup={setEventsPopup} forceRefresh={forceRefresh} setForceRefresh={setForceRefresh} />
@@ -301,12 +302,15 @@ export default ({userId, isOwner}) => {
             </Row>
         </Container>
       </div>
-      <div>  
-        <Row>
-          <ShowEvents />
-          <ShowServices />
-        </Row>
       </div>
-    </div>
+      <div>  
+        <Container>
+          <Row>
+            <ShowEvents />
+            <ShowServices />
+          </Row>
+        </Container>
+      </div>
+      </>
   );
 };

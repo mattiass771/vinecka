@@ -66,37 +66,37 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
       <Navbar.Collapse id="basic-navbar-nav" className="row justify-content-lg-center">
         <Nav className="ml-4 ml-md-0">
           <Nav.Link className="navihover" active>
-            <Link className="navilink pt-4 pb-3 mr-lg-4 ml-lg-4" to="/">
+            <Link className="navilink pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2" to="/">
               Domov
             </Link>
           </Nav.Link>
 
           <Nav.Link className="navihover" active>
-            <Link className="navilink pt-3 pb-3 mr-lg-4 ml-lg-4" to="/vinarne">
+            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2" to="/vinarne">
               Vinarne
             </Link>
           </Nav.Link>
 
           <Nav.Link className="navihover">
-            <Link className="navilink pt-3 pb-3 mr-lg-4 ml-lg-4" to="/vinka">
+            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2" to="/vinka">
                 Vinka
             </Link>
           </Nav.Link>
 
           <Nav.Link className="navihover">
-            <Link className="navilink pt-3 pb-3 mr-lg-4 ml-lg-4" to="/akcie">
+            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2" to="/akcie">
               Akcie
             </Link>
           </Nav.Link>
 
           <Nav.Link className="navihover">
-            <Link className="navilink pt-3 pb-3 mr-lg-4 ml-lg-4" to="/sluzby">
+            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2" to="/sluzby">
               Sluzby
             </Link>
           </Nav.Link>
 
           <Nav.Link className="navihover">
-            <Link className="navilink pt-3 pb-3 mr-lg-4 ml-lg-4" to="/kontakt">
+            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2" to="/kontakt">
               Kontakt
             </Link>
           </Nav.Link>
@@ -107,7 +107,7 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
                 <FiShoppingCart />
               </Link> 
             </Nav.Link>
-          {isLoggedIn ? (
+          {!isLoggedIn ? (
             <>
               <Nav.Link className="navihover">
                 <Link className="navilink pt-3 pb-3" to="/objednavky">
