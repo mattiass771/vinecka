@@ -210,7 +210,7 @@ export default ({ shopData, isOwner }) => {
     <Jumbotron style={{
                       color: textColor === 'white' ? 'whitesmoke' : '#333333', 
                       fontSize: '120%',
-                      background: `url(${showImageFromDb ? getImage(showImageFromDb) : 'https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1200,h_630,f_auto/w_80,x_15,y_15,g_south_west,l_klook_water/activities/liole38z42thwanpxlrw/Lunch%20and%20Tasting%20at%20the%20Winery%20Tenuta%20Torciano.jpg'}) no-repeat`, 
+                      background: `url(${showImageFromDb ? getImage(showImageFromDb) : '../../../default.jpg'}) no-repeat`, 
                       backgroundSize: 'cover'                  
                       }} fluid>
                         
