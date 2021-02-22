@@ -11,10 +11,19 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: whitesmoke;
-  color: #373f27 !important;
+  color: rgb(55, 63, 39) !important;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
   padding-top: 156px;
+}
+
+.home-page {
+  /* background: url(./bg.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; */
+  background-color: whitesmoke;
 }
 
 ::-webkit-scrollbar {
@@ -78,7 +87,7 @@ body {
 }
 
 Button {
-  background-color: #373f27 !important;
+  background-color: rgb(55, 63, 39) !important;
 }
 
 code {

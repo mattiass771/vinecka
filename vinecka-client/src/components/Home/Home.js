@@ -226,7 +226,7 @@ export default ({userId, isOwner}) => {
       animation="border"
     />
     :
-    <>
+    <div className="home-page">
       {eventsPopup &&
         <UpdateEvents eventsText={eventsData[0]} eventsImage={eventsData[1]} eventsPopup={eventsPopup} setEventsPopup={setEventsPopup} forceRefresh={forceRefresh} setForceRefresh={setForceRefresh} />
       }
@@ -307,6 +307,6 @@ export default ({userId, isOwner}) => {
           <ShowServices />
         </Row>
       </div>
-    </>
+    </div>
   );
 };
