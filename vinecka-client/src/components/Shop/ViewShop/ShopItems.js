@@ -57,7 +57,7 @@ export default ({ shopData, isOwner, userId }) => {
         <Col className="mt-2 mb-2" md={6} lg={4} xl={3}>
           <Card style={{height: '400px'}}>
             <Button
-              variant="outline-dark"
+              variant="outline-light"
               style={{ border: '0px', height: '100%'}}
               onClick={() => setShowAddItems(true)}
             >

@@ -1,12 +1,17 @@
 body {
   margin: 0;
+  background: url(./bg.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: whitesmoke;
-  color: #333333 !important;
+  color: #373f27 !important;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
   padding-top: 156px;
@@ -16,25 +21,59 @@ body {
   display: none;
 }
 
-
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1150px) {
   .carousel-image {
     min-height: 225 !important;
-    max-width: 125% !important;
+    max-width: 110% !important;
   }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1000px) {
+  .carousel-image {
+    min-height: 225 !important;
+    max-width: 120% !important;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .carousel-image {
+    min-height: 225 !important;
+    max-width: 135% !important;
+  }
+}
+
+@media only screen and (max-width: 800px) {
   .carousel-image {
     min-height: 225 !important;
     max-width: 150% !important;
   }
 }
 
+@media only screen and (max-width: 700px) {
+  .carousel-image {
+    min-height: 225 !important;
+    max-width: 162% !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .carousel-image {
+    min-height: 225 !important;
+    max-width: 175% !important;
+  }
+}
+
 @media only screen and (max-width: 500px) {
   .carousel-image {
     min-height: 225 !important;
-    max-width: 165% !important;
+    max-width: 200% !important;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .carousel-image {
+    min-height: 225 !important;
+    max-width: 215% !important;
   }
 }
 
