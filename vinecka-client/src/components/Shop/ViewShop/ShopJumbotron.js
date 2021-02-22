@@ -18,6 +18,8 @@ import { MdDelete } from "react-icons/md";
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
+import defaultImage from "../../../default.jpg";
+
 import options from '../../../config/options';
 const {MAX_HEIGHT_JUMBO} = options
 
@@ -210,7 +212,7 @@ export default ({ shopData, isOwner }) => {
     <Jumbotron style={{
                       color: textColor === 'white' ? 'whitesmoke' : '#333333', 
                       fontSize: '120%',
-                      background: `url(${showImageFromDb ? getImage(showImageFromDb) : '../../../default.jpg'}) no-repeat`, 
+                      background: `url(${showImageFromDb ? getImage(showImageFromDb) : defaultImage}) no-repeat`, 
                       backgroundSize: 'cover'                  
                       }} fluid>
                         

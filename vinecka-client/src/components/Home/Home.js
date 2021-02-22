@@ -27,6 +27,8 @@ import { FiTruck } from "react-icons/fi";
 import { GoPackage } from "react-icons/go";
 import { RiSecurePaymentFill } from "react-icons/ri";
 
+import defaultImage from "../../default.jpg"
+
 const {MAX_HEIGHT_JUMBO, MIN_HEIGHT_JUMBO} = options
 
 //Home.js
@@ -197,12 +199,12 @@ export default ({userId, isOwner}) => {
       const {shopName, owner, url, imageLink, textColor} = shop
       const image = imageLink
         ? getImage(imageLink)
-        : '../../default.jpg';
+        : defaultImage;
       return (
         <Carousel.Item key={`${url}-${imageLink}`} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight: MIN_HEIGHT_JUMBO }}>
             <Link to={`/${url}`}>
             <img
-              style={{minHeight: MIN_HEIGHT_JUMBO, maxWidth: "100%"}}
+              style={{minHeight: MIN_HEIGHT_JUMBO, width: "100%"}}
               className="d-block carousel-image"
               src={image}
               alt={`Carousel-${imageLink}`}
