@@ -10,7 +10,7 @@ import Container from 'react-bootstrap/Container'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default ({userId, isOwner = true}) => {
+export default ({userId, isOwner}) => {
     const [ordersData, setOrdersData] = useState([])
     const [shippedObj, setShippedObj] = useState({})
     const [refresh, setRefresh] = useState(false)
