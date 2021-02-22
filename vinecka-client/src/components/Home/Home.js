@@ -91,7 +91,7 @@ export default ({userId, isOwner}) => {
 
   const ShowEvents = () => {
     return (
-      <Col md={6} style={{padding:'0'}}>
+      <Col md={6} style={{paddingRight:'0', background: 'rgba(0,0,0,0.1)'}}>
         {isOwner &&
           <Button
             onClick={() => setEventsPopup(true)}
@@ -108,12 +108,9 @@ export default ({userId, isOwner}) => {
           </Button>
           }
           <Link to={`/akcie`}>
-            <Card className="h-100 w-100" onMouseEnter={() => setIsHoveredEvents('block')} onMouseLeave={() => setIsHoveredEvents('none')} style={{ textAlign:"center", color: "whitesmoke" }} >
-                <Card.Img className="h-100 w-100" src={getImage(eventsData[1]) ? getImage(eventsData[1]) : eventsData[1]} />
-                <Card.ImgOverlay className={isHoveredEvents === 'none' ? 'fade-in' : 'fade-out'} style={{ background: "rgba(52,58,64,0.4)"}} >
-                        <h3 style={{paddingTop: "50%"}}>
-                            Služby
-                        </h3>
+            <Card className="h-100 w-100" onMouseEnter={() => setIsHoveredEvents('block')} onMouseLeave={() => setIsHoveredEvents('none')} style={{ textAlign:"center", color: "whitesmoke", background: 'rgba(0,0,0,0.1)' }} >
+                <Card.Img style={{background: 'rgba(0,0,0,0.1)' }} className="h-100 w-100" src={getImage(eventsData[1]) ? getImage(eventsData[1]) : eventsData[1]} />
+                <Card.ImgOverlay className={isHoveredEvents === 'none' ? 'fade-out' : 'fade-in'} style={{ background: "rgba(52,58,64,0.4)"}} >
                 </Card.ImgOverlay>
             </Card>
         </Link>
@@ -123,7 +120,7 @@ export default ({userId, isOwner}) => {
 
   const ShowServices = () => {
     return (
-      <Col md={6} style={{padding:'0'}}>
+      <Col md={6} style={{paddingLeft:'0', background: 'rgba(0,0,0,0.1)'}}>
         {isOwner &&
           <Button
             onClick={() => setServicesPopup(true)}
@@ -139,12 +136,10 @@ export default ({userId, isOwner}) => {
             <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
           </Button>}
         <Link to={`/sluzby`}>
-            <Card className="h-100 w-100" onMouseEnter={() => setIsHoveredServices('block')} onMouseLeave={() => setIsHoveredServices('none')} style={{ textAlign:"center", color: "whitesmoke" }} >
-                <Card.Img className="h-100 w=100" src={getImage(servicesData[1]) ? getImage(servicesData[1]) : servicesData[1]} />
-                <Card.ImgOverlay className={isHoveredServices === 'none' ? 'fade-in' : 'fade-out'} style={{ background: "rgba(52,58,64,0.4)"}} >
-                        <h3 style={{paddingTop: "50%"}}>
-                            Služby
-                        </h3>
+            <Card className="h-100 w-100" onMouseEnter={() => setIsHoveredServices('block')} onMouseLeave={() => setIsHoveredServices('none')} style={{ textAlign:"center", color: "whitesmoke", background: 'rgba(0,0,0,0.1)' }} >
+                <Card.Img style={{background: 'rgba(0,0,0,0.1)'}} className="h-100 w=100" src={getImage(servicesData[1]) ? getImage(servicesData[1]) : servicesData[1]} />
+                <Card.ImgOverlay className={isHoveredServices === 'none' ? 'fade-out' : 'fade-in'} style={{ background: "rgba(52,58,64,0.4)"}} >
+                  <div></div>
                 </Card.ImgOverlay>
             </Card>
         </Link>
@@ -196,7 +191,7 @@ export default ({userId, isOwner}) => {
         </Col>
       </Row>
   }
-  
+
   const showCarouselWithData = () => {
     return carouselData.map(shop => {
       const {shopName, owner, url, imageLink, textColor} = shop
@@ -305,7 +300,7 @@ export default ({userId, isOwner}) => {
         </Container>
       </div>
       <div>  
-        <Row>
+        <Row style={{background: 'rgba(0,0,0,0.1)'}}>
           <ShowEvents />
           <ShowServices />
         </Row>
