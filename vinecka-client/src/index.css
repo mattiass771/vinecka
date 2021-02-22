@@ -30,6 +30,13 @@ body {
   display: none;
 }
 
+@media only screen and (min-width: 1150px) {
+  .carousel-image {
+    min-height: 225 !important;
+    max-width: 100% !important;
+  }
+}
+
 @media only screen and (max-width: 1150px) {
   .carousel-image {
     min-height: 225 !important;
@@ -87,7 +94,7 @@ body {
 }
 
 Button {
-  background-color: rgb(55, 63, 39) !important;
+  background-color: #373f27 !important;
 }
 
 code {

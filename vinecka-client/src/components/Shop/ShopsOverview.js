@@ -24,14 +24,13 @@ export default ({userData, shopData}) => {
 
     const showShops = () => {
         return shopData.map(shop => {
-            const { _id, shopName, description, url, overviewImage } = shop
+            const { _id, shopName, url, overviewImage } = shop
             const handleMouseOver = () => {
                 let hoverObj = {}
                 hoverObj[_id] = 'none'
                 setIsHovered({...isHovered, ...hoverObj})
             }
             const handleMouseLeave = () => {
-                let hoverObj = {}
                 setIsHovered('')
             }
             return (

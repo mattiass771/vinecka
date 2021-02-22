@@ -7,15 +7,22 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 
-export default ({userId, isOwner}) => {
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+export default ({userId, isOwner = true}) => {
     const [ordersData, setOrdersData] = useState([])
     const [shippedObj, setShippedObj] = useState({})
     const [refresh, setRefresh] = useState(false)
     const [expandedObj, setExpandedObj] = useState({})
 
+    const [maxDate, setMaxDate] = useState(new Date())
+    const [minDate, setMinDate] = useState(new Date('2021-01-01'))
+
     // TODO: pridat moznost znovu zaplatit pri rejected order
 
     useEffect(() => {
+        console.log(maxDate, minDate)
         axios.get(`https://mas-vino.herokuapp.com/orders`)
             .then(res => {
                 const result = res.data
@@ -91,7 +98,7 @@ export default ({userId, isOwner}) => {
     }
 
     const ShowBuyerDetails = ({passUserInformation, buyerId}) => {
-        const { fullName, email, phone, address, iban } = passUserInformation
+        const { fullName, phone, address, iban } = passUserInformation
         return (
             <div className="text-center" key={buyerId}>
                 <Row>
@@ -105,8 +112,18 @@ export default ({userId, isOwner}) => {
         )
     }
 
+    const setFilter = (orders) => {
+        const newOrdersData = orders.filter(data => {
+            if ((moment(data.createdAt).toISOString() <= moment(maxDate).toISOString()) && (moment(data.createdAt).toISOString() >= moment(minDate).toISOString())) {
+                return data
+            }
+        })
+        return newOrdersData
+    }
+
     const ShowOrders = () => {
-        return ordersData.map(order => {
+        const filteredData = setFilter(ordersData)
+        return filteredData.map(order => {
             const { _id, orderId, userInformation, createdAt, status, shops, isShipped, total, userId: buyerId } = order
             const { email } = userInformation
             const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'red' : 'black';
@@ -115,7 +132,7 @@ export default ({userId, isOwner}) => {
                     <tr onClick={() => handleExpanded(_id)}>
                         <td>{orderId}</td>
                         <td>{email}</td>
-                        <td>{moment(createdAt).format("DD MMM YYYY, HH:mm:ss")}</td>
+                        <td>{moment(createdAt).format("DD MMM YYYY, HH:mm")}</td>
                         <td>{total.toFixed(2).toString().replace(/\./g,',')} €</td>
                         <td style={{color: statusColor}}>{(shippedObj[_id] ?? isShipped) ? <em style={{color: 'blue', float:'left'}}>odoslana</em> : status}
                             {status === 'zaplatena' && isOwner &&
@@ -133,7 +150,7 @@ export default ({userId, isOwner}) => {
                         </td>
                     </tr>
                     {expandedObj[_id] &&
-                    <tr style={{backgroundColor: status === 'zaplatena' ? '#f4fff4' : status === 'odmietnuta' ? '#ffecec' : 'rgb(250, 250, 250)' }}>
+                    <tr style={{backgroundColor: status === 'odmietnuta' ? '#ffecec' : 'rgb(250, 250, 250)' }}>
                         <td colSpan="5">
                             <ShowBuyerDetails passUserInformation={userInformation} buyerId={buyerId} />
                             <ShowOrderDetails passShops={shops} />
@@ -145,7 +162,16 @@ export default ({userId, isOwner}) => {
     }
 
     return (
-        <Table striped bordered hover>
+        <>
+        <Row className="justify-content-center mt-4">
+            <Col className="form-group text-right">
+                <strong>Od: </strong><DatePicker className="text-center" dateFormat="dd.MM.yyyy" maxDate={new Date()} selected={minDate} onChange={date => setMinDate(date)} />
+            </Col>
+            <Col className="form-group text-left">
+                <strong>Do: </strong><DatePicker className="text-center" dateFormat="dd.MM.yyyy" maxDate={new Date()} selected={maxDate} onChange={date => setMaxDate(date)} />
+            </Col>
+        </Row>
+        <Table style={{backgroundColor: "whitesmoke"}} striped bordered hover>
             <thead>
                 <tr>
                     <th>ID</th>
@@ -157,5 +183,6 @@ export default ({userId, isOwner}) => {
             </thead>
             <ShowOrders />
         </Table>    
+        </>
     )
 }

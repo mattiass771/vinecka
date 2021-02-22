@@ -119,7 +119,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh, serviceData
                 (name && imageLink) ? 
                 <Row className="justify-content-center text-center">
                     <Col className="form-group">
-                    <img style={{height:'110px', width: '160px'}} src={getImage(imageLink) ? getImage(imageLink) : imageLink} />
+                    <img alt="service-image" style={{height:'110px', width: '160px'}} src={getImage(imageLink) ? getImage(imageLink) : imageLink} />
                     <Button onClick={() => setImageLink('')} variant="dark" size="sm" >Vymazat obrazok</Button>
                     </Col>
                 </Row> :

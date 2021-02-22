@@ -28,7 +28,6 @@ export default ({featuredsPopup, getImage, setFeaturedsPopup, forceRefresh, setF
                       .catch(err => err && console.log('Error while setting full featured wines, ', err))
                       .then(() => setFeaturedWines([...featuredArr]))
                 })
-            console.log(featuredWines)
         }
     }, [featured])
 

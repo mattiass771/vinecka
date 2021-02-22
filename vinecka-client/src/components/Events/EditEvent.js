@@ -122,9 +122,7 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh, eventData}) => 
                 </Row>
                 <Row className="justify-content-center">
                     <Col className="form-group text-center mt-1">
-                        Cas a datum udalosti (povinne): <strong>{when}</strong>
-                        <br /><br />
-                        Vyber: <DatePicker showTimeSelect selected={startDate} onChange={date => setStartDate(date)} />
+                        Cas a datum udalosti (povinne): <DatePicker className="text-center" dateFormat="dd.MM.yyyy HH:mm" showTimeSelect selected={startDate} onChange={date => setStartDate(date)} />
                     </Col>
                 </Row>
                 <Row className="justify-content-center">
@@ -147,7 +145,7 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh, eventData}) => 
                 (name && imageLink) ? 
                 <Row className="justify-content-center text-center">
                     <Col className="form-group">
-                    <img style={{height:'110px', width: '160px'}} src={getImage(imageLink) ? getImage(imageLink) : imageLink} />
+                    <img alt="event-image" style={{height:'110px', width: '160px'}} src={getImage(imageLink) ? getImage(imageLink) : imageLink} />
                     <Button onClick={() => setImageLink('')} variant="dark" size="sm" >Vymazat obrazok</Button>
                     </Col>
                 </Row> :

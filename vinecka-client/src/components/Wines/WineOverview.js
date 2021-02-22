@@ -6,9 +6,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Container from "react-bootstrap/Container";
-import Alert from "react-bootstrap/Alert";
 
-import {BsTrash, BsTrashFill} from "react-icons/bs";
+import {BsTrashFill} from "react-icons/bs";
 
 //Shop.js
 export default ({ userData, shopData }) => {
@@ -22,7 +21,6 @@ export default ({ userData, shopData }) => {
   const [colorDrop, setColorDrop] = useState('')
   const [tasteDrop, setTasteDrop] = useState('')
   const [typeDrop, setTypeDrop] = useState('')
-  const [trashIsHovered, setTrashIsHovered] = useState(false)
 
   const [selectedFilters, setSelectedFilters] = useState([])
 
@@ -46,7 +44,7 @@ export default ({ userData, shopData }) => {
       })
       recalculateTypeFilter(allWineTypes)
     }
-  }, [])
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setSelectedFilters([...colorFilter, ...tasteFilter, ...typeFilter])
@@ -125,7 +123,7 @@ export default ({ userData, shopData }) => {
         <React.Fragment key={filter.toLowerCase()}>
           {filter[0].toUpperCase()+filter.substring(1).toLowerCase()} 
           &nbsp;
-          <a id={filter} onClick={(e) => handleRemoveFilter(e)} className="link-no-deco">
+          <a id={filter} onClick={(e) => handleRemoveFilter(e)} className="link-no-deco" href="#">
             <BsTrashFill style={{marginTop: "-2px"}} />
           </a>&nbsp;&nbsp;&nbsp;&nbsp;
         </React.Fragment>

@@ -1,7 +1,7 @@
-import React, {useEffect, useState } from 'react'
+import React, {useEffect } from 'react'
 import axios from 'axios'
 
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);

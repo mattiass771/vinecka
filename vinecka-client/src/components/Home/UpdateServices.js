@@ -15,7 +15,7 @@ import Button from 'react-bootstrap/Button'
 const IMAGE_PREFIX = 'homescreen-service-image'
 
 export default ({servicesPopup, setServicesPopup, forceRefresh, setForceRefresh, servicesImage, servicesText}) => {
-    const [description, setDescription] = useState(servicesText)
+    const description = servicesText
     const [imageLink, setImageLink] = useState(servicesImage)
 
     const getImage = (image) => {
@@ -70,7 +70,7 @@ export default ({servicesPopup, setServicesPopup, forceRefresh, setForceRefresh,
                 imageLink ? 
                 <Row className="justify-content-center text-center">
                     <Col className="form-group">
-                    <img style={{height:'110px', width: '160px'}} src={getImage(imageLink) ? getImage(imageLink) : imageLink} />
+                    <img alt="update-services" style={{height:'110px', width: '160px'}} src={getImage(imageLink) ? getImage(imageLink) : imageLink} />
                     <Button onClick={() => setImageLink('')} variant="dark" size="sm" >Vymazat obrazok</Button>
                     </Col>
                 </Row> :

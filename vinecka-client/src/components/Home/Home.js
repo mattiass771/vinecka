@@ -8,7 +8,6 @@ import ShowItem from '../Shop/ViewShop/ShowItem';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Alert from "react-bootstrap/Alert";
 import Carousel from "react-bootstrap/Carousel";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
@@ -66,7 +65,7 @@ export default ({userId, isOwner}) => {
         setDescriptionGeneral(description)
         setFeaturedIds(featured)
         featured.map(item => {
-          axios.get(`https://mas-vino.herokuapp.com/shop/find-item-by-id/${item}`)
+          return axios.get(`https://mas-vino.herokuapp.com/shop/find-item-by-id/${item}`)
             .then(res => {
               const response = res.data
               const newObj = {...response[0], shopId: response[1]}
@@ -138,7 +137,7 @@ export default ({userId, isOwner}) => {
             <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
           </Button>}
         <Link to={`/sluzby`}>
-            <Card className="h-100 w-100" onMouseEnter={() => setIsHoveredServices('block')} onMouseLeave={() => setIsHoveredServices('none')} style={{ textAlign:"center", color: "whitesmoke", background: 'rgba(52,58,64,0)', background: 'rgba(52,58,64,0)', border: '1.5px solid white'}} >
+            <Card className="h-100 w-100" onMouseEnter={() => setIsHoveredServices('block')} onMouseLeave={() => setIsHoveredServices('none')} style={{ textAlign:"center", color: "whitesmoke", background: 'rgba(52,58,64,0)', border: '1.5px solid white'}} >
                 <Card.Img className="h-100 w-100" src={getImage(servicesData[1]) ? getImage(servicesData[1]) : servicesData[1]} />
                 <Card.ImgOverlay className={isHoveredServices === 'none' ? 'fade-in' : 'fade-out'} style={{ background: "rgba(52,58,64,0.3)"}} >
                   <div></div>
@@ -204,7 +203,7 @@ export default ({userId, isOwner}) => {
         <Carousel.Item key={`${url}-${imageLink}`} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight: MIN_HEIGHT_JUMBO }}>
             <Link to={`/${url}`}>
             <img
-              style={{minHeight: MIN_HEIGHT_JUMBO, width: "100%"}}
+              style={{minHeight: MIN_HEIGHT_JUMBO, minWidth: "100%"}}
               className="d-block carousel-image"
               src={image}
               alt={`Carousel-${imageLink}`}

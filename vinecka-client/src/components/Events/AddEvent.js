@@ -4,10 +4,10 @@ import moment from 'moment'
 
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
+import { Col, Row } from 'react-bootstrap'
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Col, Row } from 'react-bootstrap'
 
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
@@ -111,9 +111,7 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh}) => {
                 </Row>
                 <Row className="justify-content-center">
                     <Col className="form-group text-center mt-1">
-                        Cas a datum udalosti (povinne): <strong>{when}</strong>
-                        <br /><br />
-                        Vyber: <DatePicker showTimeSelect selected={startDate} onChange={date => setStartDate(date)} />
+                        Cas a datum udalosti (povinne): <DatePicker className="text-center" dateFormat="dd.MM.yyyy HH:mm" showTimeSelect selected={startDate} onChange={date => setStartDate(date)} />
                     </Col>
                 </Row>
                 <Row className="justify-content-center">
