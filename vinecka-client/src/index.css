@@ -23,7 +23,14 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  /* background-color: whitesmoke; */
+}
+
+.body-image {
+  background: url(./bg.png) no-repeat fixed; 
+  -webkit-background-size: auto 100%;
+  -moz-background-size: auto 100%;
+  -o-background-size: auto 100%;
+  background-size: auto 100%;
 }
 
 ::-webkit-scrollbar {
@@ -91,6 +98,10 @@ body {
     min-height: 225 !important;
     max-width: 215% !important;
   }
+}
+
+.whitesmoke-bg-pnine {
+  background-color: rgba(250,250,250,0.9);
 }
 
 Button {

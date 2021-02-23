@@ -1,7 +1,13 @@
 import React, {useEffect } from 'react'
 import axios from 'axios'
 
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
+
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
+import { FcPaid } from "react-icons/fc";
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -14,7 +20,7 @@ export default ({userId}) => {
     const paymentId = query.get('PaymentRequestId')
 
     useEffect(() => {
-        if (orderId.length !== 0) {
+        if (orderId && orderId.length !== 0) {
             axios.post(`https://mas-vino.herokuapp.com/orders/${orderId}/process-payment/`, {paymentResultCode: result, paymentId})
                 .then(res => console.log(res.data))
                 .catch(err => err && console.log(err))
@@ -25,12 +31,26 @@ export default ({userId}) => {
                             .catch(error => error && console.log(error))
                     }
                     localStorage.removeItem('shoppingCart')
-                })
-            
+                })            
         }
     }, [])
     
     return (
-        <p className="text-center">Platba za objednavku cislo {orderId} bola prijata. <br/>Cislo platby {paymentId}</p>
+        <div className="whitesmoke-bg-pnine">
+            <Container className="text-center pt-4 pb-4">
+                <Row>
+                    <Col>
+                        <FcPaid style={{fontSize: "750%"}} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col style={{fontSize: "150%"}}>
+                        Platba za objednavku cislo {orderId} bola prijata. 
+                        <br />Podrobnejsie detaily najdete v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednavky</strong></Link>.
+                        <br/>Cislo platby {paymentId}
+                    </Col>
+                </Row>
+            </Container>
+        </div>
     )
 }

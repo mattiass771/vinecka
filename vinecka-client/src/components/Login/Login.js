@@ -26,7 +26,7 @@ export default ({shoppingCart = false}) => {
         <br />
         <Row>
           <Col className="text-center">
-            <h2>Sign in!</h2>
+            <h2>Prihlaste sa!</h2>
           </Col>
         </Row>
         <Row className="justify-content-md-center">

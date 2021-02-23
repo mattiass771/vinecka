@@ -231,57 +231,59 @@ export default ({userId}) => {
     }
 
     return (
-        <Container style={{paddingTop: "50px", backgroundColor: "white", paddingBottom: "50px"}}>
-            { passOrderInfo && paymentPopup &&
-                <PayGate orderInfo={passOrderInfo} setPaymentPopup={setPaymentPopup} paymentPopup={paymentPopup} />
-            }
-            {loading ? 
-                <Spinner
-                    style={{ marginLeft: "49%", marginTop: "20%" }}
-                    animation="border"
-                /> : 
-            (shops && showCartItems())}
-            <Row className="text-center">
-                <Col>
-                    {(!userInformation && shops ) &&
-                        <p>
-                            <Button className="mt-2" onClick={() => handleRegistration()} variant="dark">Dorucovacie udaje s registraciou</Button>
-                            &nbsp;&nbsp;
-                            <Button className="mt-2" onClick={() => handleLogin()} variant="dark">Mam ucet a chcem sa prihlasit</Button>
-                            &nbsp;&nbsp;
-                            <Button className="mt-2" onClick={() => handleShipmentOnly()} variant="dark">Dorucovacie udaje bez registracie</Button>
-                        </p>
-                    }
-                </Col>
-            </Row>
-            <Row ref={lastRef} className="text-center">
-                {login && <Login shoppingCart={true} />}
-                {registration && <SignUp shoppingCart={true} handleLogin={handleLogin} />}
-                {shipmentOnly && <PlaceOrder setUserInformation={setUserInformation} />}
-            </Row>
-            <Row className="text-center">
-                <br />
-                <br />
-                {shops && showTotalCartPrice()}
-            </Row>
-            <Row className="text-center">
-                <Col>
-                    {userInformation && shops.length > 0 ?
-                        <Button onClick={() => createNewOrder()} variant="dark">Prejst k platbe</Button>
-                    :
-                    <>  
-                        {shops.length === 0 && 
-                            <>
-                                <h4>Nakupny kosik je momentálne prazdny.</h4>
-                                <br />
-                                <br />
-                            </>
-                        }
-                        <Button disabled variant="dark">Prejst k platbe</Button>
-                    </>
+        <div className="whitesmoke-bg-pnine">
+            <Container style={{paddingTop: "50px", paddingBottom: "50px"}}>
+                { passOrderInfo && paymentPopup &&
+                    <PayGate orderInfo={passOrderInfo} setPaymentPopup={setPaymentPopup} paymentPopup={paymentPopup} />
                 }
-                </Col>
-            </Row>
-        </Container>
+                {loading ? 
+                    <Spinner
+                        style={{ marginLeft: "49%", marginTop: "20%" }}
+                        animation="border"
+                    /> : 
+                (shops && showCartItems())}
+                <Row className="text-center">
+                    <Col>
+                        {(!userInformation && shops ) &&
+                            <p>
+                                <Button className="mt-2" onClick={() => handleRegistration()} variant="dark">Dorucovacie udaje s registraciou</Button>
+                                &nbsp;&nbsp;
+                                <Button className="mt-2" onClick={() => handleLogin()} variant="dark">Mam ucet a chcem sa prihlasit</Button>
+                                &nbsp;&nbsp;
+                                <Button className="mt-2" onClick={() => handleShipmentOnly()} variant="dark">Dorucovacie udaje bez registracie</Button>
+                            </p>
+                        }
+                    </Col>
+                </Row>
+                <Row ref={lastRef} className="text-center">
+                    {login && <Login shoppingCart={true} />}
+                    {registration && <SignUp shoppingCart={true} handleLogin={handleLogin} />}
+                    {shipmentOnly && <PlaceOrder setUserInformation={setUserInformation} />}
+                </Row>
+                <Row className="text-center">
+                    <br />
+                    <br />
+                    {shops && showTotalCartPrice()}
+                </Row>
+                <Row className="text-center">
+                    <Col>
+                        {userInformation && shops.length > 0 ?
+                            <Button onClick={() => createNewOrder()} variant="dark">Prejst k platbe</Button>
+                        :
+                        <>  
+                            {shops.length === 0 && 
+                                <>
+                                    <h4>Nakupny kosik je momentálne prazdny.</h4>
+                                    <br />
+                                    <br />
+                                </>
+                            }
+                            <Button disabled variant="dark">Prejst k platbe</Button>
+                        </>
+                    }
+                    </Col>
+                </Row>
+            </Container>
+        </div>
     )
 }

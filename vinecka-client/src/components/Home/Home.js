@@ -109,7 +109,9 @@ export default ({userId, isOwner}) => {
           </Button>
           }
           <Link to={`/akcie`}>
-            <Card className="h-100 w-100" onMouseEnter={() => setIsHoveredEvents('block')} onMouseLeave={() => setIsHoveredEvents('none')} style={{ textAlign:"center", color: "whitesmoke", background: 'rgba(52,58,64,0)', border: '1.5px solid white' }} >
+            <Card className="h-100 w-100 body-image" onMouseEnter={() => setIsHoveredEvents('block')} onMouseLeave={() => setIsHoveredEvents('none')} style={{ textAlign:"center", color: "whitesmoke",
+            //  background: 'rgba(52,58,64,0)',
+              border: '1.5px solid white' }} >
                 <Card.Img className="h-100 w-100" src={getImage(eventsData[1]) ? getImage(eventsData[1]) : eventsData[1]} />
                 <Card.ImgOverlay className={isHoveredEvents === 'none' ? 'fade-in' : 'fade-out'} style={{ background: "rgba(52,58,64,0.3)"}} >
                 </Card.ImgOverlay>
@@ -137,9 +139,11 @@ export default ({userId, isOwner}) => {
             <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
           </Button>}
         <Link to={`/sluzby`}>
-            <Card className="h-100 w-100" onMouseEnter={() => setIsHoveredServices('block')} onMouseLeave={() => setIsHoveredServices('none')} style={{ textAlign:"center", color: "whitesmoke", background: 'rgba(52,58,64,0)', border: '1.5px solid white'}} >
+            <Card className="h-100 w-100 body-image" onMouseEnter={() => setIsHoveredServices('block')} onMouseLeave={() => setIsHoveredServices('none')} style={{ textAlign:"center", color: "whitesmoke", 
+            // background: 'rgba(52,58,64,0)', 
+            border: '1.5px solid white'}} >
                 <Card.Img className="h-100 w-100" src={getImage(servicesData[1]) ? getImage(servicesData[1]) : servicesData[1]} />
-                <Card.ImgOverlay className={isHoveredServices === 'none' ? 'fade-in' : 'fade-out'} style={{ background: "rgba(52,58,64,0.3)"}} >
+                <Card.ImgOverlay className={`${isHoveredServices === 'none' ? 'fade-in' : 'fade-out'}`} style={{ background: "rgba(52,58,64,0.3)"}} >
                   <div></div>
                 </Card.ImgOverlay>
             </Card>
@@ -301,7 +305,6 @@ export default ({userId, isOwner}) => {
             </Row>
         </Container>
       </div>
-      </div>
       <div>  
         <Container>
           <Row>
@@ -310,6 +313,7 @@ export default ({userId, isOwner}) => {
           </Row>
         </Container>
       </div>
-      </>
+    </div>
+  </>
   );
 };

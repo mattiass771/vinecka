@@ -76,7 +76,7 @@ router.route("/:orderId/process-payment/").post((req, res) => {
   Order.findOne({orderId: orderId}, (err, orderFound) => {
     if (err) return console.log(err.data);
     if (orderFound) {
-      orderFound.status = paymentResultCode === "0" ? 'zaplatena' : 'odmietnuta';
+      orderFound.status = ['4', '3', '0'].includes(paymentResultCode.toString()) ? 'zaplatena' : 'odmietnuta';
       orderFound.paymentResultCode = paymentResultCode
       orderFound.paymentId = paymentId
       orderFound.expireAt = null;

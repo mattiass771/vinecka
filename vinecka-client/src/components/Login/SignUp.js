@@ -110,7 +110,7 @@ export default ({shoppingCart = false, handleLogin}) => {
         <br />
         <Row className="justify-content-md-center">
           <Col md={6} className="text-center mt-1">
-            <h2>Sign up!</h2>
+            <h2>Registrujte sa!</h2>
           </Col>
         </Row>
         <Row className="justify-content-md-center">
