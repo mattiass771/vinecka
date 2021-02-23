@@ -113,7 +113,7 @@ export default ({userId, isOwner}) => {
             //  background: 'rgba(52,58,64,0)',
               border: '1.5px solid white' }} >
                 <Card.Img className="h-100 w-100" src={getImage(eventsData[1]) ? getImage(eventsData[1]) : eventsData[1]} />
-                <Card.ImgOverlay className={isHoveredEvents === 'none' ? 'fade-in' : 'fade-out'} style={{ background: "rgba(52,58,64,0.3)"}} >
+                <Card.ImgOverlay className={isHoveredEvents === 'none' ? 'fade-out' : 'fade-in'} style={{ background: "rgba(52,58,64,0.3)"}} >
                 </Card.ImgOverlay>
             </Card>
         </Link>
@@ -143,7 +143,7 @@ export default ({userId, isOwner}) => {
             // background: 'rgba(52,58,64,0)', 
             border: '1.5px solid white'}} >
                 <Card.Img className="h-100 w-100" src={getImage(servicesData[1]) ? getImage(servicesData[1]) : servicesData[1]} />
-                <Card.ImgOverlay className={`${isHoveredServices === 'none' ? 'fade-in' : 'fade-out'}`} style={{ background: "rgba(52,58,64,0.3)"}} >
+                <Card.ImgOverlay className={`${isHoveredServices === 'none' ? 'fade-out' : 'fade-in'}`} style={{ background: "rgba(52,58,64,0.3)"}} >
                   <div></div>
                 </Card.ImgOverlay>
             </Card>

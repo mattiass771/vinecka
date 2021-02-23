@@ -27,7 +27,7 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
     transition: 'top 0.6s',
     width: '100%',
     zIndex: '+2',
-    backgroundColor: '#373f27',
+    backgroundColor: '#83540f',
     fontSize: '120%'
   }
 
@@ -39,9 +39,9 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
 
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
-    if ((limit - currentScrollPos) < 1100 && currentScrollPos > 50) setVisible(false)
+    if ((limit - currentScrollPos) < 1250 && currentScrollPos > 250) setVisible(false)
     else {
-      setVisible((prevScrollPos > currentScrollPos) || currentScrollPos < 50 );
+      setVisible((prevScrollPos > currentScrollPos) || currentScrollPos < 250 );
     }
     setPrevScrollPos(currentScrollPos);
   }
@@ -52,7 +52,7 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
   }, [prevScrollPos, visible, handleScroll]);
 
   return (
-    <React.Fragment>
+    <>
       <div className="text-center w-100" style={{...logoStyles, top: visible ? '0' : '-156px', borderBottom: "1px solid whitesmoke"}}>
         <img
           alt=""
@@ -130,6 +130,6 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
         </Nav>
       </Navbar.Collapse>
     </Navbar>
-    </React.Fragment>
+    </>
   );
 };
