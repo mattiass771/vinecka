@@ -97,6 +97,11 @@ Button {
   background-color: #373f27 !important;
 }
 
+Button:hover {
+  background-color: whitesmoke !important;
+  color: #373f27 !important
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

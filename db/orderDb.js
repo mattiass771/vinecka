@@ -113,6 +113,12 @@ router.route("/add").post((req, res) => {
   }
 });
 
+router.route("/:id").delete((req, res) => {
+  Event.findByIdAndDelete(req.params.id)
+    .then(() => res.json("Event deleted."))
+    .catch((err) => res.status(400).json(`Error: ${err}`));
+});
+
 module.exports = {
     router,
     Order

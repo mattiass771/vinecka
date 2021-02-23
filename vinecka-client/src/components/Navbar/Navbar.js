@@ -107,7 +107,7 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
                 <FiShoppingCart />
               </Link> 
             </Nav.Link>
-          {isLoggedIn ? (
+          {!isLoggedIn ? (
             <>
               <Nav.Link className="navihover">
                 <Link className="navilink pt-3 pb-3" to="/objednavky">

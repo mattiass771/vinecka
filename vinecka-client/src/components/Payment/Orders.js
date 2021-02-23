@@ -10,7 +10,10 @@ import Container from 'react-bootstrap/Container'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default ({userId, isOwner}) => {
+import {BsTrashFill} from "react-icons/bs";
+import DeleteModal from "./DeleteModal";
+
+export default ({userId, isOwner=true}) => {
     const [ordersData, setOrdersData] = useState([])
     const [shippedObj, setShippedObj] = useState({})
     const [refresh, setRefresh] = useState(false)
@@ -19,10 +22,11 @@ export default ({userId, isOwner}) => {
     const [maxDate, setMaxDate] = useState(new Date())
     const [minDate, setMinDate] = useState(new Date('2021-01-01'))
 
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const [passDeleteId, setPassDeleteId] = useState('')
     // TODO: pridat moznost znovu zaplatit pri rejected order
 
     useEffect(() => {
-        console.log(maxDate, minDate)
         axios.get(`https://mas-vino.herokuapp.com/orders`)
             .then(res => {
                 const result = res.data
@@ -121,6 +125,17 @@ export default ({userId, isOwner}) => {
         return newOrdersData
     }
 
+    const handleDeleteModal = (e, id) => {
+        e.stopPropagation()
+        let expandObj = {}
+        const oldValue = expandedObj[id] ?? false
+        expandObj[id] = oldValue
+
+        setExpandedObj({...expandedObj, ...expandObj})
+        setPassDeleteId(id)
+        setShowDeleteModal(true)
+    }
+
     const ShowOrders = () => {
         const filteredData = setFilter(ordersData)
         return filteredData.map(order => {
@@ -147,6 +162,9 @@ export default ({userId, isOwner}) => {
                                 checked={shippedObj[_id] ?? isShipped}
                                 onChange={(e) => handleShipping(e, _id)}
                             />}
+                            {isOwner &&
+                                <BsTrashFill style={{float: "right", cursor: 'pointer', marginRight: '6px', color: "#333333"}} onClick={(e) => handleDeleteModal(e, _id)} />
+                            }
                         </td>
                     </tr>
                     {expandedObj[_id] &&
@@ -163,6 +181,9 @@ export default ({userId, isOwner}) => {
 
     return (
         <>
+        {isOwner && showDeleteModal &&
+            <DeleteModal deleteId={passDeleteId} setShowDeleteModal={setShowDeleteModal} showDeleteModal={showDeleteModal} />
+        }
         <Row className="justify-content-center mt-4">
             <Col className="form-group text-right">
                 <strong>Od: </strong><DatePicker className="text-center" dateFormat="dd.MM.yyyy" maxDate={new Date()} selected={minDate} onChange={date => setMinDate(date)} />
