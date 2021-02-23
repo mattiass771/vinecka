@@ -114,8 +114,8 @@ router.route("/add").post((req, res) => {
 });
 
 router.route("/:id").delete((req, res) => {
-  Event.findByIdAndDelete(req.params.id)
-    .then(() => res.json("Event deleted."))
+  Order.findByIdAndDelete(req.params.id)
+    .then(() => res.json("Order deleted."))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
