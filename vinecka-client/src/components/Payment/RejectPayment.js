@@ -45,9 +45,9 @@ export default ({userId}) => {
                 </Row>
                 <Row>
                     <Col style={{fontSize: "150%"}}>
-                        Platba za objednavku cislo {orderId} bola odmietnuta.
-                        <br />Platbu mozete zopakovat v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednavky</strong></Link>.
-                        <br />Cislo platby {paymentId}.
+                        Platba za objednávku číslo {orderId} bola odmietnutá.
+                        <br />Platbu môžete zopakovať v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednávky</strong></Link>.
+                        <br />Číslo platby {paymentId || 'nenájdené'}.
                     </Col>
                 </Row>
             </Container>   

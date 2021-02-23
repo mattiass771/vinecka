@@ -26,7 +26,7 @@ export default ({shoppingCart = false}) => {
         <br />
         <Row>
           <Col className="text-center">
-            <h2>Prihlaste sa!</h2>
+            <h2>Prihláste sa!</h2>
           </Col>
         </Row>
         <Row className="justify-content-md-center">
@@ -50,7 +50,7 @@ export default ({shoppingCart = false}) => {
                 className="btn btn-dark"
                 id="sub"
                 type="submit"
-                value="Sign in!"
+                value="Prihlásiť!"
               ></input>
             </form>
           </Col>

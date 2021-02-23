@@ -19,7 +19,7 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
     document.documentElement.clientHeight, 
     document.documentElement.scrollHeight, 
     document.documentElement.offsetHeight 
-    );
+  );
 
 
   const navbarStyles = {
@@ -27,7 +27,7 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
     transition: 'top 0.6s',
     width: '100%',
     zIndex: '+2',
-    backgroundColor: '#83540f',
+    backgroundColor: '#001402',
     fontSize: '120%'
   }
 
@@ -35,6 +35,7 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
     position: 'fixed',
     transition: 'top 0.6s',
     zIndex: '+3',
+    pointerEvents: 'none'
   }
 
   const handleScroll = () => {
@@ -53,79 +54,83 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
 
   return (
     <>
-      <div className="text-center w-100" style={{...logoStyles, top: visible ? '0' : '-156px', borderBottom: "1px solid whitesmoke"}}>
+      <div className="text-center w-100" style={{...logoStyles, top: visible ? '0' : '-152px'}}>
+        <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: 'whitesmoke', marginBottom: '-31px'}} />
         <img
           alt=""
           src={logo}
           width="auto"
-          height="100"
+          height="135"
+          style={{marginTop: '-20px'}}
+          
         />
-      </div>
-    <Navbar className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-156px', paddingTop: '108px'}} variant="dark" expand="md">
+        <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: 'whitesmoke', marginBottom: '-31px'}} />
+    </div>
+    <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-152px', paddingTop: '100px'}} variant="dark" expand="md">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav" className="row justify-content-lg-center">
-        <Nav className="ml-4 ml-md-0">
-          <Nav.Link className="navihover" active>
-            <Link className="navilink pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2" to="/">
+      <Navbar.Collapse id="basic-navbar-nav" className="row justify-content-center text-center">
+        <Nav className="my-4 my-md-0">
+          <Nav.Item className="navihover">
+            <Link className="navilink pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1" to="/">
               Domov
             </Link>
-          </Nav.Link>
+          </Nav.Item>
 
-          <Nav.Link className="navihover" active>
-            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2" to="/vinarne">
-              Vinarne
+          <Nav.Item className="navihover">
+            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1" to="/vinarne">
+              Vinárne
             </Link>
-          </Nav.Link>
+          </Nav.Item>
 
-          <Nav.Link className="navihover">
-            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2" to="/vinka">
-                Vinka
+          <Nav.Item className="navihover">
+            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1" to="/vinka">
+                Vínka
             </Link>
-          </Nav.Link>
+          </Nav.Item>
 
-          <Nav.Link className="navihover">
-            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2" to="/akcie">
+          <Nav.Item className="navihover">
+            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1" to="/akcie">
               Akcie
             </Link>
-          </Nav.Link>
+          </Nav.Item>
 
-          <Nav.Link className="navihover">
-            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2" to="/sluzby">
-              Sluzby
+          <Nav.Item className="navihover">
+            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1" to="/sluzby">
+              Služby
             </Link>
-          </Nav.Link>
+          </Nav.Item>
 
-          <Nav.Link className="navihover">
-            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2" to="/kontakt">
+          <Nav.Item className="navihover">
+            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1" to="/kontakt">
               Kontakt
             </Link>
-          </Nav.Link>
+          </Nav.Item>
         </Nav>
-        <Nav style={{position: "absolute", right: 16}}>
-            <Nav.Link className="navihover">
-              <Link className="navilink pt-3 pb-3" to="/cart-page">
+        <Nav style={{position: "absolute", right: 16, top: 16}}>
+            <Nav.Item className="navihover">
+              <Link className="navilink pt-3 pb-3 mr-1 ml-1" to="/cart-page">
                 <FiShoppingCart />
               </Link> 
-            </Nav.Link>
+            </Nav.Item>
           {!isLoggedIn ? (
             <>
-              <Nav.Link className="navihover">
-                <Link className="navilink pt-3 pb-3" to="/objednavky">
-                  Objednavky
+              <Nav.Item className="navihover">
+                <Link className="navilink pt-3 pb-3 mr-1 ml-1" to="/objednavky">
+                  Objednávky
                 </Link>
-              </Nav.Link>
-              <Nav.Link className="navihover">
-                <Link className="navilink pt-3 pb-3" onClick={handleLogOut} to="">
-                Logout
+              </Nav.Item>
+              <Nav.Item className="navihover">
+                <Link className="navilink pt-3 pb-3 mr-1 ml-1" onClick={handleLogOut} to="">
+                Odhlásiť
                 </Link>
-              </Nav.Link>
+              </Nav.Item>
             </>
           ) : (
-            <Nav.Link className="navihover">
+            <Nav.Item className="navihover">
               <Link className="navilink pt-3 pb-3" to="/login-page">
-                Login
+                Prihlásiť
               </Link>
-            </Nav.Link>
+            </Nav.Item>
           )}
         </Nav>
       </Navbar.Collapse>

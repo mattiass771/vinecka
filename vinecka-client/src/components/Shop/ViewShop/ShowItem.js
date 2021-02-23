@@ -156,7 +156,7 @@ export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldR
             </Button>}
             {editing[_id] && <EditItems shouldReload={shouldReload} setShouldReload={setShouldReload} itemDataProp={item} showEditItems={editing[_id]} setShowEditItems={setEditing} shopId={passShopId} itemId={_id} />}
             <img className="shop-item-img" style={{height: "407px"}} src={image} />
-            <div style={{color: "#333333", marginTop: "-110px" , backgroundColor: "rgba(255,255,255, 0.7)"}}>
+            <div style={{overflowY: 'hidden', color: "#333333", marginTop: "-110px" , backgroundColor: "rgba(255,255,255, 0.7)"}}>
               <Card.Title className="mt-1 mb-1">{itemName}</Card.Title>
               {(color && taste) && 
               <Card.Text className="mt-1 mb-1">{`${color[0].toUpperCase()}${color.substring(1).toLowerCase()}, ${taste[0].toUpperCase()}${taste.substring(1).toLowerCase()}`}</Card.Text>}

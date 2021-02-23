@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -9,8 +9,40 @@ import { BiCodeAlt } from "react-icons/bi";
 import { FaFacebookF,FaInstagram } from "react-icons/fa";
 
 export default () => {
+  const [prevScrollPos, setPrevScrollPos] = useState(0); 
+  const [visible, setVisible] = useState(false);
+
+  const limit = Math.max( 
+    document.body.scrollHeight, 
+    document.body.offsetHeight, 
+    document.documentElement.clientHeight, 
+    document.documentElement.scrollHeight, 
+    document.documentElement.offsetHeight 
+  );  
+
+  const footerStyles = {
+    transition: 'bottom 0.6s',
+    width: '100%',
+    zIndex: '+2',
+    backgroundColor: '#001402'
+  }
+
+  const handleScroll = () => {
+    const currentScrollPos = window.pageYOffset;
+    if ((limit - currentScrollPos) < 1000) setVisible(true)
+    else {
+      setVisible(false);
+    }
+    setPrevScrollPos(currentScrollPos);
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prevScrollPos, visible, handleScroll]);
+
     return (
-        <div className="pt-1 pb-3" style={{backgroundColor: 'rgba(55, 63, 39, 0.6)'}}>
+        <div className="pt-1 pb-3 fixed-bottom" style={{...footerStyles, bottom: visible ? '0' : '-220px'}}>
         <Container>
           <Row className="text-center pt-4 pb-4 mt-4">
             <Col className="mb-2" md={6} lg={3}>
