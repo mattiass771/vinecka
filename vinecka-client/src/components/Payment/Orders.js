@@ -13,7 +13,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {BsTrashFill} from "react-icons/bs";
 import DeleteModal from "./DeleteModal";
 
-export default ({userId, isOwner=true}) => {
+export default ({userId, isOwner}) => {
     const [ordersData, setOrdersData] = useState([])
     const [shippedObj, setShippedObj] = useState({})
     const [refresh, setRefresh] = useState(false)
