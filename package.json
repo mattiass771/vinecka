@@ -38,7 +38,7 @@
     "react-datepicker": "^3.4.1",
     "react-dropzone-uploader": "2.11.0",
     "react-helmet": "6.1.0",
-    "react-icons": "3.11.0",
+    "react-icons": "^4.2.0",
     "react-slidedown": "2.4.5",
     "shortid": "^2.2.16"
   },
