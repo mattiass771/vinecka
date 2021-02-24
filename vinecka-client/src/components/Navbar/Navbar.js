@@ -70,67 +70,47 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="row justify-content-center text-center">
         <Nav className="my-4 my-md-0">
-          <Nav.Item className="navihover">
-            <Link className="navilink pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1" to="/">
+          <Nav.Link as={Link} href="/" to="/" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
               Domov
-            </Link>
-          </Nav.Item>
+          </Nav.Link>
 
-          <Nav.Item className="navihover">
-            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1" to="/vinarne">
+          <Nav.Link as={Link} href="/vinarne" to="/vinarne" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
               Vinárne
-            </Link>
-          </Nav.Item>
+          </Nav.Link>
 
-          <Nav.Item className="navihover">
-            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1" to="/vinka">
-                Vínka
-            </Link>
-          </Nav.Item>
+          <Nav.Link as={Link} href="/vinka" to="/vinka" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
+               Vínka
+          </Nav.Link>
 
-          <Nav.Item className="navihover">
-            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1" to="/akcie">
+          <Nav.Link as={Link} href="/akcie" to="/akcie" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
               Akcie
-            </Link>
-          </Nav.Item>
+          </Nav.Link>
 
-          <Nav.Item className="navihover">
-            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1" to="/sluzby">
+          <Nav.Link as={Link} href="/sluzby" to="/sluzby" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
               Služby
-            </Link>
-          </Nav.Item>
+          </Nav.Link>
 
-          <Nav.Item className="navihover">
-            <Link className="navilink pt-3 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1" to="/kontakt">
+          <Nav.Link as={Link} href="/kontakt" to="/kontakt" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
               Kontakt
-            </Link>
-          </Nav.Item>
+          </Nav.Link>
         </Nav>
         <Nav style={{position: "absolute", right: 16, top: 16}}>
-            <Nav.Item className="navihover">
-              <Link className="navilink pt-3 pb-3 mr-1 ml-1" to="/cart-page">
+            <Nav.Link as={Link} href="/cart-page" to="/cart-page" className="navihover  pt-3 pb-3 mr-1 ml-1">
                 <FiShoppingCart />
-              </Link> 
-            </Nav.Item>
+            </Nav.Link>
           {isLoggedIn ? (
             <>
-              <Nav.Item className="navihover">
-                <Link className="navilink pt-3 pb-3 mr-1 ml-1" to="/objednavky">
+              <Nav.Link as={Link} href="/objednavky" to="/objednavky" className="navihover  pt-3 pb-3 mr-1 ml-1">
                   Objednávky
-                </Link>
-              </Nav.Item>
-              <Nav.Item className="navihover">
-                <Link className="navilink pt-3 pb-3 mr-1 ml-1" onClick={handleLogOut} to="">
+              </Nav.Link>
+              <Nav.Link as={Link} href="" to="" className="navihover  pt-3 pb-3 mr-1 ml-1">
                 Odhlásiť
-                </Link>
-              </Nav.Item>
+              </Nav.Link>
             </>
           ) : (
-            <Nav.Item className="navihover">
-              <Link className="navilink pt-3 pb-3" to="/login-page">
+            <Nav.Link as={Link} href="/login-page" to="/login-page" className="navihover pt-3 pb-3 mr-1 ml-1">
                 Prihlásiť
-              </Link>
-            </Nav.Item>
+            </Nav.Link>
           )}
         </Nav>
       </Navbar.Collapse>

@@ -19,6 +19,7 @@ import Vinka from "./components/Wines/Vinka";
 import Events from "./components/Events/Events";
 import Services from "./components/Services/Services";
 import Footer from "./components/Footer";
+import AdultModal from './AdultModal';
 
 import Spinner from "react-bootstrap/Spinner";
 
@@ -26,7 +27,7 @@ import Spinner from "react-bootstrap/Spinner";
 export default () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
-  const [loadingData, setLoadingData] = useState(false)
+  const [loadingData, setLoadingData] = useState(false);
 
   useEffect(() => {
     setLoadingData(true)
@@ -60,6 +61,9 @@ export default () => {
   };
   return (
     <Router>
+      {window.localStorage.getItem('mas-vino-isAdult') !== "true" &&
+        <AdultModal initShow={true} />
+      }
       <link
         rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"

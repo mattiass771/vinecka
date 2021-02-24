@@ -184,16 +184,17 @@ tr.inner-table:hover {
 
 
 .navihover:hover {
-  background-color: #b4b4b4bd;
+  color: #BAA129 !important;
 }
 .navihover {
   padding: 8px;
+  color: whitesmoke !important;
 }
 
 
 @media only screen and (min-width: 768px) {
   .navihover:hover {
-    background-color: #b4b4b4bd;
+    color: #BAA129 !important;
     margin-top: -8px;
     margin-bottom: -8px;
     padding-bottom: 8px;
@@ -205,16 +206,6 @@ tr.inner-table:hover {
     padding-bottom: 8px;
     padding-top: 16px;
   }
-}
-
-.navilink {
-  text-decoration: none;
-  color: whitesmoke
-}
-
-.navilink:hover {
-  text-decoration: none;
-  color: whitesmoke
 }
 
 .form-control:focus {
