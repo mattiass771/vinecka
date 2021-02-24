@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button'
 import logo from './components/Navbar/logo.png'
 
 import { IoIosWine } from 'react-icons/io'
-import { SiGitea } from 'react-icons/si'
+import { GiBabyBottle } from 'react-icons/gi'
 
 export default ({initShow}) => {
     let history = useHistory()
@@ -24,7 +24,7 @@ export default ({initShow}) => {
             <Modal.Body className="text-center" style={{fontSize: "150%", color: 'whitesmoke', backgroundColor: '#001402'}}>Týmto potvrdzujem, ze som plnoletý a ze si mozem legalne objednat vinko.</Modal.Body>
             <Modal.Footer className="row justify-content-center">
                 <Button variant="dark" onClick={() => history.goBack()}>
-                    Niesom plnoletý&nbsp;  <SiGitea style={{fontSize: '175%'}} />
+                    Niesom plnoletý&nbsp;  <GiBabyBottle style={{fontSize: '175%'}} />
                 </Button>
                 <Button variant="dark" onClick={() => handleConfirm()}>
                     Som plnoletý <IoIosWine style={{fontSize: '175%'}} /> 
