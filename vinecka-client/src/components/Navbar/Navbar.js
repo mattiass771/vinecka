@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 
-import logo from "./logo.png"
+import logo from "./logo4.png"
 
 import {FiShoppingCart} from "react-icons/fi"
 
