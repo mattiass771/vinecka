@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'arturo_triallight';
+  src: url('./arturo-light-webfont.woff2') format('woff2'),
+       url('./arturo-light-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   margin: 0;
   background: url(./bg.png) no-repeat center center fixed; 
@@ -16,6 +24,10 @@ body {
   scrollbar-width: none;  /* Firefox */
   padding-top: 148px;
   padding-bottom: 125px;
+}
+
+.nav-link {
+ font-family: 'arturo_triallight' !important;
 }
 
 @media only screen and (min-width: 1091px) {
@@ -45,7 +57,7 @@ body {
 }
 
 .body-image {
-  background: url(./rucevevine.jpg) no-repeat center center fixed; 
+  background: url(./boteia.jpg) no-repeat center center fixed; 
   -webkit-background-size: auto 100%;
   -moz-background-size: auto 100%;
   -o-background-size: auto 100%;
