@@ -230,7 +230,7 @@ export default ({userId, isOwner}) => {
     />
     :
     <>
-    <div className="home-page">
+    <div>
       {eventsPopup &&
         <UpdateEvents eventsText={eventsData[0]} eventsImage={eventsData[1]} eventsPopup={eventsPopup} setEventsPopup={setEventsPopup} forceRefresh={forceRefresh} setForceRefresh={setForceRefresh} />
       }

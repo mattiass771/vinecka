@@ -26,6 +26,29 @@ body {
   padding-bottom: 125px;
 }
 
+body:after{
+  content:"";
+  position:fixed; /* stretch a fixed position to the whole screen */
+  top:0;
+  height:100vh; /* fix for mobile browser address bar appearing disappearing */
+  left:0;
+  right:0;
+  z-index:-1; /* needed to keep in the background */
+  background: url(./bg.png) center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.body-image {
+  background: url(./boteia.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 .nav-link {
  font-family: 'arturo_triallight' !important;
 }
@@ -48,21 +71,6 @@ body {
   }
 }
 
-.home-page {
-  background: url(./bg.png) no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-.body-image {
-  background: url(./boteia.jpg) no-repeat center center fixed; 
-  -webkit-background-size: auto 100%;
-  -moz-background-size: auto 100%;
-  -o-background-size: auto 100%;
-  background-size: auto 100%;
-}
 
 ::-webkit-scrollbar {
   display: none;
