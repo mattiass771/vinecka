@@ -9,6 +9,9 @@ import Container from "react-bootstrap/Container";
 
 import {BsTrashFill} from "react-icons/bs";
 
+import { SlideDown } from "react-slidedown";
+import "react-slidedown/lib/slidedown.css";
+
 //Shop.js
 export default ({ userData, shopData }) => {
   const [initialData, setInitialData] = useState([])
@@ -134,8 +137,13 @@ export default ({ userData, shopData }) => {
   
   return (
     <Container>
+      <Row className="mb-4 mt-4 text-center justify-content-center">
+        <Col xs={4}><hr style={{backgroundColor: '#001402', height: '1px', marginTop: '22px'}} /></Col>
+        <Col xs={4}><h1>Filtre</h1></Col>
+        <Col xs={4}><hr style={{backgroundColor: '#001402', height: '1px', marginTop: '22px'}} /></Col>
+      </Row>
       <Row className="mb-4 text-center justify-content-center">
-        <Col>
+        <Col className="mb-1" xs={12} md={4}>
           <Form.Control
             as="select"
             value={colorDrop}
@@ -148,7 +156,7 @@ export default ({ userData, shopData }) => {
             <option>Ríbezľové</option>
           </Form.Control>
         </Col>
-        <Col>
+        <Col className="mb-1" xs={12} md={4}>
           <Form.Control
             as="select"
             value={tasteDrop}
@@ -162,7 +170,7 @@ export default ({ userData, shopData }) => {
             <option>Dezertné</option>
           </Form.Control>
         </Col>
-        <Col>
+        <Col className="mb-1" xs={12} md={4}>
           <Form.Control
             as="select"
             value={typeDrop}
@@ -173,14 +181,19 @@ export default ({ userData, shopData }) => {
           </Form.Control>
         </Col>
       </Row>
-      {selectedFilters.length !== 0 &&
+      <SlideDown className={"my-dropdown-slidedown"}>
+        {selectedFilters.length !== 0 &&
+        <Row className="text-center justify-content-center">
+          <Col>
+              <strong>
+                <ShowSelectedFilters />
+              </strong>
+          </Col>
+        </Row>}
+      </SlideDown>
       <Row className="mb-4 text-center justify-content-center">
-        <Col>
-            <strong>
-              <ShowSelectedFilters />
-            </strong>
-        </Col>
-      </Row>}
+        <Col xs={12}><hr style={{backgroundColor: '#001402', height: '2px', marginTop: '22px'}} /></Col>
+      </Row>
       <Row className="text-center">
         <ShowWines />
       </Row>
