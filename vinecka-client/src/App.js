@@ -20,6 +20,7 @@ import Events from "./components/Events/Events";
 import Services from "./components/Services/Services";
 import Footer from "./components/Footer";
 import AdultModal from './AdultModal';
+import Contact from './components/Contact/Contact';
 
 import Spinner from "react-bootstrap/Spinner";
 
@@ -111,6 +112,9 @@ export default () => {
             </Route>
             <Route exact path={`/sluzby`}>
               <Services isOwner={userData.isOwner} />
+            </Route>
+            <Route exact path={`/kontakt`}>
+              <Contact />
             </Route>
             <Route exact path={`/:shopUrl`}>
               <ShopOnline userId={userData._id} isOwner={userData.isOwner} />

@@ -143,14 +143,16 @@ body:after{
   background-color: rgba(250,250,250,0.9);
 }
 
-Button {
+.btn {
   background-color: #001402 !important;
 }
 
-Button:hover {
+.btn:hover {
   background-color: whitesmoke !important;
   color: #001402 !important
 }
+
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

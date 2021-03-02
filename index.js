@@ -77,6 +77,8 @@ const eventsRouter = require("./db/eventDb").router;
 app.use("/events", eventsRouter);
 const servicesRouter = require("./db/serviceDb").router;
 app.use("/services", servicesRouter);
+const mailsRouter = require("./db/newsEmailsDb").router;
+app.use("/mails", mailsRouter);
 
 // ACCESS USER DATABASE //
 const User = require("./db/userDb").User;
