@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import {Link} from 'react-router-dom'
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
 // Login.js
-export default ({setUserInformation}) => {
+export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) => {
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -20,6 +19,8 @@ export default ({setUserInformation}) => {
   const [street, setStreet] = useState("")
   const [postal, setPostal] = useState("")
   const [city, setCity] = useState("")
+  
+  const [checkedGdpr, setCheckedGdpr] = useState(false)
 
   const handleSignUp = () => {
     const fullName = middleName
@@ -30,7 +31,6 @@ export default ({setUserInformation}) => {
   };
 
   useEffect(() => {
-    console.log('check')
     if (
       checkIfEmailMeetsCriteria() === "" &&
       checkIfNameMeetsCriteria(firstName) === "" &&
@@ -38,13 +38,14 @@ export default ({setUserInformation}) => {
       checkIfPhoneMeetsCriteria() === "" &&
       checkIfStreetMeetsCriteria() === "" &&
       checkIfPostalMeetsCriteria() === "" &&
-      checkIfCityMeetsCriteria() === ""
+      checkIfCityMeetsCriteria() === "" &&
+      checkedGdpr
     ) {
       handleSignUp()
     } else {
       setUserInformation('')
     }
-  }, [firstName, lastName, email, street, city, postal, phone])
+  }, [firstName, lastName, email, street, city, postal, phone, checkedGdpr])
 
   const checkIfEmailMeetsCriteria = () => {
     if (
@@ -82,7 +83,7 @@ export default ({setUserInformation}) => {
 
   return (
     <SlideDown className={"my-dropdown-slidedown"}>
-      <Container>
+      <Container className="py-4">
         <br />
         <Row className="justify-content-md-center">
           <Col md={6} className="text-center mt-1">
@@ -196,11 +197,36 @@ export default ({setUserInformation}) => {
             />
           </Col>
         </Row>
-        <Row className="justify-content-md-center">
-          <Col md={6} className="text-center mt-3">
-            
-          </Col>
-        </Row>
+        <Row className="justify-content-center mt-2">
+                    <Col md={10}>
+                    <em style={{float: 'left'}}>
+                        <input 
+                            style={{
+                                cursor: 'pointer',
+                            }}
+                            type='checkbox'
+                            name='checkedGdpr'
+                            checked={checkedGdpr}
+                            onChange={() => setCheckedGdpr(!checkedGdpr)}
+                        />&nbsp;
+                        Súhlasím so spracovávaním osobných údajov (v zmysle Zákona č. 18/2018 Z.z. o ochrane osobných údajov a o zmene a doplnení niektorých zákonov a zákona č. 245/2008 Z.z. o výchove a vzdelávaní v znení neskorších zmien a predpisov)</em>
+                    </Col>
+                </Row>
+                <Row className="justify-content-center mt-2">
+                    <Col md={10}>
+                    <em style={{float: 'left'}}>
+                        <input 
+                            style={{
+                                cursor: 'pointer',
+                            }}
+                            type='checkbox'
+                            name='checkedNewsletter'
+                            checked={checkedNewsletter}
+                            onChange={() => setCheckedNewsletter(!checkedNewsletter)}
+                        />&nbsp;
+                        Chcem odoberať newsletter a týmto súhlasím s odoberaním newslettra eshopu masvino.sk. Tento súhlas môžete odvolať, napríklad <Link to="/odhlasit-newsletter">tu</Link>, alebo na konci každého newsletter emailu.</em>
+                    </Col>
+                </Row>
       </Container>
     </SlideDown>
   );

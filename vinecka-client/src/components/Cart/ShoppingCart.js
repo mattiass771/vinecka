@@ -25,7 +25,8 @@ export default ({userId}) => {
     const [loading, setLoading] = useState(false)
     const [orderId, setOrderId] = useState(nanoid())
     const [passOrderInfo, setPassOrderInfo] = useState({})
-    const [paymentPopup, setPaymentPopup] = useState(false)
+    const [paymentPopup, setPaymentPopup] = useState(false)  
+    const [checkedNewsletter, setCheckedNewsletter] = useState(false)
 
     const executeScroll = () => lastRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })   
  
@@ -186,14 +187,17 @@ export default ({userId}) => {
     const createNewOrder = () => {
         let result = 0
         shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
-        console.log(shops, userId, result, nanoid(), userInformation)
         const total = result
         const status = 'vytvorena'
         setPassOrderInfo({ orderId, userInformation, userId, shops, total, status })
         setPaymentPopup(true)
         axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, status })
             .then(res => {
-                return
+                if (checkedNewsletter) {
+                    axios.post(`https://mas-vino.herokuapp.com/mails/add`, {name: userInformation.fullName, email: userInformation.email})
+                        .then(res => console.log(res))
+                        .catch(err => err && console.log(err))
+                }
             })
             .catch(err => err && console.log(err))
     }
@@ -258,7 +262,7 @@ export default ({userId}) => {
                 <Row ref={lastRef} className="text-center">
                     {login && <Login shoppingCart={true} />}
                     {registration && <SignUp shoppingCart={true} handleLogin={handleLogin} />}
-                    {shipmentOnly && <PlaceOrder setUserInformation={setUserInformation} />}
+                    {shipmentOnly && <PlaceOrder checkedNewsletter={checkedNewsletter} setCheckedNewsletter={setCheckedNewsletter} setUserInformation={setUserInformation} />}
                 </Row>
                 <Row className="text-center">
                     <br />
