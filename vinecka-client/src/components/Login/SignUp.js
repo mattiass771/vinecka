@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {Link} from 'react-router-dom';
 import axios from "axios";
 
 import Container from "react-bootstrap/Container";
@@ -24,6 +25,9 @@ export default ({shoppingCart = false, handleLogin}) => {
   const [street, setStreet] = useState("")
   const [postal, setPostal] = useState("")
   const [city, setCity] = useState("")
+  
+  const [checkedGdpr, setCheckedGdpr] = useState(false)
+  const [checkedNewsletter, setCheckedNewsletter] = useState(false)
 
   const handleSignUp = () => {
     const fullName = middleName
@@ -40,7 +44,13 @@ export default ({shoppingCart = false, handleLogin}) => {
         phone: phone,
         address: address
       })
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        if (checkedNewsletter) {
+          axios.post(`https://mas-vino.herokuapp.com/mails/add`, {name: firstName, email})
+              .then(res => console.log(res))
+              .catch(err => err && console.log(err))
+        }
+      })
       .catch((err) => err && console.log(`Error: ${err}`))
       .then(() => shoppingCart ? handleLogin() : window.location.reload());
   };
@@ -250,6 +260,37 @@ export default ({shoppingCart = false, handleLogin}) => {
             />
           </Col>
         </Row>
+                <Row className="justify-content-center mt-2">
+                    <Col md={10}>
+                    <em style={{float: 'left'}}>
+                        <input 
+                            style={{
+                                cursor: 'pointer',
+                            }}
+                            type='checkbox'
+                            name='checkedGdpr'
+                            checked={checkedGdpr}
+                            onChange={() => setCheckedGdpr(!checkedGdpr)}
+                        />&nbsp;
+                        Súhlasím so spracovávaním osobných údajov (v zmysle Zákona č. 18/2018 Z.z. o ochrane osobných údajov a o zmene a doplnení niektorých zákonov a zákona č. 245/2008 Z.z. o výchove a vzdelávaní v znení neskorších zmien a predpisov)</em>
+                    </Col>
+                </Row>
+                <Row className="justify-content-center mt-2">
+                    <Col md={10}>
+                    <em style={{float: 'left'}}>
+                        <input 
+                            style={{
+                                cursor: 'pointer',
+                            }}
+                            type='checkbox'
+                            name='checkedNewsletter'
+                            checked={checkedNewsletter}
+                            onChange={() => setCheckedNewsletter(!checkedNewsletter)}
+                        />&nbsp;
+                        Chcem odoberať newsletter a týmto súhlasím s odoberaním newslettra eshopu masvino.sk. Tento súhlas môžete odvolať, napríklad <Link to="/odhlasit-newsletter">tu</Link>, alebo na konci každého newsletter emailu.</em>
+                    </Col>
+                </Row>
+
         {checkIfPasswordMeetsCriteria() ? null : (
           <Row className="justify-content-md-center">
             <Col md={6} className="text-center mt-3">
@@ -289,6 +330,7 @@ export default ({shoppingCart = false, handleLogin}) => {
             checkIfPostalMeetsCriteria() === "" &&
             checkIfCityMeetsCriteria() === "" &&
             passwordsMatch &&
+            checkedGdpr &&
             emailExists === null ? (
               <Button onClick={handleSignUp} variant="dark">
                 Prihlásiť sa!

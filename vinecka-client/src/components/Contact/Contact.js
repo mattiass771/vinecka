@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 import emailjs from 'emailjs-com';
 
@@ -45,7 +46,12 @@ export default () => {
 
   return (
     <div className="whitesmoke-bg-pnine">
-        <Container className="mt-4 py-4">
+        <Container className="py-4">
+            <Row className="mb-4 mt-4 text-center justify-content-center">
+                <Col xs={3}><hr style={{backgroundColor: '#001402', height: '1px', marginTop: '22px'}} /></Col>
+                <Col xs={6}><h1>Kontaktujte nás!</h1></Col>
+                <Col xs={3}><hr style={{backgroundColor: '#001402', height: '1px', marginTop: '22px'}} /></Col>
+            </Row>
             <Form className="contact-form" onSubmit={sendEmail}>
                 <input type="hidden" name="contact_number" />
                 <Row className="justify-content-center text-center mt-2">
@@ -111,7 +117,7 @@ export default () => {
                             checked={checkedNewsletter}
                             onChange={() => setCheckedNewsletter(!checkedNewsletter)}
                         />&nbsp;
-                        Chcem odoberať newsletter a týmto súhlasím s odoberaním newslettra eshopu masvino.sk. Tento súhlas môžete odvolať, napríklad tu, alebo na konci každého newsletter emailu.</em>
+                        Chcem odoberať newsletter a týmto súhlasím s odoberaním newslettra eshopu masvino.sk. Tento súhlas môžete odvolať, napríklad <Link to="/odhlasit-newsletter">tu</Link>, alebo na konci každého newsletter emailu.</em>
                     </Col>
                 </Row>
                 {success &&

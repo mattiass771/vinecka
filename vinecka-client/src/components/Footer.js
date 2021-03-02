@@ -29,7 +29,7 @@ export default () => {
 
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
-    if ((limit - currentScrollPos) < 1000) setVisible(true)
+    if ((limit - currentScrollPos) < 1000 || currentScrollPos < 5) setVisible(true)
     else {
       setVisible(false);
     }
@@ -42,9 +42,9 @@ export default () => {
   }, [prevScrollPos, visible, handleScroll]);
 
     return (
-        <div className="pt-1 pb-3 fixed-bottom" style={{...footerStyles, bottom: visible ? '0' : '-220px'}}>
+        <div className="pt-4 pb-3 fixed-bottom" style={{...footerStyles, bottom: visible ? '0' : '-180px'}}>
         <Container>
-          <Row className="text-center pt-4 pb-4 mt-4">
+          <Row className="text-center">
             <Col className="mb-2" md={6} lg={3}>
               <a rel="noopener noreferrer" target="_blank" href="https://github.com/mattiass771" style={{textDecoration: 'none', color: 'whitesmoke'}}>
                 <BiCodeAlt style={{fontSize: '150%', marginTop: '-2px'}} /> by <strong>MZ</strong>
