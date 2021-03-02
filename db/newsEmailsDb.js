@@ -1,3 +1,4 @@
+const { PinpointEmail } = require("aws-sdk");
 const mongoose = require("mongoose");
 const router = require("express").Router();
 
@@ -30,18 +31,10 @@ router.route("/add").post((req, res) => {
 
 router.route("/delete-from-newsletter/").post((req, res) => {
     const { email } = req.body;
-    Mails.find((err, mailsFound) => {
-      if (err) return console.log(err.data);
-      mailsFound = mailsFound.filter(
-        (val) => val.email !== email
-      );
-      mailsFound
-        .save()
-        .then(() =>
-          res.json(`Mail: ${email} was removed from your mails.`)
-        );
-    });
-  });
+    Mails.findOneAndDelete(email)
+        .then(() => res.json("Email deleted."))
+        .catch((err) => res.status(400).json(`Error: ${err}`));
+});
 
 module.exports = {
     router,
