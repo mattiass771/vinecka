@@ -250,19 +250,19 @@ export default ({userId, isOwner}) => {
       <div style={{backgroundColor: '#00140295', color: "whitesmoke", padding: '40px'}}>
         <Container>
           <Row className="text-center justify-content-center pt-4">
-            <Col className="pt-2" xs={2} sm={3} md={4}>
+            <Col className="pt-2" xs={1} sm={2} md={3} xl={4} >
               <hr style={{backgroundColor: "whitesmoke", paddingBottom: "1px"}} />
             </Col>
-            <Col xs={8} sm={6} md={4}>
-              <h1>Naše vína</h1>
+            <Col xs={10} sm={8} md={6} xl={4} >
+              <h2>Vína malých karpát</h2>
             </Col>
-            <Col className="pt-2"  xs={2} sm={3} md={4}>
+            <Col className="pt-2"  xs={1} sm={2} md={3} xl={4} >
               <hr style={{backgroundColor: "whitesmoke", paddingBottom: "1px"}}/>
             </Col>
           </Row>
           <Row className="text-center justify-content-center">
             <Col>
-              <em style={{fontSize: "200%"}}>Tie najlepšie vínka z Malokarpatskej oblasti.</em>
+              <em style={{fontSize: "160%"}}>Vychutnajte si tie najlepšie vínka z Malokarpatskej oblasti.</em>
             </Col>
           </Row>
           <ShowGeneral />
