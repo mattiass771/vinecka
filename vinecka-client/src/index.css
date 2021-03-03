@@ -23,7 +23,7 @@ body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
   padding-top: 168px;
-  padding-bottom: 72px;
+  padding-bottom: 107px;
 }
 
 body:after{
@@ -55,19 +55,20 @@ body:after{
 
 @media only screen and (min-width: 975px) {
   body {
-    padding-bottom: 72px !important;
+    padding-bottom: 107px !important;
   }
 }
 
 @media only screen and (max-width: 974px) {
   body {
-    padding-bottom: 105px !important;
+    padding-bottom: 140px !important;
   }
 }
 
 @media only screen and (max-width: 767px) {
   body {
-    padding-bottom: 169px !important;
+    padding-top: 147px !important;
+    padding-bottom: 223px !important;
   }
 }
 
