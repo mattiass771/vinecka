@@ -22,6 +22,7 @@ import Footer from "./components/Footer";
 import AdultModal from './AdultModal';
 import Contact from './components/Contact/Contact';
 import DeleteFromNewsletter from './components/Contact/DeleteFromNewsletter';
+import Popup from './components/Law/Popup';
 
 import Spinner from "react-bootstrap/Spinner";
 
@@ -30,6 +31,8 @@ export default () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
   const [loadingData, setLoadingData] = useState(false);
+  const [showLawPopup, setShowLawPopup] = useState('')
+  
 
   useEffect(() => {
     setLoadingData(true)
@@ -65,6 +68,9 @@ export default () => {
     <Router>
       {window.localStorage.getItem('mas-vino-isAdult') !== "true" &&
         <AdultModal initShow={true} />
+      }
+      {
+        showLawPopup !== '' && <Popup showLawPopup={showLawPopup} setShowLawPopup={setShowLawPopup} />
       }
       <link
         rel="stylesheet"
@@ -128,7 +134,7 @@ export default () => {
             </Route>
           </Switch>
         </div>}
-        <Footer />
+        <Footer showLawPopup={showLawPopup} setShowLawPopup={setShowLawPopup} />
       </div>    
     </Router>
   );

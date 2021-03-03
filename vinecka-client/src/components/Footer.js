@@ -8,7 +8,7 @@ import { MdMailOutline } from "react-icons/md";
 import { BiCodeAlt } from "react-icons/bi";
 import { FaFacebookF,FaInstagram } from "react-icons/fa";
 
-export default () => {
+export default ({showLawPopup, setShowLawPopup}) => {
   const [prevScrollPos, setPrevScrollPos] = useState(0); 
   const [visible, setVisible] = useState(false);
 
@@ -62,6 +62,20 @@ export default () => {
             </Col>
             <Col className="mb-2" md={6} lg={3}>
               <MdMailOutline style={{fontSize: '150%', marginTop: '-2px', color: 'whitesmoke'}} /><strong style={{color: 'whitesmoke'}}>masvino@mail.com</strong>
+            </Col>
+          </Row>
+          <Row className="text-center my-2" style={{fontSize: '80%'}}>
+            <Col>
+              <span style={{color: 'whitesmoke', cursor: 'pointer'}} onClick={() => setShowLawPopup('obchodne')}>Obchodné podmienky</span>
+            </Col>
+            <Col>
+              <span style={{color: 'whitesmoke', cursor: 'pointer'}} onClick={() => setShowLawPopup('gdpr')}>Ochrana osobných údajov</span>
+            </Col>
+            <Col>
+              <span style={{color: 'whitesmoke', cursor: 'pointer'}} onClick={() => setShowLawPopup('reklamacny')}>Reklamačný poriadok</span>
+            </Col>
+            <Col>
+              <span style={{color: 'whitesmoke', cursor: 'pointer'}} onClick={() => setShowLawPopup('doprava')}>Doprava a platba</span>
             </Col>
           </Row>
         </Container>
