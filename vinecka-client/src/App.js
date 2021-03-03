@@ -76,7 +76,7 @@ export default () => {
         <Navbar userName={userData.fullName} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
         {loadingData ? 
               <Spinner
-                style={{ marginLeft: "49%", marginTop: "20%" }}
+                style={{ marginLeft: "49%", marginTop: "20%", color: 'whitesmoke' }}
                 animation="border"
               /> :
         <div className="wrapper">
