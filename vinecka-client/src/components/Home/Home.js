@@ -204,7 +204,7 @@ export default ({userId, isOwner}) => {
         ? getImage(imageLink)
         : defaultImage;
       return (
-        <Carousel.Item key={`${url}-${imageLink}`} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight: MIN_HEIGHT_JUMBO }}>
+        <Carousel.Item key={`${url}-${imageLink}`} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight: MIN_HEIGHT_JUMBO, minWidth: "100%" }}>
             <Link to={`/${url}`}>
             <img
               style={{minHeight: MIN_HEIGHT_JUMBO, minWidth: "100%"}}
