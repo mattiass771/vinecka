@@ -18,10 +18,10 @@ export default ({initShow}) => {
     }
     return (
         <Modal show={showed} onHide={() => null}>
-            <div className="w-100 text-center" style={{backgroundColor: '#001402'}} >
+            <div className="w-100 text-center" style={{backgroundColor: '#2b371b'}} >
                 <img src={logo} height="60%" width="60%"/>
             </div>
-            <Modal.Body className="text-center" style={{fontSize: "150%", color: 'whitesmoke', backgroundColor: '#001402'}}>Týmto potvrdzujem, ze som plnoletý a ze si mozem legalne objednat vinko.</Modal.Body>
+            <Modal.Body className="text-center" style={{fontSize: "150%", color: 'whitesmoke', backgroundColor: '#2b371b'}}>Týmto potvrdzujem, ze som plnoletý a ze si mozem legalne objednat vinko.</Modal.Body>
             <Modal.Footer className="row justify-content-center">
                 <Button variant="dark" onClick={() => history.goBack()}>
                     Niesom plnoletý&nbsp;  

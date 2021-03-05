@@ -48,9 +48,9 @@ export default () => {
     <div className="whitesmoke-bg-pnine">
         <Container className="py-4">
             <Row className="mb-4 mt-4 text-center justify-content-center">
-                <Col xs={3}><hr style={{backgroundColor: '#001402', height: '1px', marginTop: '22px'}} /></Col>
+                <Col xs={3}><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></Col>
                 <Col xs={6}><h1>Kontaktujte nás!</h1></Col>
-                <Col xs={3}><hr style={{backgroundColor: '#001402', height: '1px', marginTop: '22px'}} /></Col>
+                <Col xs={3}><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></Col>
             </Row>
             <Form className="contact-form" onSubmit={sendEmail}>
                 <input type="hidden" name="contact_number" />

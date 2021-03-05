@@ -17,6 +17,7 @@ import { BsUpload } from "react-icons/bs";
 
 export default ({eventPopup, setEventPopup, refresh, setRefresh, eventData}) => {
     const [startDate, setStartDate] = useState(moment(eventData.when, 'DD.MM.YYYY, HH:mm').valueOf());
+    const [untilDate, setUntilDate] = useState(moment(eventData.until, 'DD.MM.YYYY, HH:mm').valueOf());
 
     const [name, setName] = useState(eventData.name)
     const [idFromName, setIdFromName] = useState(eventData.idFromName)
@@ -25,10 +26,10 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh, eventData}) => 
     const [imageLink, setImageLink] = useState(eventData.imageLink)
     const [where, setWhere] = useState(eventData.where)
     const [when, setWhen] = useState(eventData.when)
+    const [until, setUntil] = useState(eventData.until)
 
     const getImage = (image) => {
         try {
-            console.log(image)
           const img = `https://vineckabucket.s3.eu-central-1.amazonaws.com/${image.replace(/_/g, '-')}`
           return img;
         } catch {
@@ -69,7 +70,20 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh, eventData}) => 
 
     useEffect(() => {
         setWhen(moment(startDate).format('DD.MM.YYYY, HH:mm'))
+        if (untilDate <= startDate) {
+            setUntilDate('')
+        }
+        console.log(until)
     },[startDate])
+
+    useEffect(() => {
+        if (untilDate > startDate) {
+            setUntil(moment(untilDate).format('DD.MM.YYYY, HH:mm'))
+        } else {
+            setUntil('')
+        }
+        console.log(until)
+    },[untilDate])
 
     const handleSave = () => {
         axios.post(`https://mas-vino.herokuapp.com/events/update-event/${eventData._id}`, {name, link, description, imageLink, where, when})
@@ -122,7 +136,12 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh, eventData}) => 
                 </Row>
                 <Row className="justify-content-center">
                     <Col className="form-group text-center mt-1">
-                        Cas a datum udalosti (povinne): <DatePicker className="text-center" dateFormat="dd.MM.yyyy HH:mm" showTimeSelect selected={startDate} onChange={date => setStartDate(date)} />
+                        Cas a datum udalosti (povinne): <DatePicker className="text-center" minDate={new Date()} dateFormat="dd.MM.yyyy HH:mm" showTimeSelect selected={startDate} onChange={date => setStartDate(date)} />
+                    </Col>
+                </Row>
+                <Row className="justify-content-center">
+                    <Col className="form-group text-center mt-1">
+                        Dokedy bude udalost trvat (volitelne): <DatePicker className="text-center" dateFormat="dd.MM.yyyy HH:mm" showTimeSelect minDate={startDate} selected={untilDate} onChange={date => setUntilDate(date)} />
                     </Col>
                 </Row>
                 <Row className="justify-content-center">
@@ -179,10 +198,10 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh, eventData}) => 
             <br />
             {(name && description && imageLink && when) ?
                 <Button variant="dark" onClick={() => handleSave()}>
-                    Pridat
+                    Upravit
                 </Button> :
                 <Button disabled variant="dark">
-                    Pridat
+                    Upravit
                 </Button>
             }&nbsp;&nbsp;&nbsp;&nbsp;
             <Button variant="dark" onClick={() => setEventPopup(false)}>

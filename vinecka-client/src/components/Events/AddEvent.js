@@ -17,6 +17,7 @@ import { BsUpload } from "react-icons/bs";
 
 export default ({eventPopup, setEventPopup, refresh, setRefresh}) => {
     const [startDate, setStartDate] = useState(new Date());
+    const [untilDate, setUntilDate] = useState(new Date());
 
     const [name, setName] = useState('')
     const [idFromName, setIdFromName] = useState('')
@@ -25,6 +26,7 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh}) => {
     const [imageLink, setImageLink] = useState('')
     const [where, setWhere] = useState('')
     const [when, setWhen] = useState('')
+    const [until, setUntil] = useState('')
 
     useEffect(() => {
         if (name) {
@@ -59,10 +61,19 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh}) => {
 
     useEffect(() => {
         setWhen(moment(startDate).format('DD.MM.YYYY, HH:mm'))
+        if (untilDate <= startDate) {
+            setUntilDate('')
+        }
     },[startDate])
 
+    useEffect(() => {
+        if (untilDate > startDate) {
+            setUntil(moment(untilDate).format('DD.MM.YYYY, HH:mm'))
+        }
+    },[untilDate])
+
     const handleSave = () => {
-        axios.post(`https://mas-vino.herokuapp.com/events/add`, {name, link, description, imageLink, where, when})
+        axios.post(`https://mas-vino.herokuapp.com/events/add`, {name, link, description, imageLink, where, until, when})
             .then(res => {
                 setRefresh(!refresh)
                 setEventPopup(false)
@@ -111,7 +122,12 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh}) => {
                 </Row>
                 <Row className="justify-content-center">
                     <Col className="form-group text-center mt-1">
-                        Cas a datum udalosti (povinne): <DatePicker className="text-center" dateFormat="dd.MM.yyyy HH:mm" showTimeSelect selected={startDate} onChange={date => setStartDate(date)} />
+                        Cas a datum udalosti (povinne): <DatePicker className="text-center" minDate={new Date()} dateFormat="dd.MM.yyyy HH:mm" showTimeSelect selected={startDate} onChange={date => setStartDate(date)} />
+                    </Col>
+                </Row>
+                <Row className="justify-content-center">
+                    <Col className="form-group text-center mt-1">
+                        Dokedy bude udalost trvat (volitelne): <DatePicker className="text-center" dateFormat="dd.MM.yyyy HH:mm" minDate={startDate} showTimeSelect selected={untilDate} onChange={date => setUntilDate(date)} />
                     </Col>
                 </Row>
                 <Row className="justify-content-center">

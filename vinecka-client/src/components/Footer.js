@@ -24,7 +24,7 @@ export default ({showLawPopup, setShowLawPopup}) => {
     transition: 'bottom 0.6s',
     width: '100%',
     zIndex: '+2',
-    backgroundColor: '#001402'
+    backgroundColor: '#2b371b'
   }
 
   const handleScroll = () => {

@@ -19,7 +19,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: whitesmoke;
-  color: #001402 !important;
+  color: #333333 !important;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
   padding-top: 168px;
@@ -77,80 +77,17 @@ body:after{
   display: none;
 }
 
-@media only screen and (min-width: 1150px) {
-  .carousel-image {
-    min-height: 225 !important;
-    max-width: 100% !important;
-  }
-}
-
-@media only screen and (max-width: 1150px) {
-  .carousel-image {
-    min-height: 225 !important;
-    max-width: 110% !important;
-  }
-}
-
-@media only screen and (max-width: 1000px) {
-  .carousel-image {
-    min-height: 225 !important;
-    max-width: 120% !important;
-  }
-}
-
-@media only screen and (max-width: 900px) {
-  .carousel-image {
-    min-height: 225 !important;
-    max-width: 135% !important;
-  }
-}
-
-@media only screen and (max-width: 800px) {
-  .carousel-image {
-    min-height: 225 !important;
-    max-width: 150% !important;
-  }
-}
-
-@media only screen and (max-width: 700px) {
-  .carousel-image {
-    min-height: 225 !important;
-    max-width: 162% !important;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .carousel-image {
-    min-height: 225 !important;
-    max-width: 175% !important;
-  }
-}
-
-@media only screen and (max-width: 500px) {
-  .carousel-image {
-    min-height: 225 !important;
-    max-width: 200% !important;
-  }
-}
-
-@media only screen and (max-width: 450px) {
-  .carousel-image {
-    min-height: 225 !important;
-    max-width: 215% !important;
-  }
-}
-
 .whitesmoke-bg-pnine {
   background-color: rgba(250,250,250,0.9);
 }
 
 .btn {
-  background-color: #001402 !important;
+  background-color: #2b371b !important;
 }
 
 .btn:hover {
   background-color: whitesmoke !important;
-  color: #001402 !important
+  color: #2b371b !important
 }
 
 

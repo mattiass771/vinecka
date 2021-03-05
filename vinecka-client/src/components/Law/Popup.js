@@ -11,7 +11,7 @@ import Doprava from './Doprava';
 export default ({showLawPopup, setShowLawPopup}) => {
     return (
         <Modal size="lg" show={showLawPopup !== ''} onHide={() => setShowLawPopup('')}>
-            <Modal.Body className="text-center" style={{fontSize: "90%", color: '#001402', backgroundColor: 'whitesmoke'}}>
+            <Modal.Body className="text-center" style={{fontSize: "90%", backgroundColor: 'whitesmoke'}}>
                 {showLawPopup === 'obchodne' && <ObchodnePodmienky />}
                 {showLawPopup === 'gdpr' && <OchranaSukromia />}
                 {showLawPopup === 'reklamacny' && <ReklamacnyPoriadok />}

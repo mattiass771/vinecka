@@ -62,7 +62,7 @@ export default ({isOwner}) => {
 
     const ShowEvents = () => {
         return eventsData.map(event => {
-            const { _id, name, link, description, imageLink, when, where } = event
+            const { _id, name, link, description, imageLink, when, where, until } = event
             return (
                 <Col key={_id} style={{maxWidth:'800px'}} className="mt-4" md={12} lg={6}>
                     <Card className="h-100" id={_id}>
@@ -104,7 +104,7 @@ export default ({isOwner}) => {
                         </Card.Body>
                         {(when || where) &&
                         <Card.Footer>
-                            <small className="text-muted"><MdDateRange style={{fontSize: '130%'}} /> {when}<br /> <MdLocationOn style={{fontSize: '130%'}} /> {where}</small>
+                            <small className="text-muted"><MdDateRange style={{fontSize: '130%'}} /> {when}{until && ` - ${until}`}<br /> <MdLocationOn style={{fontSize: '130%'}} /> {where}</small>
                         </Card.Footer>}
                     </Card>
                 </Col>

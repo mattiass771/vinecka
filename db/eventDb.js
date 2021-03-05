@@ -9,6 +9,7 @@ const eventSchema = new Schema({
     name: { type: String, required: true},
     imageLink: { type: String, required: true},
     when: { type: String, required: true },
+    until: { type: String },
     where: { type: String }
   });
   
@@ -21,7 +22,7 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
-    const { name, link, description, imageLink, when, where } = req.body;
+    const { name, link, description, imageLink, when, until, where } = req.body;
   
     const addEvent = new Event({
         name, 
@@ -29,6 +30,7 @@ router.route("/add").post((req, res) => {
         description, 
         imageLink, 
         when, 
+        until,
         where
     });
     addEvent
@@ -39,7 +41,7 @@ router.route("/add").post((req, res) => {
 
 router.route("/update-event/:eventId").post((req, res) => {
   const { eventId } = req.params
-  const { name, link, description, imageLink, when, where } = req.body;
+  const { name, link, description, imageLink, when, until, where } = req.body;
 
   Event.findById(eventId, (err, eventFound) => {
     if (err) return console.log(err.data);
@@ -49,6 +51,7 @@ router.route("/update-event/:eventId").post((req, res) => {
     eventFound.imageLink = imageLink
     eventFound.when = when
     eventFound.where = where
+    eventFound.until = until
     
     eventFound
       .save()

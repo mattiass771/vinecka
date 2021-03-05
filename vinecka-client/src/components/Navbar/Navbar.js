@@ -27,7 +27,7 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
     transition: 'top 0.6s',
     width: '100%',
     zIndex: '+2',
-    backgroundColor: '#001402',
+    backgroundColor: '#2b371b',
     fontSize: '120%'
   }
 
@@ -40,7 +40,7 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
 
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
-    if ((limit - currentScrollPos) < 1250 && currentScrollPos > 250) setVisible(false)
+    if ((limit - currentScrollPos) < 1750 && currentScrollPos > 250) setVisible(false)
     else {
       setVisible((prevScrollPos > currentScrollPos) || currentScrollPos < 250 );
     }

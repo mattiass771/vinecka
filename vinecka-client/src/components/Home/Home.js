@@ -28,7 +28,7 @@ import { RiSecurePaymentFill } from "react-icons/ri";
 
 import defaultImage from "../../default.jpg"
 
-const {MAX_HEIGHT_JUMBO, MIN_HEIGHT_JUMBO} = options
+const {MIN_HEIGHT_JUMBO} = options
 
 //Home.js
 export default ({userId, isOwner}) => {
@@ -196,7 +196,7 @@ export default ({userId, isOwner}) => {
         </Col>
       </Row>
   }
-
+  
   const showCarouselWithData = () => {
     return carouselData.map(shop => {
       const {shopName, owner, url, imageLink, textColor} = shop
@@ -204,19 +204,22 @@ export default ({userId, isOwner}) => {
         ? getImage(imageLink)
         : defaultImage;
       return (
-        <Carousel.Item key={`${url}-${imageLink}`} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight: MIN_HEIGHT_JUMBO, minWidth: "100%" }}>
-            <Link to={`/${url}`}>
-            <img
-              style={{minHeight: MIN_HEIGHT_JUMBO, minWidth: "100%"}}
-              className="d-block carousel-image"
-              src={image}
-              alt={`Carousel-${imageLink}`}
-            />
-            <Carousel.Caption style={{zIndex:'+1' ,marginBottom: "75px", color: textColor === 'white' ? 'whitesmoke' : '#333333'}}>
+        <Carousel.Item className="car-image-bg" key={`${url}-${imageLink}`} 
+          style={{
+            height: MIN_HEIGHT_JUMBO*2, 
+            width: "100%",
+            background: `url(${image}) center center no-repeat`, 
+            backgroundSize: 'cover'  
+          }}
+        >
+          <Link to={`/${url}`}>
+            <Carousel.Caption style={{zIndex:'+1' ,marginBottom: MIN_HEIGHT_JUMBO+75, color: textColor === 'white' ? 'whitesmoke' : '#333333'}}>
               <h3>{shopName}</h3>
               <p>{owner}</p>
             </Carousel.Caption>
           </Link>
+          <div className="d-none d-md-block" style={{backgroundColor: '#2b371b95', color: "whitesmoke", padding: '40px', marginTop: MIN_HEIGHT_JUMBO, height: MIN_HEIGHT_JUMBO}}>
+          </div>
         </Carousel.Item>
       )
     })
@@ -243,31 +246,31 @@ export default ({userId, isOwner}) => {
       {featuredsPopup &&
         <UpdateFeatured getImage={getImage} featuredIds={featuredIds} featuredsPopup={featuredsPopup} setFeaturedsPopup={setFeaturedsPopup} forceRefresh={forceRefresh} setForceRefresh={setForceRefresh} />
       }
-      <Carousel indicators={false} style={{maxHeight: MAX_HEIGHT_JUMBO, minHeight: MIN_HEIGHT_JUMBO }}>
+      <Carousel indicators={false} style={{height: MIN_HEIGHT_JUMBO*2 }}>
         {carouselData && showCarouselWithData()}  
+        <div style={{color: "whitesmoke", padding: '40px', marginTop: MIN_HEIGHT_JUMBO}}>
+          <Container>
+            <Row className="text-center justify-content-center pt-4">
+              <Col className="pt-2" xs={1} sm={2} md={3} xl={4} >
+                <hr style={{backgroundColor: "whitesmoke", paddingBottom: "1px"}} />
+              </Col>
+              <Col xs={10} sm={8} md={6} xl={4} >
+                <h2>Vína malých karpát</h2>
+              </Col>
+              <Col className="pt-2"  xs={1} sm={2} md={3} xl={4} >
+                <hr style={{backgroundColor: "whitesmoke", paddingBottom: "1px"}}/>
+              </Col>
+            </Row>
+            <Row className="text-center justify-content-center">
+              <Col>
+                <em style={{fontSize: "160%"}}>Vychutnajte si tie najlepšie vínka z Malokarpatskej oblasti.</em>
+              </Col>
+            </Row>
+            <ShowGeneral />
+          </Container>
+        </div>
       </Carousel>
-      {/* <svg className="d-none d-lg-block" preserveAspectRatio="none" height="20%" width="100%" style={{position: "absolute", top: 376, left: 0}} xmlns="http://www.w3.org/2000/svg" viewBox="130 -70 1200 390"><path fill="#00140280" fill-opacity="1" d="M0,288L60,277.3C120,267,240,245,360,213.3C480,181,600,139,720,112C840,85,960,75,1080,85.3C1200,96,1320,128,1380,144L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg> */}
-      <div style={{backgroundColor: '#00140295', color: "whitesmoke", padding: '40px'}}>
-        <Container>
-          <Row className="text-center justify-content-center pt-4">
-            <Col className="pt-2" xs={1} sm={2} md={3} xl={4} >
-              <hr style={{backgroundColor: "whitesmoke", paddingBottom: "1px"}} />
-            </Col>
-            <Col xs={10} sm={8} md={6} xl={4} >
-              <h2>Vína malých karpát</h2>
-            </Col>
-            <Col className="pt-2"  xs={1} sm={2} md={3} xl={4} >
-              <hr style={{backgroundColor: "whitesmoke", paddingBottom: "1px"}}/>
-            </Col>
-          </Row>
-          <Row className="text-center justify-content-center">
-            <Col>
-              <em style={{fontSize: "160%"}}>Vychutnajte si tie najlepšie vínka z Malokarpatskej oblasti.</em>
-            </Col>
-          </Row>
-          <ShowGeneral />
-        </Container>
-      </div>
+      {/* <svg className="d-none d-lg-block" preserveAspectRatio="none" height="20%" width="100%" style={{position: "absolute", top: 376, left: 0}} xmlns="http://www.w3.org/2000/svg" viewBox="130 -70 1200 390"><path fill="#2b371b80" fill-opacity="1" d="M0,288L60,277.3C120,267,240,245,360,213.3C480,181,600,139,720,112C840,85,960,75,1080,85.3C1200,96,1320,128,1380,144L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg> */}
       <div className="pt-3 pb-3">
         <Container className="pt-3 pb-3">
           {isOwner &&
@@ -279,7 +282,7 @@ export default ({userId, isOwner}) => {
           </Row>
         </Container>
       </div>
-      <div className="pt-3 pb-3" style={{backgroundColor: '#00140295', color: "whitesmoke"}}>
+      <div className="pt-3 pb-3" style={{backgroundColor: '#2b371b95', color: "whitesmoke"}}>
         <Container className="pt-3 pb-3">
             <Row className="text-center pt-2 pb-4">
               <Col className="mt-4" lg={3} sm={6} xs={12}>

@@ -212,7 +212,7 @@ export default ({ shopData, isOwner }) => {
     <Jumbotron style={{
                       color: textColor === 'white' ? 'whitesmoke' : '#333333', 
                       fontSize: '120%',
-                      background: `url(${showImageFromDb ? getImage(showImageFromDb) : defaultImage}) no-repeat`, 
+                      background: `url(${showImageFromDb ? getImage(showImageFromDb) : defaultImage}) center center no-repeat`, 
                       backgroundSize: 'cover'                  
                       }} fluid>
                         
