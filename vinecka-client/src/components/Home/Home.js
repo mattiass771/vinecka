@@ -152,10 +152,10 @@ export default ({userId, isOwner}) => {
     )
   }
 
-  const ShowGeneral = () => {
+  const ShowGeneral = ({fSz = '115%'}) => {
     return (
       <Row className="text-center mb-2">
-        <Col className="mt-4 mb-4" style={{fontSize: "115%"}}>
+        <Col className="mt-4 mb-4" style={{fontSize: fSz}}>
           {isOwner &&
             <Button
               onClick={() => setDescriptionsPopup(true)}
@@ -218,7 +218,7 @@ export default ({userId, isOwner}) => {
               <p>{owner}</p>
             </Carousel.Caption>
           </Link>
-          <div className="d-none d-md-block" style={{backgroundColor: '#2b371b95', color: "whitesmoke", padding: '40px', marginTop: MIN_HEIGHT_JUMBO, height: MIN_HEIGHT_JUMBO}}>
+          <div style={{backgroundColor: '#2b371b95', color: "whitesmoke", padding: '40px', marginTop: MIN_HEIGHT_JUMBO, height: MIN_HEIGHT_JUMBO}}>
           </div>
         </Carousel.Item>
       )
@@ -248,8 +248,8 @@ export default ({userId, isOwner}) => {
       }
       <Carousel indicators={false} style={{height: MIN_HEIGHT_JUMBO*2 }}>
         {carouselData && showCarouselWithData()}  
-        <div style={{color: "whitesmoke", padding: '40px', marginTop: MIN_HEIGHT_JUMBO}}>
-          <Container>
+        <div style={{color: "whitesmoke", padding: '30px', marginTop: MIN_HEIGHT_JUMBO}}>
+          <Container className="d-none d-md-block">
             <Row className="text-center justify-content-center pt-4">
               <Col className="pt-2" xs={1} sm={2} md={3} xl={4} >
                 <hr style={{backgroundColor: "whitesmoke", paddingBottom: "1px"}} />
@@ -267,6 +267,32 @@ export default ({userId, isOwner}) => {
               </Col>
             </Row>
             <ShowGeneral />
+          </Container>
+          <Container className="d-none d-sm-block d-md-none">
+            <Row className="text-center justify-content-center pt-2">
+              <Col xs={10} sm={8} md={6} xl={4} >
+                <h3>Vína malých karpát</h3>
+              </Col>
+            </Row>
+            <Row className="text-center justify-content-center">
+              <Col>
+                <em style={{fontSize: "115%"}}>Vychutnajte si tie najlepšie vínka z Malokarpatskej oblasti.</em>
+              </Col>
+            </Row>
+            <ShowGeneral fSz="100%" />
+          </Container>
+          <Container className="d-block d-sm-none">
+            <Row className="text-center justify-content-center">
+              <Col xs={10} sm={8} md={6} xl={4} >
+                <h4>Vína malých karpát</h4>
+              </Col>
+            </Row>
+            <Row className="text-center justify-content-center">
+              <Col>
+                <em style={{fontSize: "100%"}}>Vychutnajte si tie najlepšie vínka z Malokarpatskej oblasti.</em>
+              </Col>
+            </Row>
+            <ShowGeneral fSz="85%" />
           </Container>
         </div>
       </Carousel>
