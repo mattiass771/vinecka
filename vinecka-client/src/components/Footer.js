@@ -29,7 +29,7 @@ export default ({showLawPopup, setShowLawPopup}) => {
 
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
-    if ((limit - currentScrollPos) < 1000 || currentScrollPos < 5) setVisible(true)
+    if ((limit - currentScrollPos) < 1000) setVisible(true)
     else {
       setVisible(false);
     }

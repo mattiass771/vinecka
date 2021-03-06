@@ -59,7 +59,7 @@ export default ({isOwner}) => {
             const { _id, name, link, description, imageLink, when, where } = service
             return (
                 <Col key={_id} style={{maxWidth:'800px'}} className="mt-4" md={12} lg={6}>
-                    <Card bg="dark" text="white" className="h-100" id={_id}>
+                    <Card className="h-100" id={_id}>
                         {isOwner &&
                             <Button
                                 onClick={() => deleteCard(_id)}
@@ -93,7 +93,7 @@ export default ({isOwner}) => {
                         }
                         <Card.Img variant="top" style={{ height: '350px' }} src={getImage(imageLink) ? getImage(imageLink) : imageLink} />
                         <Card.Body>
-                            <Card.Title>{name}<Button onClick={() => handleSubmit(link)} size="sm" variant="outline-light" style={{float: 'right', marginTop: '-5px'}}>Viac info</Button></Card.Title>
+                            <Card.Title>{name}<Button onClick={() => handleSubmit(link)} size="sm" variant="dark" style={{float: 'right'}}>Viac info</Button></Card.Title>
                             <Card.Text>{description}</Card.Text>
                         </Card.Body>
                         {(when || where) &&

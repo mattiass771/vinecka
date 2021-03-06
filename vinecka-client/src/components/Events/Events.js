@@ -99,7 +99,7 @@ export default ({isOwner}) => {
                         }
                         <Card.Img variant="top" style={{ height: '350px' }} src={getImage(imageLink) ? getImage(imageLink) : imageLink} />
                         <Card.Body>
-                            <Card.Title>{name}<Button onClick={() => handleSubmit(link)} size="sm" variant="dark" style={{float: 'right', marginTop: '-5px'}}>Viac info</Button></Card.Title>
+                            <Card.Title>{name}<Button onClick={() => handleSubmit(link)} size="sm" variant="dark" style={{float: 'right'}}>Viac info</Button></Card.Title>
                             <Card.Text>{description}</Card.Text>
                         </Card.Body>
                         {(when || where) &&
