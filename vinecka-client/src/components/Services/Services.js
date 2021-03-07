@@ -91,7 +91,7 @@ export default ({isOwner}) => {
                         {editing &&
                             <EditService refresh={refresh} setRefresh={setRefresh} setServicePopup={setEditing} servicePopup={editing[_id]} serviceData={service} />
                         }
-                        <Card.Img variant="top" style={{ height: '350px' }} src={getImage(imageLink) ? getImage(imageLink) : imageLink} />
+                        <Card.Img variant="top" style={{ height: '350px', width: '100%', objectFit: 'cover' }} src={getImage(imageLink) ? getImage(imageLink) : imageLink} />
                         <Card.Body>
                             <Card.Title>{name}<Button onClick={() => handleSubmit(link)} size="sm" variant="dark" style={{float: 'right'}}>Viac info</Button></Card.Title>
                             <Card.Text>{description}</Card.Text>

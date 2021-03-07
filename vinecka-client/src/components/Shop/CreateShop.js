@@ -38,16 +38,12 @@ export default ({ userData }) => {
         <br />
         <Row>
           <Col className="text-center">
-            <h1>Create new shop!</h1>
-            <p>
-              Please fill out the form below and shortly after, your very own shop
-              will be generated.
-            </p>
+            <h1>Založiť nové vinárstvo!</h1>
           </Col>
         </Row>
         <Row className="justify-content-md-center">
           <Col md={6} className="form-group">
-            <label htmlFor="shopName">Name your shop:</label>
+            <label htmlFor="shopName">Názov:</label>
             <input
               value={shopName}
               className="form-control"
@@ -60,7 +56,7 @@ export default ({ userData }) => {
         <Row className="justify-content-md-center">
           <Col md={6} className="form-group">
             <label htmlFor="setDescription">
-              Add a brief description to your shop:
+              Pridaj zakladný popis vinárstva - zvyšok sa nastaví priamo vo vinárstve.
             </label>
             <textarea
               value={description}
@@ -74,7 +70,7 @@ export default ({ userData }) => {
         <Row className="justify-content-md-center">
           <Col md={6} className="text-center">
             <Button variant="dark" onClick={handleOpenShop}>
-              Open Shop!
+              Otvoriť vináreň.
             </Button>
           </Col>
         </Row>
