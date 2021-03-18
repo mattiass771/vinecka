@@ -81,11 +81,11 @@ body:after{
   background-color: rgba(250,250,250,0.9);
 }
 
-.btn {
+.btn-dark {
   background-color: #2b371b !important;
 }
 
-.btn:hover {
+.btn-dark:hover {
   background-color: whitesmoke !important;
   color: #2b371b !important
 }
