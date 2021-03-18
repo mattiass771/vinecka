@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 
-import logo from './components/Navbar/logo4.png'
+import logo from './components/Navbar/logo5.png'
 
 import { IoIosWine } from 'react-icons/io'
 import { GiBabyBottle } from 'react-icons/gi'

@@ -92,7 +92,7 @@ export default ({ userData, shopData }) => {
   }
 
   const getAllWineTypes = () => {
-    return wineTypes.map(type => {
+    return wineTypes.sort().map(type => {
       return <option key={type.toLowerCase()}>{type}</option>
     })
   }
@@ -153,7 +153,7 @@ export default ({ userData, shopData }) => {
             <option>Biele</option>
             <option>Červené</option>
             <option>Ružové</option>
-            <option>Ríbezľové</option>
+            <option>Ovocné</option>
           </Form.Control>
         </Col>
         <Col className="mb-1" xs={12} md={4}>
@@ -163,11 +163,10 @@ export default ({ userData, shopData }) => {
             onChange={(e) => handleTasteDrop(e.target.value)}
           >
             {!tasteDrop && <option>Chut</option>}
-            <option>Extra Suché</option>
             <option>Suché</option>
+            <option>Polosuché</option>
             <option>Polosladké</option>
             <option>Sladké</option>
-            <option>Dezertné</option>
           </Form.Control>
         </Col>
         <Col className="mb-1" xs={12} md={4}>

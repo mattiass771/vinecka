@@ -75,11 +75,11 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
           </Nav.Link>
 
           <Nav.Link as={Link} href="/vinarne" to="/vinarne" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
-              Vinárne
+              Vinárstva
           </Nav.Link>
 
           <Nav.Link as={Link} href="/vinka" to="/vinka" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
-               Vínka
+              Vína
           </Nav.Link>
 
           <Nav.Link as={Link} href="/akcie" to="/akcie" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">

@@ -146,7 +146,7 @@ export default ({userId}) => {
                     <Image src={getImage(item.imageLink) ? getImage(item.imageLink) : ''} rounded style={{height:75}} />
                     <h6>{item.itemName}</h6>
                     <p>
-                    Count: {item.count}<br />
+                    Počet: {item.count}<br />
                     {item.price} €</p>
                     <Button style={{position: 'absolute', right: "20%", top: 0}} onClick={(e) => removeItemFromCart(e, item.itemId, shopId)} variant="danger" size="sm">X</Button>
                 </Col>

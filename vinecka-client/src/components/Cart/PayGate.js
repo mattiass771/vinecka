@@ -1,7 +1,6 @@
-import React, {useEffect, useState } from 'react'
+import React from 'react'
 
 import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
 
 import crypto from 'crypto'
 import locutus from 'locutus/php/misc/pack'
@@ -22,13 +21,13 @@ export default ({paymentPopup, setPaymentPopup, orderInfo}) => {
     const constructOrder = () => {
         const baseUrl = "https://playground.trustpay.eu/mapi5/wire/paypopup";
         const accountId = 2107205663;
-        const amount = total;
+        const amount = total.toFixed(2);
         const currency = "EUR";
         const reference = orderId;
         const paymentType = 0;
     
         const secretKey = "5FIwY8FAc15vKHD96B9XQLhPIZdK8lNr";
-        const sigData = `${accountId}/${amount.toFixed(2)}/${currency}/${reference}/${paymentType}`;
+        const sigData = `${accountId}/${amount}/${currency}/${reference}/${paymentType}`;
         const signature = GetSignature(secretKey, sigData); //eslint-disable-line
     
         const url = `${baseUrl}?AccountId=${accountId}&Amount=${amount}&Currency=${currency}&Reference=${reference}&PaymentType=${paymentType}&Signature=${signature}`

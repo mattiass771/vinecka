@@ -52,16 +52,16 @@ export default ({showLawPopup, setShowLawPopup}) => {
             </Col>
             <Col className="mb-2" md={6} lg={3}>
               <a rel="noopener noreferrer" target="_blank" href="https://facebook.com" style={{textDecoration: 'none', color: 'whitesmoke'}}>
-                <FaFacebookF style={{fontSize: '130%', marginTop: '-2px', marginRight: '-4px'}} />acebook.com<strong>/masvino</strong>
+                <FaFacebookF style={{fontSize: '130%', marginTop: '-2px', marginRight: '-4px'}} />acebook.com<strong>/masvino.sk</strong>
               </a>
             </Col>
             <Col className="mb-2" md={6} lg={3}>
               <a rel="noopener noreferrer" target="_blank" href="https://instagram.com" style={{textDecoration: 'none', color: 'whitesmoke'}}>
-                <FaInstagram style={{fontSize: '150%', marginTop: '-2px'}} /><strong>#masvino</strong>
+                <FaInstagram style={{fontSize: '150%', marginTop: '-2px'}} /><strong>#masvino.sk</strong>
               </a>
             </Col>
             <Col className="mb-2" md={6} lg={3}>
-              <MdMailOutline style={{fontSize: '150%', marginTop: '-2px', color: 'whitesmoke'}} /><strong style={{color: 'whitesmoke'}}>masvino@mail.com</strong>
+              <MdMailOutline style={{fontSize: '150%', marginTop: '-2px', color: 'whitesmoke'}} /><strong style={{color: 'whitesmoke'}}>masvino.sk@gmail.com</strong>
             </Col>
           </Row>
           <Row className="text-center my-2" style={{fontSize: '80%'}}>

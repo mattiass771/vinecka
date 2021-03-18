@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import emailjs from 'emailjs-com';
 
+import Map from './Map'
+
 import Form from 'react-bootstrap/Form'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -51,6 +53,9 @@ export default () => {
                 <Col xs={3}><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></Col>
                 <Col xs={6}><h1>Kontaktujte nás!</h1></Col>
                 <Col xs={3}><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></Col>
+            </Row>
+            <Row className="mb-4 mt-4 text-center justify-content-center" style={{fontSize:"125%"}}>
+                <Col xs={10}>Máte nejake otázky, alebo ste aj vy vinár/vinárstvo fungujúce v Malokarpatskej oblasti?<br /> Neváhajte a napíšte nám správu prostredníctvom formulára nižšie. Pokojne sa nám v krátkosti predstavte v správe a detaily vám následne upresníme v ďaľšej komunikácii. <br />Tešíme sa na našu budúcu spoluprácu!</Col>
             </Row>
             <Form className="contact-form" onSubmit={sendEmail}>
                 <input type="hidden" name="contact_number" />
@@ -156,6 +161,22 @@ export default () => {
                     </Col>
                 </Row>}
             </Form>
+            <Row className="mb-4 mt-4 text-center justify-content-center" style={{fontSize:"125%"}}>
+                <Col xs={10}>
+                    <h4>OSOBNÝ ODBER</h4>
+                    Ul. Eugena Suchoňa 24, 902 01 Pezinok. Možná dohoda, volajte na 0948 721 868.
+                </Col>
+            </Row>
+            <Row className="mb-4 mt-4 text-center justify-content-center" style={{fontSize:"125%"}}>
+                <Col xs={10}>
+                    <Map 
+                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoH4TWYVkhYfKSLFAlTn-h4nGOZrLR2SI&v=3.exp&libraries=geometry,drawing,places"
+                        loadingElement={<div style={{ height: `100%` }} />}
+                        containerElement={<div style={{ height: `400px` }} />}
+                        mapElement={<div style={{ height: `100%` }} />}
+                    />
+                </Col>
+            </Row>
         </Container>
     </div>
   );

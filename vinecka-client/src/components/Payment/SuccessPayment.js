@@ -46,7 +46,7 @@ export default ({userId}) => {
                 <Row>
                     <Col style={{fontSize: "150%"}}>
                         Platba za objednávku číslo {orderId} bola spracovaná. 
-                        <br />Podrobnejšie detaily nájdete v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednávky</strong></Link>.
+                        {userId && <><br />Podrobnejšie detaily nájdete v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednávky</strong></Link>.</>}
                         <br/>Číslo platby {paymentId || 'nenájdené'}.
                     </Col>
                 </Row>
