@@ -90,7 +90,7 @@ export default ({userId, isOwner}) => {
     }
   };
 
-  const ShowEvents = () => {
+  const showEvents = () => {
     return (
       <Col md={6} style={{padding:'35px'}}>
         {isOwner &&
@@ -121,7 +121,7 @@ export default ({userId, isOwner}) => {
     )
   }
 
-  const ShowServices = () => {
+  const showServices = () => {
     return (
       <Col md={6} style={{padding:'35px'}}>
         {isOwner &&
@@ -335,8 +335,8 @@ export default ({userId, isOwner}) => {
       <div>  
         <Container>
           <Row>
-            <ShowEvents />
-            <ShowServices />
+            {showEvents()}
+            {showServices()}
           </Row>
         </Container>
       </div>

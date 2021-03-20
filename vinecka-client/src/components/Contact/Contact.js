@@ -174,6 +174,8 @@ export default () => {
                         loadingElement={<div style={{ height: `100%` }} />}
                         containerElement={<div style={{ height: `400px` }} />}
                         mapElement={<div style={{ height: `100%` }} />}
+                        lat={48.282411181745005}
+                        lng={17.25283474894052}
                     />
                 </Col>
             </Row>

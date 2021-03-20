@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import moment from 'moment'
 
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
+
+import MapPopup from '../Contact/MapPopup'
 
 import AddEvent from './AddEvent'
 import EditEvent from './EditEvent'
@@ -18,6 +19,7 @@ export default ({isOwner}) => {
     const [eventPopup, setEventPopup] = useState(false)
     const [refresh, setRefresh] = useState(false)
     const [editing, setEditing] = useState('')
+    const [showMapPopup, setShowMapPopup] = useState('')
 
     const handleEditing = (e) => {
         const itemId = e.currentTarget.parentNode.id;
@@ -104,7 +106,11 @@ export default ({isOwner}) => {
                         </Card.Body>
                         {(when || where) &&
                         <Card.Footer>
-                            <small className="text-muted"><MdDateRange style={{fontSize: '130%'}} /> {when}{until && ` - ${until}`}<br /> <MdLocationOn style={{fontSize: '130%'}} /> {where}</small>
+                            <small className="text-muted">
+                                <MdDateRange style={{fontSize: '130%'}} /> {when}{until && ` - ${until}`}
+                                <br /> 
+                                <a className="link-no-deco" onClick={() => setShowMapPopup(where)}><MdLocationOn style={{fontSize: '130%'}} /> {where}</a>
+                            </small>
                         </Card.Footer>}
                     </Card>
                 </Col>
@@ -114,6 +120,9 @@ export default ({isOwner}) => {
 
     return (
         <Container className="mb-4">
+            {showMapPopup &&
+                <MapPopup geoString={showMapPopup} showMapPopup={showMapPopup} setShowMapPopup={setShowMapPopup} />
+            }
             {eventPopup &&
                 <AddEvent refresh={refresh} setRefresh={setRefresh} setEventPopup={setEventPopup} eventPopup={eventPopup} />
             }
