@@ -311,13 +311,13 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
             <Row className="text-center pt-2 pb-4">
               <Col className="mt-4" lg={3} sm={6} xs={12}>
                 <p style={{height: "50px"}}><HiOutlineBadgeCheck style={{fontSize: "300%"}} /></p>
-                <h5>OVERENÍ PREDAJCOVIA</h5>
-                Kvalitné vína od poctivých lokálnych výrobcov, ktorí vykonávajú svoju prácu telom i dušou.
+                <h5>DÔVERYHODNOSŤ</h5>
+                Zaručujeme len tie nalepšie vína od poctivých lokálnych výrobcov, ktorí vykonávajú svoju prácu telom i dušou.
               </Col>
               <Col className="mt-4" lg={3} sm={6} xs={12}>
                 <p style={{height: "50px"}}><FiTruck style={{fontSize: "300%", color: 'whitesmoke !important'}} /></p>
                 <h5>ROZVOZ</h5>
-                ZDARMA: Pri kúpe nad 150 Eur (Pezinok a okolie). <br />Možná dohoda a dovoz i ďalej, volajte na 0948 721 868.
+                Vína vám dovezieme osobne (Pezinok a okolie). <br />Možná dohoda a dovoz i ďalej, volajte na 0948 721 868.
               </Col>
               <Col className="mt-4" lg={3} sm={6} xs={12}>
                 <p style={{height: "50px"}}><GoPackage style={{fontSize: "300%"}} /></p>
