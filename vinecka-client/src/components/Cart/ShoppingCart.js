@@ -235,7 +235,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
         shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
         return (
             <Col>
-                <h3>Finalna suma: {result.toFixed(2).toString().replace(/\./g,',')} €</h3>
+                <h3>Finálna suma: {result.toFixed(2).toString().replace(/\./g,',')} €</h3>
             </Col>
         )
     }
@@ -256,11 +256,11 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     <Col>
                         {(!userInformation && shops ) &&
                             <p>
-                                <Button className="mt-2" onClick={() => handleRegistration()} variant="dark">Dorucovacie udaje s registraciou</Button>
+                                <Button className="mt-2" onClick={() => handleRegistration()} variant="dark">Doručovacie údaje s registráciou</Button>
                                 &nbsp;&nbsp;
-                                <Button className="mt-2" onClick={() => handleLogin()} variant="dark">Mam ucet a chcem sa prihlasit</Button>
+                                <Button className="mt-2" onClick={() => handleLogin()} variant="dark">Mám účet a chcem sa prihlásit</Button>
                                 &nbsp;&nbsp;
-                                <Button className="mt-2" onClick={() => handleShipmentOnly()} variant="dark">Dorucovacie udaje bez registracie</Button>
+                                <Button className="mt-2" onClick={() => handleShipmentOnly()} variant="dark">Doručovacie údaje bez registrácie</Button>
                             </p>
                         }
                     </Col>
@@ -278,17 +278,17 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 <Row className="text-center">
                     <Col>
                         {userInformation && shops.length > 0 ?
-                            <Button onClick={() => createNewOrder()} variant="dark">Prejst k platbe</Button>
+                            <Button onClick={() => createNewOrder()} variant="dark">Prejsť k platbe</Button>
                         :
                         <>  
                             {shops.length === 0 && 
                                 <>
-                                    <h4>Nakupny kosik je momentálne prazdny.</h4>
+                                    <h4>Nákupný košík je momentálne prázdny.</h4>
                                     <br />
                                     <br />
                                 </>
                             }
-                            <Button disabled variant="dark">Prejst k platbe</Button>
+                            <Button disabled variant="dark">Prejsť k platbe</Button>
                         </>
                     }
                     </Col>
