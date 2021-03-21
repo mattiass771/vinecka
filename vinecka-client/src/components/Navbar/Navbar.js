@@ -9,9 +9,25 @@ import logo from "./logo5.png"
 import {FiShoppingCart} from "react-icons/fi"
 
 // Navbar.js
-export default ({ isLoggedIn, handleLogOut, userName }) => {
+export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = localStorage.getItem('shoppingCart'), updateCart }) => {
   const [prevScrollPos, setPrevScrollPos] = useState(0); 
   const [visible, setVisible] = useState(true);
+  const [shoppingCartLength, setShoppingCartLength] = useState(0)
+
+  useEffect(() => {
+    if (isLoggedIn && shoppingCart.length !== 0) {
+      const counts = shoppingCart.map(item => Number(item.count))
+      const finalCount = counts.reduce((total,x) => total+x)
+      setShoppingCartLength(finalCount)
+    } else if (!isLoggedIn && localShoppingCart) {
+      const parsedCart = JSON.parse(localShoppingCart)
+      const counts = parsedCart.map(item => Number(item.count))
+      const finalCount = counts.reduce((total,x) => total+x)
+      setShoppingCartLength(finalCount)
+    } else {
+      setShoppingCartLength(0)
+    }
+  }, [updateCart])
 
   const limit = Math.max( 
     document.body.scrollHeight, 
@@ -96,6 +112,10 @@ export default ({ isLoggedIn, handleLogOut, userName }) => {
         </Nav>
         <Nav style={{position: "absolute", right: 16, top: 16}}>
             <Nav.Link as={Link} href="/cart-page" to="/cart-page" className="navihover  pt-3 pb-3 mr-1 ml-1">
+                {shoppingCartLength > 0 &&
+                <div style={{ marginBottom: '-12px', marginLeft: '25px', fontSize: '60%', fontFamily: 'Cabin', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
+                  {shoppingCartLength.toString()}
+                </div>}
                 <FiShoppingCart />
             </Nav.Link>
           {isLoggedIn ? (

@@ -5,7 +5,7 @@ import WineOverview from "./WineOverview";
 import Spinner from "react-bootstrap/Spinner";
 
 //Shop.js
-export default ({ userData }) => {
+export default ({ userData, updateCart, setUpdateCart }) => {
   const [shopData, setShopData] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -24,7 +24,7 @@ export default ({ userData }) => {
           style={{ marginLeft: "49%", marginTop: "20%" }}
           animation="border"
         />
-      ) : <WineOverview userData={userData} shopData={shopData} />}
+      ) : <WineOverview userData={userData} shopData={shopData} updateCart={updateCart} setUpdateCart={setUpdateCart} />}
     </>
   );
 };

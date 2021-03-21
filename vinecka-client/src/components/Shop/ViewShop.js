@@ -4,11 +4,11 @@ import ShopItems from "./ViewShop/ShopItems";
 import ShopJumbotron from "./ViewShop/ShopJumbotron";
 
 // CreateShop.js
-export default ({ shopData, isOwner, userId }) => {
+export default ({ shopData, isOwner, userId, updateCart, setUpdateCart }) => {
   return (
     <>
       <ShopJumbotron shopData={shopData} isOwner={isOwner} />
-      <ShopItems shopData={shopData} isOwner={isOwner} userId={userId} />
+      <ShopItems updateCart={updateCart} setUpdateCart={setUpdateCart} shopData={shopData} isOwner={isOwner} userId={userId} />
     </>
   );
 };

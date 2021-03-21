@@ -5,7 +5,7 @@ import axios from "axios"
 import ViewShop from "../ViewShop"
 import Spinner from "react-bootstrap/Spinner";
 
-export default ({userId, isOwner}) => {
+export default ({userId, isOwner, updateCart, setUpdateCart}) => {
     const {shopUrl} = useParams()
     const [isUrlAvailible, setIsUrlAvailible] = useState(true)
     const [shopData, setShopData] = useState({})
@@ -28,7 +28,7 @@ export default ({userId, isOwner}) => {
           animation="border"
         /> :
         isUrlAvailible && shopData._id ? 
-        <ViewShop shopData={shopData} isOwner={isOwner} userId={userId} /> :
+        <ViewShop updateCart={updateCart} setUpdateCart={setUpdateCart} shopData={shopData} isOwner={isOwner} userId={userId} /> :
         <h5 style={{ marginTop: "20%" }} className="text-center">Pod adresou https://mas-vino.herokuapp.com/{shopUrl} ešte neexistuje žiadna vináreň, ak si vinár a chceš u nás predávať, neváhaj nás kontaktovať.</h5>
         
     )

@@ -13,7 +13,7 @@ import { FiPlusSquare } from "react-icons/fi";
 
 import ShowItem from './ShowItem'
 
-export default ({ shopData, isOwner, userId }) => {
+export default ({ shopData, isOwner, userId, updateCart, setUpdateCart }) => {
   const [showAddItems, setShowAddItems] = useState(false);
   const [shopItems, setShopItems] = useState(shopData.shopItems);
   const [shouldReload, setShouldReload] = useState(false);
@@ -52,6 +52,8 @@ export default ({ shopData, isOwner, userId }) => {
           setShouldReload={setShouldReload}
           shouldReload={shouldReload}
           isOwner={isOwner}
+          updateCart={updateCart} 
+          setUpdateCart={setUpdateCart}
           />
         {isOwner && 
         <Col className="mt-2 mb-2" md={6} lg={4} xl={3}>

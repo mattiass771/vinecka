@@ -13,7 +13,6 @@ import "react-slidedown/lib/slidedown.css";
 // Login.js
 export default ({shoppingCart = false, handleLogin}) => {
   const [firstName, setFirstName] = useState("");
-  const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [passwordFirst, setPasswordFirst] = useState("");
@@ -30,9 +29,7 @@ export default ({shoppingCart = false, handleLogin}) => {
   const [checkedNewsletter, setCheckedNewsletter] = useState(false)
 
   const handleSignUp = () => {
-    const fullName = middleName
-      ? firstName + " " + middleName + " " + lastName
-      : firstName + " " + lastName;
+    const fullName = firstName + " " + lastName;
     const address = `${street},${postal.toString()},${city}`
     console.log(typeof phone, phone, typeof address, address )
     axios
@@ -135,24 +132,6 @@ export default ({shoppingCart = false, handleLogin}) => {
               value={firstName}
               onChange={(e) =>
                 setFirstName(
-                  e.target.value &&
-                    e.target.value[0].toUpperCase() +
-                      e.target.value.substring(1)
-                )
-              }
-            />
-          </Col>
-          <Col md={6} className="text-center mt-1">
-            <label htmlFor="middleName">Stredné meno (voliteľné):</label>
-            <input
-              className={`form-control text-center ${checkIfNameMeetsCriteria(
-                middleName
-              )}`}
-              type="text"
-              name="middleName"
-              value={middleName}
-              onChange={(e) =>
-                setMiddleName(
                   e.target.value &&
                     e.target.value[0].toUpperCase() +
                       e.target.value.substring(1)

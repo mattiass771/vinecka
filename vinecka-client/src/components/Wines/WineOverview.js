@@ -13,7 +13,7 @@ import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
 //Shop.js
-export default ({ userData, shopData }) => {
+export default ({ userData, shopData,updateCart, setUpdateCart }) => {
   const [initialData, setInitialData] = useState([])
   const {userId} = userData
 
@@ -102,7 +102,7 @@ export default ({ userData, shopData }) => {
       const {shopItems, url, _id: shopId} = shop
       const filteredShopItems = filterData(shopItems)
       return (
-        <ShowItem key={`${shopId}-${i}`} shopItems={filteredShopItems ? filteredShopItems : shopItems} url={url} shopId={shopId} userId={userId} setShouldReload={false} shouldReload={false} isOwner={false} />
+        <ShowItem updateCart={updateCart} setUpdateCart={setUpdateCart} key={`${shopId}-${i}`} shopItems={filteredShopItems ? filteredShopItems : shopItems} url={url} shopId={shopId} userId={userId} isOwner={false} />
       )
     })
   }

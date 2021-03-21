@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {Link} from 'react-router-dom';
 
 import Row from "react-bootstrap/Row";
@@ -15,7 +15,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 
 import EditItems from "./EditItems";
 
-export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldReload, isOwner, url}) => {
+export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldReload, isOwner, url, setUpdateCart, updateCart}) => {
     const [count, setCount] = useState("")
     const [isHovered, setIsHovered] = useState("")
     const [clicked, setClicked] = useState('')
@@ -106,6 +106,7 @@ export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldR
             .then(() => {
               setShowAddedPopup(false)
               setTimeout(() => setShowAddedPopup(true), 50)
+              setUpdateCart(!updateCart)
             })
             .catch(err => err && console.log(err))
             .then(() => setTimeout(() => setShowAddedPopup(false), 1500))
@@ -115,6 +116,7 @@ export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldR
           const newShoppingCart = localShoppingCart ? [...JSON.parse(localShoppingCart), {shopId: passShopId, itemId, count: passCount}] : [{shopId: passShopId, itemId, count: passCount}]
           localStorage.setItem('shoppingCart', JSON.stringify(newShoppingCart))
           setShowAddedPopup(false)
+          setUpdateCart(!updateCart)
           setTimeout(() => setShowAddedPopup(true), 50)
           setTimeout(() => setShowAddedPopup(false), 1500)
         }

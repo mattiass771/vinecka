@@ -31,7 +31,7 @@ import defaultImage from "../../default.jpg"
 const {MIN_HEIGHT_JUMBO} = options
 
 //Home.js
-export default ({userId, isOwner}) => {
+export default ({userId, isOwner, updateCart, setUpdateCart}) => {
   const [carouselData, setCarouselData] = useState('')
   const [featuredWines, setFeaturedWines] = useState([])
   const [loading, setLoading] = useState(false)
@@ -303,7 +303,7 @@ export default ({userId, isOwner}) => {
           <ShowUpdateFeatured />
         </Row>}
         <Row className="text-center pt-4 pb-4 mx-4">
-          <ShowItem colXsSettings={6} colMdSettings={3} shopItems={featuredWines} shopId={'home'} userId={userId} setShouldReload={false} shouldReload={false} isOwner={false} />
+          <ShowItem updateCart={updateCart} setUpdateCart={setUpdateCart} colXsSettings={6} colMdSettings={3} shopItems={featuredWines} shopId={'home'} userId={userId} setShouldReload={false} shouldReload={false} isOwner={false} />
         </Row>
       </div>
       <div className="pt-3 pb-3" style={{backgroundColor: '#2b371b95', color: "whitesmoke"}}>

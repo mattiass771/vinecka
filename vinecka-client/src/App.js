@@ -32,6 +32,7 @@ export default () => {
   const [userData, setUserData] = useState({});
   const [loadingData, setLoadingData] = useState(false);
   const [showLawPopup, setShowLawPopup] = useState('')
+  const [updateCart, setUpdateCart] = useState(true)
   
 
   useEffect(() => {
@@ -42,8 +43,8 @@ export default () => {
       })
       .then((res) => {
         if (res.data) {
-          const { _id, userName, fullName, email, shopId, isOwner } = res.data;
-          setUserData({ _id, userName, fullName, email, shopId, isOwner });
+          const { _id, userName, fullName, email, shopId, isOwner, shoppingCart } = res.data;
+          setUserData({ _id, userName, fullName, email, shopId, isOwner, shoppingCart });
           setIsLoggedIn(userName ? true : false);
         } else {
           setUserData({})
@@ -80,7 +81,7 @@ export default () => {
         crossOrigin="anonymous"
       />
       <div>
-        <Navbar userName={userData.fullName} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
+        <Navbar updateCart={updateCart} shoppingCart={userData.shoppingCart} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
         {loadingData ? 
               <Spinner
                 style={{ marginLeft: "49%", marginTop: "20%", color: 'whitesmoke' }}
@@ -89,19 +90,19 @@ export default () => {
         <div className="wrapper">
           <Switch>
             <Route exact path="/">
-              <Home userId={userData._id} isOwner={userData.isOwner}  />
+              <Home userId={userData._id} isOwner={userData.isOwner} updateCart={updateCart} setUpdateCart={setUpdateCart}  />
             </Route>
             <Route exact path="/vinarne">
               <Vinarne userData={userData} />
             </Route>
             <Route exact path="/vinka">
-              <Vinka userData={userData} />
+              <Vinka userData={userData} updateCart={updateCart} setUpdateCart={setUpdateCart} />
             </Route>
             <Route exact path="/login-page">
               {isLoggedIn ? <Home userId={userData._id} isOwner={userData.isOwner} /> : <Login />}
             </Route>
             <Route exact path="/cart-page">
-              <ShoppingCart userId={userData._id} />
+              <ShoppingCart updateCart={updateCart} setUpdateCart={setUpdateCart} userId={userData._id} />
             </Route>
             <Route exact path={`/success-payment`}>
               <SuccessPayment userId={userData._id} />
@@ -128,7 +129,7 @@ export default () => {
               <DeleteFromNewsletter />
             </Route>
             <Route exact path={`/:shopUrl`}>
-              <ShopOnline userId={userData._id} isOwner={userData.isOwner} />
+              <ShopOnline userId={userData._id} isOwner={userData.isOwner} updateCart={updateCart} setUpdateCart={setUpdateCart} />
             </Route>
             <Route exact path={`/shop/payment`}>
               <PayGate />

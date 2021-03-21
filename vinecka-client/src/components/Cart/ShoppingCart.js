@@ -14,7 +14,7 @@ import SignUp from '../Login/SignUp'
 import Login from '../Login/Login'
 import PayGate from './PayGate'
 
-export default ({userId}) => {
+export default ({userId, updateCart, setUpdateCart}) => {
     const lastRef = useRef(null)
     const [shops, setShops] = useState('')
     const [refresh, setRefresh] = useState(false)
@@ -123,7 +123,10 @@ export default ({userId}) => {
             axios.post(`https://mas-vino.herokuapp.com/users/${userId}/cart/delete-cart-item/${shopId}/${itemId}`)
                 .then((res) => console.log(res))
                 .catch(err => err && console.log('could not delete item', err))
-                .then(() => setRefresh(!refresh)) 
+                .then(() => {
+                    setRefresh(!refresh)
+                    setUpdateCart(!updateCart)
+                }) 
             if (shops.length === 1) setShops('')
         } else {
             const localShoppingCart = JSON.parse(localStorage.getItem('shoppingCart'))
@@ -136,6 +139,7 @@ export default ({userId}) => {
                 setShops('')
             }
             setRefresh(!refresh)
+            setUpdateCart(!updateCart)
         }
     }
 
@@ -163,8 +167,10 @@ export default ({userId}) => {
         return total
     }
 
+    //homes.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+
     const showCartItems = () => {
-        return shops.sort().map(shop => {
+        return shops.sort((a, b) => (a.shopName > b.shopName) - (a.shopName < b.shopName)).map(shop => {
             return (
                 <Row key={shop.shopId} style={{marginBottom: "15px"}}>
                     <Col style={{marginBottom: "50px"}} xs={12}>
