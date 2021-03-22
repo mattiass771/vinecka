@@ -144,6 +144,21 @@ router.route("/:shopId/update-pref/:find/:replace").put((req, res) => {
   });
 });
 
+router.route("/:shopId/update-shop-description/").put((req, res) => {
+  const { shopId } = req.params;
+  const {description} = req.body;
+
+  Shop.findById(shopId, (err, shopFound) => {
+    if (err) return console.log(err.data);
+    shopFound.description = description;
+
+    shopFound
+      .save()
+      .then(() => res.json(`Shop description updated!`))
+      .catch((error) => res.status(400).json(`Error: ${error}`));
+  });
+});
+
 router.route("/:shopId/add-item").post((req, res) => {
   const { itemName, price, description, imageLink, maxCount,color, type, taste } = req.body;
 

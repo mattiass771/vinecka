@@ -15,6 +15,10 @@ import "react-slidedown/lib/slidedown.css";
 import Dropzone from "react-dropzone-uploader";
 import { BsUpload } from "react-icons/bs";
 
+import {CKEditor} from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { editorConfig } from '../../config/options'
+
 export default ({eventPopup, setEventPopup, refresh, setRefresh, eventData}) => {
     const [startDate, setStartDate] = useState(moment(eventData.when, 'DD.MM.YYYY, HH:mm').valueOf());
     const [untilDate, setUntilDate] = useState(moment(eventData.until, 'DD.MM.YYYY, HH:mm').valueOf());
@@ -27,6 +31,8 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh, eventData}) => 
     const [where, setWhere] = useState(eventData.where)
     const [when, setWhen] = useState(eventData.when)
     const [until, setUntil] = useState(eventData.until)
+
+    ClassicEditor.defaultConfig = editorConfig
 
     const getImage = (image) => {
         try {
@@ -96,7 +102,7 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh, eventData}) => 
     }
     
     return (
-        <Modal show={eventPopup} onHide={() => setEventPopup(false)}>
+        <Modal enforceFocus={false} show={eventPopup} onHide={() => setEventPopup(false)}>
             <Modal.Body className="text-center">
                 <Row className="justify-content-center">
                     <Col className="form-group text-center mt-1">
@@ -147,14 +153,13 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh, eventData}) => 
                 <Row className="justify-content-center">
                     <Col className="form-group text-center mt-1">
                     <label htmlFor="description">Description:</label>
-                    <textarea
-                        value={description}
-                        className="form-control text-center"
-                        name="description"
-                        type="text"
-                        style={{ resize: "none", minHeight: "200px" }}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="povinne"
+                    <CKEditor
+                        editor={ClassicEditor}
+                        data={description}
+                        onChange={(event, editor) => {
+                            const data = editor.getData()
+                            setDescription(data)
+                        }}
                     />
                     </Col>
                 </Row>

@@ -31,7 +31,7 @@ export default ({ userData, shopData,updateCart, setUpdateCart }) => {
     let wtSet = new Set()
       for (let el of typeArr) {
         if (el.length !== 0) {
-          el.forEach(val => val && wtSet.add(`${val[0].toUpperCase()}${val.substring(1).toLowerCase()}`))
+          el.forEach(val => val && wtSet.add(`${val[0].toUpperCase()}${val.substring(1).toLowerCase().trim()}`))
         }
       }
     return setWineTypes([...wineTypes, ...wtSet])
@@ -97,7 +97,7 @@ export default ({ userData, shopData,updateCart, setUpdateCart }) => {
     })
   }
 
-  const ShowWines = () => {
+  const showWines = () => {
     return initialData.map((shop,i) => {
       const {shopItems, url, _id: shopId} = shop
       const filteredShopItems = filterData(shopItems)
@@ -194,7 +194,7 @@ export default ({ userData, shopData,updateCart, setUpdateCart }) => {
         <Col xs={12}><hr style={{backgroundColor: '#2b371b', height: '2px', marginTop: '22px'}} /></Col>
       </Row>
       <Row className="text-center">
-        <ShowWines />
+        {showWines()}
       </Row>
     </Container>
   );

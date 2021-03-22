@@ -24,6 +24,13 @@ body {
   scrollbar-width: none;  /* Firefox */
   padding-top: 168px;
   padding-bottom: 107px;
+  --ck-z-default: 100;
+  --ck-z-modal: calc( var(--ck-z-default) + 999);
+}
+
+.ck-editor__editable {
+  min-height: 215px;
+  color: #333333;
 }
 
 body:after{

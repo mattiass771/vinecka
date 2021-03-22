@@ -98,8 +98,8 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
               Vína
           </Nav.Link>
 
-          <Nav.Link as={Link} href="/akcie" to="/akcie" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
-              Akcie
+          <Nav.Link as={Link} href="/eventy" to="/eventy" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
+              Eventy
           </Nav.Link>
 
           <Nav.Link as={Link} href="/sluzby" to="/sluzby" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">

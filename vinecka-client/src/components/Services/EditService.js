@@ -13,6 +13,10 @@ import "react-slidedown/lib/slidedown.css";
 import Dropzone from "react-dropzone-uploader";
 import { BsUpload } from "react-icons/bs";
 
+import {CKEditor} from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { editorConfig } from '../../config/options'
+
 export default ({servicePopup, setServicePopup, refresh, setRefresh, serviceData}) => {
     const [name, setName] = useState(serviceData.name)
     const [idFromName, setIdFromName] = useState(serviceData.idFromName)
@@ -20,9 +24,10 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh, serviceData
     const [description, setDescription] = useState(serviceData.description)
     const [imageLink, setImageLink] = useState(serviceData.imageLink)
 
+    ClassicEditor.defaultConfig = editorConfig
+
     const getImage = (image) => {
         try {
-            console.log(image)
           const img = `https://vineckabucket.s3.eu-central-1.amazonaws.com/${image.replace(/_/g, '-')}`
           return img;
         } catch {
@@ -73,7 +78,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh, serviceData
     }
     
     return (
-        <Modal show={servicePopup} onHide={() => setServicePopup(false)}>
+        <Modal enforceFocus={false} show={servicePopup} onHide={() => setServicePopup(false)}>
             <Modal.Body className="text-center">
                 <Row className="justify-content-center">
                     <Col className="form-group text-center mt-1">
@@ -102,14 +107,13 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh, serviceData
                 <Row className="justify-content-center">
                     <Col className="form-group text-center mt-1">
                     <label htmlFor="description">Description:</label>
-                    <textarea
-                        value={description}
-                        className="form-control text-center"
-                        name="description"
-                        type="text"
-                        style={{ resize: "none", minHeight: "200px" }}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="povinne"
+                    <CKEditor
+                        editor={ClassicEditor}
+                        data={description}
+                        onChange={(event, editor) => {
+                            const data = editor.getData()
+                            setDescription(data)
+                        }}
                     />
                     </Col>
                 </Row>

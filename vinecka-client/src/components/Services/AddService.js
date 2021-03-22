@@ -13,12 +13,18 @@ import "react-slidedown/lib/slidedown.css";
 import Dropzone from "react-dropzone-uploader";
 import { BsUpload } from "react-icons/bs";
 
+import {CKEditor} from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { editorConfig } from '../../config/options'
+
 export default ({servicePopup, setServicePopup, refresh, setRefresh}) => {
     const [name, setName] = useState('')
     const [idFromName, setIdFromName] = useState('')
     const [link, setLink] = useState('')
     const [description, setDescription] = useState('')
     const [imageLink, setImageLink] = useState('')
+
+    ClassicEditor.defaultConfig = editorConfig
 
     useEffect(() => {
         if (name) {
@@ -61,7 +67,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh}) => {
     }
     
     return (
-        <Modal show={servicePopup} onHide={() => setServicePopup(false)}>
+        <Modal enforceFocus={false} show={servicePopup} onHide={() => setServicePopup(false)}>
             <Modal.Body className="text-center">
                 <Row className="justify-content-center">
                     <Col className="form-group text-center mt-1">
@@ -90,14 +96,13 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh}) => {
                 <Row className="justify-content-center">
                     <Col className="form-group text-center mt-1">
                     <label htmlFor="description">Description:</label>
-                    <textarea
-                        value={description}
-                        className="form-control text-center"
-                        name="description"
-                        type="text"
-                        style={{ resize: "none", minHeight: "200px" }}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="povinne"
+                    <CKEditor
+                        editor={ClassicEditor}
+                        data={description}
+                        onChange={(event, editor) => {
+                            const data = editor.getData()
+                            setDescription(data)
+                        }}
                     />
                     </Col>
                 </Row>

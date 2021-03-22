@@ -65,6 +65,7 @@ export default () => {
       .catch((err) => console.log(`Error ${err}`))
       .then(() => window.location.reload());
   };
+  
   return (
     <Router>
       {window.localStorage.getItem('mas-vino-isAdult') !== "true" &&
@@ -115,7 +116,7 @@ export default () => {
             <Route exact path={`/objednavky`}>
               <Orders userId={userData._id} isOwner={userData.isOwner} />
             </Route>
-            <Route exact path={`/akcie`}>
+            <Route exact path={`/eventy`}>
               <Events isOwner={userData.isOwner} />
             </Route>
             <Route exact path={`/sluzby`}>

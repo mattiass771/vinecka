@@ -20,8 +20,11 @@ import "react-slidedown/lib/slidedown.css";
 
 import defaultImage from "../../../default.jpg";
 
+import {CKEditor} from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { editorConfig } from '../../../config/options'
+
 import options from '../../../config/options';
-const {MAX_HEIGHT_JUMBO} = options
 
 // CreateShop.js
 export default ({ shopData, isOwner }) => {
@@ -41,6 +44,8 @@ export default ({ shopData, isOwner }) => {
   const [localUploadingTitle, setLocalUploadingTitle] = useState(false)
   const [localUploadingOverview, setLocalUploadingOverview] = useState(false)
   const [textColor, setTextColor] = useState(shopData.textColor)
+
+  ClassicEditor.defaultConfig = editorConfig
 
   useEffect(() => {
     if (textColor !== shopData.textColor) {
@@ -176,7 +181,7 @@ export default ({ shopData, isOwner }) => {
     if (description) {
       axios
       .put(
-        `https://mas-vino.herokuapp.com/shop/${shopData._id}/update-shop/description/${description}`
+        `http://localhost:5000/shop/${shopData._id}/update-shop-description/`,{description}
       )
       .then((res) => {
         return;
@@ -221,7 +226,7 @@ export default ({ shopData, isOwner }) => {
         <Row style={{padding: '15px', backgroundColor: textColor === 'white' ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.25)', borderRadius: '7.5px'}}>
           <Col>
             <h2>{shopName}</h2>
-            <p>{description}</p>
+            <p dangerouslySetInnerHTML={{__html: description}}></p>
             <p>{owner}</p>
           </Col>
         </Row>
@@ -256,14 +261,14 @@ export default ({ shopData, isOwner }) => {
                 name="shopName"
                 placeholder="Nazov"
               />
-              <textarea 
-                style={{minHeight: '100px'}}
-                className={'form-control text-center'}
-                value={description} 
-                onChange={(e) => setDescription(e.target.value)} 
-                onBlur={handleDescriptionChange}
-                name="description"
-                placeholder="Popis"
+              <CKEditor
+                  editor={ClassicEditor}
+                  data={description}
+                  onChange={(event, editor) => {
+                      const data = editor.getData()
+                      setDescription(data)
+                  }}
+                  onBlur={handleDescriptionChange}
               />
               <input 
                 className={'form-control text-center'}

@@ -94,7 +94,7 @@ export default ({isOwner}) => {
                         <Card.Img variant="top" style={{ height: '350px', width: '100%', objectFit: 'cover' }} src={getImage(imageLink) ? getImage(imageLink) : imageLink} />
                         <Card.Body>
                             <Card.Title>{name}<Button onClick={() => handleSubmit(link)} size="sm" variant="dark" style={{float: 'right'}}>Viac info</Button></Card.Title>
-                            <Card.Text>{description}</Card.Text>
+                            <Card.Text dangerouslySetInnerHTML={{__html: description}}></Card.Text>
                         </Card.Body>
                         {(when || where) &&
                         <Card.Footer>
