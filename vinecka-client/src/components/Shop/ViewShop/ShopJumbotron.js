@@ -181,7 +181,7 @@ export default ({ shopData, isOwner }) => {
     if (description) {
       axios
       .put(
-        `http://localhost:5000/shop/${shopData._id}/update-shop-description/`,{description}
+        `https://mas-vino.herokuapp.com/shop/${shopData._id}/update-shop-description/`,{description}
       )
       .then((res) => {
         return;
