@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
+import CardColumns from 'react-bootstrap/CardColumns'
 
 import MapPopup from '../Contact/MapPopup'
 
@@ -131,7 +132,9 @@ export default ({isOwner}) => {
                 <Button className="mt-4" variant="dark" onClick={() => setEventPopup(true)}>Pridat Event</Button>
             </Row>}
             <Row className="justify-content-center justify-content-md-start" >
-                <ShowEvents />
+                {/* <CardColumns> */}
+                    <ShowEvents />
+                {/* </CardColumns> */}
             </Row>
         </Container>
     )
