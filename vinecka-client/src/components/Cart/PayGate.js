@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 import Modal from 'react-bootstrap/Modal'
 import Row from 'react-bootstrap/Row'
@@ -20,6 +21,13 @@ export default ({paymentPopup, setPaymentPopup, orderInfo}) => {
     const splitAddress = address.split(',')
     const [isCardPayment, setIsCardPayment] = useState('')
     const [isHovered, setIsHovered] = useState('')
+    const [creds, setCreds] = useState('')
+
+    useEffect(() => {
+        axios.get(`https://mas-vino.herokuapp.com/orders/get-payment-credentials`)
+            .then(res => setCreds(res.data))
+            .catch(err => console.log('Error retrieving trustpay creds, ', err))
+    }, [])
 
     const toHexString = bytes => bytes.reduce((str, byte) => str + byte.toString(16).padStart(2, '0'), '');
 
@@ -33,13 +41,13 @@ export default ({paymentPopup, setPaymentPopup, orderInfo}) => {
 
     const constructOrder = () => {
         const baseUrl = "https://amapi.trustpay.eu/mapi5/wire/paypopup";
-        const accountId = 4107606887;
+        const accountId = creds.accountId;
         const amount = total.toFixed(2);
         const currency = "EUR";
         const reference = orderId;
         const paymentType = 0;
     
-        const secretKey = "PEk6DQiv2PQrUITm0lMyEN2MAKvOnY7d";
+        const secretKey = creds.secret;
         const sigData = `${accountId}/${amount}/${currency}/${reference}/${paymentType}`;
         const signature = GetSignature(secretKey, sigData); //eslint-disable-line
     
@@ -49,7 +57,7 @@ export default ({paymentPopup, setPaymentPopup, orderInfo}) => {
 
     const constructCardOrder = () => {
         const baseUrl = "https://amapi.trustpay.eu/mapi5/Card/PayPopup";
-        const accountId = 4107606887;
+        const accountId = creds.accountId;
         const amount = total.toFixed(2);
         const currency = "EUR";
         const reference = orderId;
@@ -61,7 +69,7 @@ export default ({paymentPopup, setPaymentPopup, orderInfo}) => {
         const cardHolder = fullName
         const payerEmail = email
     
-        const secretKey = "PEk6DQiv2PQrUITm0lMyEN2MAKvOnY7d";
+        const secretKey = creds.secret;
         const sigData = `${accountId}/${amount}/${currency}/${reference}/${paymentType}/${billingCity}/${billingCountry}/${billingPostCode}/${billingStreet}/${cardHolder}/${payerEmail}`;
         const signature = GetSignature(secretKey, sigData); //eslint-disable-line
     
