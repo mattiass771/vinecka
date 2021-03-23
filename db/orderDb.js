@@ -27,6 +27,12 @@ router.route("/").get((req, res) => {
       .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
+router.route("/get-payment-credentials").get((req, res) => {
+  const secret = process.env.TRUSTPAY_SECRET
+  const accountId = process.env.TRUSTPAY_PID
+  res.status(200).json({secret, accountId})
+});
+
 router.route("/delete-order/:orderId").delete((req, res) => {
   Order.findByIdAndDelete(req.params.orderId)
     .then(() => res.json("Bye bye. :("))
