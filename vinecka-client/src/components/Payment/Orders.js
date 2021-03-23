@@ -34,7 +34,7 @@ export default ({userId, isOwner}) => {
                 setOrdersData(validatedOrdersData)
             })
             .catch(err => err && console.log(err.data))
-    }, [])
+    }, [showDeleteModal])
 
     const handleShipping = (e, _id) => {
         e.stopPropagation()
@@ -141,7 +141,7 @@ export default ({userId, isOwner}) => {
         return filteredData.map(order => {
             const { _id, orderId, userInformation, createdAt, status, shops, isShipped, total, userId: buyerId } = order
             const { email } = userInformation
-            const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'red' : 'black';
+            const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'red' : status === 'ocakavana' ? 'yellow' : 'black';
             return (
                 <tbody key={orderId}>
                     <tr onClick={() => handleExpanded(_id)}>
