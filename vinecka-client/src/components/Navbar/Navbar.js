@@ -7,7 +7,7 @@ import Nav from "react-bootstrap/Nav";
 import logo from "./logo5.png"
 
 import {FiShoppingCart} from "react-icons/fi"
-import {FaWineBottle} from "react-icons/fa"
+import {FaShoppingCart} from "react-icons/fa"
 
 // Navbar.js
 export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = localStorage.getItem('shoppingCart'), updateCart }) => {
@@ -139,11 +139,19 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
       </Navbar.Collapse>
     </Navbar>
     {shoppingCartLength > 0 && 
-      <div onClick={() => history.push(`/kosik`)} onMouseEnter={() => setShoppingHover(true)} onMouseLeave={() => setShoppingHover(false)} style={{cursor: 'pointer', color: shoppingHover ? "whitesmoke" : "#CF9D01", position: 'fixed', bottom: 35, right:35, width: "60px", height: "60px", backgroundColor: "rgba(245,245,245,0.4)", zIndex: '+9', borderRadius: '5px'}}>
-        <div style={{ paddingLeft: '30px', fontSize: '150%', fontFamily: 'Cabin', width:'16px', height:'16px'}}>
-            {shoppingCartLength.toString()}
+      <div 
+        onClick={() => history.push(`/kosik`)} 
+        onMouseEnter={() => setShoppingHover(true)} 
+        onMouseLeave={() => setShoppingHover(false)} 
+        style={{cursor: 'pointer', color: shoppingHover ? "whitesmoke" : "#e4b21d", position: 'fixed', bottom: 35, right:35, width: "60px", height: "60px", backgroundColor: "rgba(250,250,250,0.0)", zIndex: '+9', borderRadius: '5px'}}>
+        <div className="justify-content-end text-center" 
+          style={{marginLeft: '45px', marginTop: '-16px', fontSize: '120%', fontFamily: 'Cabin', width:'16px', height:'16px'}}
+        >
+            <span style={{backgroundColor: '#e4b21d', padding: '2px 5px', width: '30px', height: '30px', color: 'whitesmoke', borderRadius: '15px'}}>
+              <strong>{shoppingCartLength.toString()}</strong>
+            </span>
         </div>
-        <FiShoppingCart style={{height: '80%', width: '80%', margin: "10%" }} />
+        <FaShoppingCart style={{height: '80%', width: '80%', margin: "10%" }} />
       </div>
     }
     </>

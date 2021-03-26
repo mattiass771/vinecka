@@ -65,12 +65,17 @@ export default ({ userData, shopData,updateCart, setUpdateCart }) => {
           return item
         } 
       }) : filteredDataByColor
-      const filteredDataByType = typeFilter.length !== 0 ? filteredDataByTaste.filter(item => {
+      const filteredDataByType = typeFilter.length !== 0 ? items.filter(item => {
         if (typeFilter.includes((item.type).toLowerCase().trim())) {
           return item
         } 
       }) : filteredDataByTaste
-      return filteredDataByType
+      const output = new Set([...filteredDataByTaste, ...filteredDataByType])
+      if ((colorFilter.length !== 0 || tasteFilter.length !== 0) && typeFilter.length !== 0) {
+        return [...output]
+      } else {
+        return filteredDataByType
+      }
     } else {
       return null
     }
