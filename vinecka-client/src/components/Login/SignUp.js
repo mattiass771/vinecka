@@ -29,9 +29,8 @@ export default ({shoppingCart = false, handleLogin}) => {
   const [checkedNewsletter, setCheckedNewsletter] = useState(false)
 
   const handleSignUp = () => {
-    const fullName = firstName + " " + lastName;
-    const address = `${street},${postal.toString()},${city}`
-    console.log(typeof phone, phone, typeof address, address )
+    const fullName = firstName.trim() + " " + lastName.trim();
+    const address = `${street.trim()},${postal.toString()},${city.trim()}`
     axios
       .post(`https://mas-vino.herokuapp.com/users/add-user`, {
         userName: email,
@@ -44,7 +43,7 @@ export default ({shoppingCart = false, handleLogin}) => {
       .then((res) => {
         if (checkedNewsletter) {
           axios.post(`https://mas-vino.herokuapp.com/mails/add`, {name: firstName, email})
-              .then(res => console.log(res))
+              .then(res => console.log(res.data))
               .catch(err => err && console.log(err))
         }
       })
@@ -82,27 +81,27 @@ export default ({shoppingCart = false, handleLogin}) => {
   };
 
   const checkIfNameMeetsCriteria = (name) => {
-    if (name && name.match(/^[a-z]+$/i)) return "";
+    if (name && name.match(/^[a-zá-ž ]+$/i)) return "";
     else if (name && name.length > 0) return "invalid-input";
   };
 
   const checkIfCityMeetsCriteria = () => {
-    if (city && city.match(/^[a-z]+$/i)) return "";
+    if (city && city.match(/^[a-zá-ž ]+$/i)) return "";
     else if (city && city.length > 0) return "invalid-input";
   };
 
   const checkIfStreetMeetsCriteria = () => {
-    if (street && street.match(/^[a-z ]+[0-9 ]+[/]{0,1}[a-z0-9 ]*$/i)) return "";
+    if (street && street.match(/^[a-zá-ž ]+[0-9]{1}[0-9 ]*[/]{0,1}[a-z0-9]*$/i)) return "";
     else if (street && street.length > 0) return "invalid-input";
   };
 
   const checkIfPhoneMeetsCriteria = () => {
-    if (phone && phone.match(/^[+]?[0-9]{6,14}[0-9]$/)) return "";
+    if (phone && phone.match(/^[+]?[0-9 ]{6,14}[0-9]$/)) return "";
     else if (phone && phone.length > 0) return "invalid-input";
   };
 
   const checkIfPostalMeetsCriteria = () => {
-    if (postal && postal.match(/^[0-9]{5}$/)) return "";
+    if (postal && postal.match(/^[0-9 ]{5}$/)) return "";
     else if (postal && postal.length > 0) return "invalid-input";
   };
 
