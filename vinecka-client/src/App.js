@@ -92,16 +92,16 @@ export default () => {
             <Route exact path="/">
               <Home userId={userData._id} isOwner={userData.isOwner} updateCart={updateCart} setUpdateCart={setUpdateCart}  />
             </Route>
-            <Route exact path="/vinarne">
+            <Route exact path="/vinarstva">
               <Vinarne userData={userData} />
             </Route>
-            <Route exact path="/vinka">
+            <Route exact path="/vina">
               <Vinka userData={userData} updateCart={updateCart} setUpdateCart={setUpdateCart} />
             </Route>
             <Route exact path="/login-page">
               {isLoggedIn ? <Home userId={userData._id} isOwner={userData.isOwner} /> : <Login />}
             </Route>
-            <Route exact path="/cart-page">
+            <Route exact path="/kosik">
               <ShoppingCart updateCart={updateCart} setUpdateCart={setUpdateCart} userId={userData._id} />
             </Route>
             <Route exact path={`/success-payment`}>

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 
@@ -32,6 +33,7 @@ const {MIN_HEIGHT_JUMBO} = options
 
 //Home.js
 export default ({userId, isOwner, updateCart, setUpdateCart}) => {
+  let history = useHistory();
   const [carouselData, setCarouselData] = useState('')
   const [featuredWines, setFeaturedWines] = useState([])
   const [loading, setLoading] = useState(false)
@@ -214,8 +216,7 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
         >
           <Link to={`/${url}`}>
             <Carousel.Caption style={{zIndex:'+1' ,marginBottom: MIN_HEIGHT_JUMBO+75, color: textColor === 'white' ? 'whitesmoke' : '#333333'}}>
-              <h3>{shopName}</h3>
-              <p>{owner}</p>
+              <h1>{shopName}</h1>
             </Carousel.Caption>
           </Link>
           <div style={{backgroundColor: '#2b371b95', color: "whitesmoke", padding: '40px', marginTop: MIN_HEIGHT_JUMBO, height: MIN_HEIGHT_JUMBO}}>
@@ -302,8 +303,18 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
         <Row>
           <ShowUpdateFeatured />
         </Row>}
-        <Row className="text-center pt-4 pb-4 mx-4">
+        <Row className="text-center pt-4 pb-2 justify-content-center">
+          <Col>
+            <h1>Naše najpredávanejšie</h1>
+          </Col>
+        </Row>
+        <Row className="text-center  mx-4">
           <ShowItem updateCart={updateCart} setUpdateCart={setUpdateCart} colXsSettings={6} colMdSettings={3} shopItems={featuredWines} shopId={'home'} userId={userId} setShouldReload={false} shouldReload={false} isOwner={false} />
+        </Row>
+        <Row className="text-center pt-4 pb-2 justify-content-center">
+          <Col>
+            <Button style={{fontSize: '125%'}} variant="dark" onClick={() => history.push(`/vina`)} >Zobraziť všetky vína</Button>
+          </Col>
         </Row>
       </div>
       <div className="pt-3 pb-3" style={{backgroundColor: '#2b371b95', color: "whitesmoke"}}>

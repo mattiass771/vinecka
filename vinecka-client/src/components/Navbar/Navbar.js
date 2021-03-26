@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
@@ -7,12 +7,15 @@ import Nav from "react-bootstrap/Nav";
 import logo from "./logo5.png"
 
 import {FiShoppingCart} from "react-icons/fi"
+import {FaWineBottle} from "react-icons/fa"
 
 // Navbar.js
 export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = localStorage.getItem('shoppingCart'), updateCart }) => {
+  let history = useHistory();
   const [prevScrollPos, setPrevScrollPos] = useState(0); 
   const [visible, setVisible] = useState(true);
   const [shoppingCartLength, setShoppingCartLength] = useState(0)
+  const [shoppingHover, setShoppingHover] = useState(false)
 
   useEffect(() => {
     if (isLoggedIn && shoppingCart.length !== 0) {
@@ -90,11 +93,11 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
               Domov
           </Nav.Link>
 
-          <Nav.Link as={Link} href="/vinarne" to="/vinarne" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
+          <Nav.Link as={Link} href="/vinarstva" to="/vinarstva" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
               Vinárstva
           </Nav.Link>
 
-          <Nav.Link as={Link} href="/vinka" to="/vinka" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
+          <Nav.Link as={Link} href="/vina" to="/vina" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
               Vína
           </Nav.Link>
 
@@ -111,7 +114,7 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
           </Nav.Link>
         </Nav>
         <Nav style={{position: "absolute", right: 16, top: 16}}>
-            <Nav.Link as={Link} href="/cart-page" to="/cart-page" className="navihover  pt-3 pb-3 mr-1 ml-1">
+            <Nav.Link as={Link} href="/kosik" to="/kosik" className="navihover  pt-3 pb-3 mr-1 ml-1">
                 {shoppingCartLength > 0 &&
                 <div style={{ marginBottom: '-12px', marginLeft: '25px', fontSize: '60%', fontFamily: 'Cabin', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
                   {shoppingCartLength.toString()}
@@ -135,6 +138,14 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
         </Nav>
       </Navbar.Collapse>
     </Navbar>
+    {shoppingCartLength > 0 && 
+      <div onClick={() => history.push(`/kosik`)} onMouseEnter={() => setShoppingHover(true)} onMouseLeave={() => setShoppingHover(false)} style={{cursor: 'pointer', color: shoppingHover ? "whitesmoke" : "#CF9D01", position: 'fixed', bottom: 35, right:35, width: "60px", height: "60px", backgroundColor: "rgba(245,245,245,0.4)", zIndex: '+9', borderRadius: '5px'}}>
+        <div style={{ paddingLeft: '30px', fontSize: '150%', fontFamily: 'Cabin', width:'16px', height:'16px'}}>
+            {shoppingCartLength.toString()}
+        </div>
+        <FiShoppingCart style={{height: '80%', width: '80%', margin: "10%" }} />
+      </div>
+    }
     </>
   );
 };

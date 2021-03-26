@@ -136,7 +136,7 @@ export default ({ userData, shopData,updateCart, setUpdateCart }) => {
   } 
   
   return (
-    <Container>
+    <Container className="pb-4">
       <Row className="mb-4 mt-4 text-center justify-content-center">
         <Col xs={4}><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></Col>
         <Col xs={4}><h1>Filtre</h1></Col>

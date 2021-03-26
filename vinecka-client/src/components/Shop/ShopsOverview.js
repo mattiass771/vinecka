@@ -51,7 +51,7 @@ export default ({userData, shopData}) => {
     }
 
     return (
-        <Container>
+        <Container className="pb-4">
             <Row>
                 {userData.isOwner && 
                 <Col className="text-center">

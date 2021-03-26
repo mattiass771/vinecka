@@ -23,7 +23,6 @@ body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
   padding-top: 168px;
-  padding-bottom: 107px;
   --ck-z-default: 100;
   --ck-z-modal: calc( var(--ck-z-default) + 999);
 }
@@ -60,22 +59,9 @@ body:after{
  font-family: 'arturo_triallight' !important;
 }
 
-@media only screen and (min-width: 975px) {
-  body {
-    padding-bottom: 107px !important;
-  }
-}
-
-@media only screen and (max-width: 974px) {
-  body {
-    padding-bottom: 140px !important;
-  }
-}
-
 @media only screen and (max-width: 767px) {
   body {
     padding-top: 147px !important;
-    padding-bottom: 223px !important;
   }
 }
 
@@ -114,6 +100,12 @@ code {
   box-shadow: 0px 0px 10px -2px #333333;
   border-radius: 5px;
   margin: 0 auto;
+}
+
+.cart-fixed {
+  -webkit-box-shadow: 0px 0px 10px -2px rgb(51, 51, 51); 
+  box-shadow: 0px 0px 10px -2px #333333;
+  border-radius: 5px;
 }
 
 .display-none {
