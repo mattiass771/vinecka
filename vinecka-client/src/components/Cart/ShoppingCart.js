@@ -276,12 +276,6 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         color: deliveryCheck === OSOBNY ? 'whitesmoke' : ''
                         }} 
                     className="my-2"
-                    onMouseEnter={() => setDeliveryHover(OSOBNY)}
-                    onMouseLeave={() => setDeliveryHover('')}
-                    onTouchStart={() => setDeliveryHover(OSOBNY)}
-                    onTouchEnd={() => setDeliveryHover('')}
-                    onClick={() => setDeliveryCheck(deliveryCheck === OSOBNY ? '' : OSOBNY)}
-                    className="my-2"
                 >
                     <Col 
                         md={{span: 4, offset: 2}}
@@ -291,6 +285,11 @@ export default ({userId, updateCart, setUpdateCart}) => {
                             borderTopLeftRadius: '5px', 
                             borderBottomLeftRadius: '5px'
                         }} 
+                        onMouseEnter={() => setDeliveryHover(OSOBNY)}
+                        onMouseLeave={() => setDeliveryHover('')}
+                        onTouchStart={() => setDeliveryHover(OSOBNY)}
+                        onTouchEnd={() => setDeliveryHover('')}
+                        onClick={() => setDeliveryCheck(deliveryCheck === OSOBNY ? '' : OSOBNY)}
                     >
                     <em>
                         <input 
@@ -315,6 +314,11 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         }}  
                         className="text-right" 
                         md={{span: 4}}
+                        onMouseEnter={() => setDeliveryHover(OSOBNY)}
+                        onMouseLeave={() => setDeliveryHover('')}
+                        onTouchStart={() => setDeliveryHover(OSOBNY)}
+                        onTouchEnd={() => setDeliveryHover('')}
+                        onClick={() => setDeliveryCheck(deliveryCheck === OSOBNY ? '' : OSOBNY)}
                     >
                         <strong>zadarmo</strong>
                     </Col>
@@ -326,11 +330,6 @@ export default ({userId, updateCart, setUpdateCart}) => {
                             color: deliveryCheck === ROZVOZ ? 'whitesmoke' : ''
                             }} 
                         className="my-2"
-                        onMouseEnter={() => setDeliveryHover(ROZVOZ)}
-                        onMouseLeave={() => setDeliveryHover('')}
-                        onTouchStart={() => setDeliveryHover(ROZVOZ)}
-                        onTouchEnd={() => setDeliveryHover('')}
-                        onClick={() => setDeliveryCheck(deliveryCheck === ROZVOZ ? '' : ROZVOZ)}
                     >
                         
                         <Col 
@@ -341,6 +340,11 @@ export default ({userId, updateCart, setUpdateCart}) => {
                                 borderBottomLeftRadius: '5px'
                             }} 
                             md={{span: 3, offset: 2}}
+                            onMouseEnter={() => setDeliveryHover(ROZVOZ)}
+                            onMouseLeave={() => setDeliveryHover('')}
+                            onTouchStart={() => setDeliveryHover(ROZVOZ)}
+                            onTouchEnd={() => setDeliveryHover('')}
+                            onClick={() => setDeliveryCheck(deliveryCheck === ROZVOZ ? '' : ROZVOZ)}
                         >
                             <em>
                             <input 
@@ -365,6 +369,11 @@ export default ({userId, updateCart, setUpdateCart}) => {
                             }} 
                             className="text-right" 
                             md={{span: 5}}
+                            onMouseEnter={() => setDeliveryHover(ROZVOZ)}
+                            onMouseLeave={() => setDeliveryHover('')}
+                            onTouchStart={() => setDeliveryHover(ROZVOZ)}
+                            onTouchEnd={() => setDeliveryHover('')}
+                            onClick={() => setDeliveryCheck(deliveryCheck === ROZVOZ ? '' : ROZVOZ)}
                         >
                             Pezinok, Vinosady, Limbach, Viničné - <strong>{isDeliveryFree ? 'zadarmo' : '1,90 €'}</strong><br/>
                             Modra, Šenkvice, Slovenský Grob,<br /> Svätý Jur, Dubová, Čierna Voda - <strong>{isDeliveryFree ? 'zadarmo' : '3,90 €'}</strong>
@@ -376,11 +385,6 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         color: deliveryCheck === ZASIELKOVNA ? 'whitesmoke' : ''
                         }} 
                     className="my-2"
-                    onMouseEnter={() => setDeliveryHover(ZASIELKOVNA)}
-                    onMouseLeave={() => setDeliveryHover('')}
-                    onTouchStart={() => setDeliveryHover(ZASIELKOVNA)}
-                    onTouchEnd={() => setDeliveryHover('')}
-                    onClick={() => setDeliveryCheck(deliveryCheck === ZASIELKOVNA ? '' : ZASIELKOVNA)}
                 >
                     <Col 
                         style={{
@@ -390,6 +394,11 @@ export default ({userId, updateCart, setUpdateCart}) => {
                             borderBottomLeftRadius: '5px'
                         }} 
                         md={{span: 3, offset: 2}}
+                        onMouseEnter={() => setDeliveryHover(ZASIELKOVNA)}
+                        onMouseLeave={() => setDeliveryHover('')}
+                        onTouchStart={() => setDeliveryHover(ZASIELKOVNA)}
+                        onTouchEnd={() => setDeliveryHover('')}
+                        onClick={() => setDeliveryCheck(deliveryCheck === ZASIELKOVNA ? '' : ZASIELKOVNA)}
                     >
                         <em>
                         <input 
@@ -414,6 +423,11 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         }} 
                         className="text-right" 
                         md={{span: 5}}
+                        onMouseEnter={() => setDeliveryHover(ZASIELKOVNA)}
+                        onMouseLeave={() => setDeliveryHover('')}
+                        onTouchStart={() => setDeliveryHover(ZASIELKOVNA)}
+                        onTouchEnd={() => setDeliveryHover('')}
+                        onClick={() => setDeliveryCheck(deliveryCheck === ZASIELKOVNA ? '' : ZASIELKOVNA)}
                     >
                         Od váhy, každá krabica (6 fliaš) vlastné poštovné - <strong>{isDeliveryFree ? 'zadarmo' : `${((Math.ceil(boxCount/6)*4.90)).toFixed(2)} €`}</strong> <br />
                         Fliaš: <strong>{boxCount}</strong>, Krabíc: <strong>{Math.ceil(boxCount/6)}</strong>.
@@ -424,11 +438,6 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         color: deliveryCheck === KURIER ? 'whitesmoke' : ''
                         }} 
                     className="my-2"
-                    onMouseEnter={() => setDeliveryHover(KURIER)}
-                    onMouseLeave={() => setDeliveryHover('')}
-                    onTouchStart={() => setDeliveryHover(KURIER)}
-                    onTouchEnd={() => setDeliveryHover('')}
-                    onClick={() => setDeliveryCheck(deliveryCheck === KURIER ? '' : KURIER)}
                 >
                     <Col 
                         style={{
@@ -438,6 +447,11 @@ export default ({userId, updateCart, setUpdateCart}) => {
                             borderBottomLeftRadius: '5px'
                         }} 
                         md={{span: 3, offset: 2}}
+                        onMouseEnter={() => setDeliveryHover(KURIER)}
+                        onMouseLeave={() => setDeliveryHover('')}
+                        onTouchStart={() => setDeliveryHover(KURIER)}
+                        onTouchEnd={() => setDeliveryHover('')}
+                        onClick={() => setDeliveryCheck(deliveryCheck === KURIER ? '' : KURIER)}
                     >
                         <em>
                         <input 
@@ -462,6 +476,11 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         }} 
                         className="text-right" 
                         md={{span: 5}}
+                        onMouseEnter={() => setDeliveryHover(KURIER)}
+                        onMouseLeave={() => setDeliveryHover('')}
+                        onTouchStart={() => setDeliveryHover(KURIER)}
+                        onTouchEnd={() => setDeliveryHover('')}
+                        onClick={() => setDeliveryCheck(deliveryCheck === KURIER ? '' : KURIER)}
                     >
                         <strong>{isDeliveryFree ? 'zadarmo' : '6,90 €'}</strong>
                     </Col>
