@@ -89,6 +89,7 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
               className={`form-control text-center ${checkIfNameMeetsCriteria(
                 firstName
               )}`}
+              placeholder="povinné"
               type="text"
               name="firstName"
               value={firstName}
@@ -107,6 +108,7 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
               className={`form-control text-center ${checkIfNameMeetsCriteria(
                 lastName
               )}`}
+              placeholder="povinné"
               type="text"
               name="lastName"
               value={lastName}
@@ -123,6 +125,7 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
             <label htmlFor="email">E-mail:</label>
             <input
               className={`form-control text-center ${checkIfEmailMeetsCriteria()}`}
+              placeholder="povinné"
               type="text"
               name="email"
               value={email}
@@ -133,6 +136,7 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
             <label htmlFor="phone">Telefon:</label>
             <input
               className={`form-control text-center ${checkIfPhoneMeetsCriteria()}`}
+              placeholder="povinné"
               type="text"
               name="phone"
               value={phone}
@@ -145,6 +149,7 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
             <label htmlFor="street">Ulica a cislo domu:</label>
             <input
               className={`form-control text-center ${checkIfStreetMeetsCriteria()}`}
+              placeholder="povinné"
               type="text"
               name="street"
               value={street}
@@ -159,6 +164,7 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
             <label htmlFor="postal">PSČ:</label>
             <input
               className={`form-control text-center ${checkIfPostalMeetsCriteria()}`}
+              placeholder="povinné"
               type="text"
               name="postal"
               value={postal}
@@ -169,43 +175,48 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
             <label htmlFor="city">Mesto:</label>
             <input
               className={`form-control text-center ${checkIfCityMeetsCriteria()}`}
+              placeholder="povinné"
               type="text"
               name="city"
               value={city}
-              onChange={(e) => setCity(e.target.value)}
+              onChange={(e) => setCity(
+                e.target.value &&
+                e.target.value[0].toUpperCase() +
+                e.target.value.substring(1)
+              )}
             />
           </Col>
         </Row>
         <Row className="justify-content-center mt-2">
-                    <Col md={10}>
-                    <em style={{float: 'left'}}>
-                        <input 
-                            style={{
-                                cursor: 'pointer',
-                            }}
-                            type='checkbox'
-                            name='checkedGdpr'
-                            checked={checkedGdpr}
-                            onChange={() => setCheckedGdpr(!checkedGdpr)}
-                        />&nbsp;
-                        Súhlasím so spracovávaním osobných údajov (v zmysle Zákona č. 18/2018 Z.z. o ochrane osobných údajov a o zmene a doplnení niektorých zákonov a zákona č. 245/2008 Z.z. o výchove a vzdelávaní v znení neskorších zmien a predpisov)</em>
-                    </Col>
-                </Row>
-                <Row className="justify-content-center mt-2">
-                    <Col md={10}>
-                    <em style={{float: 'left'}}>
-                        <input 
-                            style={{
-                                cursor: 'pointer',
-                            }}
-                            type='checkbox'
-                            name='checkedNewsletter'
-                            checked={checkedNewsletter}
-                            onChange={() => setCheckedNewsletter(!checkedNewsletter)}
-                        />&nbsp;
-                        Chcem odoberať newsletter a týmto súhlasím s odoberaním newslettra eshopu masvino.sk. Tento súhlas môžete odvolať, napríklad <Link to="/odhlasit-newsletter">tu</Link>, alebo na konci každého newsletter emailu.</em>
-                    </Col>
-                </Row>
+          <Col md={10}>
+            <em style={{float: 'left', color: (!checkedGdpr && firstName && lastName && email && phone && street && postal && city) ? 'orangered' : ''}}>
+              <input 
+                  style={{
+                      cursor: 'pointer',
+                  }}
+                  type='checkbox'
+                  name='checkedGdpr'
+                  checked={checkedGdpr}
+                  onChange={() => setCheckedGdpr(!checkedGdpr)}
+              />&nbsp;
+              Súhlasím so spracovávaním osobných údajov (v zmysle Zákona č. 18/2018 Z.z. o ochrane osobných údajov a o zmene a doplnení niektorých zákonov a zákona č. 245/2008 Z.z. o výchove a vzdelávaní v znení neskorších zmien a predpisov)</em>
+          </Col>
+        </Row>
+        <Row className="justify-content-center mt-2">
+            <Col md={10}>
+            <em style={{float: 'left'}}>
+                <input 
+                    style={{
+                        cursor: 'pointer',
+                    }}
+                    type='checkbox'
+                    name='checkedNewsletter'
+                    checked={checkedNewsletter}
+                    onChange={() => setCheckedNewsletter(!checkedNewsletter)}
+                />&nbsp;
+                Chcem odoberať newsletter a týmto súhlasím s odoberaním newslettra eshopu masvino.sk. Tento súhlas môžete odvolať, napríklad <Link to="/odhlasit-newsletter">tu</Link>, alebo na konci každého newsletter emailu.</em>
+            </Col>
+        </Row>
       </Container>
     </SlideDown>
   );

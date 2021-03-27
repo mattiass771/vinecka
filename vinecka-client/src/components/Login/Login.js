@@ -21,6 +21,33 @@ export default ({shoppingCart = false}) => {
   };
 
   return (
+    shoppingCart ?
+      <Col md={{span: 6, offset: 3}} className="text-center mt-1 pb-2">
+        <h2>Prihláste sa!</h2>
+        <form action={shoppingCart ? 'https://mas-vino.herokuapp.com/login?shopping=cart' : 'https://mas-vino.herokuapp.com/login'} method="post">
+          <input
+            className="form-control text-center"
+            type="text"
+            placeholder="e-mail"
+            name="username"
+          />
+          <br />
+          <input
+            className="form-control text-center"
+            type="password"
+            placeholder="heslo"
+            name="password"
+          />
+          <br />
+          <input
+            className="btn btn-dark"
+            id="sub"
+            type="submit"
+            value="Prihlásiť!"
+          ></input>
+        </form>
+    </Col>
+    :
     <div className="whitesmoke-bg-pnine">
       <Container className="py-4">
           <br />
@@ -29,7 +56,7 @@ export default ({shoppingCart = false}) => {
               <h2>Prihláste sa!</h2>
             </Col>
           </Row>
-          <Row className="justify-content-md-center">
+          <Row className="justify-content-center">
             <Col md={6} className="text-center mt-1">
               <form action={shoppingCart ? 'https://mas-vino.herokuapp.com/login?shopping=cart' : 'https://mas-vino.herokuapp.com/login'} method="post">
                 <input
@@ -56,24 +83,21 @@ export default ({shoppingCart = false}) => {
             </Col>
           </Row>
           <hr />
-          {!shoppingCart &&
-          <>
-            <div className={`${hideButton}`}>
-              <Row className={`justify-content-md-center`}>
-                <Col md={6} className="text-center mt-1">
-                  <Button onClick={showSignUp} variant="dark">
-                    Ešte nemám prihlásenie.
-                  </Button>
-                </Col>
-              </Row>
+          <div className={`${hideButton}`}>
+            <Row className={`justify-content-md-center`}>
+              <Col md={6} className="text-center mt-1">
+                <Button onClick={showSignUp} variant="dark">
+                  Ešte nemám prihlásenie.
+                </Button>
+              </Col>
+            </Row>
+          </div>
+          <SlideDown className={"my-dropdown-slidedown"}>
+            <div className={`${signUp}`}>
+              <SignUp />
             </div>
-            <SlideDown className={"my-dropdown-slidedown"}>
-              <div className={`${signUp}`}>
-                <SignUp />
-              </div>
-            </SlideDown>
-          </>}
-      </Container>
+          </SlideDown>
+    </Container>
     </div>
   );
 };

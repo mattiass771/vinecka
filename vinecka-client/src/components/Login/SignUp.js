@@ -210,7 +210,11 @@ export default ({shoppingCart = false, handleLogin}) => {
               type="text"
               name="city"
               value={city}
-              onChange={(e) => setCity(e.target.value)}
+              onChange={(e) => setCity(
+                e.target.value &&
+                e.target.value[0].toUpperCase() +
+                e.target.value.substring(1)
+              )}
             />
           </Col>
           <Col md={6} className="text-center mt-1">

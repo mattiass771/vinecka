@@ -14,6 +14,14 @@ import SignUp from '../Login/SignUp'
 import Login from '../Login/Login'
 import PayGate from './PayGate'
 
+import { SlideDown } from "react-slidedown";
+import "react-slidedown/lib/slidedown.css";
+
+const OSOBNY = 'osobny'
+const ROZVOZ = 'rozvoz'
+const ZASIELKOVNA = 'zasielkovna'
+const KURIER = 'kurier'
+
 export default ({userId, updateCart, setUpdateCart}) => {
     const lastRef = useRef(null)
     const [shops, setShops] = useState('')
@@ -27,8 +35,32 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const [passOrderInfo, setPassOrderInfo] = useState({})
     const [paymentPopup, setPaymentPopup] = useState(false)  
     const [checkedNewsletter, setCheckedNewsletter] = useState(false)
+    const [deliveryCheck, setDeliveryCheck] = useState('')
+    const [deliveryHover, setDeliveryHover] = useState('')
+    const [boxCount, setBoxCount] = useState(0)
+    const [isDeliveryFree, setIsDeliveryFree] = useState(false)
+    const [noDelivery, setNoDelivery] = useState('')
 
     const executeScroll = () => lastRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })   
+
+    useEffect(() => {
+        const {address} = userInformation;
+        if (address) {
+            if (address.match(/[šs]enkvice/ig) || address.match(/modra/ig) || address.match(/dubov[aá]/ig) || address.match(/sv[aä]t[yý][ ]{0,9}[jur]/ig) || address.match(/slovensk[yý][ ]{0,9}grob/ig) || address.match(/bratislava/ig) || address.match(/[čc]iern[aá][ ]{0,9}voda/ig)) { 
+                if (!noDelivery) {
+                    setNoDelivery(3.90)
+                }
+            } else if (address.match(/pezin[oe]k/ig) || address.match(/vinosady/ig) || address.match(/limbach/ig) || address.match(/vi[nň]i[čc]n[é]/ig)) {
+                if (!noDelivery) {
+                    setNoDelivery(1.90)
+                }
+            } else {
+                if (noDelivery) {
+                    setNoDelivery('')
+                }
+            }
+        }
+    }, [userInformation])
  
     const sortItems = (cartItems) => {
         let sortShop = []
@@ -46,6 +78,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                                 .catch(err => err && console.log('could not delete item', err))
                         } else {
                             const { itemName, price, imageLink } = findItem
+                            setBoxCount(boxCount => boxCount+Number(count))
                             const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
                             if (index >= 0) {
                                 const prevItems = sortShop[index].itemData
@@ -72,6 +105,8 @@ export default ({userId, updateCart, setUpdateCart}) => {
 
     useEffect(() => {
         setLoading(true)
+        setBoxCount(0)
+        setIsDeliveryFree(false)
         const localShoppingCart = localStorage.getItem('shoppingCart')
         if (userId) {
             const parsedShoppingCart = localShoppingCart ? JSON.parse(localShoppingCart) : []
@@ -132,7 +167,6 @@ export default ({userId, updateCart, setUpdateCart}) => {
             const localShoppingCart = JSON.parse(localStorage.getItem('shoppingCart'))
             const newLocalShoppingCart = localShoppingCart.filter(item => item.itemId !== itemId)
             localStorage.removeItem('shoppingCart')
-            console.log(newLocalShoppingCart, shops)
             if (newLocalShoppingCart.length !== 0) {
                 localStorage.setItem('shoppingCart', JSON.stringify(newLocalShoppingCart))
             } else {
@@ -229,13 +263,237 @@ export default ({userId, updateCart, setUpdateCart}) => {
         setLogin(true)
     }
 
+    const showDeliveryOptions = () => {
+        return (
+            <>
+                <Row className="justify-content-center text-center">
+                    <Col>
+                        <h3>Výber doručenia</h3>
+                    </Col>
+                </Row>
+                <Row 
+                    style={{ 
+                        color: deliveryCheck === OSOBNY ? 'whitesmoke' : ''
+                        }} 
+                    className="my-2"
+                    onMouseEnter={() => setDeliveryHover(OSOBNY)}
+                    onMouseLeave={() => setDeliveryHover('')}
+                    onTouchStart={() => setDeliveryHover(OSOBNY)}
+                    onTouchEnd={() => setDeliveryHover('')}
+                    onClick={() => setDeliveryCheck(deliveryCheck === OSOBNY ? '' : OSOBNY)}
+                    className="my-2"
+                >
+                    <Col 
+                        md={{span: 4, offset: 2}}
+                        style={{
+                            backgroundColor: deliveryCheck === OSOBNY ? '#2b371b' : deliveryHover === OSOBNY ? '#c6c6c6' : '', 
+                            cursor: 'pointer',
+                            borderTopLeftRadius: '5px', 
+                            borderBottomLeftRadius: '5px'
+                        }} 
+                    >
+                    <em>
+                        <input 
+                            style={{
+                                cursor: 'pointer',
+                                backgroundColor: deliveryCheck === OSOBNY ? 'red' : 'black'
+                            }}
+                            type='checkbox'
+                            name='osobnyDeliveryCheck'
+                            checked={deliveryCheck === OSOBNY}
+                            onChange={() => setDeliveryCheck(deliveryCheck === OSOBNY ? '' : OSOBNY)}
+                        />&nbsp;
+                        Osobný odber v Pezinku:
+                        </em>
+                    </Col>
+                    <Col 
+                        style={{
+                            backgroundColor: deliveryCheck === OSOBNY ? '#2b371b' : deliveryHover === OSOBNY ? '#c6c6c6' : '', 
+                            cursor: 'pointer',
+                            borderTopRightRadius: '5px', 
+                            borderBottomRightRadius: '5px'
+                        }}  
+                        className="text-right" 
+                        md={{span: 4}}
+                    >
+                        <strong>zadarmo</strong>
+                    </Col>
+                </Row>
+                <SlideDown className={"my-dropdown-slidedown"}>
+                {noDelivery &&
+                    <Row 
+                        style={{ 
+                            color: deliveryCheck === ROZVOZ ? 'whitesmoke' : ''
+                            }} 
+                        className="my-2"
+                        onMouseEnter={() => setDeliveryHover(ROZVOZ)}
+                        onMouseLeave={() => setDeliveryHover('')}
+                        onTouchStart={() => setDeliveryHover(ROZVOZ)}
+                        onTouchEnd={() => setDeliveryHover('')}
+                        onClick={() => setDeliveryCheck(deliveryCheck === ROZVOZ ? '' : ROZVOZ)}
+                    >
+                        
+                        <Col 
+                            style={{
+                                backgroundColor: deliveryCheck === ROZVOZ ? '#2b371b' : deliveryHover === ROZVOZ ? '#c6c6c6' : '', 
+                                cursor: 'pointer',
+                                borderTopLeftRadius: '5px', 
+                                borderBottomLeftRadius: '5px'
+                            }} 
+                            md={{span: 3, offset: 2}}
+                        >
+                            <em>
+                            <input 
+                                style={{
+                                    cursor: 'pointer',
+                                    backgroundColor: deliveryCheck === ROZVOZ ? 'red' : 'black'
+                                }}
+                                type='checkbox'
+                                name='dovozDeliveryCheck'
+                                checked={deliveryCheck === ROZVOZ}
+                                onChange={() => setDeliveryCheck(deliveryCheck === ROZVOZ ? '' : ROZVOZ)}
+                            />&nbsp;
+                            Náš rozvoz:
+                            </em>
+                        </Col>
+                        <Col 
+                            style={{
+                                backgroundColor: deliveryCheck === ROZVOZ ? '#2b371b' : deliveryHover === ROZVOZ ? '#c6c6c6' : '', 
+                                cursor: 'pointer',
+                                borderTopRightRadius: '5px', 
+                                borderBottomRightRadius: '5px'
+                            }} 
+                            className="text-right" 
+                            md={{span: 5}}
+                        >
+                            Pezinok, Vinosady, Limbach, Viničné - <strong>{isDeliveryFree ? 'zadarmo' : '1,90 €'}</strong><br/>
+                            Modra, Šenkvice, Slovenský Grob,<br /> Svätý Jur, Dubová, Čierna Voda - <strong>{isDeliveryFree ? 'zadarmo' : '3,90 €'}</strong>
+                        </Col>
+                    </Row>}
+                </SlideDown>
+                <Row 
+                    style={{ 
+                        color: deliveryCheck === ZASIELKOVNA ? 'whitesmoke' : ''
+                        }} 
+                    className="my-2"
+                    onMouseEnter={() => setDeliveryHover(ZASIELKOVNA)}
+                    onMouseLeave={() => setDeliveryHover('')}
+                    onTouchStart={() => setDeliveryHover(ZASIELKOVNA)}
+                    onTouchEnd={() => setDeliveryHover('')}
+                    onClick={() => setDeliveryCheck(deliveryCheck === ZASIELKOVNA ? '' : ZASIELKOVNA)}
+                >
+                    <Col 
+                        style={{
+                            backgroundColor: deliveryCheck === ZASIELKOVNA ? '#2b371b' : deliveryHover === ZASIELKOVNA ? '#c6c6c6' : '', 
+                            cursor: 'pointer',
+                            borderTopLeftRadius: '5px', 
+                            borderBottomLeftRadius: '5px'
+                        }} 
+                        md={{span: 3, offset: 2}}
+                    >
+                        <em>
+                        <input 
+                            style={{
+                                cursor: 'pointer',
+                                backgroundColor: deliveryCheck === ZASIELKOVNA ? 'red' : 'black'
+                            }}
+                            type='checkbox'
+                            name='dovozDeliveryCheck'
+                            checked={deliveryCheck === ZASIELKOVNA}
+                            onChange={() => setDeliveryCheck(deliveryCheck === ZASIELKOVNA ? '' : ZASIELKOVNA)}
+                        />&nbsp;
+                        Zásielkovňa:
+                        </em>
+                    </Col>
+                    <Col 
+                        style={{
+                            backgroundColor: deliveryCheck === ZASIELKOVNA ? '#2b371b' : deliveryHover === ZASIELKOVNA ? '#c6c6c6' : '', 
+                            cursor: 'pointer',
+                            borderTopRightRadius: '5px', 
+                            borderBottomRightRadius: '5px'
+                        }} 
+                        className="text-right" 
+                        md={{span: 5}}
+                    >
+                        Od váhy, každá krabica (6 fliaš) vlastné poštovné - <strong>{isDeliveryFree ? 'zadarmo' : `${((Math.ceil(boxCount/6)*4.90)).toFixed(2)} €`}</strong> <br />
+                        Fliaš: <strong>{boxCount}</strong>, Krabíc: <strong>{Math.ceil(boxCount/6)}</strong>.
+                    </Col>
+                </Row>
+                <Row 
+                    style={{ 
+                        color: deliveryCheck === KURIER ? 'whitesmoke' : ''
+                        }} 
+                    className="my-2"
+                    onMouseEnter={() => setDeliveryHover(KURIER)}
+                    onMouseLeave={() => setDeliveryHover('')}
+                    onTouchStart={() => setDeliveryHover(KURIER)}
+                    onTouchEnd={() => setDeliveryHover('')}
+                    onClick={() => setDeliveryCheck(deliveryCheck === KURIER ? '' : KURIER)}
+                >
+                    <Col 
+                        style={{
+                            backgroundColor: deliveryCheck === KURIER ? '#2b371b' : deliveryHover === KURIER ? '#c6c6c6' : '', 
+                            cursor: 'pointer',
+                            borderTopLeftRadius: '5px', 
+                            borderBottomLeftRadius: '5px'
+                        }} 
+                        md={{span: 3, offset: 2}}
+                    >
+                        <em>
+                        <input 
+                            style={{
+                                cursor: 'pointer',
+                                backgroundColor: deliveryCheck === KURIER ? 'red' : 'black'
+                            }}
+                            type='checkbox'
+                            name='dovozDeliveryCheck'
+                            checked={deliveryCheck === KURIER}
+                            onChange={() => setDeliveryCheck(deliveryCheck === KURIER ? '' : KURIER)}
+                        />&nbsp;
+                        Kuriér:
+                        </em>
+                    </Col>
+                    <Col 
+                        style={{
+                            backgroundColor: deliveryCheck === KURIER ? '#2b371b' : deliveryHover === KURIER ? '#c6c6c6' : '', 
+                            cursor: 'pointer',
+                            borderTopRightRadius: '5px', 
+                            borderBottomRightRadius: '5px'
+                        }} 
+                        className="text-right" 
+                        md={{span: 5}}
+                    >
+                        <strong>{isDeliveryFree ? 'zadarmo' : '6,90 €'}</strong>
+                    </Col>
+                </Row>
+            </>
+        )
+    }
+
 
     const showTotalCartPrice = () => {
         let result = 0
         shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
+        if (result >= 150 && !isDeliveryFree) {
+            setIsDeliveryFree(true)
+        } else if (result < 150 && isDeliveryFree) {
+            setIsDeliveryFree(false)
+        }
+        const resWithoutDelivery = result
+        switch (deliveryCheck) {
+            case OSOBNY: break;
+            case ROZVOZ: result += noDelivery; break;
+            case ZASIELKOVNA: result += ((Math.ceil(boxCount/6)*4.90)); break;
+            case KURIER: result += 6.90; break;
+            default: break;
+        }
+
+
         return (
             <Col>
                 <h3>Finálna suma: {result.toFixed(2).toString().replace(/\./g,',')} €</h3>
+                {resWithoutDelivery < 150 ? <p style={{fontSize: '125%'}}>Nakúpte ešte za <strong>{(150 - resWithoutDelivery).toFixed(2)} €</strong> a dopravu máte zadarmo.</p> : 
+                <p style={{fontSize: '125%'}}>Dopravu máte <strong>zadarmo</strong>.</p>}
             </Col>
         )
     }
@@ -270,6 +528,9 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     {registration && <SignUp shoppingCart={true} handleLogin={handleLogin} />}
                     {shipmentOnly && <PlaceOrder checkedNewsletter={checkedNewsletter} setCheckedNewsletter={setCheckedNewsletter} setUserInformation={setUserInformation} />}
                 </Row>
+                <SlideDown className={"my-dropdown-slidedown"}>
+                    {shops && userInformation && showDeliveryOptions()}
+                </SlideDown>
                 <Row className="text-center">
                     <br />
                     <br />
@@ -277,7 +538,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 </Row>
                 <Row className="text-center">
                     <Col>
-                        {userInformation && shops.length > 0 ?
+                        {deliveryCheck && userInformation && shops.length > 0 ?
                             <Button onClick={() => createNewOrder()} variant="dark">Prejsť k platbe</Button>
                         :
                         <>  
@@ -288,7 +549,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                                     <br />
                                 </>
                             }
-                            <Button disabled variant="dark">Prejsť k platbe</Button>
+                            <Button disabled variant="dark">Vyplňte údaje pre doručenie</Button>
                         </>
                     }
                     </Col>
