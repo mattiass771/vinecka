@@ -99,7 +99,7 @@ router.route("/:orderId/process-payment/").post((req, res) => {
 //
 
 router.route("/add").post((req, res) => {
-  const { orderId, userId, userInformation, shops, total, status } = req.body;
+  const { orderId, userId, userInformation, shops, total, status, deliveryPrice, deliveryType } = req.body;
 
   if (typeof userInformation === 'object') {
     const addOrder = new Order({
@@ -108,7 +108,9 @@ router.route("/add").post((req, res) => {
       userInformation,
       shops,
       total,
-      status
+      status,
+      deliveryPrice,
+      deliveryType
     });
     addOrder
       .save()

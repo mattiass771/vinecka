@@ -13,7 +13,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {BsTrashFill} from "react-icons/bs";
 import DeleteModal from "./DeleteModal";
 
-export default ({userId, isOwner}) => {
+export default ({email, isOwner}) => {
     const [ordersData, setOrdersData] = useState([])
     const [shippedObj, setShippedObj] = useState({})
     const [refresh, setRefresh] = useState(false)
@@ -30,7 +30,7 @@ export default ({userId, isOwner}) => {
         axios.get(`https://mas-vino.herokuapp.com/orders`)
             .then(res => {
                 const result = res.data
-                const validatedOrdersData = isOwner ? result : result.filter(obj => obj.userId === userId)
+                const validatedOrdersData = isOwner ? result : result.filter(obj => obj.userInformation.email === email)
                 setOrdersData(validatedOrdersData)
             })
             .catch(err => err && console.log(err.data))
@@ -102,14 +102,14 @@ export default ({userId, isOwner}) => {
     }
 
     const ShowBuyerDetails = ({passUserInformation, buyerId}) => {
-        const { fullName, phone, address, iban } = passUserInformation
+        const { fullName, phone, address, deliveryPrice } = passUserInformation
         return (
             <div className="text-center" key={buyerId}>
                 <Row>
                     <Col md={{span: 2, offset: 1}}><strong>{fullName}</strong></Col>
                     <Col md={2}><strong>{phone}</strong></Col>
                     <Col md={3}><strong>{address}</strong></Col>
-                    <Col md={{span: 3}}><strong>{iban ?? 'IBAN NENAJDENY'}</strong></Col>
+                    <Col md={{span: 3}}><strong>Doručenie: {deliveryPrice}</strong></Col>
                 </Row>
                 <hr />
             </div>
@@ -139,7 +139,7 @@ export default ({userId, isOwner}) => {
     const ShowOrders = () => {
         const filteredData = setFilter(ordersData)
         return filteredData.map(order => {
-            const { _id, orderId, userInformation, createdAt, status, shops, isShipped, total, userId: buyerId } = order
+            const { _id, orderId, userInformation, createdAt, status, shops, isShipped, total, userId: buyerId, deliveryType } = order
             const { email } = userInformation
             const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'red' : status === 'ocakavana' ? 'yellow' : 'black';
             return (
@@ -149,6 +149,7 @@ export default ({userId, isOwner}) => {
                         <td>{email}</td>
                         <td>{moment(createdAt).format("DD MMM YYYY, HH:mm")}</td>
                         <td>{total.toFixed(2).toString().replace(/\./g,',')} €</td>
+                        <td>{deliveryType}</td>
                         <td style={{color: statusColor}}>{(shippedObj[_id] ?? isShipped) ? <em style={{color: 'blue', float:'left'}}>odoslana</em> : status}
                             {status === 'zaplatena' && isOwner &&
                             <input 
@@ -199,6 +200,7 @@ export default ({userId, isOwner}) => {
                     <th>Email</th>
                     <th>Datum</th>
                     <th>Total</th>
+                    <th>Doručenie</th>
                     <th>Stav</th>
                 </tr>
             </thead>

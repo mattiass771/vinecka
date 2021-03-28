@@ -19,8 +19,12 @@ import "react-slidedown/lib/slidedown.css";
 
 const OSOBNY = 'osobny'
 const ROZVOZ = 'rozvoz'
+const ROZVOZ_FIRST = 1.90
+const ROZVOZ_SECOND = 3.90
 const ZASIELKOVNA = 'zasielkovna'
+const ZASIELKOVNA_PRICE = 4.90
 const KURIER = 'kurier'
+const KURIER_PRICE = 6.90
 
 export default ({userId, updateCart, setUpdateCart}) => {
     const lastRef = useRef(null)
@@ -39,7 +43,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const [deliveryHover, setDeliveryHover] = useState('')
     const [boxCount, setBoxCount] = useState(0)
     const [isDeliveryFree, setIsDeliveryFree] = useState(false)
-    const [noDelivery, setNoDelivery] = useState('')
+    const [localDeliveryPrice, setLocalDeliveryPrice] = useState('')
 
     const executeScroll = () => lastRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })   
 
@@ -47,16 +51,16 @@ export default ({userId, updateCart, setUpdateCart}) => {
         const {address} = userInformation;
         if (address) {
             if (address.match(/[šs]enkvice/ig) || address.match(/modra/ig) || address.match(/dubov[aá]/ig) || address.match(/sv[aä]t[yý][ ]{0,9}[jur]/ig) || address.match(/slovensk[yý][ ]{0,9}grob/ig) || address.match(/bratislava/ig) || address.match(/[čc]iern[aá][ ]{0,9}voda/ig)) { 
-                if (!noDelivery) {
-                    setNoDelivery(3.90)
+                if (!localDeliveryPrice) {
+                    setLocalDeliveryPrice(ROZVOZ_SECOND)
                 }
             } else if (address.match(/pezin[oe]k/ig) || address.match(/vinosady/ig) || address.match(/limbach/ig) || address.match(/vi[nň]i[čc]n[é]/ig)) {
-                if (!noDelivery) {
-                    setNoDelivery(1.90)
+                if (!localDeliveryPrice) {
+                    setLocalDeliveryPrice(ROZVOZ_FIRST)
                 }
             } else {
-                if (noDelivery) {
-                    setNoDelivery('')
+                if (localDeliveryPrice) {
+                    setLocalDeliveryPrice('')
                 }
             }
         }
@@ -226,12 +230,29 @@ export default ({userId, updateCart, setUpdateCart}) => {
 
     const createNewOrder = () => {
         let result = 0
+        let deliveryPrice = 0
         shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
         const total = result
         const status = 'vytvorena'
-        setPassOrderInfo({ orderId, userInformation, userId, shops, total, status })
+        switch (deliveryCheck) {
+            case OSOBNY: break;
+            case ROZVOZ: 
+                result += localDeliveryPrice; 
+                deliveryPrice += localDeliveryPrice;
+                break;
+            case ZASIELKOVNA: 
+                result += ((Math.ceil(boxCount/6)*ZASIELKOVNA_PRICE)); 
+                deliveryPrice += ((Math.ceil(boxCount/6)*ZASIELKOVNA_PRICE));
+                break;
+            case KURIER: 
+                result += KURIER_PRICE; 
+                deliveryPrice += KURIER_PRICE;
+                break;
+            default: break;
+        }
+        setPassOrderInfo({ orderId, userInformation, userId, shops, total, status, deliveryPrice, deliveryType: deliveryCheck })
         setPaymentPopup(true)
-        axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, status })
+        axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, status, deliveryPrice })
             .then(res => {
                 if (checkedNewsletter) {
                     axios.post(`https://mas-vino.herokuapp.com/mails/add`, {name: userInformation.fullName, email: userInformation.email})
@@ -324,7 +345,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     </Col>
                 </Row>
                 <SlideDown className={"my-dropdown-slidedown"}>
-                {noDelivery &&
+                {localDeliveryPrice &&
                     <Row 
                         style={{ 
                             color: deliveryCheck === ROZVOZ ? 'whitesmoke' : ''
@@ -375,7 +396,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                             onTouchEnd={() => setDeliveryHover('')}
                             onClick={() => setDeliveryCheck(deliveryCheck === ROZVOZ ? '' : ROZVOZ)}
                         >
-                            Pezinok, Vinosady, Limbach, Viničné - <strong>{isDeliveryFree ? 'zadarmo' : '1,90 €'}</strong><br/>
+                            Bratislava, Pezinok, Vinosady, Limbach, Viničné - <strong>{isDeliveryFree ? 'zadarmo' : '1,90 €'}</strong><br/>
                             Modra, Šenkvice, Slovenský Grob,<br /> Svätý Jur, Dubová, Čierna Voda - <strong>{isDeliveryFree ? 'zadarmo' : '3,90 €'}</strong>
                         </Col>
                     </Row>}
@@ -429,7 +450,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         onTouchEnd={() => setDeliveryHover('')}
                         onClick={() => setDeliveryCheck(deliveryCheck === ZASIELKOVNA ? '' : ZASIELKOVNA)}
                     >
-                        Od váhy, každá krabica (6 fliaš) vlastné poštovné - <strong>{isDeliveryFree ? 'zadarmo' : `${((Math.ceil(boxCount/6)*4.90)).toFixed(2)} €`}</strong> <br />
+                        Od váhy, každá krabica (6 fliaš) vlastné poštovné - <strong>{isDeliveryFree ? 'zadarmo' : `${((Math.ceil(boxCount/6)*ZASIELKOVNA_PRICE)).toFixed(2)} €`}</strong> <br />
                         Fliaš: <strong>{boxCount}</strong>, Krabíc: <strong>{Math.ceil(boxCount/6)}</strong>.
                     </Col>
                 </Row>
@@ -501,13 +522,11 @@ export default ({userId, updateCart, setUpdateCart}) => {
         const resWithoutDelivery = result
         switch (deliveryCheck) {
             case OSOBNY: break;
-            case ROZVOZ: result += noDelivery; break;
-            case ZASIELKOVNA: result += ((Math.ceil(boxCount/6)*4.90)); break;
-            case KURIER: result += 6.90; break;
+            case ROZVOZ: result += localDeliveryPrice; break;
+            case ZASIELKOVNA: result += ((Math.ceil(boxCount/6)*ZASIELKOVNA_PRICE)); break;
+            case KURIER: result += KURIER_PRICE; break;
             default: break;
         }
-
-
         return (
             <Col>
                 <h3>Finálna suma: {result.toFixed(2).toString().replace(/\./g,',')} €</h3>
