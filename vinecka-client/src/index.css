@@ -83,6 +83,18 @@ body:after{
   color: #2b371b !important
 }
 
+@media only screen and (min-width : 768px) {
+  .border-custom-right {
+    border-right: 2px solid #c1c1c1;
+  }
+}
+
+@media only screen and (max-width : 767px) {
+  .border-custom-right {
+    border-right: 0px solid #c1c1c1;
+  }
+}
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

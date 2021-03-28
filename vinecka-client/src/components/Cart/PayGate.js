@@ -14,6 +14,7 @@ import {RiBankFill, RiBankLine} from 'react-icons/ri'
 
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
+import Spinner from "react-bootstrap/Spinner";
 
 export default ({paymentPopup, setPaymentPopup, orderInfo}) => {
     const {total, orderId, userInformation } = orderInfo
@@ -25,7 +26,10 @@ export default ({paymentPopup, setPaymentPopup, orderInfo}) => {
 
     useEffect(() => {
         axios.get(`https://mas-vino.herokuapp.com/orders/get-payment-credentials`)
-            .then(res => setCreds(res.data))
+            .then(res => {
+                setCreds(res.data)
+                setIsCardPayment('card')
+            })
             .catch(err => console.log('Error retrieving trustpay creds, ', err))
     }, [])
 
@@ -83,13 +87,13 @@ export default ({paymentPopup, setPaymentPopup, orderInfo}) => {
                 <Row>
                     <Col style={{cursor: 'pointer', borderRadius: '5px', backgroundColor: (isHovered === 'card' || isCardPayment === 'card') ? '#2b371b' : '', color: (isHovered === 'card' || isCardPayment === 'card') ? 'whitesmoke' : '#333333'}} className="text-center" onMouseEnter={() => setIsHovered('card')} onMouseLeave={() => setIsHovered('')} onClick={() => setIsCardPayment('card')} >
                         {isHovered === 'card' ? 
-                            <FaRegCreditCard style={{fontSize: '500%'}}/> : 
-                            <FaRegCreditCard style={{fontSize: '500%'}} />}
+                            <>Platba Kartou <br /><FaRegCreditCard style={{fontSize: '250%'}}/></> : 
+                            <>Platba Kartou <br /><FaRegCreditCard style={{fontSize: '250%'}} /></>}
                     </Col>
-                    <Col style={{cursor: 'pointer', borderRadius: '5px', backgroundColor: (isHovered === 'wire' || isCardPayment === 'wire') ? '#2b371b' : '', backgroundColor: isHovered === 'wire' ? '#2b371b' : '', color: (isHovered === 'wire' || isCardPayment === 'wire') ? 'whitesmoke' : '#333333'}} className="text-center" onMouseEnter={() => setIsHovered('wire')} onMouseLeave={() => setIsHovered('')} onClick={() => setIsCardPayment('wire')} >
+                    <Col style={{cursor: 'pointer', borderRadius: '5px', backgroundColor: (isHovered === 'wire' || isCardPayment === 'wire') ? '#2b371b' : '', color: (isHovered === 'wire' || isCardPayment === 'wire') ? 'whitesmoke' : '#333333'}} className="text-center" onMouseEnter={() => setIsHovered('wire')} onMouseLeave={() => setIsHovered('')} onClick={() => setIsCardPayment('wire')} >
                         {isHovered === 'wire' ? 
-                            <RiBankLine style={{fontSize: '500%'}}/> : 
-                            <RiBankFill style={{fontSize: '500%'}} />}
+                            <>Platba Prevodom <br /><RiBankLine style={{fontSize: '250%'}} /></>  : 
+                            <>Platba Prevodom <br /><RiBankFill style={{fontSize: '250%'}} /></> }
                     </Col>
                 </Row>
             </Container>
@@ -107,6 +111,12 @@ export default ({paymentPopup, setPaymentPopup, orderInfo}) => {
                         width: 75, 
                         cursor: 'pointer'
                     }} onClick={() => setPaymentPopup(false)}></div> 
+                    <span style={{
+                        position: 'absolute', 
+                        top: 248,
+                        left: 20,
+                        color: '#ededee'
+                    }}>Platobná brána sa načítava, prosím počkajte...</span>
                 </Container>
             </SlideDown>
         </Modal>

@@ -109,6 +109,9 @@ export default ({userId, updateCart, setUpdateCart}) => {
 
     useEffect(() => {
         setLoading(true)
+    }, [])
+
+    useEffect(() => {
         setBoxCount(0)
         setIsDeliveryFree(false)
         const localShoppingCart = localStorage.getItem('shoppingCart')
@@ -141,11 +144,17 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     }
                 })
                 .catch(err => err && console.log(err))
+                .then(() => setTimeout(() => setLoading(false), 2000))
         } else {
             const localShoppingCart = localStorage.getItem('shoppingCart')
-            localShoppingCart && sortItems(JSON.parse(localShoppingCart))
+            const sortPromise = new Promise((resolve, reject) => {
+                resolve(sortItems(JSON.parse(localShoppingCart)))
+            })
+            
+            localShoppingCart && sortPromise.then(res => {
+                setTimeout(() => setLoading(false), 2000)
+            })
         }
-        setLoading(false)
     }, [refresh])
 
     const getImage = (image) => {
@@ -160,10 +169,15 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const removeItemFromCart = (e, itemId, shopId) => {
         if (userId) {
             axios.post(`https://mas-vino.herokuapp.com/users/${userId}/cart/delete-cart-item/${shopId}/${itemId}`)
-                .then((res) => console.log(res))
+                .then((res) => {
+                    const newShops = shops.map(shop => {
+                        const newItemData = shop.itemData.filter(item => item.itemId !== itemId)
+                        return {...shop, itemData: newItemData}
+                    })
+                    setShops(newShops)
+                })
                 .catch(err => err && console.log('could not delete item', err))
                 .then(() => {
-                    setRefresh(!refresh)
                     setUpdateCart(!updateCart)
                 }) 
             if (shops.length === 1) setShops('')
@@ -173,10 +187,14 @@ export default ({userId, updateCart, setUpdateCart}) => {
             localStorage.removeItem('shoppingCart')
             if (newLocalShoppingCart.length !== 0) {
                 localStorage.setItem('shoppingCart', JSON.stringify(newLocalShoppingCart))
+                const newShops = shops.map(shop => {
+                    const newItemData = shop.itemData.filter(item => item.itemId !== itemId)
+                    return {...shop, itemData: newItemData}
+                })
+                setShops(newShops)
             } else {
                 setShops('')
             }
-            setRefresh(!refresh)
             setUpdateCart(!updateCart)
         }
     }
@@ -184,12 +202,11 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const showItemData = (itemData, shopId) => {
         const outputData = itemData.map((item, i) => {
             return (
-                <Col data-id={`${item.itemId}`} md={3} xs={6} lg={2} key={`${item.itemId}`} style={{textAlign: "center"}}>
+                <Col className="float-left mt-2" data-id={`${item.itemId}`} xs={6} lg={4} key={`${item.itemId}`} style={{textAlign: "center"}}>
                     <Image src={getImage(item.imageLink) ? getImage(item.imageLink) : ''} rounded style={{height:75}} />
                     <h6>{item.itemName}</h6>
-                    <p>
-                    Počet: {item.count}<br />
-                    {item.price} €</p>
+                    Počet: <strong>{item.count}</strong> <br/>
+                    Cena: <strong>{item.price}</strong> €
                     <Button style={{position: 'absolute', right: "20%", top: 0}} onClick={(e) => removeItemFromCart(e, item.itemId, shopId)} variant="danger" size="sm">X</Button>
                 </Col>
             )
@@ -205,27 +222,35 @@ export default ({userId, updateCart, setUpdateCart}) => {
         return total
     }
 
-    //homes.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-
     const showCartItems = () => {
-        return shops.sort((a, b) => (a.shopName > b.shopName) - (a.shopName < b.shopName)).map(shop => {
+        const output = shops.sort((a, b) => (a.shopName > b.shopName) - (a.shopName < b.shopName)).map((shop, i) => {
             return (
-                <Row key={shop.shopId} style={{marginBottom: "15px"}}>
-                    <Col style={{marginBottom: "50px"}} xs={12}>
-                        <hr />
-                        <div style={{display: "flex", justifyContent:"space-between"}}>
-                            <div>
-                                <h4>{shop.shopName}</h4>
-                            </div>
-                            <div className="text-right">
-                                <h5>Suma: {(getTotalPrice(shop.itemData)).toFixed(2).toString().replace(/\./g,',')} €</h5>
-                            </div>
+                <Col 
+                    key={shop.shopId} 
+                    className={i%2 ? '' : 'border-custom-right'} 
+                    style={{
+                        paddingTop: "15px", 
+                        paddingBottom: i !== shops.length-1 ? "25px" : '', 
+                        borderTop: '2px solid #c1c1c1'
+                    }} 
+                    xs={12} 
+                    md={6}
+                >
+                    <div style={{display: "flex", justifyContent:"space-between"}}>
+                        <div>
+                            <h4>{shop.shopName}</h4>
                         </div>
-                    </Col>
+                        <div className="text-right">
+                            <h5>Suma: {(getTotalPrice(shop.itemData)).toFixed(2).toString().replace(/\./g,',')} €</h5>
+                        </div>
+                    </div>
                     {showItemData(shop.itemData, shop.shopId)}
-                </Row>
+                </Col>
             )
         })
+        if (!loading) {
+            return output
+        }
     }
 
     const createNewOrder = () => {
@@ -252,7 +277,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
         }
         setPassOrderInfo({ orderId, userInformation, userId, shops, total, status, deliveryPrice, deliveryType: deliveryCheck })
         setPaymentPopup(true)
-        axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, status, deliveryPrice })
+        axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, status, deliveryPrice, deliveryType: deliveryCheck  })
             .then(res => {
                 if (checkedNewsletter) {
                     axios.post(`https://mas-vino.herokuapp.com/mails/add`, {name: userInformation.fullName, email: userInformation.email})
@@ -286,7 +311,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
 
     const showDeliveryOptions = () => {
         return (
-            <>
+            <React.Fragment key={'showDeliveryOptions'}>
                 <Row className="justify-content-center text-center">
                     <Col>
                         <h3>Výber doručenia</h3>
@@ -506,7 +531,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         <strong>{isDeliveryFree ? 'zadarmo' : '6,90 €'}</strong>
                     </Col>
                 </Row>
-            </>
+            </React.Fragment>
         )
     }
 
@@ -537,62 +562,70 @@ export default ({userId, updateCart, setUpdateCart}) => {
     }
 
     return (
-        <div className="whitesmoke-bg-pnine">
-            <Container style={{paddingTop: "50px", paddingBottom: "50px"}}>
-                { passOrderInfo && paymentPopup &&
-                    <PayGate orderInfo={passOrderInfo} setPaymentPopup={setPaymentPopup} paymentPopup={paymentPopup} />
-                }
-                {loading ? 
-                    <Spinner
-                        style={{ marginLeft: "49%", marginTop: "20%" }}
-                        animation="border"
-                    /> : 
-                (shops && showCartItems())}
-                <Row className="text-center">
-                    <Col>
-                        {(!userInformation && shops ) &&
-                            <p>
-                                <Button className="mt-2" onClick={() => handleRegistration()} variant="dark">Doručovacie údaje s registráciou</Button>
-                                &nbsp;&nbsp;
-                                <Button className="mt-2" onClick={() => handleLogin()} variant="dark">Mám účet a chcem sa prihlásit</Button>
-                                &nbsp;&nbsp;
-                                <Button className="mt-2" onClick={() => handleShipmentOnly()} variant="dark">Doručovacie údaje bez registrácie</Button>
-                            </p>
-                        }
-                    </Col>
-                </Row>
-                <Row ref={lastRef} className="text-center">
-                    {login && <Login shoppingCart={true} />}
-                    {registration && <SignUp shoppingCart={true} handleLogin={handleLogin} />}
-                    {shipmentOnly && <PlaceOrder checkedNewsletter={checkedNewsletter} setCheckedNewsletter={setCheckedNewsletter} setUserInformation={setUserInformation} />}
-                </Row>
-                <SlideDown className={"my-dropdown-slidedown"}>
-                    {shops && userInformation && showDeliveryOptions()}
-                </SlideDown>
-                <Row className="text-center">
-                    <br />
-                    <br />
-                    {shops && showTotalCartPrice()}
-                </Row>
-                <Row className="text-center">
-                    <Col>
-                        {deliveryCheck && userInformation && shops.length > 0 ?
-                            <Button onClick={() => createNewOrder()} variant="dark">Prejsť k platbe</Button>
-                        :
-                        <>  
-                            {shops.length === 0 && 
-                                <>
-                                    <h4>Nákupný košík je momentálne prázdny.</h4>
-                                    <br />
-                                    <br />
-                                </>
-                            }
-                            <Button disabled variant="dark">Vyplňte údaje pre doručenie</Button>
-                        </>
+        <div className="whitesmoke-bg-pnine" style={{minHeight: '500px'}}>
+            {loading &&
+                <Spinner
+                    style={{ marginLeft: "49%", marginTop: "250px"}}
+                    animation="border"
+                />}
+            <SlideDown className={"my-dropdown-slidedown"}>
+                <Container style={{paddingTop: "50px", paddingBottom: "50px"}}>
+                    { passOrderInfo && paymentPopup &&
+                        <PayGate orderInfo={passOrderInfo} setPaymentPopup={setPaymentPopup} paymentPopup={paymentPopup} />
                     }
-                    </Col>
-                </Row>
-            </Container>
+                    <Row style={{borderBottom: !loading && '2px solid #c1c1c1'}}>
+                        {shops && showCartItems()}
+                        
+                    </Row>
+                    {!loading && 
+                    <Row className="text-center pt-4">
+                        <Col>
+                            {(!userInformation && shops ) &&
+                                <p>
+                                    <Button className="mt-2" onClick={() => handleRegistration()} variant="dark">Doručovacie údaje s registráciou</Button>
+                                    &nbsp;&nbsp;
+                                    <Button className="mt-2" onClick={() => handleLogin()} variant="dark">Mám účet a chcem sa prihlásit</Button>
+                                    &nbsp;&nbsp;
+                                    <Button className="mt-2" onClick={() => handleShipmentOnly()} variant="dark">Doručovacie údaje bez registrácie</Button>
+                                </p>
+                            }
+                        </Col>
+                    </Row>}
+                    <Row ref={lastRef} className="text-center">
+                        {login && <Login shoppingCart={true} />}
+                        {registration && <SignUp shoppingCart={true} handleLogin={handleLogin} />}
+                        {shipmentOnly && <PlaceOrder checkedNewsletter={checkedNewsletter} setCheckedNewsletter={setCheckedNewsletter} setUserInformation={setUserInformation} />}
+                    </Row>
+                    <SlideDown className={"my-dropdown-slidedown"}>
+                        {shops && userInformation && showDeliveryOptions()}
+                    </SlideDown>
+                    {!loading && 
+                    <Row className="text-center">
+                        <br />
+                        <br />
+                        {shops && showTotalCartPrice()}
+                    </Row>}
+                    {!loading && 
+                    <Row className="text-center">
+                        <Col>
+                            {deliveryCheck && userInformation && shops.length > 0 ?
+                                <Button onClick={() => createNewOrder()} variant="dark">Prejsť k platbe</Button>
+                            :
+                            <>  
+                                {shops.length === 0 && 
+                                    <>
+                                        <h4>Nákupný košík je momentálne prázdny.</h4>
+                                        <br />
+                                        <br />
+                                    </>
+                                }
+                                <Button disabled variant="dark">Vyplňte údaje pre doručenie</Button>
+                            </>
+                        }
+                        </Col>
+                    </Row>}
+                </Container>
+            </SlideDown>
         </div>
     )
 }

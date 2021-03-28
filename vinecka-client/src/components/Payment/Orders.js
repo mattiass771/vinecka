@@ -140,6 +140,7 @@ export default ({email, isOwner}) => {
         const filteredData = setFilter(ordersData)
         return filteredData.map(order => {
             const { _id, orderId, userInformation, createdAt, status, shops, isShipped, total, userId: buyerId, deliveryType } = order
+            console.log(order)
             const { email } = userInformation
             const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'red' : status === 'ocakavana' ? 'yellow' : 'black';
             return (
