@@ -7,9 +7,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
-import { SlideDown } from "react-slidedown";
-import "react-slidedown/lib/slidedown.css";
-
 // Login.js
 export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppingCart = false, newUser, setNewUser, setUserInformation, userInformation}) => {
   const [passwordFirst, setPasswordFirst] = useState("");

@@ -290,6 +290,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
         axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, status, deliveryPrice, deliveryType: deliveryCheck  })
             .then(res => {
                 setNewUser(true)
+                sessionStorage.clear()
                 if (checkedNewsletter) {
                     axios.post(`https://mas-vino.herokuapp.com/mails/add`, {name: userInformation.fullName, email: userInformation.email})
                         .then(res => console.log(res))
