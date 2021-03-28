@@ -33,17 +33,20 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const [userInformation, setUserInformation] = useState('')
     const [login, setLogin] = useState(false)
     const [registration, setRegistration] = useState(false)
-    const [shipmentOnly, setShipmentOnly] = useState(false)
+    const [shipmentOnly, setShipmentOnly] = useState(true)
     const [loading, setLoading] = useState(false)
     const [orderId, setOrderId] = useState(nanoid())
     const [passOrderInfo, setPassOrderInfo] = useState({})
     const [paymentPopup, setPaymentPopup] = useState(false)  
     const [checkedNewsletter, setCheckedNewsletter] = useState(false)
-    const [deliveryCheck, setDeliveryCheck] = useState('')
+    const [deliveryCheck, setDeliveryCheck] = useState(sessionStorage.getItem('deliveryCheck') || '')
     const [deliveryHover, setDeliveryHover] = useState('')
     const [boxCount, setBoxCount] = useState(0)
     const [isDeliveryFree, setIsDeliveryFree] = useState(false)
     const [localDeliveryPrice, setLocalDeliveryPrice] = useState('')
+    const [newUser, setNewUser] = useState(false)
+    const [uncheckGdpr, setUncheckGdpr] = useState(false)
+    const [regSuccess, setRegSuccess] = useState(false)
 
     const executeScroll = () => lastRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })   
 
@@ -65,6 +68,10 @@ export default ({userId, updateCart, setUpdateCart}) => {
             }
         }
     }, [userInformation])
+
+    useEffect(() => {
+        sessionStorage.setItem('deliveryCheck', deliveryCheck)
+    }, [deliveryCheck])
  
     const sortItems = (cartItems) => {
         let sortShop = []
@@ -147,13 +154,9 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 .then(() => setTimeout(() => setLoading(false), 2000))
         } else {
             const localShoppingCart = localStorage.getItem('shoppingCart')
-            const sortPromise = new Promise((resolve, reject) => {
-                resolve(sortItems(JSON.parse(localShoppingCart)))
-            })
-            
-            localShoppingCart && sortPromise.then(res => {
-                setTimeout(() => setLoading(false), 2000)
-            })
+            localShoppingCart && sortItems(JSON.parse(localShoppingCart))
+            setTimeout(() => setLoading(false), 2000)
+           
         }
     }, [refresh])
 
@@ -172,9 +175,13 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 .then((res) => {
                     const newShops = shops.map(shop => {
                         const newItemData = shop.itemData.filter(item => item.itemId !== itemId)
-                        return {...shop, itemData: newItemData}
+                        if (newItemData.length !== 0) {
+                            return {...shop, itemData: newItemData}
+                        } else {
+                            return;
+                        }
                     })
-                    setShops(newShops)
+                    setShops(newShops.filter(shop => shop !== undefined))
                 })
                 .catch(err => err && console.log('could not delete item', err))
                 .then(() => {
@@ -189,9 +196,14 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 localStorage.setItem('shoppingCart', JSON.stringify(newLocalShoppingCart))
                 const newShops = shops.map(shop => {
                     const newItemData = shop.itemData.filter(item => item.itemId !== itemId)
-                    return {...shop, itemData: newItemData}
+                    if (newItemData.length !== 0) {
+                        return {...shop, itemData: newItemData}
+                    } else {
+                        return;
+                    }
                 })
-                setShops(newShops)
+                
+                setShops(newShops.filter(shop => shop !== undefined))
             } else {
                 setShops('')
             }
@@ -227,14 +239,12 @@ export default ({userId, updateCart, setUpdateCart}) => {
             return (
                 <Col 
                     key={shop.shopId} 
-                    className={i%2 ? '' : 'border-custom-right'} 
+                    className={`${(!(i%2) && shops.length > 1) ? 'border-custom-right' : ''} ${shops.length < 2 ? '' : 'col-md-6'} col-xs-12`} 
                     style={{
                         paddingTop: "15px", 
                         paddingBottom: i !== shops.length-1 ? "25px" : '', 
                         borderTop: '2px solid #c1c1c1'
                     }} 
-                    xs={12} 
-                    md={6}
                 >
                     <div style={{display: "flex", justifyContent:"space-between"}}>
                         <div>
@@ -279,6 +289,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
         setPaymentPopup(true)
         axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, status, deliveryPrice, deliveryType: deliveryCheck  })
             .then(res => {
+                setNewUser(true)
                 if (checkedNewsletter) {
                     axios.post(`https://mas-vino.herokuapp.com/mails/add`, {name: userInformation.fullName, email: userInformation.email})
                         .then(res => console.log(res))
@@ -289,30 +300,34 @@ export default ({userId, updateCart, setUpdateCart}) => {
     }
 
     const handleRegistration = () => {
-        setTimeout(() => executeScroll(),500)
+        setTimeout(() => executeScroll(),750)
         setLogin(false)
         setShipmentOnly(false)
         setRegistration(true)
     }
 
     const handleShipmentOnly = () => {
-        setTimeout(() => executeScroll(),500)
+        setTimeout(() => executeScroll(),750)
         setLogin(false)
         setRegistration(false)
         setShipmentOnly(true)
     }
 
     const handleLogin = () => {
-        setTimeout(() => executeScroll(),500)
+        setTimeout(() => executeScroll(),750)
         setRegistration(false)
         setShipmentOnly(false)
         setLogin(true)
     }
 
+    useEffect(() => {
+        if (regSuccess) setRegSuccess(false)
+    }, [login, registration, shipmentOnly])
+
     const showDeliveryOptions = () => {
         return (
             <React.Fragment key={'showDeliveryOptions'}>
-                <Row className="justify-content-center text-center">
+                <Row className="justify-content-center text-center pt-4">
                     <Col>
                         <h3>Výber doručenia</h3>
                     </Col>
@@ -554,7 +569,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
         }
         return (
             <Col>
-                <h3>Finálna suma: {result.toFixed(2).toString().replace(/\./g,',')} €</h3>
+                <h3>Finálna suma: {Number(result).toFixed(2).toString().replace(/\./g,',')} €</h3>
                 {resWithoutDelivery < 150 ? <p style={{fontSize: '125%'}}>Nakúpte ešte za <strong>{(150 - resWithoutDelivery).toFixed(2)} €</strong> a dopravu máte zadarmo.</p> : 
                 <p style={{fontSize: '125%'}}>Dopravu máte <strong>zadarmo</strong>.</p>}
             </Col>
@@ -573,43 +588,72 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     { passOrderInfo && paymentPopup &&
                         <PayGate orderInfo={passOrderInfo} setPaymentPopup={setPaymentPopup} paymentPopup={paymentPopup} />
                     }
-                    <Row style={{borderBottom: !loading && '2px solid #c1c1c1'}}>
-                        {shops && showCartItems()}
-                        
-                    </Row>
-                    {!loading && 
+                    {!loading && shops &&
                     <Row className="text-center pt-4">
+                        <Col>
+                            <h2>Vaše vína</h2>
+                        </Col>
+                    </Row>}
+                    <Row style={{borderBottom: !loading && shops && '2px solid #c1c1c1'}}>
+                        {shops && showCartItems()}
+                    </Row>
+                    {!loading && shops &&
+                    <>
+                    <Row className="text-center pt-4">
+                        <Col>
+                            <h2>Doručovacie údaje {registration && 's registráciou'}</h2>
+                        </Col>
+                    </Row>
+                    <Row className="text-center">
                         <Col>
                             {(!userInformation && shops ) &&
                                 <p>
-                                    <Button className="mt-2" onClick={() => handleRegistration()} variant="dark">Doručovacie údaje s registráciou</Button>
-                                    &nbsp;&nbsp;
-                                    <Button className="mt-2" onClick={() => handleLogin()} variant="dark">Mám účet a chcem sa prihlásit</Button>
-                                    &nbsp;&nbsp;
-                                    <Button className="mt-2" onClick={() => handleShipmentOnly()} variant="dark">Doručovacie údaje bez registrácie</Button>
+                                    {login ? 
+                                    <Button className="mt-2" onClick={() => handleShipmentOnly()} variant="dark">Nemám účet</Button>
+                                    :
+                                    <Button className="mt-2" onClick={() => handleLogin()} variant="dark">Mám účet a chcem sa prihlásit</Button> 
+                                    }
+                                </p>
+                            }
+                            {userInformation && 
+                                <Button className="mt-2" onClick={() => setUncheckGdpr(true)} variant="dark">Zmeniť údaje</Button>
+                            }
+                        </Col>
+                    </Row></>}
+                    {!loading && shops &&
+                    <Row className="text-center">
+                        {login && <Login shoppingCart={true} />}
+                        {registration && <SignUp setRegSuccess={setRegSuccess} regSuccess={regSuccess} uncheckGdpr={uncheckGdpr} setUncheckGdpr={setUncheckGdpr} newUser={newUser} setNewUser={setNewUser} userInformation={userInformation} shoppingCart={true} handleLogin={handleLogin} setUserInformation={setUserInformation} />}
+                        {registration && regSuccess && <h3 style={{color: 'green'}}>Registracia prebehla uspesne.</h3> }
+                        {shipmentOnly && <PlaceOrder uncheckGdpr={uncheckGdpr} setUncheckGdpr={setUncheckGdpr} checkedNewsletter={checkedNewsletter} setCheckedNewsletter={setCheckedNewsletter} setUserInformation={setUserInformation} userInformation={userInformation} />}
+                    </Row>
+                    }
+                    {!loading && 
+                    <Row style={{borderBottom: !loading && shops && '2px solid #c1c1c1'}} className="text-center pb-2">
+                        <Col>
+                            {(!userInformation && shops && !login ) &&
+                                <p>
+                                    {shipmentOnly ? 
+                                    <Button className="mt-2" onClick={() => handleRegistration()} variant="dark">Chcem sa registrovať!</Button> :
+                                    <Button className="mt-2" onClick={() => handleShipmentOnly()} variant="dark">Bez registrácie</Button>}
                                 </p>
                             }
                         </Col>
                     </Row>}
-                    <Row ref={lastRef} className="text-center">
-                        {login && <Login shoppingCart={true} />}
-                        {registration && <SignUp shoppingCart={true} handleLogin={handleLogin} />}
-                        {shipmentOnly && <PlaceOrder checkedNewsletter={checkedNewsletter} setCheckedNewsletter={setCheckedNewsletter} setUserInformation={setUserInformation} />}
-                    </Row>
                     <SlideDown className={"my-dropdown-slidedown"}>
                         {shops && userInformation && showDeliveryOptions()}
                     </SlideDown>
                     {!loading && 
-                    <Row className="text-center">
+                    <Row className="text-center pt-4">
                         <br />
                         <br />
                         {shops && showTotalCartPrice()}
                     </Row>}
                     {!loading && 
-                    <Row className="text-center">
+                    <Row ref={lastRef} className="text-center">
                         <Col>
                             {deliveryCheck && userInformation && shops.length > 0 ?
-                                <Button onClick={() => createNewOrder()} variant="dark">Prejsť k platbe</Button>
+                                <Button onClick={() => createNewOrder()} variant="dark">Prejsť k platbe{registration ? ' a registrovať sa' : ''}</Button>
                             :
                             <>  
                                 {shops.length === 0 && 

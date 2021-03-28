@@ -5,21 +5,25 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { SlideDown } from "react-slidedown";
-import "react-slidedown/lib/slidedown.css";
-
 // Login.js
-export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("")
+export default ({ uncheckGdpr, setUncheckGdpr ,setUserInformation, userInformation, checkedNewsletter, setCheckedNewsletter}) => {
+  const [firstName, setFirstName] = useState(sessionStorage.getItem("firstName") || "");
+  const [lastName, setLastName] = useState(sessionStorage.getItem("lastName") || "");
+  const [email, setEmail] = useState(sessionStorage.getItem("email") || "");
+  const [phone, setPhone] = useState(sessionStorage.getItem("phone") || "")
 
-  const [street, setStreet] = useState("")
-  const [postal, setPostal] = useState("")
-  const [city, setCity] = useState("")
+  const [street, setStreet] = useState(sessionStorage.getItem("street") || "")
+  const [postal, setPostal] = useState(sessionStorage.getItem("postal") || "")
+  const [city, setCity] = useState(sessionStorage.getItem("city") || "")
   
   const [checkedGdpr, setCheckedGdpr] = useState(false)
+
+  useEffect(() => {
+    if (uncheckGdpr) {
+      setCheckedGdpr(false)
+      setUncheckGdpr(false)
+    }
+  }, [uncheckGdpr])
 
   const handleSignUp = () => {
     const fullName = firstName.trim() + " " + lastName.trim();
@@ -78,9 +82,12 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
     else if (postal && postal.length > 0) return "invalid-input";
   };
 
+  const handleSessionStorage = (customKey, value) => {
+    return sessionStorage.setItem(customKey, value)
+  }
+
   return (
-    <SlideDown className={"my-dropdown-slidedown"}>
-      <Container className="py-4">
+      <Container className="pb-4">
         <br />
         <Row className="justify-content-md-center">
           <Col md={6} className="text-center mt-1">
@@ -100,6 +107,8 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
                       e.target.value.substring(1)
                 )
               }
+              onBlur={() => handleSessionStorage('firstName', firstName)}
+              readOnly={typeof userInformation === 'object'}
             />
           </Col>
           <Col md={6} className="text-center mt-1">
@@ -119,6 +128,8 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
                   e.target.value.substring(1)
                 )
               }
+              onBlur={() => handleSessionStorage('lastName', lastName)}
+              readOnly={typeof userInformation === 'object'}
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
@@ -130,6 +141,8 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onBlur={() => handleSessionStorage('email', email)}
+              readOnly={typeof userInformation === 'object'}
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
@@ -143,6 +156,8 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
               onChange={(e) => setPhone(e.target.value &&
                 (e.target.value).substring(0,16)
                 )}
+                onBlur={() => handleSessionStorage('phone', phone)}
+                readOnly={typeof userInformation === 'object'}
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
@@ -158,6 +173,8 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
                 e.target.value[0].toUpperCase() +
                 e.target.value.substring(1)
               )}
+              onBlur={() => handleSessionStorage('street', street)}
+              readOnly={typeof userInformation === 'object'}
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
@@ -169,6 +186,8 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
               name="postal"
               value={postal}
               onChange={(e) => setPostal(e.target.value && (e.target.value).substring(0,5))}
+              onBlur={() => handleSessionStorage('postal', postal)}
+              readOnly={typeof userInformation === 'object'}
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
@@ -184,12 +203,14 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
                 e.target.value[0].toUpperCase() +
                 e.target.value.substring(1)
               )}
+              onBlur={() => handleSessionStorage('city', city)}
+              readOnly={typeof userInformation === 'object'}
             />
           </Col>
         </Row>
         <Row className="justify-content-center mt-2">
           <Col md={10}>
-            <em style={{float: 'left', color: (!checkedGdpr && firstName && lastName && email && phone && street && postal && city) ? 'orangered' : ''}}>
+            <em style={{float: 'left', color: (!checkedGdpr && firstName && lastName && email && phone && street && postal && city) ? '#7b1818' : ''}}>
               <input 
                   style={{
                       cursor: 'pointer',
@@ -218,6 +239,5 @@ export default ({setUserInformation, checkedNewsletter, setCheckedNewsletter}) =
             </Col>
         </Row>
       </Container>
-    </SlideDown>
   );
 };

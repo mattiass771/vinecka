@@ -22,31 +22,35 @@ export default ({shoppingCart = false}) => {
 
   return (
     shoppingCart ?
-      <Col md={{span: 6, offset: 3}} className="text-center mt-1 pb-2">
-        <h2>Prihláste sa!</h2>
-        <form action={shoppingCart ? 'https://mas-vino.herokuapp.com/login?shopping=cart' : 'https://mas-vino.herokuapp.com/login'} method="post">
-          <input
-            className="form-control text-center"
-            type="text"
-            placeholder="e-mail"
-            name="username"
-          />
-          <br />
-          <input
-            className="form-control text-center"
-            type="password"
-            placeholder="heslo"
-            name="password"
-          />
-          <br />
-          <input
-            className="btn btn-dark"
-            id="sub"
-            type="submit"
-            value="Prihlásiť!"
-          ></input>
-        </form>
-    </Col>
+    <Container>
+      <Row>
+        <Col md={{span: 6, offset: 3}} className="text-center mt-1 pb-2">
+          <h2>Prihláste sa!</h2>
+          <form action={shoppingCart ? 'https://mas-vino.herokuapp.com/login?shopping=cart' : 'https://mas-vino.herokuapp.com/login'} method="post">
+            <input
+              className="form-control text-center"
+              type="text"
+              placeholder="e-mail"
+              name="username"
+            />
+            <br />
+            <input
+              className="form-control text-center"
+              type="password"
+              placeholder="heslo"
+              name="password"
+            />
+            <br />
+            <input
+              className="btn btn-dark"
+              id="sub"
+              type="submit"
+              value="Prihlásiť!"
+            ></input>
+          </form>
+        </Col>
+      </Row>
+    </Container>
     :
     <div className="whitesmoke-bg-pnine">
       <Container className="py-4">
