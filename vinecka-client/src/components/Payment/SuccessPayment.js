@@ -44,11 +44,18 @@ export default ({userId}) => {
                     </Col>
                 </Row>
                 <Row>
+                    {result.toString() !== '666' ?
                     <Col style={{fontSize: "150%"}}>
                         Platba za objednávku číslo {orderId} bola spracovaná. 
                         {userId && <><br />Podrobnejšie detaily nájdete v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednávky</strong></Link>.</>}
                         <br/>Číslo platby {paymentId || 'nenájdené'}.
+                    </Col> :
+                    <Col style={{fontSize: "150%"}}>
+                        Zävazná objednávka číslo {orderId} bola spracovaná. 
+                        {userId && <><br />Podrobnejšie detaily nájdete v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednávky</strong></Link>.</>}
+                        <br/>Platba bude realizovaná pri prebratí zásielky.
                     </Col>
+                    }
                 </Row>
             </Container>
         </div>

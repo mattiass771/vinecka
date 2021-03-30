@@ -7,6 +7,9 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
+import { Checkbox } from 'pretty-checkbox-react';
+import '@djthoms/pretty-checkbox';
+
 // Login.js
 export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppingCart = false, newUser, setNewUser, setUserInformation, userInformation}) => {
   const [passwordFirst, setPasswordFirst] = useState("");
@@ -183,6 +186,7 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
               }
               onBlur={() => handleSessionStorage('firstName', firstName)}
               readOnly={typeof userInformation === 'object'}
+              placeholder="povinné"
             />
           </Col>
           <Col md={6} className="text-center mt-1">
@@ -203,6 +207,7 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
               }
               onBlur={() => handleSessionStorage('lastName', lastName)}
               readOnly={typeof userInformation === 'object'}
+              placeholder="povinné"
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
@@ -215,6 +220,7 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
               onChange={(e) => setEmail(e.target.value)}
               onBlur={() => handleSessionStorage('email', email)}
               readOnly={typeof userInformation === 'object'}
+              placeholder="povinné"
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
@@ -229,6 +235,7 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
                 )}
                 onBlur={() => handleSessionStorage('phone', phone)}
               readOnly={typeof userInformation === 'object'}
+              placeholder="povinné"
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
@@ -245,6 +252,7 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
               )}
               onBlur={() => handleSessionStorage('street', street)}
               readOnly={typeof userInformation === 'object'}
+              placeholder="povinné"
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
@@ -257,6 +265,7 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
               onChange={(e) => setPostal(e.target.value && (e.target.value).substring(0,5))}
               onBlur={() => handleSessionStorage('postal', postal)}
               readOnly={typeof userInformation === 'object'}
+              placeholder="povinné"
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
@@ -273,6 +282,7 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
               )}
               onBlur={() => handleSessionStorage('city', city)}
               readOnly={typeof userInformation === 'object'}
+              placeholder="povinné"
             />
           </Col>
           <Col md={6} className="text-center mt-1">
@@ -288,6 +298,7 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
               value={passwordFirst}
               onChange={(e) => setPasswordFirst(e.target.value)}
               readOnly={typeof userInformation === 'object'}
+              placeholder="povinné"
             />
           </Col>
           <Col md={6} className="text-center mt-1">
@@ -299,17 +310,20 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
               value={passwordSecond}
               onChange={(e) => setPasswordSecond(e.target.value)}
               readOnly={typeof userInformation === 'object'}
+              placeholder="povinné"
             />
           </Col>
         </Row>
                 <Row className="justify-content-center mt-2">
                     <Col md={10}>
                     <em style={{float: 'left', color: (!checkedGdpr && firstName && lastName && email && phone && street && postal && city) ? '#7b1818' : ''}}>
-                        <input 
+                        <Checkbox 
                             style={{
                                 cursor: 'pointer',
                             }}
-                            type='checkbox'
+                            color="warning"
+                            shape="curve"
+                            animation="jelly"
                             name='checkedGdpr'
                             checked={checkedGdpr}
                             onChange={() => setCheckedGdpr(!checkedGdpr)}
@@ -320,11 +334,13 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
                 <Row className="justify-content-center mt-2">
                     <Col md={10}>
                     <em style={{float: 'left'}}>
-                        <input 
+                        <Checkbox 
                             style={{
                                 cursor: 'pointer',
                             }}
-                            type='checkbox'
+                            color="warning"
+                            shape="curve"
+                            animation="jelly"   
                             name='checkedNewsletter'
                             checked={checkedNewsletter}
                             onChange={() => setCheckedNewsletter(!checkedNewsletter)}

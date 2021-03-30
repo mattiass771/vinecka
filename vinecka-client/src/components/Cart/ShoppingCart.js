@@ -1,13 +1,16 @@
 import React, { useEffect, useState, useRef } from "react"
+import {Link, useHistory} from 'react-router-dom'
 import axios from 'axios'
 import { nanoid } from 'nanoid'
+import buildXmlBody from './buildXml'
 
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import Button from 'react-bootstrap/Button'
-import Spinner from "react-bootstrap/Spinner";
+import Spinner from "react-bootstrap/Spinner"
+import Alert from "react-bootstrap/Alert"
 
 import PlaceOrder from './PlaceOrder'
 import SignUp from '../Login/SignUp'
@@ -38,7 +41,9 @@ const paymentOptions = {
 }
 
 export default ({userId, updateCart, setUpdateCart}) => {
+    let history = useHistory()
     const { OSOBNY, ROZVOZ, ROZVOZ_FIRST, ROZVOZ_SECOND, ZASIELKOVNA, ZASIELKOVNA_PRICE, KURIER, KURIER_PRICE } = deliveryOptions
+    const { DOBIERKA, PREVOD, INTERNET_BANKING, KARTA } = paymentOptions
     const lastRef = useRef(null)
     const [shops, setShops] = useState('')
     const [refresh, setRefresh] = useState(false)
@@ -59,6 +64,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const [uncheckGdpr, setUncheckGdpr] = useState(false)
     const [regSuccess, setRegSuccess] = useState(false)
     const [paymentCheck, setPaymentCheck] = useState(sessionStorage.getItem('paymentCheck') || '')
+    const [showErrorMessage, setShowErrorMessage] = useState(false)
 
     const [selectedPickupPoint, setSelectedPickupPoint] = useState('')
 
@@ -169,11 +175,11 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     }
                 })
                 .catch(err => err && console.log(err))
-                .then(() => setTimeout(() => setLoading(false), 2000))
+                .then(() => setTimeout(() => setLoading(false), 250))
         } else {
             const localShoppingCart = localStorage.getItem('shoppingCart')
             localShoppingCart && sortItems(JSON.parse(localShoppingCart))
-            setTimeout(() => setLoading(false), 2000)
+            setTimeout(() => setLoading(false), 250)
            
         }
     }, [refresh])
@@ -303,19 +309,41 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 break;
             default: break;
         }
-        setPassOrderInfo({ orderId, userInformation, userId, shops, total, status, deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck })
-        setPaymentPopup(true)
-        axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, status, deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck  })
+        setPassOrderInfo({ orderId, userInformation, userId, shops, result, status, deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck })
+        let orderError = false;
+        axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, result, status, deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck  })
             .then(res => {
+                console.log('order created!')
                 setNewUser(true)
-                sessionStorage.clear()
+                if ([ZASIELKOVNA, KURIER].includes(deliveryCheck)) {
+                    const {id, carrierPickupPoint} = selectedPickupPoint
+                    const zasielkaXml = buildXmlBody({orderId, userInformation, kurierom: KURIER, deliveryCheck, result, addressId: id, carrierPickupPoint, total, paymentCheck, dobierka: DOBIERKA })
+                    axios.post(`https://www.zasilkovna.cz/api/rest`, zasielkaXml)
+                        .then(res => console.log(res.data))
+                        .catch(err => console.log(err))
+                }
                 if (checkedNewsletter) {
                     axios.post(`https://mas-vino.herokuapp.com/mails/add`, {name: userInformation.fullName, email: userInformation.email})
                         .then(res => console.log(res))
                         .catch(err => err && console.log(err))
+                }   
+            })
+            .catch(err => orderError = true)
+            .then(() => {
+                if (!orderError) {
+                    sessionStorage.clear()
+                    if ([INTERNET_BANKING, KARTA].includes(paymentCheck)) {
+                        setPaymentPopup(true)
+                    } else if (paymentCheck === PREVOD) {
+                        history.push(`/platba-prevodom?Reference=${orderId}&ResultCode=69`)
+                    } else if (paymentCheck === DOBIERKA) {
+                        console.log('halo')
+                        history.push(`/success-payment?Reference=${orderId}&ResultCode=666`)
+                    }
+                } else {
+                    setShowErrorMessage(true)
                 }
             })
-            .catch(err => err && console.log(err))
     }
 
     const handleRegistration = () => {
@@ -380,6 +408,15 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     style={{ marginLeft: "49%", marginTop: "250px"}}
                     animation="border"
                 />}
+            {showErrorMessage &&
+            <Alert className="text-center fixed-bottom" variant="danger" onClose={() => setShowErrorMessage(false)} dismissible>
+                <Alert.Heading>Nepodarilo sa odoslat objednávku.</Alert.Heading>
+                <p>
+                    Skontrolujte, či máte internetové pripojenie, alebo správne vyplnené údaje (políčka by indikovali chybu červenou farbou). 
+                    Ak je všetko v poriadku, problém bude zrejme na našej strane (výpadok databázy) - ospravedlňujeme sa.<br />
+                    Objednávku je možné dokončiť aj telefonicky, alebo mailom pod sekciou <Link to="/kontakt">Kontakt</Link>.
+                </p>
+            </Alert>}
             <SlideDown className={"my-dropdown-slidedown"}>
                 <Container style={{paddingTop: "50px", paddingBottom: "50px"}}>
                     { passOrderInfo && paymentPopup &&
@@ -421,7 +458,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     <Row className="text-center">
                         {login && <Login shoppingCart={true} />}
                         {registration && <SignUp setRegSuccess={setRegSuccess} regSuccess={regSuccess} uncheckGdpr={uncheckGdpr} setUncheckGdpr={setUncheckGdpr} newUser={newUser} setNewUser={setNewUser} userInformation={userInformation} shoppingCart={true} handleLogin={handleLogin} setUserInformation={setUserInformation} />}
-                        {registration && regSuccess && <h3 style={{color: 'green'}}>Registracia prebehla uspesne.</h3> }
+                        {registration && regSuccess && <Col><h3 style={{color: 'green'}}>Registracia prebehla uspesne.</h3></Col> }
                         {shipmentOnly && <PlaceOrder uncheckGdpr={uncheckGdpr} setUncheckGdpr={setUncheckGdpr} checkedNewsletter={checkedNewsletter} setCheckedNewsletter={setCheckedNewsletter} setUserInformation={setUserInformation} userInformation={userInformation} />}
                     </Row>
                     }

@@ -4,8 +4,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 
-import { SlideDown } from "react-slidedown";
-import "react-slidedown/lib/slidedown.css";
+import { Checkbox } from 'pretty-checkbox-react';
+import '@djthoms/pretty-checkbox';
 
 const Packeta = window.Packeta || {};
 const packetaApiKey = '810de6318fde2d34';
@@ -29,7 +29,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
 
     const packetaOptions = {
         country: 'sk',
-        language: 'sk'
+        language: 'sk',
     }
 
     return (
@@ -59,19 +59,18 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     onTouchEnd={() => setDeliveryHover('')}
                     onClick={() => setDeliveryCheck(deliveryCheck === OSOBNY ? '' : OSOBNY)}
                 >
-                
-                    <input 
+                    <Checkbox 
                         style={{
                             cursor: 'pointer',
-                            backgroundColor: deliveryCheck === OSOBNY ? 'red' : 'black'
                         }}
-                        type='checkbox'
+                        color="warning"
+                        shape="curve"
+                        animation="jelly"
                         name='osobnyDeliveryCheck'
                         checked={deliveryCheck === OSOBNY}
                         onChange={() => setDeliveryCheck(deliveryCheck === OSOBNY ? '' : OSOBNY)}
                     />&nbsp;
                     Osobný odber v Pezinku:
-                    
                 </Col>
                 <Col 
                     style={{
@@ -113,19 +112,18 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     onTouchEnd={() => setDeliveryHover('')}
                     onClick={() => setDeliveryCheck(deliveryCheck === ROZVOZ ? '' : ROZVOZ)}
                 >
-                    
-                    <input 
+                    <Checkbox 
                         style={{
                             cursor: 'pointer',
-                            backgroundColor: deliveryCheck === ROZVOZ ? 'red' : 'black'
                         }}
-                        type='checkbox'
+                        color="warning"
+                        shape="curve"
+                        animation="jelly"
                         name='dovozDeliveryCheck'
                         checked={deliveryCheck === ROZVOZ}
                         onChange={() => setDeliveryCheck(deliveryCheck === ROZVOZ ? '' : ROZVOZ)}
                     />&nbsp;
                     Náš rozvoz:
-                    
                 </Col>
                 <Col 
                     style={{
@@ -165,20 +163,19 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     onTouchStart={() => setDeliveryHover(ZASIELKOVNA)}
                     onTouchEnd={() => setDeliveryHover('')}
                     onClick={() => setDeliveryCheck(deliveryCheck === ZASIELKOVNA ? '' : ZASIELKOVNA)}
-                >
-                    
-                    <input 
+                > 
+                    <Checkbox 
                         style={{
                             cursor: 'pointer',
-                            backgroundColor: deliveryCheck === ZASIELKOVNA ? 'red' : 'black'
                         }}
-                        type='checkbox'
+                        color="warning"
+                        shape="curve"
+                        animation="jelly"
                         name='dovozDeliveryCheck'
                         checked={deliveryCheck === ZASIELKOVNA}
                         onChange={() => setDeliveryCheck(deliveryCheck === ZASIELKOVNA ? '' : ZASIELKOVNA)}
                     />&nbsp;
                     Zásielkovňa:
-                    
                 </Col>
                 <Col 
                     style={{
@@ -199,15 +196,13 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     Fliaš: <strong>{boxCount}</strong>, Krabíc: <strong>{Math.ceil(boxCount/6)}</strong>.
                 </Col>
             </Row>
-            {/* <SlideDown className={"my-dropdown-slidedown"}> */}
-                {deliveryCheck === ZASIELKOVNA &&
-                    <Row className="justify-content-center text-center">
-                        <Col>
-                            <Button variant="dark" onClick={() => Packeta.Widget.pick(packetaApiKey, showSelectedPickupPoint, packetaOptions)}>Vyberte miesto vyzdvihnutia</Button>
-                            <input type="hidden" id="packeta-point-id" />
-                        </Col>
-                    </Row>}
-            {/* </SlideDown> */}
+            {deliveryCheck === ZASIELKOVNA &&
+                <Row className="justify-content-center text-center">
+                    <Col>
+                        <Button variant="dark" onClick={() => Packeta.Widget.pick(packetaApiKey, showSelectedPickupPoint, packetaOptions)}>Vyberte miesto vyzdvihnutia</Button>
+                        <input type="hidden" id="packeta-point-id" />
+                    </Col>
+                </Row>}
             <Row 
                 style={{ 
                     color: deliveryCheck === KURIER ? 'whitesmoke' : '',
@@ -228,19 +223,18 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     onTouchEnd={() => setDeliveryHover('')}
                     onClick={() => setDeliveryCheck(deliveryCheck === KURIER ? '' : KURIER)}
                 >
-                    
-                    <input 
+                    <Checkbox 
                         style={{
                             cursor: 'pointer',
-                            backgroundColor: deliveryCheck === KURIER ? 'red' : 'black'
                         }}
-                        type='checkbox'
+                        color="warning"
+                        shape="curve"
+                        animation="jelly"
                         name='dovozDeliveryCheck'
                         checked={deliveryCheck === KURIER}
                         onChange={() => setDeliveryCheck(deliveryCheck === KURIER ? '' : KURIER)}
                     />&nbsp;
                     Kuriér:
-                    
                 </Col>
                 <Col 
                     style={{

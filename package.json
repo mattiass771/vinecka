@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@djthoms/pretty-checkbox": "^3.1.0",
     "aws-sdk": "^2.842.0",
     "body-parser": "^1.19.0",
     "bootstrap": "4.5.3",
@@ -35,13 +36,15 @@
     "nanoid": "^3.1.20",
     "passport": "0.4.1",
     "passport-local": "1.0.0",
+    "pretty-checkbox-react": "^3.1.0",
     "react-bootstrap": "1.4.0",
     "react-datepicker": "^3.4.1",
     "react-dropzone-uploader": "2.11.0",
     "react-helmet": "6.1.0",
     "react-icons": "^4.2.0",
     "react-slidedown": "2.4.5",
-    "shortid": "^2.2.16"
+    "shortid": "^2.2.16",
+    "xmlbuilder2": "^2.4.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

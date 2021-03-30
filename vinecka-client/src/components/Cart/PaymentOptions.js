@@ -3,13 +3,16 @@ import React, {useState} from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-import vublogo from './vub.png'
-import postovka from './postova-banka-logo.png'
-import slsp from './slsp12.png'
-import csob from './CSOB_logo.png'
-import tatra from './tatra_banka_blue.png'
+import vublogo from './icons/vub.png'
+import postovka from './icons/postova-banka-logo.png'
+import slsp from './icons/slsp12.png'
+import csob from './icons/CSOB_logo.png'
+import tatra from './icons/tatra_banka_blue.png'
 
 import {RiMastercardFill, RiVisaFill} from 'react-icons/ri'
+
+import { Checkbox } from 'pretty-checkbox-react';
+import '@djthoms/pretty-checkbox';
 
 export default ({setPaymentCheck, paymentCheck, options}) => {
     const [paymentHover, setPaymentHover] = useState('')
@@ -42,19 +45,18 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                     onTouchEnd={() => setPaymentHover('')}
                     onClick={() => setPaymentCheck(paymentCheck === KARTA ? '' : KARTA)}
                 >
-                
-                    <input 
+                    <Checkbox 
                         style={{
                             cursor: 'pointer',
-                            backgroundColor: paymentCheck === KARTA ? 'red' : 'black'
                         }}
-                        type='checkbox'
+                        color="warning"
+                        shape="curve"
+                        animation="jelly"
                         name='osobnyPaymentCheck'
                         checked={paymentCheck === KARTA}
                         onChange={() => setPaymentCheck(paymentCheck === KARTA ? '' : KARTA)}
                     />&nbsp;
                     Platobná karta
-                    
                 </Col>
                 <Col 
                     style={{
@@ -94,19 +96,18 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                     onTouchEnd={() => setPaymentHover('')}
                     onClick={() => setPaymentCheck(paymentCheck === INTERNET_BANKING ? '' : INTERNET_BANKING)}
                 >
-                
-                    <input 
+                    <Checkbox 
                         style={{
                             cursor: 'pointer',
-                            backgroundColor: paymentCheck === INTERNET_BANKING ? 'red' : 'black'
                         }}
-                        type='checkbox'
+                        color="warning"
+                        shape="curve"
+                        animation="jelly"
                         name='osobnyPaymentCheck'
                         checked={paymentCheck === INTERNET_BANKING}
                         onChange={() => setPaymentCheck(paymentCheck === INTERNET_BANKING ? '' : INTERNET_BANKING)}
                     />&nbsp;
                     Internet Banking
-                    
                 </Col>
                 <Col 
                     style={{
@@ -150,19 +151,18 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                     onTouchEnd={() => setPaymentHover('')}
                     onClick={() => setPaymentCheck(paymentCheck === PREVOD ? '' : PREVOD)}
                 >
-                
-                    <input 
+                    <Checkbox 
                         style={{
                             cursor: 'pointer',
-                            backgroundColor: paymentCheck === PREVOD ? 'red' : 'black'
                         }}
-                        type='checkbox'
+                        color="warning"
+                        shape="curve"
+                        animation="jelly"   
                         name='osobnyPaymentCheck'
                         checked={paymentCheck === PREVOD}
                         onChange={() => setPaymentCheck(paymentCheck === PREVOD ? '' : PREVOD)}
                     />&nbsp;
                     Bankový prevod
-                    
                 </Col>
                 <Col 
                     style={{
@@ -202,13 +202,13 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                     onTouchEnd={() => setPaymentHover('')}
                     onClick={() => setPaymentCheck(paymentCheck === DOBIERKA ? '' : DOBIERKA)}
                 >
-                
-                    <input 
+                    <Checkbox 
                         style={{
                             cursor: 'pointer',
-                            backgroundColor: paymentCheck === DOBIERKA ? 'red' : 'black'
                         }}
-                        type='checkbox'
+                        color="warning"
+                        shape="curve"
+                        animation="jelly"
                         name='osobnyPaymentCheck'
                         checked={paymentCheck === DOBIERKA}
                         onChange={() => setPaymentCheck(paymentCheck === DOBIERKA ? '' : DOBIERKA)}

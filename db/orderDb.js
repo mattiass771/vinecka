@@ -10,6 +10,7 @@ const orderSchema = new Schema({
     userInformation: { type: Object, required: true },
     shops: {type: Array, required: true},
     total: {type: Number, required: true},
+    result: {type: Number, required: true},
     status: {type: String, required: true, default: 'vytvorena'},
     createdAt: { type: Date, required: true, default: moment().toISOString() },
     paidAt: {type: Date},
@@ -85,7 +86,10 @@ router.route("/:orderId/process-payment/").post((req, res) => {
   Order.findOne({orderId: orderId}, (err, orderFound) => {
     if (err) return console.log(err.data);
     if (orderFound) {
-      orderFound.status = ['4', '3', '0'].includes(paymentResultCode.toString()) ? 'zaplatena' : ['1', '2', '5'].includes(paymentResultCode.toString()) ? 'ocakavana' : 'odmietnuta';
+      orderFound.status = ['4', '3', '0'].includes(paymentResultCode.toString()) ? 'zaplatena' : 
+        ['1', '2', '5'].includes(paymentResultCode.toString()) ? 'ocakavana' : 
+        ['69'].includes(paymentResultCode.toString()) ? 'prevodom' : 
+        ['666'].includes(paymentResultCode.toString()) ? 'dobierka' : 'odmietnuta';
       orderFound.paymentResultCode = paymentResultCode
       orderFound.paymentId = paymentId
       orderFound.expireAt = null;

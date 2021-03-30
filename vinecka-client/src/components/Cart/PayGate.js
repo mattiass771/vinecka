@@ -11,7 +11,7 @@ import "react-slidedown/lib/slidedown.css";
 
 export default ({paymentPopup, setPaymentPopup, orderInfo, paymentCheck, options}) => {
     const {KARTA, INTERNET_BANKING} = options
-    const {total, orderId, userInformation } = orderInfo
+    const {result, orderId, userInformation } = orderInfo
     const {address, fullName, email} = userInformation
     const splitAddress = address.split(',')
     const [isCardPayment, setIsCardPayment] = useState('')
@@ -39,7 +39,7 @@ export default ({paymentPopup, setPaymentPopup, orderInfo, paymentCheck, options
     const constructOrder = () => {
         const baseUrl = "https://amapi.trustpay.eu/mapi5/wire/paypopup";
         const accountId = creds.accountId;
-        const amount = total.toFixed(2);
+        const amount = result.toFixed(2);
         const currency = "EUR";
         const reference = orderId;
         const paymentType = 0;
@@ -55,7 +55,7 @@ export default ({paymentPopup, setPaymentPopup, orderInfo, paymentCheck, options
     const constructCardOrder = () => {
         const baseUrl = "https://amapi.trustpay.eu/mapi5/Card/PayPopup";
         const accountId = creds.accountId;
-        const amount = total.toFixed(2);
+        const amount = result.toFixed(2);
         const currency = "EUR";
         const reference = orderId;
         const paymentType = 0;
@@ -73,7 +73,6 @@ export default ({paymentPopup, setPaymentPopup, orderInfo, paymentCheck, options
         const url = `${baseUrl}?AccountId=${accountId}&Amount=${amount}&Currency=${currency}&Reference=${reference}&PaymentType=${paymentType}&Signature=${signature}&BillingCity=${billingCity.replace(/ /g, '%20')}&BillingCountry=${billingCountry}&BillingPostcode=${billingPostCode.replace(/ /g, '%20')}&BillingStreet=${billingStreet.replace(/ /g, '%20')}&CardHolder=${cardHolder.replace(/ /g, '%20')}&Email=${payerEmail}`
         return url;
     }
-
     return (
         <Modal show={paymentPopup} onHide={() => setPaymentPopup(true)}>
             {isCardPayment === KARTA && 

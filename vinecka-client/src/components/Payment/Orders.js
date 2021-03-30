@@ -139,15 +139,15 @@ export default ({email, isOwner}) => {
     const ShowOrders = () => {
         const filteredData = setFilter(ordersData)
         return filteredData.map(order => {
-            const { _id, orderId, userInformation, createdAt, status, shops, isShipped, total, userId: buyerId, deliveryType, paymentType, deliveryPrice } = order
-            const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'red' : status === 'ocakavana' ? 'yellow' : 'black';
+            const { _id, orderId, userInformation, result, createdAt, status, shops, isShipped, total, userId: buyerId, deliveryType, paymentType, deliveryPrice } = order
+            const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'orangered' : status === 'ocakavana' ? '#D4A121' : status === 'prevodom' ? '#6B3030' : status === 'dobierka' ? '#2B371B' : 'black';
             return (
                 <tbody key={orderId}>
                     <tr onClick={() => handleExpanded(_id)}>
                         <td>{orderId}</td>
                         <td>{moment(createdAt).format("DD MMM YYYY, HH:mm")}</td>
-                        <td>{total.toFixed(2).toString().replace(/\./g,',')} €</td>
-                        <td>{deliveryType}{deliveryPrice && ` - ${Number(deliveryPrice).toFixed(2).toString().replace(/\./g, ',')} €`}</td>
+                        <td>{result && result.toFixed(2).toString().replace(/\./g,',')} €</td>
+                        <td>{deliveryType === 'osobny' ? 'osobny odber' : deliveryType}{deliveryPrice ? ` - ${Number(deliveryPrice).toFixed(2).toString().replace(/\./g, ',')} €` : ''}</td>
                         <td>{paymentType}</td>
                         <td style={{color: statusColor}}>{(shippedObj[_id] ?? isShipped) ? <em style={{color: 'blue', float:'left'}}>odoslana</em> : status}
                             {status === 'zaplatena' && isOwner &&

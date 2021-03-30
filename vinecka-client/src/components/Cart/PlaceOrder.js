@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {Link} from 'react-router-dom'
+import { Checkbox } from 'pretty-checkbox-react';
+import '@djthoms/pretty-checkbox';
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -211,11 +213,13 @@ export default ({ uncheckGdpr, setUncheckGdpr ,setUserInformation, userInformati
         <Row className="justify-content-center mt-2">
           <Col md={10}>
             <em style={{float: 'left', color: (!checkedGdpr && firstName && lastName && email && phone && street && postal && city) ? '#7b1818' : ''}}>
-              <input 
+              <Checkbox 
                   style={{
                       cursor: 'pointer',
                   }}
-                  type='checkbox'
+                  color="warning"
+                  shape="curve"
+                  animation="jelly"
                   name='checkedGdpr'
                   checked={checkedGdpr}
                   onChange={() => setCheckedGdpr(!checkedGdpr)}
@@ -226,11 +230,13 @@ export default ({ uncheckGdpr, setUncheckGdpr ,setUserInformation, userInformati
         <Row className="justify-content-center mt-2">
             <Col md={10}>
             <em style={{float: 'left'}}>
-                <input 
+                <Checkbox 
                     style={{
                         cursor: 'pointer',
                     }}
-                    type='checkbox'
+                    color="warning"
+                    shape="curve"
+                    animation="jelly"
                     name='checkedNewsletter'
                     checked={checkedNewsletter}
                     onChange={() => setCheckedNewsletter(!checkedNewsletter)}
