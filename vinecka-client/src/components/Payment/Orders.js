@@ -140,7 +140,6 @@ export default ({email, isOwner}) => {
         const filteredData = setFilter(ordersData)
         return filteredData.map(order => {
             const { _id, orderId, userInformation, createdAt, status, shops, isShipped, total, userId: buyerId, deliveryType } = order
-            console.log(order)
             const { email } = userInformation
             const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'red' : status === 'ocakavana' ? 'yellow' : 'black';
             return (
@@ -171,7 +170,7 @@ export default ({email, isOwner}) => {
                     </tr>
                     {expandedObj[_id] &&
                     <tr style={{backgroundColor: status === 'odmietnuta' ? '#ffecec' : 'rgb(250, 250, 250)' }}>
-                        <td colSpan="5">
+                        <td colSpan="6">
                             <ShowBuyerDetails passUserInformation={userInformation} buyerId={buyerId} />
                             <ShowOrderDetails passShops={shops} />
                         </td>    

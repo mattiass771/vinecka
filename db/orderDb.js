@@ -16,7 +16,9 @@ const orderSchema = new Schema({
     isShipped: {type: Boolean, required: true, default: false},
     expireAt: { type: Date, default: Date.now, index: { expires: 900 }},
     paymentId: {type: String},
-    paymentResultCode: {type: String}
+    paymentResultCode: {type: String},
+    deliveryPrice: { type: Number },
+    deliveryType: {type: String}
   });
   
 const Order = mongoose.model("Order", orderSchema);
