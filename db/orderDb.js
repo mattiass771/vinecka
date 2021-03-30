@@ -18,7 +18,8 @@ const orderSchema = new Schema({
     paymentId: {type: String},
     paymentResultCode: {type: String},
     deliveryPrice: { type: Number },
-    deliveryType: {type: String}
+    deliveryType: {type: String},
+    paymentType: {type: String},
   });
   
 const Order = mongoose.model("Order", orderSchema);
@@ -101,7 +102,7 @@ router.route("/:orderId/process-payment/").post((req, res) => {
 //
 
 router.route("/add").post((req, res) => {
-  const { orderId, userId, userInformation, shops, total, status, deliveryPrice, deliveryType } = req.body;
+  const { orderId, userId, userInformation, shops, total, status, deliveryPrice, deliveryType, paymentType } = req.body;
 
   if (typeof userInformation === 'object') {
     const addOrder = new Order({
@@ -112,7 +113,8 @@ router.route("/add").post((req, res) => {
       total,
       status,
       deliveryPrice,
-      deliveryType
+      deliveryType,
+      paymentType
     });
     addOrder
       .save()

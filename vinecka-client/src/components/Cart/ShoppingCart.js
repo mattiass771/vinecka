@@ -14,11 +14,12 @@ import SignUp from '../Login/SignUp'
 import Login from '../Login/Login'
 import PayGate from './PayGate'
 import DeliveryOptions from './DeliveryOptions'
+import PaymentOptions from './PaymentOptions'
 
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
-const options = {
+const deliveryOptions = {
     OSOBNY: 'osobny',
     ROZVOZ: 'rozvoz',
     ROZVOZ_FIRST: 1.90,
@@ -26,11 +27,18 @@ const options = {
     ZASIELKOVNA: 'zasielkovna',
     ZASIELKOVNA_PRICE: 4.90,
     KURIER: 'kurier',
-    KURIER_PRICE: 6.90
+    KURIER_PRICE: 6.90,
+}
+
+const paymentOptions = {
+    KARTA: 'karta', 
+    INTERNET_BANKING: 'internet-banking', 
+    PREVOD: 'prevod', 
+    DOBIERKA: 'dobierka'
 }
 
 export default ({userId, updateCart, setUpdateCart}) => {
-    const { OSOBNY, ROZVOZ, ROZVOZ_FIRST, ROZVOZ_SECOND, ZASIELKOVNA, ZASIELKOVNA_PRICE, KURIER, KURIER_PRICE } = options
+    const { OSOBNY, ROZVOZ, ROZVOZ_FIRST, ROZVOZ_SECOND, ZASIELKOVNA, ZASIELKOVNA_PRICE, KURIER, KURIER_PRICE } = deliveryOptions
     const lastRef = useRef(null)
     const [shops, setShops] = useState('')
     const [refresh, setRefresh] = useState(false)
@@ -50,6 +58,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const [newUser, setNewUser] = useState(false)
     const [uncheckGdpr, setUncheckGdpr] = useState(false)
     const [regSuccess, setRegSuccess] = useState(false)
+    const [paymentCheck, setPaymentCheck] = useState(sessionStorage.getItem('paymentCheck') || '')
 
     const [selectedPickupPoint, setSelectedPickupPoint] = useState('')
 
@@ -77,6 +86,10 @@ export default ({userId, updateCart, setUpdateCart}) => {
     useEffect(() => {
         sessionStorage.setItem('deliveryCheck', deliveryCheck)
     }, [deliveryCheck])
+
+    useEffect(() => {
+        sessionStorage.setItem('paymentCheck', paymentCheck)
+    }, [paymentCheck])
  
     const sortItems = (cartItems) => {
         let sortShop = []
@@ -290,9 +303,9 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 break;
             default: break;
         }
-        setPassOrderInfo({ orderId, userInformation, userId, shops, total, status, deliveryPrice, deliveryType: deliveryCheck })
+        setPassOrderInfo({ orderId, userInformation, userId, shops, total, status, deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck })
         setPaymentPopup(true)
-        axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, status, deliveryPrice, deliveryType: deliveryCheck  })
+        axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, status, deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck  })
             .then(res => {
                 setNewUser(true)
                 sessionStorage.clear()
@@ -370,7 +383,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
             <SlideDown className={"my-dropdown-slidedown"}>
                 <Container style={{paddingTop: "50px", paddingBottom: "50px"}}>
                     { passOrderInfo && paymentPopup &&
-                        <PayGate orderInfo={passOrderInfo} setPaymentPopup={setPaymentPopup} paymentPopup={paymentPopup} />
+                        <PayGate orderInfo={passOrderInfo} setPaymentPopup={setPaymentPopup} paymentPopup={paymentPopup} paymentCheck={paymentCheck} options={paymentOptions} />
                     }
                     {!loading && shops &&
                     <Row className="text-center pt-4">
@@ -425,7 +438,12 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         </Col>
                     </Row>}
                     <SlideDown className={"my-dropdown-slidedown"}>
-                        {shops && userInformation && <DeliveryOptions isDeliveryFree={isDeliveryFree} localDeliveryPrice={localDeliveryPrice} boxCount={boxCount} options={options} deliveryCheck={deliveryCheck} setSelectedPickupPoint={setSelectedPickupPoint} setDeliveryCheck={setDeliveryCheck} />}
+                        {shops && userInformation && 
+                            <DeliveryOptions isDeliveryFree={isDeliveryFree} localDeliveryPrice={localDeliveryPrice} boxCount={boxCount} options={deliveryOptions} deliveryCheck={deliveryCheck} setSelectedPickupPoint={setSelectedPickupPoint} setDeliveryCheck={setDeliveryCheck} />}
+                    </SlideDown>
+                    <SlideDown className={"my-dropdown-slidedown"}>
+                        {shops && userInformation && ((deliveryCheck && deliveryCheck !== ZASIELKOVNA) || selectedPickupPoint) && 
+                            <PaymentOptions options={paymentOptions} paymentCheck={paymentCheck} setPaymentCheck={setPaymentCheck} />}
                     </SlideDown>
                     {!loading && 
                     <Row className="text-center pt-4">
@@ -436,7 +454,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     {!loading && 
                     <Row ref={lastRef} className="text-center">
                         <Col>
-                            {deliveryCheck && userInformation && shops.length > 0 ?
+                            {((deliveryCheck && deliveryCheck !== ZASIELKOVNA) || selectedPickupPoint) && paymentCheck && userInformation && shops.length > 0 ?
                                 <Button onClick={() => createNewOrder()} variant="dark">Prejsť k platbe{registration ? ' a registrovať sa' : ''}</Button>
                             :
                             <>  

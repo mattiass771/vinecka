@@ -102,14 +102,14 @@ export default ({email, isOwner}) => {
     }
 
     const ShowBuyerDetails = ({passUserInformation, buyerId}) => {
-        const { fullName, phone, address, deliveryPrice } = passUserInformation
+        const { fullName, phone, address, email } = passUserInformation
         return (
             <div className="text-center" key={buyerId}>
                 <Row>
-                    <Col md={{span: 2, offset: 1}}><strong>{fullName}</strong></Col>
+                    <Col md={2}><strong>{fullName}</strong></Col>
                     <Col md={2}><strong>{phone}</strong></Col>
+                    <Col md={3}><strong>{email}</strong></Col>
                     <Col md={3}><strong>{address}</strong></Col>
-                    <Col md={{span: 3}}><strong>Doručenie: {deliveryPrice}</strong></Col>
                 </Row>
                 <hr />
             </div>
@@ -139,17 +139,16 @@ export default ({email, isOwner}) => {
     const ShowOrders = () => {
         const filteredData = setFilter(ordersData)
         return filteredData.map(order => {
-            const { _id, orderId, userInformation, createdAt, status, shops, isShipped, total, userId: buyerId, deliveryType } = order
-            const { email } = userInformation
+            const { _id, orderId, userInformation, createdAt, status, shops, isShipped, total, userId: buyerId, deliveryType, paymentType, deliveryPrice } = order
             const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'red' : status === 'ocakavana' ? 'yellow' : 'black';
             return (
                 <tbody key={orderId}>
                     <tr onClick={() => handleExpanded(_id)}>
                         <td>{orderId}</td>
-                        <td>{email}</td>
                         <td>{moment(createdAt).format("DD MMM YYYY, HH:mm")}</td>
                         <td>{total.toFixed(2).toString().replace(/\./g,',')} €</td>
-                        <td>{deliveryType}</td>
+                        <td>{deliveryType}{deliveryPrice && ` - ${Number(deliveryPrice).toFixed(2).toString().replace(/\./g, ',')} €`}</td>
+                        <td>{paymentType}</td>
                         <td style={{color: statusColor}}>{(shippedObj[_id] ?? isShipped) ? <em style={{color: 'blue', float:'left'}}>odoslana</em> : status}
                             {status === 'zaplatena' && isOwner &&
                             <input 
@@ -197,10 +196,10 @@ export default ({email, isOwner}) => {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Email</th>
                     <th>Datum</th>
                     <th>Total</th>
                     <th>Doručenie</th>
+                    <th>Platobná metóda</th>
                     <th>Stav</th>
                 </tr>
             </thead>

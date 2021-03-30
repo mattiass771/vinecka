@@ -59,7 +59,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     onTouchEnd={() => setDeliveryHover('')}
                     onClick={() => setDeliveryCheck(deliveryCheck === OSOBNY ? '' : OSOBNY)}
                 >
-                <em>
+                
                     <input 
                         style={{
                             cursor: 'pointer',
@@ -71,7 +71,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                         onChange={() => setDeliveryCheck(deliveryCheck === OSOBNY ? '' : OSOBNY)}
                     />&nbsp;
                     Osobný odber v Pezinku:
-                    </em>
+                    
                 </Col>
                 <Col 
                     style={{
@@ -113,7 +113,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     onTouchEnd={() => setDeliveryHover('')}
                     onClick={() => setDeliveryCheck(deliveryCheck === ROZVOZ ? '' : ROZVOZ)}
                 >
-                    <em>
+                    
                     <input 
                         style={{
                             cursor: 'pointer',
@@ -125,7 +125,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                         onChange={() => setDeliveryCheck(deliveryCheck === ROZVOZ ? '' : ROZVOZ)}
                     />&nbsp;
                     Náš rozvoz:
-                    </em>
+                    
                 </Col>
                 <Col 
                     style={{
@@ -166,7 +166,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     onTouchEnd={() => setDeliveryHover('')}
                     onClick={() => setDeliveryCheck(deliveryCheck === ZASIELKOVNA ? '' : ZASIELKOVNA)}
                 >
-                    <em>
+                    
                     <input 
                         style={{
                             cursor: 'pointer',
@@ -178,7 +178,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                         onChange={() => setDeliveryCheck(deliveryCheck === ZASIELKOVNA ? '' : ZASIELKOVNA)}
                     />&nbsp;
                     Zásielkovňa:
-                    </em>
+                    
                 </Col>
                 <Col 
                     style={{
@@ -199,7 +199,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     Fliaš: <strong>{boxCount}</strong>, Krabíc: <strong>{Math.ceil(boxCount/6)}</strong>.
                 </Col>
             </Row>
-            <SlideDown className={"my-dropdown-slidedown"}>
+            {/* <SlideDown className={"my-dropdown-slidedown"}> */}
                 {deliveryCheck === ZASIELKOVNA &&
                     <Row className="justify-content-center text-center">
                         <Col>
@@ -207,12 +207,12 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                             <input type="hidden" id="packeta-point-id" />
                         </Col>
                     </Row>}
-            </SlideDown>
+            {/* </SlideDown> */}
             <Row 
                 style={{ 
-                    color: deliveryCheck === KURIER ? 'whitesmoke' : ''
+                    color: deliveryCheck === KURIER ? 'whitesmoke' : '',
                     }} 
-                className="my-2"
+                className="mb-2"
             >
                 <Col 
                     style={{
@@ -228,7 +228,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     onTouchEnd={() => setDeliveryHover('')}
                     onClick={() => setDeliveryCheck(deliveryCheck === KURIER ? '' : KURIER)}
                 >
-                    <em>
+                    
                     <input 
                         style={{
                             cursor: 'pointer',
@@ -240,7 +240,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                         onChange={() => setDeliveryCheck(deliveryCheck === KURIER ? '' : KURIER)}
                     />&nbsp;
                     Kuriér:
-                    </em>
+                    
                 </Col>
                 <Col 
                     style={{
@@ -260,6 +260,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     <strong>{isDeliveryFree ? 'zadarmo' : '6,90 €'}</strong>
                 </Col>
             </Row>
+            <Row className="pt-4" style={{borderBottom: '2px solid #c1c1c1'}} />
         </React.Fragment>
     )
 }
