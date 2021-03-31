@@ -6,6 +6,7 @@ import Table from 'react-bootstrap/Table'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
+import Form from 'react-bootstrap/Form'
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -15,7 +16,7 @@ import DeleteModal from "./DeleteModal";
 
 export default ({email, isOwner}) => {
     const [ordersData, setOrdersData] = useState([])
-    const [shippedObj, setShippedObj] = useState({})
+    const [statusObj, setStatusObj] = useState({})
     const [refresh, setRefresh] = useState(false)
     const [expandedObj, setExpandedObj] = useState({})
 
@@ -36,23 +37,36 @@ export default ({email, isOwner}) => {
             .catch(err => err && console.log(err.data))
     }, [showDeleteModal])
 
-    const handleShipping = (e, _id) => {
+    const handleStatus = (e, _id) => {
         e.stopPropagation()
-        const newVal = e.target.checked
+        const newVal = e.target.value
         let newObj = {}
         let expandObj = {}
 
         newObj[_id] = newVal
-        setShippedObj({...shippedObj, ...newObj})
+        setStatusObj({...statusObj, ...newObj})
 
-        const oldValue = expandedObj[_id] ?? false
+        const oldValue = typeof expandedObj[_id] === 'string' ?? false
+        console.log(oldValue)
         expandObj[_id] = oldValue
         setExpandedObj({...expandedObj, ...expandObj})
 
-        axios.put(`https://mas-vino.herokuapp.com/orders/${_id}/update-shipped/`, {isShipped: newVal})
-            .then(res => console.log(res.data))
-            .catch(err => err && console.log(err))
-            .then(() => setRefresh(!refresh))
+        console.log(newVal)
+
+        if (newVal === 'odoslana') {
+            const isShipped = newVal === 'odoslana'
+            console.log(newVal, isShipped)
+            axios.put(`https://mas-vino.herokuapp.com/orders/${_id}/update-shipped/`, {isShipped})
+                .then(res => console.log(res.data))
+                .catch(err => err && console.log(err))
+                .then(() => setRefresh(!refresh))
+        } else {
+            console.log(newVal)
+            axios.put(`https://mas-vino.herokuapp.com/orders/${_id}/update-status/`, {status: newVal})
+                .then(res => console.log(res.data))
+                .catch(err => err && console.log(err))
+                .then(() => setRefresh(!refresh))
+        }
     }
 
     const handleExpanded = (_id) => {
@@ -149,19 +163,21 @@ export default ({email, isOwner}) => {
                         <td>{result && result.toFixed(2).toString().replace(/\./g,',')} €</td>
                         <td>{deliveryType === 'osobny' ? 'osobny odber' : deliveryType}{deliveryPrice ? ` - ${Number(deliveryPrice).toFixed(2).toString().replace(/\./g, ',')} €` : ''}</td>
                         <td>{paymentType}</td>
-                        <td style={{color: statusColor}}>{(shippedObj[_id] ?? isShipped) ? <em style={{color: 'blue', float:'left'}}>odoslana</em> : status}
-                            {status === 'zaplatena' && isOwner &&
-                            <input 
-                                style={{
-                                    float: 'right', 
-                                    cursor: 'pointer',
-                                    paddingBottom: '-50px'
-                                }}
-                                type='checkbox'
-                                name='checkShipping'
-                                checked={shippedObj[_id] ?? isShipped}
-                                onChange={(e) => handleShipping(e, _id)}
-                            />}
+                        <td style={{color: statusColor}}>
+                            <Form.Control
+                                style={{width: '80%', float: 'left'}}
+                                as="select"
+                                value={statusObj[_id] || status}
+                                onChange={(e) => handleStatus(e, _id)}
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <option>zaplatena</option>
+                                <option>odmietnuta</option>
+                                <option>ocakavana</option>
+                                <option>prevodom</option>
+                                <option>dobierka</option>
+                                <option>odoslana</option>
+                            </Form.Control>
                             {isOwner &&
                                 <BsTrashFill style={{float: "right", cursor: 'pointer', marginRight: '6px', color: "#333333"}} onClick={(e) => handleDeleteModal(e, _id)} />
                             }

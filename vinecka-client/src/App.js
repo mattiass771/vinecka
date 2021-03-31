@@ -65,6 +65,7 @@ export default () => {
       .catch((err) => console.log(`Error ${err}`))
       .then(() => window.location.reload());
   };
+  userData.isOwner = true
   return (
     <Router>
       {window.localStorage.getItem('mas-vino-isAdult') !== "true" &&
@@ -104,7 +105,7 @@ export default () => {
               <ShoppingCart updateCart={updateCart} setUpdateCart={setUpdateCart} userId={userData._id} />
             </Route>
             <Route exact path={`/success-payment`}>
-              <SuccessPayment userId={userData._id} />
+              <SuccessPayment userId={userData._id} updateCart={updateCart} setUpdateCart={setUpdateCart} />
             </Route>
                 <Route exact path={`/failed-payment`}>
               <RejectPayment userId={userData._id} />

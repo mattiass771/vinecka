@@ -331,7 +331,6 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     } else if (paymentCheck === PREVOD) {
                         history.push(`/success-payment?Reference=${orderId}&ResultCode=69`)
                     } else if (paymentCheck === DOBIERKA) {
-                        console.log('halo')
                         history.push(`/success-payment?Reference=${orderId}&ResultCode=666`)
                     }
                 } else {

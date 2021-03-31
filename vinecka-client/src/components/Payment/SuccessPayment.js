@@ -18,7 +18,7 @@ const useQuery = () => {
     return new URLSearchParams(useLocation().search);
 }
 
-export default ({userId}) => {
+export default ({userId, updateCart, setUpdateCart}) => {
     let query = useQuery();
     const orderId = query.get('Reference')
     const result = query.get('ResultCode')
@@ -41,12 +41,12 @@ export default ({userId}) => {
                             .catch(error => error && console.log(error))
                     }
                     localStorage.removeItem('shoppingCart')
+                    setUpdateCart(!updateCart)
                 })            
         }
     }, [])
 
     useEffect(() => {
-        console.log(orderInfo)
         if (orderInfo) {
             const {deliveryType, userInformation, result, packageAddresId, packageCarrierPickupPoint, total, paymentType } = orderInfo
             const zasielkaXml = buildXmlBody({orderId, userInformation, kurierom: KURIER, deliveryCheck: deliveryType, result, addressId: packageAddresId, carrierPickupPoint: packageCarrierPickupPoint, total, paymentCheck: paymentType, dobierka: DOBIERKA })
@@ -67,24 +67,28 @@ export default ({userId}) => {
                     </Col>
                 </Row>
                 <Row>
-                    {result.toString() !== '666' ?
-                    <Col style={{fontSize: "150%"}}>
-                        Platba za objednávku číslo {orderId} bola spracovaná. 
-                        {userId && <><br />Podrobnejšie detaily nájdete v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednávky</strong></Link>.</>}
-                        <br/>Číslo platby {paymentId || 'nenájdené'}.
-                    </Col> 
-                    : result.toString() !== '69' ?
-                    <Col style={{fontSize: "150%"}}>
-                        Zävazná objednávka číslo {orderId} bola spracovaná. 
-                        {userId && <><br />Podrobnejšie detaily nájdete v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednávky</strong></Link>.</>}
-                        <br/>Uhraďte ju prosím čo najskôr použitím údajov nižšie.
-                    </Col> 
-                    :
+                    {result.toString() === '666' ?
                     <Col style={{fontSize: "150%"}}>
                         Zävazná objednávka číslo {orderId} bola spracovaná. 
                         {userId && <><br />Podrobnejšie detaily nájdete v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednávky</strong></Link>.</>}
                         <br/>Platba bude realizovaná pri prebratí zásielky.
                     </Col>
+                    : result.toString() === '69' ?
+                    <Col style={{fontSize: "150%"}}>
+                        Zävazná objednávka číslo {orderId} bola spracovaná. 
+                        {userId && <><br />Podrobnejšie detaily nájdete v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednávky</strong></Link>.</>}
+                        <br/>Uhraďte ju prosím čo najskôr použitím údajov nižšie.
+                        <p>IBAN - SK21 1111 0000 0016 0902 7005</p>
+                        <p>BIC - UNCRSKBX</p>
+                        <p>VARIABILNY SYMBOL - {orderId}</p>
+                        <p>SUMA - {orderInfo && orderInfo.result} €</p>
+                    </Col> 
+                    :
+                    <Col style={{fontSize: "150%"}}>
+                        Platba za objednávku číslo {orderId} bola spracovaná. 
+                        {userId && <><br />Podrobnejšie detaily nájdete v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednávky</strong></Link>.</>}
+                        <br/>Číslo platby {paymentId || 'nenájdené'}.
+                    </Col> 
                     }
                 </Row>
             </Container>

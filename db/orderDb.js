@@ -10,7 +10,7 @@ const orderSchema = new Schema({
     userInformation: { type: Object, required: true },
     shops: {type: Array, required: true},
     total: {type: Number, required: true},
-    result: {type: Number, required: true},
+    result: {type: Number},
     status: {type: String, required: true, default: 'vytvorena'},
     createdAt: { type: Date, required: true, default: moment().toISOString() },
     paidAt: {type: Date},
