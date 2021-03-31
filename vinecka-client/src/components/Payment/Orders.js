@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
+import InputGroup from "react-bootstrap/InputGroup"
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -22,6 +23,7 @@ export default ({email, isOwner}) => {
 
     const [maxDate, setMaxDate] = useState(new Date())
     const [minDate, setMinDate] = useState(new Date('2021-01-01'))
+    const [filterByStatus, setFilterByStatus] = useState('vsetky')
 
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [passDeleteId, setPassDeleteId] = useState('')
@@ -47,11 +49,8 @@ export default ({email, isOwner}) => {
         setStatusObj({...statusObj, ...newObj})
 
         const oldValue = typeof expandedObj[_id] === 'string' ?? false
-        console.log(oldValue)
         expandObj[_id] = oldValue
         setExpandedObj({...expandedObj, ...expandObj})
-
-        console.log(newVal)
 
         if (newVal === 'odoslana') {
             const isShipped = newVal === 'odoslana'
@@ -131,8 +130,13 @@ export default ({email, isOwner}) => {
     }
 
     const setFilter = (orders) => {
+        const isStatusFilter = (typeof filterByStatus === 'string' && filterByStatus !== 'vsetky')
         const newOrdersData = orders.filter(data => {
-            if ((moment(data.createdAt).toISOString() <= moment(maxDate).toISOString()) && (moment(data.createdAt).toISOString() >= moment(minDate).toISOString())) {
+            if (
+                (moment(data.createdAt).toISOString() <= moment(maxDate).toISOString()) && 
+                (moment(data.createdAt).toISOString() >= moment(minDate).toISOString()) &&
+                ((isStatusFilter && data.status === filterByStatus) || !isStatusFilter)
+            ) {
                 return data
             }
         })
@@ -153,7 +157,7 @@ export default ({email, isOwner}) => {
     const ShowOrders = () => {
         const filteredData = setFilter(ordersData)
         return filteredData.map(order => {
-            const { _id, orderId, userInformation, result, createdAt, status, shops, isShipped, total, userId: buyerId, deliveryType, paymentType, deliveryPrice } = order
+            const { _id, orderId, userInformation, result, createdAt, status, shops, userId: buyerId, deliveryType, paymentType, deliveryPrice } = order
             const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'orangered' : status === 'ocakavana' ? '#D4A121' : status === 'prevodom' ? '#6B3030' : status === 'dobierka' ? '#2B371B' : 'black';
             return (
                 <tbody key={orderId}>
@@ -164,6 +168,7 @@ export default ({email, isOwner}) => {
                         <td>{deliveryType === 'osobny' ? 'osobny odber' : deliveryType}{deliveryPrice ? ` - ${Number(deliveryPrice).toFixed(2).toString().replace(/\./g, ',')} €` : ''}</td>
                         <td>{paymentType}</td>
                         <td style={{color: statusColor}}>
+                            {isOwner ?
                             <Form.Control
                                 style={{width: '80%', float: 'left'}}
                                 as="select"
@@ -177,7 +182,7 @@ export default ({email, isOwner}) => {
                                 <option>prevodom</option>
                                 <option>dobierka</option>
                                 <option>odoslana</option>
-                            </Form.Control>
+                            </Form.Control> : status}
                             {isOwner &&
                                 <BsTrashFill style={{float: "right", cursor: 'pointer', marginRight: '6px', color: "#333333"}} onClick={(e) => handleDeleteModal(e, _id)} />
                             }
@@ -200,12 +205,36 @@ export default ({email, isOwner}) => {
         {isOwner && showDeleteModal &&
             <DeleteModal deleteId={passDeleteId} setShowDeleteModal={setShowDeleteModal} showDeleteModal={showDeleteModal} />
         }
-        <Row className="justify-content-center mt-4">
-            <Col className="form-group text-right">
-                <strong>Od: </strong><DatePicker className="text-center" dateFormat="dd.MM.yyyy" maxDate={new Date()} selected={minDate} onChange={date => setMinDate(date)} />
+        <Row className="justify-content-center text-center mt-4 mx-2">
+            <Col md={3} className="text-center">
+                <InputGroup>
+                    <strong>Od: </strong>&nbsp;&nbsp;
+                    <DatePicker className="text-center" dateFormat="dd.MM.yyyy" maxDate={new Date()} selected={minDate} onChange={date => setMinDate(date)} />
+                </InputGroup>    
             </Col>
-            <Col className="form-group text-left">
-                <strong>Do: </strong><DatePicker className="text-center" dateFormat="dd.MM.yyyy" maxDate={new Date()} selected={maxDate} onChange={date => setMaxDate(date)} />
+            <Col md={3} className="text-center">
+                <InputGroup>
+                    <strong>Do: </strong>&nbsp;&nbsp;
+                    <DatePicker className="text-center" dateFormat="dd.MM.yyyy" maxDate={new Date()} selected={maxDate} onChange={date => setMaxDate(date)} />
+                </InputGroup>
+            </Col>
+            <Col md={3} className="text-center">
+                <InputGroup>
+                    <strong style={{marginTop: '5px'}}>Stav:</strong>&nbsp;&nbsp;
+                    <Form.Control
+                        as="select"
+                        value={filterByStatus}
+                        onChange={(e) => setFilterByStatus(e.target.value)}
+                    >
+                        <option>vsetky</option>
+                        <option>zaplatena</option>
+                        <option>odmietnuta</option>
+                        <option>ocakavana</option>
+                        <option>prevodom</option>
+                        <option>dobierka</option>
+                        <option>odoslana</option>
+                    </Form.Control>
+                </InputGroup>
             </Col>
         </Row>
         <Table style={{backgroundColor: "whitesmoke"}} striped bordered hover>
