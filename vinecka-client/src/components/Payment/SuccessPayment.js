@@ -24,7 +24,6 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const result = query.get('ResultCode')
     const paymentId = query.get('PaymentRequestId')
     const [orderInfo, setOrderInfo] = useState('')
-
     useEffect(() => {
         if (orderId && orderId.length !== 0) {
             axios.post(`https://mas-vino.herokuapp.com/orders/${orderId}/process-payment/`, {paymentResultCode: result, paymentId})
@@ -48,13 +47,29 @@ export default ({userId, updateCart, setUpdateCart}) => {
 
     useEffect(() => {
         if (orderInfo) {
-            const {deliveryType, userInformation, result, packageAddresId, packageCarrierPickupPoint, total, paymentType } = orderInfo
+            const {deliveryType, userInformation, result, packageAddresId, packageCarrierPickupPoint, total, paymentType, itemData } = orderInfo
             const zasielkaXml = buildXmlBody({orderId, userInformation, kurierom: KURIER, deliveryCheck: deliveryType, result, addressId: packageAddresId, carrierPickupPoint: packageCarrierPickupPoint, total, paymentCheck: paymentType, dobierka: DOBIERKA })
             if ([ZASIELKOVNA, KURIER].includes(deliveryType)) {
                 axios.post(`https://www.zasilkovna.cz/api/rest`, zasielkaXml)
                     .then(res => console.log(res.data))
                     .catch(err => console.log(err))
             }
+            // [WIP] : email order info - pass more zasielkovna info and create template
+            //
+            // const items = itemData.map(item => {
+            //     const {itemName, price} = item
+            //     return {itemName, price}
+            // })
+            // const emailData = {
+            //     result, paymentType, deliveryType, userInformation, total, items
+            // }
+    
+            // emailjs.sendForm('service_vjc9vdo', 'template_o2r5vl8', emailData, 'user_Pp2MD3ZQeVhPpppItiah8')
+            // .then((result) => {
+            //     console.log('success mailed', result)
+            // }, (error) => {
+            //     console.log('error mail', error)
+            // });
         }
     }, [orderInfo])
     
