@@ -121,7 +121,7 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
                 </div>}
                 <FiShoppingCart />
             </Nav.Link>
-          {isLoggedIn ? (
+          {!isLoggedIn ? (
             <>
               <Nav.Link as={Link} href="/objednavky" to="/objednavky" className="navihover  pt-3 pb-3 mr-1 ml-1">
                   Objednávky

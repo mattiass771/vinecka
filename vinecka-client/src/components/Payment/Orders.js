@@ -37,7 +37,7 @@ export default ({email, isOwner}) => {
                 setOrdersData(validatedOrdersData)
             })
             .catch(err => err && console.log(err.data))
-    }, [showDeleteModal])
+    }, [showDeleteModal, filterByStatus])
 
     const handleStatus = (e, _id) => {
         e.stopPropagation()
@@ -52,20 +52,10 @@ export default ({email, isOwner}) => {
         expandObj[_id] = oldValue
         setExpandedObj({...expandedObj, ...expandObj})
 
-        if (newVal === 'odoslana') {
-            const isShipped = newVal === 'odoslana'
-            console.log(newVal, isShipped)
-            axios.put(`https://mas-vino.herokuapp.com/orders/${_id}/update-shipped/`, {isShipped})
-                .then(res => console.log(res.data))
-                .catch(err => err && console.log(err))
-                .then(() => setRefresh(!refresh))
-        } else {
-            console.log(newVal)
-            axios.put(`https://mas-vino.herokuapp.com/orders/${_id}/update-status/`, {status: newVal})
-                .then(res => console.log(res.data))
-                .catch(err => err && console.log(err))
-                .then(() => setRefresh(!refresh))
-        }
+        axios.put(`https://mas-vino.herokuapp.com/orders/${_id}/update-status/`, {status: newVal})
+            .then(res => console.log(res.data))
+            .catch(err => err && console.log(err))
+            .then(() => setRefresh(!refresh))
     }
 
     const handleExpanded = (_id) => {
@@ -158,7 +148,7 @@ export default ({email, isOwner}) => {
         const filteredData = setFilter(ordersData)
         return filteredData.map(order => {
             const { _id, orderId, userInformation, result, createdAt, status, shops, userId: buyerId, deliveryType, paymentType, deliveryPrice } = order
-            const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'orangered' : status === 'ocakavana' ? '#D4A121' : status === 'prevodom' ? '#6B3030' : status === 'dobierka' ? '#2B371B' : 'black';
+            const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'orangered' : status === 'ocakavana' ? '#D4A121' : status === 'prevodom' ? '#6B3030' : status === 'dobierka' ? '#2B371B' : status === 'odoslana' ? 'navy' : 'black';
             return (
                 <tbody key={orderId}>
                     <tr onClick={() => handleExpanded(_id)}>
@@ -170,7 +160,9 @@ export default ({email, isOwner}) => {
                         <td style={{color: statusColor}}>
                             {isOwner ?
                             <Form.Control
-                                style={{width: '80%', float: 'left'}}
+                                style={{width: '80%', float: 'left', 
+                                    backgroundColor: statusObj[_id] === 'vytvorena' ? 'orange' : statusObj[_id] === 'zaplatena' ? 'green' : statusObj[_id] === 'odmietnuta' ? 'orangered' : statusObj[_id] === 'ocakavana' ? '#D4A121' : statusObj[_id] === 'prevodom' ? '#6B3030' : statusObj[_id] === 'dobierka' ? '#2B371B' : statusObj[_id] === 'odoslana' ? 'navy' : statusColor, 
+                                    color: "whitesmoke"}}
                                 as="select"
                                 value={statusObj[_id] || status}
                                 onChange={(e) => handleStatus(e, _id)}
@@ -182,7 +174,7 @@ export default ({email, isOwner}) => {
                                 <option>prevodom</option>
                                 <option>dobierka</option>
                                 <option>odoslana</option>
-                            </Form.Control> : status}
+                            </Form.Control> : <strong style={{color: statusColor}}>{status}</strong>}
                             {isOwner &&
                                 <BsTrashFill style={{float: "right", cursor: 'pointer', marginRight: '6px', color: "#333333"}} onClick={(e) => handleDeleteModal(e, _id)} />
                             }
