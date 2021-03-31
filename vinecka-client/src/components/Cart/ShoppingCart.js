@@ -328,7 +328,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         .catch(err => err && console.log(err))
                 }   
             })
-            .catch(err => console.log(orderError))
+            .catch(err => orderError = true)
             .then(() => {
                 if (!orderError) {
                     sessionStorage.clear()

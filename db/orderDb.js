@@ -31,6 +31,12 @@ router.route("/").get((req, res) => {
       .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
+router.route("/get-by-custom-id/:customOrderId").get((req, res) => {
+  Order.findOne(req.params.orderId)
+    .then((order) => res.json(order)
+    .catch((err) => res.status(400).json(`Error: ${err}`));
+});
+
 router.route("/get-payment-credentials").get((req, res) => {
   const secret = process.env.TRUSTPAY_SECRET
   const accountId = process.env.TRUSTPAY_PID
