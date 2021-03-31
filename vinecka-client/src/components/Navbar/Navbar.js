@@ -3,11 +3,14 @@ import { Link, useHistory } from "react-router-dom";
 
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 import logo from "./logo5.png"
 
-import {FiShoppingCart} from "react-icons/fi"
-import {FaShoppingCart} from "react-icons/fa"
+import { FiShoppingCart } from "react-icons/fi"
+import { FaShoppingCart, FaFacebookSquare, FaInstagram } from "react-icons/fa"
+import { MdMailOutline } from "react-icons/md";
 
 // Navbar.js
 export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = localStorage.getItem('shoppingCart'), updateCart }) => {
@@ -57,6 +60,13 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
     pointerEvents: 'none'
   }
 
+  const iconStyles = {
+    position: 'fixed',
+    transition: 'top 0.6s',
+    zIndex: '+3',
+    backgroundColor: 'rgba(0,0,0,0.0)'
+  }
+
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
     if ((limit - currentScrollPos) < 1750 && currentScrollPos > 250) setVisible(false)
@@ -73,7 +83,7 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
 
   return (
     <>
-      <div className="text-center w-100" style={{...logoStyles, top: visible ? '0' : '-169px'}}>
+      <div className="text-center w-100" style={{...logoStyles, top: visible ? '20px' : '-169px'}}>
         <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: 'whitesmoke', marginBottom: '-31px'}} />
         <img
           alt=""
@@ -85,7 +95,7 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
         />
         <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: 'whitesmoke', marginBottom: '-31px'}} />
     </div>
-    <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-169px', paddingTop: '100px'}} variant="dark" expand="md">
+    <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-169px', paddingTop: '120px'}} variant="dark" expand="md">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="row justify-content-center text-center">
         <Nav className="my-4 my-md-0">
@@ -138,6 +148,16 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
         </Nav>
       </Navbar.Collapse>
     </Navbar>
+    <div style={{...iconStyles, top: visible ? '0' : '-169px'}} >
+      &nbsp;&nbsp;
+      <a rel="noopener noreferrer" target="_blank" href="https://facebook.com" style={{textDecoration: 'none', color: 'whitesmoke'}}>
+        <FaFacebookSquare style={{fontSize: '195%'}} />
+      </a>&nbsp;&nbsp;&nbsp;
+      <a rel="noopener noreferrer" target="_blank" href="https://instagram.com/masvino.sk" style={{textDecoration: 'none', color: 'whitesmoke'}}>
+        <FaInstagram style={{fontSize: '195%'}} />
+      </a>&nbsp;&nbsp;&nbsp;
+      <Link to="/kontakt"><MdMailOutline style={{fontSize: '225%', color: 'whitesmoke'}} /></Link>
+    </div>
     {shoppingCartLength > 0 && 
       <div 
         onClick={() => history.push(`/kosik`)} 

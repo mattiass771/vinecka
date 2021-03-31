@@ -47,11 +47,10 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
             >
                 <Col 
                     md={{span: 4, offset: 2}}
+                    className="pay-deli-left-options"
                     style={{
                         backgroundColor: deliveryCheck === OSOBNY ? '#2b371b' : deliveryHover === OSOBNY ? '#c6c6c6' : '', 
                         cursor: 'pointer',
-                        borderTopLeftRadius: '5px', 
-                        borderBottomLeftRadius: '5px'
                     }} 
                     onMouseEnter={() => setDeliveryHover(OSOBNY)}
                     onMouseLeave={() => setDeliveryHover('')}
@@ -76,10 +75,8 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     style={{
                         backgroundColor: deliveryCheck === OSOBNY ? '#2b371b' : deliveryHover === OSOBNY ? '#c6c6c6' : '', 
                         cursor: 'pointer',
-                        borderTopRightRadius: '5px', 
-                        borderBottomRightRadius: '5px'
                     }}  
-                    className="text-right" 
+                    className="text-right pay-deli-right-options" 
                     md={{span: 4}}
                     onMouseEnter={() => setDeliveryHover(OSOBNY)}
                     onMouseLeave={() => setDeliveryHover('')}
@@ -102,9 +99,8 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     style={{
                         backgroundColor: deliveryCheck === ROZVOZ ? '#2b371b' : deliveryHover === ROZVOZ ? '#c6c6c6' : '', 
                         cursor: 'pointer',
-                        borderTopLeftRadius: '5px', 
-                        borderBottomLeftRadius: '5px'
                     }} 
+                    className="pay-deli-left-options"
                     md={{span: 3, offset: 2}}
                     onMouseEnter={() => setDeliveryHover(ROZVOZ)}
                     onMouseLeave={() => setDeliveryHover('')}
@@ -129,10 +125,8 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     style={{
                         backgroundColor: deliveryCheck === ROZVOZ ? '#2b371b' : deliveryHover === ROZVOZ ? '#c6c6c6' : '', 
                         cursor: 'pointer',
-                        borderTopRightRadius: '5px', 
-                        borderBottomRightRadius: '5px'
                     }} 
-                    className="text-right" 
+                    className="pay-deli-right-options text-right"
                     md={{span: 5}}
                     onMouseEnter={() => setDeliveryHover(ROZVOZ)}
                     onMouseLeave={() => setDeliveryHover('')}
@@ -154,9 +148,8 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     style={{
                         backgroundColor: deliveryCheck === ZASIELKOVNA ? '#2b371b' : deliveryHover === ZASIELKOVNA ? '#c6c6c6' : '', 
                         cursor: 'pointer',
-                        borderTopLeftRadius: '5px', 
-                        borderBottomLeftRadius: '5px'
                     }} 
+                    className="pay-deli-left-options"
                     md={{span: 3, offset: 2}}
                     onMouseEnter={() => setDeliveryHover(ZASIELKOVNA)}
                     onMouseLeave={() => setDeliveryHover('')}
@@ -181,10 +174,8 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     style={{
                         backgroundColor: deliveryCheck === ZASIELKOVNA ? '#2b371b' : deliveryHover === ZASIELKOVNA ? '#c6c6c6' : '', 
                         cursor: 'pointer',
-                        borderTopRightRadius: '5px', 
-                        borderBottomRightRadius: '5px'
                     }} 
-                    className="text-right" 
+                    className="pay-deli-right-options text-right"
                     md={{span: 5}}
                     onMouseEnter={() => setDeliveryHover(ZASIELKOVNA)}
                     onMouseLeave={() => setDeliveryHover('')}
@@ -213,9 +204,8 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     style={{
                         backgroundColor: deliveryCheck === KURIER ? '#2b371b' : deliveryHover === KURIER ? '#c6c6c6' : '', 
                         cursor: 'pointer',
-                        borderTopLeftRadius: '5px', 
-                        borderBottomLeftRadius: '5px'
                     }} 
+                    className="pay-deli-left-options"
                     md={{span: 3, offset: 2}}
                     onMouseEnter={() => setDeliveryHover(KURIER)}
                     onMouseLeave={() => setDeliveryHover('')}
@@ -243,7 +233,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                         borderTopRightRadius: '5px', 
                         borderBottomRightRadius: '5px'
                     }} 
-                    className="text-right" 
+                    className="pay-deli-right-options text-right"
                     md={{span: 5}}
                     onMouseEnter={() => setDeliveryHover(KURIER)}
                     onMouseLeave={() => setDeliveryHover('')}

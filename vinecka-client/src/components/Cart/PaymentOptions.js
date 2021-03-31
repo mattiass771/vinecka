@@ -36,9 +36,8 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                     style={{
                         backgroundColor: paymentCheck === KARTA ? '#2b371b' : paymentHover === KARTA ? '#c6c6c6' : '', 
                         cursor: 'pointer',
-                        borderTopLeftRadius: '5px', 
-                        borderBottomLeftRadius: '5px'
                     }} 
+                    className="pay-deli-left-options"
                     onMouseEnter={() => setPaymentHover(KARTA)}
                     onMouseLeave={() => setPaymentHover('')}
                     onTouchStart={() => setPaymentHover(KARTA)}
@@ -62,10 +61,8 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                     style={{
                         backgroundColor: paymentCheck === KARTA ? '#2b371b' : paymentHover === KARTA ? '#c6c6c6' : '', 
                         cursor: 'pointer',
-                        borderTopRightRadius: '5px', 
-                        borderBottomRightRadius: '5px'
                     }}  
-                    className="text-right" 
+                    className="pay-deli-right-options text-right"
                     md={{span: 4}}
                     onMouseEnter={() => setPaymentHover(KARTA)}
                     onMouseLeave={() => setPaymentHover('')}
@@ -87,9 +84,8 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                     style={{
                         backgroundColor: paymentCheck === INTERNET_BANKING ? '#2b371b' : paymentHover === INTERNET_BANKING ? '#c6c6c6' : '', 
                         cursor: 'pointer',
-                        borderTopLeftRadius: '5px', 
-                        borderBottomLeftRadius: '5px'
                     }} 
+                    className="pay-deli-left-options"
                     onMouseEnter={() => setPaymentHover(INTERNET_BANKING)}
                     onMouseLeave={() => setPaymentHover('')}
                     onTouchStart={() => setPaymentHover(INTERNET_BANKING)}
@@ -113,10 +109,8 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                     style={{
                         backgroundColor: paymentCheck === INTERNET_BANKING ? '#2b371b' : paymentHover === INTERNET_BANKING ? '#c6c6c6' : '', 
                         cursor: 'pointer',
-                        borderTopRightRadius: '5px', 
-                        borderBottomRightRadius: '5px'
                     }}  
-                    className="text-right" 
+                    className="pay-deli-right-options text-right"
                     md={{span: 5}}
                     onMouseEnter={() => setPaymentHover(INTERNET_BANKING)}
                     onMouseLeave={() => setPaymentHover('')}
@@ -142,9 +136,8 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                     style={{
                         backgroundColor: paymentCheck === PREVOD ? '#2b371b' : paymentHover === PREVOD ? '#c6c6c6' : '', 
                         cursor: 'pointer',
-                        borderTopLeftRadius: '5px', 
-                        borderBottomLeftRadius: '5px'
                     }} 
+                    className="pay-deli-left-options"
                     onMouseEnter={() => setPaymentHover(PREVOD)}
                     onMouseLeave={() => setPaymentHover('')}
                     onTouchStart={() => setPaymentHover(PREVOD)}
@@ -168,10 +161,8 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                     style={{
                         backgroundColor: paymentCheck === PREVOD ? '#2b371b' : paymentHover === PREVOD ? '#c6c6c6' : '', 
                         cursor: 'pointer',
-                        borderTopRightRadius: '5px', 
-                        borderBottomRightRadius: '5px'
                     }}  
-                    className="text-right" 
+                    className="pay-deli-right-options text-right"
                     md={{span: 5}}
                     onMouseEnter={() => setPaymentHover(PREVOD)}
                     onMouseLeave={() => setPaymentHover('')}
@@ -223,7 +214,7 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                         borderTopRightRadius: '5px', 
                         borderBottomRightRadius: '5px'
                     }}  
-                    className="text-right" 
+                    className="pay-deli-right-options text-right"
                     md={{span: 5}}
                     onMouseEnter={() => setPaymentHover(DOBIERKA)}
                     onMouseLeave={() => setPaymentHover('')}

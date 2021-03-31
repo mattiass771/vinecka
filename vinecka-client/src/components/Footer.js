@@ -4,8 +4,8 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { MdMailOutline } from "react-icons/md";
 import { BiCodeAlt } from "react-icons/bi";
+import { MdMailOutline } from "react-icons/md";
 import { FaFacebookF,FaInstagram } from "react-icons/fa";
 
 export default ({showLawPopup, setShowLawPopup}) => {
@@ -32,7 +32,7 @@ export default ({showLawPopup, setShowLawPopup}) => {
             </a>
           </Col>
           <Col className="mb-2" md={6} lg={3}>
-            <a rel="noopener noreferrer" target="_blank" href="https://instagram.com" style={{textDecoration: 'none', color: 'whitesmoke'}}>
+            <a rel="noopener noreferrer" target="_blank" href="https://instagram.com/masvino.sk" style={{textDecoration: 'none', color: 'whitesmoke'}}>
               <FaInstagram style={{fontSize: '150%', marginTop: '-2px'}} /><strong>#masvino.sk</strong>
             </a>
           </Col>
