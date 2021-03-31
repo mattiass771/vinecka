@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react"
 import {Link, useHistory} from 'react-router-dom'
 import axios from 'axios'
 import { nanoid } from 'nanoid'
-import buildXmlBody from './buildXml'
 
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
@@ -311,17 +310,12 @@ export default ({userId, updateCart, setUpdateCart}) => {
         }
         setPassOrderInfo({ orderId, userInformation, userId, shops, result, status, deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck })
         let orderError = false;
-        axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, result, status, deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck  })
+        const {id, carrierPickupPoint} = selectedPickupPoint
+        axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, result, status, 
+            deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck, packageAddresId: id, packageCarrierPickupPoint: carrierPickupPoint  })
             .then(res => {
                 console.log('order created!')
                 setNewUser(true)
-                if ([ZASIELKOVNA, KURIER].includes(deliveryCheck)) {
-                    const {id, carrierPickupPoint} = selectedPickupPoint
-                    const zasielkaXml = buildXmlBody({orderId, userInformation, kurierom: KURIER, deliveryCheck, result, addressId: id, carrierPickupPoint, total, paymentCheck, dobierka: DOBIERKA })
-                    axios.post(`https://www.zasilkovna.cz/api/rest`, zasielkaXml)
-                        .then(res => console.log(res.data))
-                        .catch(err => console.log(err))
-                }
                 if (checkedNewsletter) {
                     axios.post(`https://mas-vino.herokuapp.com/mails/add`, {name: userInformation.fullName, email: userInformation.email})
                         .then(res => console.log(res))
@@ -335,7 +329,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     if ([INTERNET_BANKING, KARTA].includes(paymentCheck)) {
                         setPaymentPopup(true)
                     } else if (paymentCheck === PREVOD) {
-                        history.push(`/platba-prevodom?Reference=${orderId}&ResultCode=69`)
+                        history.push(`/success-payment?Reference=${orderId}&ResultCode=69`)
                     } else if (paymentCheck === DOBIERKA) {
                         console.log('halo')
                         history.push(`/success-payment?Reference=${orderId}&ResultCode=666`)

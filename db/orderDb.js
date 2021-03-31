@@ -21,6 +21,8 @@ const orderSchema = new Schema({
     deliveryPrice: { type: Number },
     deliveryType: {type: String},
     paymentType: {type: String},
+    packageAddresId: {type: String},
+    packageCarrierPickupPoint: {type: String}
   });
   
 const Order = mongoose.model("Order", orderSchema);
@@ -112,7 +114,7 @@ router.route("/:orderId/process-payment/").post((req, res) => {
 //
 
 router.route("/add").post((req, res) => {
-  const { orderId, userId, userInformation, result, shops, total, status, deliveryPrice, deliveryType, paymentType } = req.body;
+  const { orderId, userId, userInformation, result, shops, total, status, deliveryPrice, deliveryType, paymentType, packageAddresId, packageCarrierPickupPoint } = req.body;
 
   if (typeof userInformation === 'object') {
     const addOrder = new Order({
@@ -125,7 +127,9 @@ router.route("/add").post((req, res) => {
       result,
       deliveryPrice,
       deliveryType,
-      paymentType
+      paymentType,
+      packageAddresId,
+      packageCarrierPickupPoint
     });
     addOrder
       .save()
