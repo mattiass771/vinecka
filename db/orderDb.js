@@ -33,7 +33,7 @@ router.route("/").get((req, res) => {
 
 router.route("/get-by-custom-id/:customOrderId").get((req, res) => {
   Order.findOne(req.params.orderId)
-    .then((order) => res.json(order)
+    .then((order) => res.json(order))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 

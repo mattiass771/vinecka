@@ -1,4 +1,4 @@
-import React, {useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 import { useLocation, Link } from "react-router-dom";
@@ -18,6 +18,7 @@ export default ({userId}) => {
     const orderId = query.get('Reference')
     const result = query.get('ResultCode')
     const paymentId = query.get('PaymentRequestId')
+    const [orderInfo, setOrderInfo] = useState('')
 
     useEffect(() => {
         if (orderId && orderId.length !== 0) {
