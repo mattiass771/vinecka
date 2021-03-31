@@ -66,31 +66,43 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         <FcPaid style={{fontSize: "750%"}} />
                     </Col>
                 </Row>
+                {result.toString() === '666' ?
                 <Row>
-                    {result.toString() === '666' ?
                     <Col style={{fontSize: "150%"}}>
                         Zävazná objednávka číslo {orderId} bola spracovaná. 
                         {userId && <><br />Podrobnejšie detaily nájdete v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednávky</strong></Link>.</>}
                         <br/>Platba bude realizovaná pri prebratí zásielky.
                     </Col>
-                    : result.toString() === '69' ?
-                    <Col style={{fontSize: "150%"}}>
-                        Zävazná objednávka číslo {orderId} bola spracovaná. 
-                        {userId && <><br />Podrobnejšie detaily nájdete v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednávky</strong></Link>.</>}
-                        <br/>Uhraďte ju prosím čo najskôr použitím údajov nižšie.
-                        <p>IBAN - SK21 1111 0000 0016 0902 7005</p>
-                        <p>BIC - UNCRSKBX</p>
-                        <p>VARIABILNY SYMBOL - {orderId}</p>
-                        <p>SUMA - {orderInfo && orderInfo.result} €</p>
-                    </Col> 
-                    :
+                </Row>
+                : result.toString() === '69' ?
+                <>
+                    <Row>
+                        <Col style={{fontSize: "150%"}}>
+                            Zävazná objednávka číslo {orderId} bola spracovaná. 
+                            {userId && <><br />Podrobnejšie detaily nájdete v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednávky</strong></Link>.</>}
+                            <br/>Uhraďte ju prosím čo najskôr použitím údajov nižšie.
+                        </Col> 
+                    </Row>
+                    <Row className="text-left my-4" style={{fontSize: "175%"}}>
+                        <Col xs={{offset: 2, span: 4}}>IBAN:</Col>
+                        <Col xs={{span: 6}}><strong>SK21 1111 0000 0016 0902 7005</strong></Col>
+                        <Col xs={{offset: 2, span: 4}}>BIC/SWIFT:</Col>
+                        <Col xs={{span: 6}}><strong>UNCRSKBX</strong></Col>
+                        <Col xs={{offset: 2, span: 4}}>VARIABILNY SYMBOL:</Col>
+                        <Col xs={{span: 6}}><strong>{orderId}</strong></Col>
+                        <Col xs={{offset: 2, span: 4}}>SUMA:</Col>
+                        <Col xs={{span: 6}}><strong>{orderInfo && orderInfo.result} €</strong></Col>
+                    </Row>
+                </>
+                :
+                <Row>
                     <Col style={{fontSize: "150%"}}>
                         Platba za objednávku číslo {orderId} bola spracovaná. 
                         {userId && <><br />Podrobnejšie detaily nájdete v sekcii <Link className="link-no-deco" to="/objednavky"><strong>Objednávky</strong></Link>.</>}
                         <br/>Číslo platby {paymentId || 'nenájdené'}.
                     </Col> 
-                    }
                 </Row>
+                }
             </Container>
         </div>
     )

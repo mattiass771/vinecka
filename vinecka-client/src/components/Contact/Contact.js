@@ -12,7 +12,7 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from "react-bootstrap/Spinner";
 
-export default () => {
+export default ({userId}) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [message, setMessage] = useState('')
@@ -161,9 +161,17 @@ export default () => {
                     </Col>
                 </Row>}
             </Form>
+            <Row className="text-left my-4" style={{fontSize: "150%"}}>
+                <Col xs={{offset: 2, span: 4}}>IBAN:</Col>
+                <Col xs={{span: 6}}><strong>SK21 1111 0000 0016 0902 7005</strong></Col>
+                <Col xs={{offset: 2, span: 4}}>BIC/SWIFT:</Col>
+                <Col xs={{span: 6}}><strong>UNCRSKBX</strong></Col>
+                <Col xs={{offset: 2, span: 4}}>VARIABILNY SYMBOL:</Col>
+                <Col xs={{span: 6}}><strong>ID objednávky{userId && ` (nájdete v sekcii ${<Link to="/objednavky">Objednávky</Link>})`}</strong></Col>
+            </Row>
             <Row className="mb-4 mt-4 text-center justify-content-center" style={{fontSize:"125%"}}>
                 <Col xs={10}>
-                    <h4>OSOBNÝ ODBER</h4>
+                    <h1>Osobný odber</h1>
                     Ul. Eugena Suchoňa 24, 902 01 Pezinok. Možná dohoda, volajte na 0948 721 868.
                 </Col>
             </Row>
@@ -179,7 +187,7 @@ export default () => {
                     />
                 </Col>
             </Row>
-        </Container>
+</Container>
     </div>
   );
 }

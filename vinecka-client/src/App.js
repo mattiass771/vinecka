@@ -65,7 +65,6 @@ export default () => {
       .catch((err) => console.log(`Error ${err}`))
       .then(() => window.location.reload());
   };
-  userData.isOwner = true
   return (
     <Router>
       {window.localStorage.getItem('mas-vino-isAdult') !== "true" &&
@@ -123,7 +122,7 @@ export default () => {
               <Services isOwner={userData.isOwner} />
             </Route>
             <Route exact path={`/kontakt`}>
-              <Contact />
+              <Contact userId={userData._id} />
             </Route>
             <Route exact path={`/odhlasit-newsletter`}>
               <DeleteFromNewsletter />
