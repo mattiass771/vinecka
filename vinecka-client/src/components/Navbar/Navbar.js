@@ -20,6 +20,12 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
   const [shoppingCartLength, setShoppingCartLength] = useState(0)
   const [shoppingHover, setShoppingHover] = useState(false)
 
+  const triggerLogout = () => {
+    localStorage.removeItem('shoppingCart')
+    localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart))
+    handleLogOut()
+  }
+
   useEffect(() => {
     if (isLoggedIn && shoppingCart.length !== 0) {
       const counts = shoppingCart.map(item => Number(item.count))
@@ -33,7 +39,7 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
     } else {
       setShoppingCartLength(0)
     }
-  }, [updateCart])
+  }, [updateCart, shoppingCart])
 
   const limit = Math.max( 
     document.body.scrollHeight, 
@@ -136,7 +142,7 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
               <Nav.Link as={Link} href="/objednavky" to="/objednavky" className="navihover  pt-3 pb-3 mr-1 ml-1">
                   Objednávky
               </Nav.Link>
-              <Nav.Link as={Link} href="" to="" onClick={() => handleLogOut()} className="navihover  pt-3 pb-3 mr-1 ml-1">
+              <Nav.Link as={Link} href="" to="" onClick={() => triggerLogout()} className="navihover  pt-3 pb-3 mr-1 ml-1">
                 Odhlásiť
               </Nav.Link>
             </>

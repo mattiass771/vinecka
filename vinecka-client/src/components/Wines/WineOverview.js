@@ -15,7 +15,7 @@ import "react-slidedown/lib/slidedown.css";
 //Shop.js
 export default ({ userData, shopData,updateCart, setUpdateCart }) => {
   const [initialData, setInitialData] = useState([])
-  const {userId} = userData
+  const {_id: userId} = userData
 
   const [wineTypes, setWineTypes] = useState([])
   const [typeFilter, setTypeFilter] = useState([])

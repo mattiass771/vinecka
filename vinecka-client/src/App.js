@@ -57,6 +57,7 @@ export default () => {
 
   useEffect(() => {
     if (userData._id) {
+      console.log('hello')
       axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/${userData._id}/cart/`)
         .then(res => setShoppingCart(res.data))
         .catch(err => console.log('error updating shopping cart...', err))

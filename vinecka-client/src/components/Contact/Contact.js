@@ -12,8 +12,6 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from "react-bootstrap/Spinner";
 
-console.log(process.env.REACT_APP_GOOGLE_MAPS_API)
-
 export default ({userId}) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')

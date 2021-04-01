@@ -53,7 +53,6 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
   const [forceRefresh, setForceRefresh] = useState(false)
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_BACKEND_URL)
     setLoading(true)
     setFeaturedWines([])
     setFeaturedIds([])

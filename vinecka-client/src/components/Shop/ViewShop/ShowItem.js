@@ -15,7 +15,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 
 import EditItems from "./EditItems";
 
-export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldReload, isOwner, url, setUpdateCart, updateCart}) => {
+export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOwner, url, setUpdateCart, updateCart}) => {
     const [count, setCount] = useState("")
     const [isHovered, setIsHovered] = useState("")
     const [clicked, setClicked] = useState('')
@@ -121,6 +121,7 @@ export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldR
           setTimeout(() => setShowAddedPopup(false), 1500)
         }
       }
+
       return (
         <Col className={`pt-2 pb-2 ${(shopId === 'home' && i>1) && 'd-none'} ${(shopId === 'home' && i===2) && 'd-none d-lg-block'} ${(shopId === 'home' && i===3) && 'd-none d-xl-block'}`} style={{color: "whitesmoke", overflow:"hidden"}} xs={12} md={6} lg={4} xl={3} key={_id}>
           {showAddedPopup &&
@@ -199,4 +200,4 @@ export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldR
         </Col>
       );
     });
-  });
+  };
