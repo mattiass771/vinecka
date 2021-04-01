@@ -467,7 +467,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     {!loading && 
                     <Row style={{borderBottom: !loading && shops && '2px solid #c1c1c1'}} className="text-center pb-2">
                         <Col>
-                            {(!userInformation && shops && !login ) &&
+                            {(!userInformation && shops && !login  && !userId  ) &&
                                 <p>
                                     {shipmentOnly ? 
                                     <Button className="mt-2" onClick={() => handleRegistration()} variant="dark">Chcem sa registrovať!</Button> :
