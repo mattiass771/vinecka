@@ -272,11 +272,12 @@ export default ({userId, updateCart, setUpdateCart}) => {
     }
 
     const showCartItems = () => {
+        console.log(shops.length)
         const output = shops.sort((a, b) => (a.shopName > b.shopName) - (a.shopName < b.shopName)).map((shop, i) => {
             return (
-                <Col 
+                <div 
                     key={shop.shopId} 
-                    className={`${(!(i%2) && shops.length > 1) ? 'border-custom-right' : ''} ${shops.length < 2 ? '' : 'col-lg-6'} col-xs-12`} 
+                    className={`${(!(i%2) && shops.length > 1) ? 'border-custom-right' : ''} ${shops.length < 2 ? '' : 'col-md-6'} col-xs-12`} 
                     style={{
                         paddingTop: "15px", 
                         paddingBottom: i !== shops.length-1 ? "25px" : '', 
@@ -292,7 +293,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         </div>
                     </div>
                     {showItemData(shop.itemData, shop.shopId)}
-                </Col>
+                </div>
             )
         })
         if (!loading) {
