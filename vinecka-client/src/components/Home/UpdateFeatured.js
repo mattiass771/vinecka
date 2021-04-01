@@ -19,7 +19,7 @@ export default ({featuredsPopup, getImage, setFeaturedsPopup, forceRefresh, setF
             setFeaturedWines([])
             let featuredArr = ['','','','']
             featured.map((item, i) => {
-                    axios.get(`https://mas-vino.herokuapp.com/shop/find-item-by-id/${item}`)
+                    axios.get(`${process.env.REACT_APP_BACKEND_URL}/shop/find-item-by-id/${item}`)
                       .then(res => {
                         const response = res.data
                         const newObj = {...response[0], shopId: response[1]}
@@ -32,7 +32,7 @@ export default ({featuredsPopup, getImage, setFeaturedsPopup, forceRefresh, setF
     }, [featured])
 
     const handleSave = () => {
-        axios.post(`https://mas-vino.herokuapp.com/home/featured-wines`, { featuredWines: featured })
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/home/featured-wines`, { featuredWines: featured })
             .then(res => {
                 setForceRefresh(!forceRefresh)
                 setFeaturedsPopup('')

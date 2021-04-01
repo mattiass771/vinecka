@@ -19,6 +19,8 @@ import {CKEditor} from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { editorConfig } from '../../config/options'
 
+const token = process.env.REACT_APP_API_SECRET
+
 export default ({eventPopup, setEventPopup, refresh, setRefresh}) => {
     const [startDate, setStartDate] = useState(new Date());
     const [untilDate, setUntilDate] = useState(new Date());
@@ -43,7 +45,7 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh}) => {
 
     const deleteFile = (file) => {
         axios
-          .get(`https://mas-vino.herokuapp.com/deleteFile/${idFromName}`, {
+          .get(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${idFromName}`, {
             params: file
           })
           .then(() => 
@@ -53,7 +55,7 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh}) => {
     };
 
     const getUploadParams = ({ meta }) => {
-        return { url: `https://mas-vino.herokuapp.com/fileUpload/${idFromName}` };
+        return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${idFromName}` };
     };
 
     const handleChangeStatus = ({ meta, file }, status) => {
@@ -79,7 +81,7 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh}) => {
     },[untilDate])
 
     const handleSave = () => {
-        axios.post(`https://mas-vino.herokuapp.com/events/add`, {name, link, description, imageLink, where, until, when})
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/events/add`, {name, link, description, imageLink, where, until, when, token})
             .then(res => {
                 setRefresh(!refresh)
                 setEventPopup(false)

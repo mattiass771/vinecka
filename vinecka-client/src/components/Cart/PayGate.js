@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 
 import Modal from 'react-bootstrap/Modal'
 
 import crypto from 'crypto'
 import locutus from 'locutus/php/misc/pack'
-
-import { SlideDown } from "react-slidedown";
-import "react-slidedown/lib/slidedown.css";
 
 export default ({paymentPopup, setPaymentPopup, orderInfo, paymentCheck, options}) => {
     const {KARTA, INTERNET_BANKING} = options
@@ -18,12 +14,11 @@ export default ({paymentPopup, setPaymentPopup, orderInfo, paymentCheck, options
     const [creds, setCreds] = useState('')
 
     useEffect(() => {
-        axios.get(`https://mas-vino.herokuapp.com/orders/get-payment-credentials`)
-            .then(res => {
-                setCreds(res.data)
-                setIsCardPayment(paymentCheck)
-            })
-            .catch(err => console.log('Error retrieving trustpay creds, ', err))
+        const accountId = process.env.REACT_APP_TRUSTPAY_PID
+        const secret = process.env.REACT_APP_TRUSTPAY_SECRET
+        const credentialObj = {accountId, secret}
+        setCreds(credentialObj)
+        setIsCardPayment(paymentCheck)
     }, [])
 
     const toHexString = bytes => bytes.reduce((str, byte) => str + byte.toString(16).padStart(2, '0'), '');

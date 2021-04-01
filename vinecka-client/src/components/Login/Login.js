@@ -26,7 +26,7 @@ export default ({shoppingCart = false}) => {
       <Row>
         <Col md={{span: 6, offset: 3}} className="text-center mt-1 pb-2">
           <h2>Prihláste sa!</h2>
-          <form action={shoppingCart ? 'https://mas-vino.herokuapp.com/login?shopping=cart' : 'https://mas-vino.herokuapp.com/login'} method="post">
+          <form action={shoppingCart ? `${process.env.REACT_APP_BACKEND_URL}/login?shopping=cart` : `${process.env.REACT_APP_BACKEND_URL}/login`} method="post">
             <input
               className="form-control text-center"
               type="text"
@@ -62,7 +62,7 @@ export default ({shoppingCart = false}) => {
           </Row>
           <Row className="justify-content-center">
             <Col md={6} className="text-center mt-1">
-              <form action={shoppingCart ? 'https://mas-vino.herokuapp.com/login?shopping=cart' : 'https://mas-vino.herokuapp.com/login'} method="post">
+              <form action={shoppingCart ? `${process.env.REACT_APP_BACKEND_URL}/login?shopping=cart` : `${process.env.REACT_APP_BACKEND_URL}/login`} method="post">
                 <input
                   className="form-control text-center"
                   type="text"

@@ -48,7 +48,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
   const handleSaveItem = () => {
     if (itemName) {
       axios
-        .put(`https://mas-vino.herokuapp.com/shop/${shopId}/update-item/${itemId}/itemName/${itemName}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/itemName/${itemName}`, {})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -57,7 +57,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
     if (price) {
       axios
-        .put(`https://mas-vino.herokuapp.com/shop/${shopId}/update-item/${itemId}/price/${price}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/price/${price}`, {})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -66,7 +66,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
     if (description) {
       axios
-        .put(`https://mas-vino.herokuapp.com/shop/${shopId}/update-item/${itemId}/description/${description}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/description/${description}`, {})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -75,7 +75,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
     if (imageLink) {
       axios
-        .put(`https://mas-vino.herokuapp.com/shop/${shopId}/update-item/${itemId}/imageLink/${imageLink}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/imageLink/${imageLink}`, {})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -84,7 +84,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
     if (maxCount) {
       axios
-        .put(`https://mas-vino.herokuapp.com/shop/${shopId}/update-item/${itemId}/maxCount/${maxCount}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/maxCount/${maxCount}`, {})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -93,7 +93,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
     if (color) {
       axios
-        .put(`https://mas-vino.herokuapp.com/shop/${shopId}/update-item/${itemId}/color/${color}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/color/${color}`, {})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -102,7 +102,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
     if (type) {
       axios
-        .put(`https://mas-vino.herokuapp.com/shop/${shopId}/update-item/${itemId}/type/${type}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/type/${type}`, {})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -111,7 +111,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
     if (taste) {
       axios
-        .put(`https://mas-vino.herokuapp.com/shop/${shopId}/update-item/${itemId}/taste/${taste}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/taste/${taste}`, {})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -122,7 +122,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
 
   const deleteFile = (file) => {
     axios
-      .get(`https://mas-vino.herokuapp.com/deleteFile/${shopId}`, {
+      .get(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${shopId}`, {
         params: file
       })
       .then(() => 
@@ -138,7 +138,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
   }, [imageLink, description, price, itemName, color, type, taste]);
 
   const getUploadParams = ({ meta }) => {
-    return { url: `https://mas-vino.herokuapp.com/fileUpload/${shopId}` };
+    return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${shopId}` };
   };
 
   const handleChangeStatus = ({ meta, file }, status) => {

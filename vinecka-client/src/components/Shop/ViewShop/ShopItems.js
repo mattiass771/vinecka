@@ -28,7 +28,7 @@ export default ({ shopData, isOwner, userId, updateCart, setUpdateCart }) => {
 
   useEffect(() => {
     axios
-      .get(`https://mas-vino.herokuapp.com/shop/${shopId}`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}`)
       .then((res) => setShopItems(res.data.shopItems))
       .catch((err) => err && console.log(err.data))
       .then(() => {

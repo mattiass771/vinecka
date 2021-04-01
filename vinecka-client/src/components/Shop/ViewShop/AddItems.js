@@ -48,7 +48,7 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
   const handleSaveItem = () => {
     if (imageLink && description && price && itemName && color) {
       axios
-        .post(`https://mas-vino.herokuapp.com/shop/${shopId}/add-item`, {
+        .post(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/add-item`, {
           itemName,
           price,
           description,
@@ -65,7 +65,7 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
 
   const deleteFile = (file) => {
     axios
-      .get(`https://mas-vino.herokuapp.com/deleteFile/${shopId}`, {
+      .get(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${shopId}`, {
         params: file
       })
       .then(() => 
@@ -82,7 +82,7 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
 
   // specify upload params and url for your files
   const getUploadParams = ({ meta }) => {
-    return { url: `https://mas-vino.herokuapp.com/fileUpload/${shopId}` };
+    return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${shopId}` };
   };
 
   // called every time a file's `status` changes

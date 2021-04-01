@@ -10,7 +10,7 @@ export default ({ userData }) => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios
-      .get(`https://mas-vino.herokuapp.com/shop/`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/shop/`)
       .then((res) => setShopData(res.data ? res.data : {}))
       .catch((err) => {
         if (err) return console.log(`Fetch error: ${err}`);

@@ -67,19 +67,19 @@ mongoose.connect(
 
 // DATABASE COLLECTIONS //
 const shopRouter = require("./db/shopDb").router;
-app.use("/shop", shopRouter);
+app.use(`/shop`, shopRouter);
 const userRouter = require("./db/userDb").router;
-app.use("/users", userRouter);
+app.use(`/users`, userRouter);
 const orderRouter = require("./db/orderDb").router;
-app.use("/orders", orderRouter);
+app.use(`/orders`, orderRouter);
 const homeRouter = require("./db/homeDb").router;
-app.use("/home", homeRouter);
+app.use(`/home`, homeRouter);
 const eventsRouter = require("./db/eventDb").router;
-app.use("/events", eventsRouter);
+app.use(`/events`, eventsRouter);
 const servicesRouter = require("./db/serviceDb").router;
-app.use("/services", servicesRouter);
+app.use(`/services`, servicesRouter);
 const mailsRouter = require("./db/newsEmailsDb").router;
-app.use("/mails", mailsRouter);
+app.use(`/mails`, mailsRouter);
 
 // ACCESS USER DATABASE //
 const User = require("./db/userDb").User;
@@ -123,11 +123,11 @@ app.use(passport.session());
 app.post(
   "/login",
   passport.authenticate("local", {
-    failureRedirect: "https://mas-vino.herokuapp.com/login-page"
+    failureRedirect: `${process.env.FRONTEND_URL}/login-page`
   }),
   (req, res) => {
-    if (req.query.shopping === 'cart') return res.redirect('https://mas-vino.herokuapp.com/kosik')
-    return res.redirect('https://mas-vino.herokuapp.com/')
+    if (req.query.shopping === 'cart') return res.redirect(`${process.env.FRONTEND_URL}/kosik`)
+    return res.redirect(`${process.env.FRONTEND_URL}/`)
   }
 );
 

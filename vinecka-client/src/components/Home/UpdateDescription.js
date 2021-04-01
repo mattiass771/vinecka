@@ -10,7 +10,7 @@ export default ({descriptionsPopup, setDescriptionsPopup, forceRefresh, setForce
     const [description, setDescription] = useState(descriptionsText)
 
     const handleSave = () => {
-        axios.put(`https://mas-vino.herokuapp.com/home/general-description`, { descriptionGeneral: description })
+        axios.put(`${process.env.REACT_APP_BACKEND_URL}/home/general-description`, { descriptionGeneral: description })
             .then(res => {
                 console.log(res.data)
                 setForceRefresh(!forceRefresh)

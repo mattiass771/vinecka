@@ -28,10 +28,10 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const [mailSent, setMailSent] = useState('')
     useEffect(() => {
         if (orderId && orderId.length !== 0) {
-            axios.post(`https://mas-vino.herokuapp.com/orders/${orderId}/process-payment/`, {paymentResultCode: result, paymentId})
+            axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders/${orderId}/process-payment/`, {paymentResultCode: result, paymentId})
                 .then(res => {
                     setMailSent('can_send')
-                    axios.get(`https://mas-vino.herokuapp.com/orders/get-by-custom-id/${orderId}`)
+                    axios.get(`${process.env.REACT_APP_BACKEND_URL}/orders/get-by-custom-id/${orderId}`)
                         .then(res => {
                             setOrderInfo(res.data)
                         })
@@ -40,7 +40,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 .catch(err => err && console.log(err))
                 .then(() => {
                     if (userId) {
-                        axios.get(`https://mas-vino.herokuapp.com/users/${userId}/cart/clear-cart`)
+                        axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/clear-cart`)
                             .then(res => console.log(res.data))
                             .catch(error => error && console.log(error))
                     }
@@ -86,7 +86,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 result, deliveryPrice, paymentType, deliveryType, firstName, fullName, email, total, itemString, url, place, deliveryStreet, orderId, phone
             }
     
-            emailjs.send('service_d4aksie', 'template_gqe4ejf', emailData, 'user_Pp2MD3ZQeVhPpppItiah8')
+            emailjs.send('service_d4aksie', 'template_gqe4ejf', emailData, process.env.REACT_APP_EMAILJS_USERID)
             .then((result) => {
                 setMailSent('')
                 console.log('success mailed', result)

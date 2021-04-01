@@ -38,7 +38,7 @@ export default () => {
   useEffect(() => {
     setLoadingData(true)
     axios
-      .get(`https://mas-vino.herokuapp.com/get-user-data`, {
+      .get(`${process.env.REACT_APP_BACKEND_URL}/get-user-data`, {
         withCredentials: true
       })
       .then((res) => {
@@ -56,9 +56,8 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_BACKEND_URL)
     if (userData._id) {
-      axios.get(`https://mas-vino.herokuapp.com/users/${userData._id}/cart/`)
+      axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/${userData._id}/cart/`)
         .then(res => setShoppingCart(res.data))
         .catch(err => console.log('error updating shopping cart...', err))
     }
@@ -66,7 +65,7 @@ export default () => {
 
   const handleLogOut = () => {
     axios
-      .get(`https://mas-vino.herokuapp.com/logout`, {
+      .get(`${process.env.REACT_APP_BACKEND_URL}/logout`, {
         withCredentials: true
       })
       .then(() => {
@@ -76,6 +75,7 @@ export default () => {
       .catch((err) => console.log(`Error ${err}`))
       .then(() => window.location.reload());
   };
+  userData.isOwner = true
   return (
     <Router>
       {window.localStorage.getItem('mas-vino-isAdult') !== "true" &&

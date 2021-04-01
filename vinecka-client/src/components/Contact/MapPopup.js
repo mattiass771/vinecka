@@ -11,7 +11,7 @@ export default ({geoString, showMapPopup, setShowMapPopup}) => {
     
     useEffect(() => {
         if (geoString) {
-            axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${geoString.replace(/ /g, '+')}&key=AIzaSyBoH4TWYVkhYfKSLFAlTn-h4nGOZrLR2SI`)
+            axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${geoString.replace(/ /g, '+')}&key=${process.env.REACT_APP_GOOGLE_MAPS_API}`)
                 .then(res => {
                     const result = res.data.results
                     const location = result[0].geometry.location
@@ -29,7 +29,7 @@ export default ({geoString, showMapPopup, setShowMapPopup}) => {
             <Modal.Body className="text-center" style={{fontSize: "90%", backgroundColor: 'whitesmoke'}}>
                     {geoLocation &&
                     <Map 
-                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoH4TWYVkhYfKSLFAlTn-h4nGOZrLR2SI&v=3.exp&libraries=geometry,drawing,places"
+                        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API}&v=3.exp&libraries=geometry,drawing,places`}
                         loadingElement={<div style={{ height: `100%` }} />}
                         containerElement={<div style={{ height: `400px` }} />}
                         mapElement={<div style={{ height: `100%` }} />}

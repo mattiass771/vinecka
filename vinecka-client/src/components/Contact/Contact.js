@@ -12,6 +12,8 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from "react-bootstrap/Spinner";
 
+console.log(process.env.REACT_APP_GOOGLE_MAPS_API)
+
 export default ({userId}) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -26,10 +28,10 @@ export default ({userId}) => {
         e.preventDefault();
         setSending(true)
 
-        emailjs.sendForm('service_vjc9vdo', 'template_o2r5vl8', e.target, 'user_Pp2MD3ZQeVhPpppItiah8')
+        emailjs.sendForm('service_vjc9vdo', 'template_o2r5vl8', e.target, process.env.REACT_APP_EMAILJS_USERID)
         .then((result) => {
             if (checkedNewsletter) {
-                axios.post(`https://mas-vino.herokuapp.com/mails/add`, {name, email})
+                axios.post(`${process.env.REACT_APP_BACKEND_URL}/mails/add`, {name, email})
                     .then(res => console.log(res))
                     .catch(err => err && console.log(err))
             }
@@ -178,7 +180,7 @@ export default ({userId}) => {
             <Row className="mb-4 mt-4 text-center justify-content-center" style={{fontSize:"125%"}}>
                 <Col xs={10}>
                     <Map 
-                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoH4TWYVkhYfKSLFAlTn-h4nGOZrLR2SI&v=3.exp&libraries=geometry,drawing,places"
+                        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API}&v=3.exp&libraries=geometry,drawing,places`}
                         loadingElement={<div style={{ height: `100%` }} />}
                         containerElement={<div style={{ height: `400px` }} />}
                         mapElement={<div style={{ height: `100%` }} />}

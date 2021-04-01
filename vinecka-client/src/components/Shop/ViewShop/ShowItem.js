@@ -47,7 +47,7 @@ export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldR
       const itemId = e.currentTarget.parentNode.id;
       axios
           .post(
-          `https://mas-vino.herokuapp.com/shop/${shopId}/delete-item/${itemId}`,
+          `${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/delete-item/${itemId}`,
           {}
           )
           .then(() => setShouldReload(!shouldReload))
@@ -100,7 +100,7 @@ export default React.memo(({ shopItems, shopId, userId, setShouldReload, shouldR
         const passCount = count[_id] || 1
         if (userId) {
           axios
-            .post(`https://mas-vino.herokuapp.com/users/${userId}/cart/add-cart-item/${passShopId}/${itemId}`, {
+            .post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/add-cart-item/${passShopId}/${itemId}`, {
             shopId: passShopId, itemId, count: passCount
             })
             .then(() => {

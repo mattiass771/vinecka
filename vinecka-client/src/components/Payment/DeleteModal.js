@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button'
 export default ({setShowDeleteModal, showDeleteModal, deleteId}) => {
 
     const handleDeleteId = () => {
-        axios.delete(`https://mas-vino.herokuapp.com/orders/${deleteId}`)
+        axios.delete(`${process.env.REACT_APP_BACKEND_URL}/orders/${deleteId}`)
             .then(res => {
                 console.log(res.data)
                 setShowDeleteModal(false)

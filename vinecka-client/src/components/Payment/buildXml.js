@@ -18,7 +18,7 @@ export default ({
     const splitAddress = address.split(',')
     const root = create({ version: '1.0' })
         .ele('createPacket')
-            .ele('apiPassword').txt('810de6318fde2d34c223b89dde975bce').up()
+            .ele('apiPassword').txt(process.env.REACT_APP_PACKETA_API_PASSWORD).up()
             .ele('packetAttributes')
                 .ele('number').txt(orderId).up()
                 .ele('name').txt(splitName[0]).up()

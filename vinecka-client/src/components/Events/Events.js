@@ -6,7 +6,6 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
-import CardColumns from 'react-bootstrap/CardColumns'
 
 import MapPopup from '../Contact/MapPopup'
 
@@ -14,6 +13,8 @@ import AddEvent from './AddEvent'
 import EditEvent from './EditEvent'
 
 import {MdDateRange, MdLocationOn, MdDelete, MdEdit} from 'react-icons/md'
+
+const token = process.env.REACT_APP_API_SECRET
 
 export default ({isOwner}) => {
     const [eventsData, setEventsData] = useState([])
@@ -39,7 +40,7 @@ export default ({isOwner}) => {
     };
 
     const deleteCard = (eventId) => {
-        axios.delete(`https://mas-vino.herokuapp.com/events/${eventId}/`)
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/events/${eventId}/`, { token })
             .then(() => setRefresh(!refresh))
             .catch((err) => err && console.log(`Error ${err}`));
     };
@@ -49,7 +50,7 @@ export default ({isOwner}) => {
     }
 
     useEffect(() => {
-        axios.get(`https://mas-vino.herokuapp.com/events/`)
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/events/`, {token})
             .then(res => {
                 const events = res.data
                 const result = sortEventsData(events)

@@ -104,7 +104,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const sortItems = (cartItems) => {
         let sortShop = []
         for (let cartItem of cartItems) {
-            axios.get(`https://mas-vino.herokuapp.com/shop/${cartItem.shopId}`)
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/shop/${cartItem.shopId}`)
                 .then((res) => {
                     if (res.data && res.data.shopName) {
                         const { shopName, owner } = res.data
@@ -112,7 +112,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         const { count, itemId } = cartItem
                         const findItem = itemsArr.find(el => el._id === cartItem.itemId)
                         if (findItem === undefined) {
-                            axios.post(`https://mas-vino.herokuapp.com/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`)
+                            axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`)
                                 .then((res) => console.log(res))
                                 .catch(err => err && console.log('could not delete item', err))
                         } else {
@@ -158,7 +158,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         const {shopId, itemId, count} = cartItem
                         console.log('importing item ', itemId)
                         await axios
-                            .post(`https://mas-vino.herokuapp.com/users/${userId}/cart/add-cart-item/${shopId}/${itemId}`, {
+                            .post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/add-cart-item/${shopId}/${itemId}`, {
                                 shopId, itemId, count
                             })
                             .then((res) => console.log(res))
@@ -170,7 +170,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 addItemsToShoppingCartFromLocal()
             }
             axios
-                .get(`https://mas-vino.herokuapp.com/users/${userId}`)
+                .get(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}`)
                 .then((res) => {
                     if (res.data) {
                         const {shoppingCart, fullName, email, phone, address} = res.data
@@ -208,7 +208,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
 
     const removeItemFromCart = (e, itemId, shopId) => {
         if (userId) {
-            axios.post(`https://mas-vino.herokuapp.com/users/${userId}/cart/delete-cart-item/${shopId}/${itemId}`)
+            axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${shopId}/${itemId}`)
                 .then((res) => {
                     const newShops = shops.map(shop => {
                         const newItemData = shop.itemData.filter(item => item.itemId !== itemId)
@@ -326,13 +326,13 @@ export default ({userId, updateCart, setUpdateCart}) => {
         setPassOrderInfo({ orderId, userInformation, userId, shops, result, status, deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck })
         let orderError = false;
         const {id, carrierPickupPoint, url, place, nameStreet} = selectedPickupPoint
-        axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, result, status, 
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders/add`, { orderId, userInformation, userId, shops, total, result, status, 
             deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck, packetInformation: {addressId: id, carrierPickupPoint, url, place, nameStreet} })
             .then(res => {
                 console.log('order created!')
                 setNewUser(true)
                 if (checkedNewsletter) {
-                    axios.post(`https://mas-vino.herokuapp.com/mails/add`, {name: userInformation.fullName, email: userInformation.email})
+                    axios.post(`${process.env.REACT_APP_BACKEND_URL}/mails/add`, {name: userInformation.fullName, email: userInformation.email})
                         .then(res => console.log(res))
                         .catch(err => err && console.log(err))
                 }   

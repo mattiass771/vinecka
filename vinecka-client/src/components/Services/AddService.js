@@ -35,7 +35,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh}) => {
 
     const deleteFile = (file) => {
         axios
-          .get(`https://mas-vino.herokuapp.com/deleteFile/${idFromName}`, {
+          .get(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${idFromName}`, {
             params: file
           })
           .then(() => 
@@ -45,7 +45,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh}) => {
     };
 
     const getUploadParams = ({ meta }) => {
-        return { url: `https://mas-vino.herokuapp.com/fileUpload/${idFromName}` };
+        return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${idFromName}` };
     };
 
     const handleChangeStatus = ({ meta, file }, status) => {
@@ -58,7 +58,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh}) => {
     };
 
     const handleSave = () => {
-        axios.post(`https://mas-vino.herokuapp.com/services/add`, {name, link, description, imageLink})
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/services/add`, {name, link, description, imageLink})
             .then(res => {
                 setRefresh(!refresh)
                 setServicePopup(false)

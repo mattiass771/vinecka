@@ -8,7 +8,7 @@ import { Checkbox } from 'pretty-checkbox-react';
 import '@djthoms/pretty-checkbox';
 
 const Packeta = window.Packeta || {};
-const packetaApiKey = '810de6318fde2d34';
+const packetaApiKey = process.env.REACT_APP_PACKETA_API_KEY;
 
 export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryCheck, isDeliveryFree, localDeliveryPrice, boxCount}) => {
     const [deliveryHover, setDeliveryHover] = useState('')

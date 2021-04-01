@@ -40,7 +40,7 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
     const fullName = firstName.trim() + " " + lastName.trim();
     const address = `${street.trim()},${postal.toString()},${city.trim()}`
     axios
-      .post(`https://mas-vino.herokuapp.com/users/add-user`, {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/users/add-user`, {
         userName: email,
         password: passwordSecond,
         fullName: fullName,
@@ -51,7 +51,7 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
       .then((res) => {
         if (!regSuccess) setRegSuccess(true)
         if (checkedNewsletter) {
-          axios.post(`https://mas-vino.herokuapp.com/mails/add`, {name: firstName, email})
+          axios.post(`${process.env.REACT_APP_BACKEND_URL}/mails/add`, {name: firstName, email})
               .then(res => console.log(res.data))
               .catch(err => err && console.log(err))
         }
@@ -105,7 +105,7 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
 
   const checkIfEmailInDatabase = () => {
     axios
-      .get(`https://mas-vino.herokuapp.com/users/email/${email}`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/users/email/${email}`)
       .then((res) => setEmailExists(res.data))
       .catch((err) => err && console.log(`Error: ${err}`));
   };
