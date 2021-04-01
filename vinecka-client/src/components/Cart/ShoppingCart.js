@@ -69,6 +69,10 @@ export default ({userId, updateCart, setUpdateCart}) => {
 
     const executeScroll = () => lastRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })   
 
+    const handleSessionStorage = (customKey, value) => {
+        return sessionStorage.setItem(customKey, value)
+    }
+
     useEffect(() => {
         const {address} = userInformation;
         if (address) {
@@ -171,6 +175,15 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         const {shoppingCart, fullName, email, phone, address} = res.data
                         sortItems([...shoppingCart, ...parsedShoppingCart])
                         setUserInformation({ fullName, email, phone, address })
+                        const splitAddress = address.split(',')
+                        const splitName = fullName.split(' ')
+                        handleSessionStorage('firstName', splitName[0])
+                        handleSessionStorage('lastName', splitName[1])
+                        handleSessionStorage('email', email)
+                        handleSessionStorage('phone', phone)
+                        handleSessionStorage('city', splitAddress[2])
+                        handleSessionStorage('postal', splitAddress[1])
+                        handleSessionStorage('street', splitAddress[0])
                     }
                 })
                 .catch(err => err && console.log(err))
@@ -363,10 +376,6 @@ export default ({userId, updateCart, setUpdateCart}) => {
     useEffect(() => {
         if (regSuccess) setRegSuccess(false)
     }, [login, registration, shipmentOnly])
-
-    useEffect(() => {
-        console.log(selectedPickupPoint)
-    }, [selectedPickupPoint])
 
 
     const showTotalCartPrice = () => {

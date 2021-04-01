@@ -126,7 +126,7 @@ app.post(
     failureRedirect: "https://mas-vino.herokuapp.com/login-page"
   }),
   (req, res) => {
-    if (req.query.shopping === 'cart') return res.redirect('https://mas-vino.herokuapp.com/cart-page')
+    if (req.query.shopping === 'cart') return res.redirect('https://mas-vino.herokuapp.com/kosik')
     return res.redirect('https://mas-vino.herokuapp.com/')
   }
 );
