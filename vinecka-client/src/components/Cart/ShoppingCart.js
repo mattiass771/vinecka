@@ -442,7 +442,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     </Row>
                     <Row className="text-center">
                         <Col>
-                            {(!userInformation && shops ) &&
+                            {(!userInformation && shops && !userId ) &&
                                 <p>
                                     {login ? 
                                     <Button className="mt-2" onClick={() => handleShipmentOnly()} variant="dark">Nemám účet</Button>
