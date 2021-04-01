@@ -85,7 +85,6 @@ export default ({userId, updateCart, setUpdateCart}) => {
             const emailData = {
                 result, deliveryPrice, paymentType, deliveryType, firstName, fullName, email, total, itemString, url, place, deliveryStreet, orderId, phone
             }
-            console.log(emailData)
     
             emailjs.send('service_d4aksie', 'template_gqe4ejf', emailData, 'user_Pp2MD3ZQeVhPpppItiah8')
             .then((result) => {
