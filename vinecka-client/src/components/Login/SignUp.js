@@ -68,24 +68,26 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
   }, [newUser])
 
   useEffect(() => {
-    if (
-      checkIfEmailMeetsCriteria() === "" &&
-      checkIfNameMeetsCriteria(firstName) === "" &&
-      checkIfNameMeetsCriteria(lastName) === "" &&
-      checkIfPasswordMeetsCriteria() &&
-      checkIfPhoneMeetsCriteria() === "" &&
-      checkIfStreetMeetsCriteria() === "" &&
-      checkIfPostalMeetsCriteria() === "" &&
-      checkIfCityMeetsCriteria() === "" &&
-      passwordsMatch &&
-      checkedGdpr &&
-      emailExists === null
-    ) {
-      const fullName = firstName.trim() + " " + lastName.trim();
-      const address = `${street.trim()},${postal.toString()},${city.trim()}`
-      setUserInformation({ fullName, email, phone, address })
-    } else {
-      setUserInformation('')
+    if (shoppingCart) {
+      if (
+        checkIfEmailMeetsCriteria() === "" &&
+        checkIfNameMeetsCriteria(firstName) === "" &&
+        checkIfNameMeetsCriteria(lastName) === "" &&
+        checkIfPasswordMeetsCriteria() &&
+        checkIfPhoneMeetsCriteria() === "" &&
+        checkIfStreetMeetsCriteria() === "" &&
+        checkIfPostalMeetsCriteria() === "" &&
+        checkIfCityMeetsCriteria() === "" &&
+        passwordsMatch &&
+        checkedGdpr &&
+        emailExists === null
+      ) {
+        const fullName = firstName.trim() + " " + lastName.trim();
+        const address = `${street.trim()},${postal.toString()},${city.trim()}`
+        setUserInformation({ fullName, email, phone, address })
+      } else {
+        setUserInformation('')
+      }
     }
   }, [firstName, lastName, email, street, city, postal, phone, checkedGdpr, passwordsMatch, emailExists])
 
