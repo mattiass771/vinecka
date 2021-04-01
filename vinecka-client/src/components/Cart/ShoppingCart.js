@@ -262,7 +262,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
             return (
                 <Col 
                     key={shop.shopId} 
-                    className={`${(!(i%2) && shops.length > 1) ? 'border-custom-right' : ''} ${shops.length < 2 ? '' : 'col-md-6'} col-xs-12`} 
+                    className={`${(!(i%2) && shops.length > 1) ? 'border-custom-right' : ''} ${shops.length < 2 ? '' : 'col-lg-6'} col-xs-12`} 
                     style={{
                         paddingTop: "15px", 
                         paddingBottom: i !== shops.length-1 ? "25px" : '', 
@@ -310,9 +310,9 @@ export default ({userId, updateCart, setUpdateCart}) => {
         }
         setPassOrderInfo({ orderId, userInformation, userId, shops, result, status, deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck })
         let orderError = false;
-        const {id, carrierPickupPoint} = selectedPickupPoint
+        const {id, carrierPickupPoint, url, place, nameStreet} = selectedPickupPoint
         axios.post(`https://mas-vino.herokuapp.com/orders/add`, { orderId, userInformation, userId, shops, total, result, status, 
-            deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck, packageAddresId: id, packageCarrierPickupPoint: carrierPickupPoint  })
+            deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck, packetInformation: {addressId: id, carrierPickupPoint, url, place, nameStreet} })
             .then(res => {
                 console.log('order created!')
                 setNewUser(true)

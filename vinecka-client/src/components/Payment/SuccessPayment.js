@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import buildXmlBody from './buildXml'
+import emailjs from 'emailjs-com';
 
 import { useLocation, Link } from "react-router-dom";
 
@@ -24,12 +25,16 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const result = query.get('ResultCode')
     const paymentId = query.get('PaymentRequestId')
     const [orderInfo, setOrderInfo] = useState('')
+    const [mailSent, setMailSent] = useState('')
     useEffect(() => {
         if (orderId && orderId.length !== 0) {
             axios.post(`https://mas-vino.herokuapp.com/orders/${orderId}/process-payment/`, {paymentResultCode: result, paymentId})
                 .then(res => {
+                    setMailSent('can_send')
                     axios.get(`https://mas-vino.herokuapp.com/orders/get-by-custom-id/${orderId}`)
-                        .then(res => setOrderInfo(res.data))
+                        .then(res => {
+                            setOrderInfo(res.data)
+                        })
                         .catch(err => err && console.log(err))
                 })
                 .catch(err => err && console.log(err))
@@ -46,30 +51,49 @@ export default ({userId, updateCart, setUpdateCart}) => {
     }, [])
 
     useEffect(() => {
-        if (orderInfo) {
-            const {deliveryType, userInformation, result, packageAddresId, packageCarrierPickupPoint, total, paymentType, itemData } = orderInfo
-            const zasielkaXml = buildXmlBody({orderId, userInformation, kurierom: KURIER, deliveryCheck: deliveryType, result, addressId: packageAddresId, carrierPickupPoint: packageCarrierPickupPoint, total, paymentCheck: paymentType, dobierka: DOBIERKA })
+        if (orderInfo && mailSent === 'can_send') {
+            const {deliveryType, userInformation, result, packetInformation, total, paymentType, shops } = orderInfo
+            let addressId, carrierPickupPoint, url, place, nameStreet;
+            if (packetInformation) {
+                addressId = packetInformation.addressId
+                carrierPickupPoint = packetInformation.carrierPickupPoint
+                url = packetInformation.url
+                place = packetInformation.place
+                nameStreet = packetInformation.nameStreet
+            }
+            const { fullName, email, address, phone } = userInformation
+
+            const zasielkaXml = buildXmlBody({orderId, userInformation, kurierom: KURIER, deliveryCheck: deliveryType, result, addressId, carrierPickupPoint, total, paymentCheck: paymentType, dobierka: DOBIERKA })
             if ([ZASIELKOVNA, KURIER].includes(deliveryType)) {
                 axios.post(`https://www.zasilkovna.cz/api/rest`, zasielkaXml)
                     .then(res => console.log(res.data))
                     .catch(err => console.log(err))
+            }            
+            
+            const itemData = shops.map(shop => shop.itemData)
+            const items = itemData ? itemData.map(item => {
+                return item.map(el => {
+                    const {itemName, price, count} = el
+                    return `${itemName} - ${price}€/ks (${count})`
+                })
+            }) : []
+            const itemString = items.join(", ")
+            const splitName = fullName.split(' ')
+            const firstName = splitName[0]
+            const deliveryPrice = result - total
+            const deliveryStreet = nameStreet ? nameStreet : address
+            const emailData = {
+                result, deliveryPrice, paymentType, deliveryType, firstName, fullName, email, total, itemString, url, place, deliveryStreet, orderId, phone
             }
-            // [WIP] : email order info - pass more zasielkovna info and create template
-            //
-            // const items = itemData.map(item => {
-            //     const {itemName, price} = item
-            //     return {itemName, price}
-            // })
-            // const emailData = {
-            //     result, paymentType, deliveryType, userInformation, total, items
-            // }
+            console.log(emailData)
     
-            // emailjs.sendForm('service_vjc9vdo', 'template_o2r5vl8', emailData, 'user_Pp2MD3ZQeVhPpppItiah8')
-            // .then((result) => {
-            //     console.log('success mailed', result)
-            // }, (error) => {
-            //     console.log('error mail', error)
-            // });
+            emailjs.send('service_d4aksie', 'template_gqe4ejf', emailData, 'user_Pp2MD3ZQeVhPpppItiah8')
+            .then((result) => {
+                setMailSent('')
+                console.log('success mailed', result)
+            }, (error) => {
+                console.log('error mail', error)
+            });
         }
     }, [orderInfo])
     
