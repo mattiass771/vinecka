@@ -56,10 +56,13 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    axios.get(`https://mas-vino.herokuapp.com/users/${userData._id}/cart/`)
-      .then(res => setShoppingCart(res.data))
-      .catch(err => console.log('error updating shopping cart...', err))
-  }, [updateCart])
+    console.log(process.env.REACT_APP_BACKEND_URL)
+    if (userData._id) {
+      axios.get(`https://mas-vino.herokuapp.com/users/${userData._id}/cart/`)
+        .then(res => setShoppingCart(res.data))
+        .catch(err => console.log('error updating shopping cart...', err))
+    }
+  }, [updateCart, userData])
 
   const handleLogOut = () => {
     axios

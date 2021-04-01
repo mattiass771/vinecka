@@ -12,9 +12,6 @@ const fs = require("fs");
 const { Buffer } = require('buffer')
 const AWS = require('aws-sdk')
 
-const expressip = require('express-ip');
-app.use(expressip().getIpInfoMiddleware);
-
 require("dotenv").config();
 
 // AWS Config

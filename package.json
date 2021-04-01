@@ -27,7 +27,6 @@
     "emailjs-com": "^2.6.4",
     "express": "^4.17.1",
     "express-fileupload": "1.2.0",
-    "express-ip": "^1.0.4",
     "express-session": "1.17.1",
     "fs": "0.0.1-security",
     "locutus": "^2.0.14",

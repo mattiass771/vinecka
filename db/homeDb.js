@@ -15,7 +15,6 @@ const homeSchema = new Schema({
 const Home = mongoose.model("Home", homeSchema);
 
 router.route("/").get((req, res) => {
-  console.log('IP INFO IP INFO:::::, ', req.ipInfo)
     Home.findOne()
       .then((home) => res.json(home))
       .catch((err) => res.status(400).json(`Error: ${err}`));
