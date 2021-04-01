@@ -33,7 +33,7 @@ export default () => {
   const [loadingData, setLoadingData] = useState(false);
   const [showLawPopup, setShowLawPopup] = useState('')
   const [updateCart, setUpdateCart] = useState(true)
-  
+  const [shoppingCart, setShoppingCart] = useState([])
 
   useEffect(() => {
     setLoadingData(true)
@@ -44,7 +44,8 @@ export default () => {
       .then((res) => {
         if (res.data) {
           const { _id, userName, fullName, email, shopId, isOwner, shoppingCart } = res.data;
-          setUserData({ _id, userName, fullName, email, shopId, isOwner, shoppingCart });
+          setUserData({ _id, userName, fullName, email, shopId, isOwner });
+          setShoppingCart(shoppingCart)
           setIsLoggedIn(userName ? true : false);
         } else {
           setUserData({})
@@ -53,6 +54,13 @@ export default () => {
       .catch((err) => err && console.log("Load Error " + err))
       .then(() => setLoadingData(false))
   }, []);
+
+  useEffect(() => {
+    axios.get(`https://mas-vino.herokuapp.com/users/${userData._id}/cart/`)
+      .then(res => setShoppingCart(res.data))
+      .catch(err => console.log('error updating shopping cart...', err))
+  }, [updateCart])
+
   const handleLogOut = () => {
     axios
       .get(`https://mas-vino.herokuapp.com/logout`, {
@@ -80,7 +88,7 @@ export default () => {
         crossOrigin="anonymous"
       />
       <div>
-        <Navbar updateCart={updateCart} shoppingCart={userData.shoppingCart} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
+        <Navbar updateCart={updateCart} shoppingCart={shoppingCart} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
         {loadingData ? 
               <Spinner
                 style={{ marginLeft: "49%", marginTop: "20%", color: 'whitesmoke' }}

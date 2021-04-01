@@ -64,6 +64,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const [regSuccess, setRegSuccess] = useState(false)
     const [paymentCheck, setPaymentCheck] = useState(sessionStorage.getItem('paymentCheck') || '')
     const [showErrorMessage, setShowErrorMessage] = useState(false)
+    const [orderProcessing, setOrderProcessing] = useState(false)
 
     const [selectedPickupPoint, setSelectedPickupPoint] = useState('')
 
@@ -300,6 +301,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
     }
 
     const createNewOrder = () => {
+        setOrderProcessing(true)
         let result = 0
         let deliveryPrice = 0
         shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
@@ -337,6 +339,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
             })
             .catch(err => orderError = true)
             .then(() => {
+                setOrderProcessing(false)
                 if (!orderError) {
                     sessionStorage.clear()
                     if ([INTERNET_BANKING, KARTA].includes(paymentCheck)) {
@@ -494,7 +497,12 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     <Row ref={lastRef} className="text-center">
                         <Col>
                             {((deliveryCheck && deliveryCheck !== ZASIELKOVNA) || selectedPickupPoint) && paymentCheck && userInformation && shops.length > 0 ?
-                                <Button onClick={() => createNewOrder()} variant="dark">Prejsť k platbe{registration ? ' a registrovať sa' : ''}</Button>
+                                <>
+                                    {orderProcessing ? 
+                                    <Spinner animation="border" />
+                                    : <Button onClick={() => createNewOrder()} variant="dark">Prejsť k platbe{registration ? ' a registrovať sa' : ''}</Button>
+                                    }
+                                </>
                             :
                             <>  
                                 {shops.length === 0 && 
