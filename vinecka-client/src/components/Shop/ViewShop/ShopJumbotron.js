@@ -24,7 +24,8 @@ import {CKEditor} from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { editorConfig } from '../../../config/options'
 
-import options from '../../../config/options';
+const token = process.env.REACT_APP_API_SECRET
+const awstoken = process.env.REACT_APP_S3_TOKEN
 
 // CreateShop.js
 export default ({ shopData, isOwner }) => {
@@ -51,7 +52,7 @@ export default ({ shopData, isOwner }) => {
     if (textColor !== shopData.textColor) {
       axios
       .put(
-        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}/update-shop/textColor/${textColor}`
+        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}/update-shop/textColor/${textColor}`, {token}
       )
       .then((res) => {
         return;
@@ -71,12 +72,12 @@ export default ({ shopData, isOwner }) => {
 
   // specify upload params and url for your files
   const getUploadParams = ({ meta }) => {
-    return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${shopData._id}` };
+    return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${shopData._id}?awstoken=${awstoken}` };
   };
 
   const deleteFile = (file) => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${shopData._id}`, {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${shopData._id}`, {token}, {
         params: file
       })
       .then(() => 
@@ -101,10 +102,10 @@ export default ({ shopData, isOwner }) => {
 
   const deleteCard = (e) => {
     axios
-        .delete(
-        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}`
+        .post(
+        `${process.env.REACT_APP_BACKEND_URL}/shop/delete-shop/${shopData._id}`, {token}
         )
-        .then(() => history.push(`/vinarne`))
+        .then(() => history.push(`/vinarstva`))
         .catch((err) => err && console.log(`Error ${err}`));
   };
 
@@ -112,7 +113,7 @@ export default ({ shopData, isOwner }) => {
     if (imageLink) {
       axios
       .put(
-        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}/update-shop/imageLink/${imageLink}`
+        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}/update-shop/imageLink/${imageLink}`, {token}
       )
       .then((res) => {
         return;
@@ -125,7 +126,7 @@ export default ({ shopData, isOwner }) => {
     if (overviewImage) {
       axios
       .put(
-        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}/update-shop/overviewImage/${overviewImage}`
+        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}/update-shop/overviewImage/${overviewImage}`, {token}
       )
       .then((res) => {
         return;
@@ -136,7 +137,7 @@ export default ({ shopData, isOwner }) => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/shop/link/${currentUrl}`)
+      .post(`${process.env.REACT_APP_BACKEND_URL}/shop/link/${currentUrl}`, {token})
       .then((res) => {
         if (res.data && currentUrl !== newUrl) setIsUrlAvailible(false)
         else setIsUrlAvailible(true)
@@ -154,7 +155,7 @@ export default ({ shopData, isOwner }) => {
     if (isUrlAvailible) {
       axios
       .put(
-        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}/update-shop/url/${currentUrl}`
+        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}/update-shop/url/${currentUrl}`, {token}
       )
       .then((res) => {
         return setNewUrl(currentUrl);
@@ -168,7 +169,7 @@ export default ({ shopData, isOwner }) => {
     if (shopName) {
       axios
       .put(
-        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}/update-shop/shopName/${shopName}`
+        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}/update-shop/shopName/${shopName}`, {token}
       )
       .then((res) => {
         return;
@@ -181,7 +182,7 @@ export default ({ shopData, isOwner }) => {
     if (description) {
       axios
       .put(
-        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}/update-shop-description/`,{description}
+        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}/update-shop-description/`, {description, token}
       )
       .then((res) => {
         return;
@@ -194,7 +195,7 @@ export default ({ shopData, isOwner }) => {
     if (owner) {
       axios
       .put(
-        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}/update-shop/owner/${owner}`
+        `${process.env.REACT_APP_BACKEND_URL}/shop/${shopData._id}/update-shop/owner/${owner}`, {token}
       )
       .then((res) => {
         return;
@@ -280,7 +281,7 @@ export default ({ shopData, isOwner }) => {
               />
               <div>
                 <InputGroup>
-              <p style={{marginRight: 10, marginTop: 5}}>www.vimko.sk/</p>
+              <p style={{marginRight: 10, marginTop: 5}}>www.masvino.sk/</p>
                   <input 
                     className={isUrlAvailible ? 'form-control text-center' : 'text-center form-control invalid-input'}
                     value={currentUrl} 

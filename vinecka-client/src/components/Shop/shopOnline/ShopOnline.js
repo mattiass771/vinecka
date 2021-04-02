@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios"
 
 import ViewShop from "../ViewShop"
 import Spinner from "react-bootstrap/Spinner";
+
+const token = process.env.REACT_APP_API_SECRET
 
 export default ({userId, isOwner, updateCart, setUpdateCart}) => {
     const {shopUrl} = useParams()
@@ -12,7 +14,7 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/shop/link/${shopUrl}`)
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/shop/link/${shopUrl}`, {token})
             .then((res) => res.data ? setShopData(res.data) : setShopData({}))
             .catch((err) => err && console.log(err))
             .then(() => {
@@ -29,7 +31,9 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
         /> :
         isUrlAvailible && shopData._id ? 
         <ViewShop updateCart={updateCart} setUpdateCart={setUpdateCart} shopData={shopData} isOwner={isOwner} userId={userId} /> :
-        <h5 style={{ marginTop: "20%" }} className="text-center">Pod adresou ${process.env.REACT_APP_BACKEND_URL}/{shopUrl} ešte neexistuje žiadna vináreň, ak si vinár a chceš u nás predávať, neváhaj nás kontaktovať.</h5>
+        <div className="whitesmoke-bg-pnine" style={{paddingTop: '10px', paddingBottom: '200px'}}>
+            <h3 style={{ marginTop: "20%" }} className="text-center">Pod adresou masvino.sk/{shopUrl} ešte neexistuje žiadna vináreň, ak si vinár a chceš u nás predávať, neváhaj nás <Link to="/kontakt">kontaktovať</Link>.</h3>
+        </div>
         
     )
 }

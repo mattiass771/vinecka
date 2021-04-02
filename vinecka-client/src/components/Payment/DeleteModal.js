@@ -4,10 +4,12 @@ import React from 'react'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 
+const token = process.env.REACT_APP_API_SECRET
+
 export default ({setShowDeleteModal, showDeleteModal, deleteId}) => {
 
     const handleDeleteId = () => {
-        axios.delete(`${process.env.REACT_APP_BACKEND_URL}/orders/${deleteId}`)
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders/delete-order/${deleteId}`, {token})
             .then(res => {
                 console.log(res.data)
                 setShowDeleteModal(false)

@@ -14,6 +14,9 @@ import Button from 'react-bootstrap/Button'
 
 const IMAGE_PREFIX = 'homescreen-event-image'
 
+const token = process.env.REACT_APP_API_SECRET
+const awstoken = process.env.REACT_APP_S3_TOKEN
+
 export default ({eventsPopup, setEventsPopup, forceRefresh, setForceRefresh, eventsImage, eventsText}) => {
     const [description, setDescription] = useState(eventsText)
     const [imageLink, setImageLink] = useState(eventsImage)
@@ -30,7 +33,7 @@ export default ({eventsPopup, setEventsPopup, forceRefresh, setForceRefresh, eve
 
     const deleteFile = (file) => {
         axios
-          .get(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${IMAGE_PREFIX}`, {
+          .post(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${IMAGE_PREFIX}`, {token}, {
             params: file
           })
           .then(() => 
@@ -40,7 +43,7 @@ export default ({eventsPopup, setEventsPopup, forceRefresh, setForceRefresh, eve
     };
 
     const getUploadParams = ({ meta }) => {
-        return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${IMAGE_PREFIX}` };
+        return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${IMAGE_PREFIX}?awstoken=${awstoken}` };
     };
 
     const handleChangeStatus = ({ meta, file }, status) => {
@@ -53,7 +56,7 @@ export default ({eventsPopup, setEventsPopup, forceRefresh, setForceRefresh, eve
     };
 
     const handleSave = () => {
-        axios.put(`${process.env.REACT_APP_BACKEND_URL}/home/events-description`, { descriptionEvents: description, imageLinkEvents: imageLink })
+        axios.put(`${process.env.REACT_APP_BACKEND_URL}/home/events-description`, { descriptionEvents: description, imageLinkEvents: imageLink, token })
             .then(res => {
                 console.log(res.data)
                 setForceRefresh(!forceRefresh)

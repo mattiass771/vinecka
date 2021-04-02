@@ -6,11 +6,13 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 
+const token = process.env.REACT_APP_API_SECRET
+
 export default ({descriptionsPopup, setDescriptionsPopup, forceRefresh, setForceRefresh, descriptionsText}) => {
     const [description, setDescription] = useState(descriptionsText)
 
     const handleSave = () => {
-        axios.put(`${process.env.REACT_APP_BACKEND_URL}/home/general-description`, { descriptionGeneral: description })
+        axios.put(`${process.env.REACT_APP_BACKEND_URL}/home/general-description`, { descriptionGeneral: description, token })
             .then(res => {
                 console.log(res.data)
                 setForceRefresh(!forceRefresh)

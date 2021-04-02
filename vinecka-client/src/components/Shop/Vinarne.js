@@ -4,13 +4,15 @@ import ShopsOverview from "./ShopsOverview";
 
 import Spinner from "react-bootstrap/Spinner";
 
+const token = process.env.REACT_APP_API_SECRET
+
 //Shop.js
 export default ({ userData }) => {
   const [shopData, setShopData] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/shop/`)
+      .post(`${process.env.REACT_APP_BACKEND_URL}/shop/`, {token})
       .then((res) => setShopData(res.data ? res.data : {}))
       .catch((err) => {
         if (err) return console.log(`Fetch error: ${err}`);

@@ -49,26 +49,26 @@ const ShopItem = mongoose.model("ShopItem", shopItemSchema);
 
 // ROUTES //
 
-router.route("/").get((req, res) => {
+router.route("/").post((req, res) => {
   Shop.find()
     .then((shops) => res.json(shops))
     .catch((err) => res.status(400).json(`Error: ${err} !`));
 });
 
-router.route("/:shopId").get((req, res) => {
+router.route("/get-shop/:shopId").post((req, res) => {
   Shop.findById(req.params.shopId)
     .then((shop) => res.json(shop))
     .catch((err) => res.status(400).json(`Error: ${err} !`));
 });
 
-router.route("/owner/:userId").get((req, res) => {
+router.route("/owner/:userId").post((req, res) => {
   const userId = req.params.userId;
   Shop.findOne({ ownerId: userId })
     .then((shop) => res.json(shop))
     .catch((err) => res.status.apply(400).json(`Error: ${err} !`));
 });
 
-router.route("/link/:link").get((req, res) => {
+router.route("/link/:link").post((req, res) => {
   const link = req.params.link;
   Shop.findOne({ url: link })
     .then((shop) => res.json(shop))
@@ -184,13 +184,13 @@ router.route("/:shopId/add-item").post((req, res) => {
   });
 });
 
-router.route("/:id").delete((req, res) => {
+router.route("/delete-shop/:id").post((req, res) => {
   Shop.findByIdAndDelete(req.params.id)
     .then(() => res.json("Shop deleted."))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.route("/find-item-by-id/:itemId").get((req, res) => {
+router.route("/find-item-by-id/:itemId").post((req, res) => {
   Shop.find((err, shopsFound) => {
     if (err) return console.log(err.data);
     let shopId = ''

@@ -8,9 +8,8 @@ const cors = require("cors");
 const passport = require("passport");
 const Strategy = require("passport-local").Strategy;
 const fileUpload = require("express-fileupload");
-const fs = require("fs");
-const { Buffer } = require('buffer')
 const AWS = require('aws-sdk')
+const bcrypt = require("bcrypt");
 
 require("dotenv").config();
 
@@ -65,6 +64,31 @@ mongoose.connect(
   }
 );
 
+const apiSecret = process.env.API_SECRET
+const s3secret = process.env.S3_TOKEN
+
+app.post('*', (req, res, next) => {
+  const url = req.url
+  const {token} = req.body
+  if (token === apiSecret) {
+    return next()
+  } else if (url.includes('fileUpload') && req.query.awstoken === s3secret) {
+    return next()
+  } else {
+    console.log('Invalid authorization token!')
+    return res.status(401).json({problem: 'Invalid authorization token!'})
+  }
+})
+
+app.put('*', (req, res, next) => {
+  const {token} = req.body
+  if (token === apiSecret) {
+    return next()
+  } else {
+    return res.status(401).json({problem: 'Invalid authorization token!'})
+  }
+})
+
 // DATABASE COLLECTIONS //
 const shopRouter = require("./db/shopDb").router;
 app.use(`/shop`, shopRouter);
@@ -87,14 +111,15 @@ const User = require("./db/userDb").User;
 // PASSPORT //
 passport.use(
   new Strategy((username, password, cb) => {
-    User.findOne({ userName: username }, (err, user) => {
+    User.findOne({ userName: username }, async (err, user) => {
       if (err) {
         return cb(err);
       }
       if (!user) {
         return cb(null, false);
       }
-      if (user.password !== password) {
+      const validPassword = await bcrypt.compare(password, user.password);
+      if (!validPassword) {
         return cb(null, false);
       }
       return cb(null, user);
@@ -131,13 +156,18 @@ app.post(
   }
 );
 
-app.get("/logout", (req, res) => {
+app.post("/logout", (req, res) => {
   req.logout();
   return res.redirect("/");
 });
 
-app.get("/get-user-data", (req, res) => {
-  return req.user ? res.json(req.user) : res.json({});
+app.post("/get-user-data", (req, res) => {
+  let showUserData;
+  if (req.user) {
+    const {_id, userName, fullName, email, shopId, isOwner} = req.user
+    showUserData = {_id, userName, fullName, email, shopId, isOwner}
+  }
+  return req.user ? res.json(showUserData) : res.json({});
 });
 
 // FILE UPLOADER//
@@ -172,7 +202,7 @@ app.post("/fileUpload/:shopId", (req, res) => {
   });
 });
 
-app.get("/deleteFile/:shopId", (req, res) => {
+app.post("/deleteFile/:shopId", (req, res) => {
   const file = req.query.name;
   const params = { Key: file }
   s3Bucket.deleteObject(params, function(err, data) {

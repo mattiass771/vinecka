@@ -15,6 +15,8 @@ import { MdDelete, MdEdit } from "react-icons/md";
 
 import EditItems from "./EditItems";
 
+const token = process.env.REACT_APP_API_SECRET
+
 export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOwner, url, setUpdateCart, updateCart}) => {
     const [count, setCount] = useState("")
     const [isHovered, setIsHovered] = useState("")
@@ -48,7 +50,7 @@ export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOw
       axios
           .post(
           `${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/delete-item/${itemId}`,
-          {}
+          {token}
           )
           .then(() => setShouldReload(!shouldReload))
           .catch((err) => err && console.log(`Error ${err}`));
@@ -101,7 +103,7 @@ export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOw
         if (userId) {
           axios
             .post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/add-cart-item/${passShopId}/${itemId}`, {
-            shopId: passShopId, itemId, count: passCount
+            shopId: passShopId, itemId, count: passCount, token
             })
             .then(() => {
               setShowAddedPopup(false)

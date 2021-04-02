@@ -75,7 +75,7 @@ router.route("/update-event/:eventId").post((req, res) => {
   }
 });
 
-router.route("/:id").post((req, res) => {
+router.route("/delete-event/:id").post((req, res) => {
   const {token} = req.body
   if (token === apiSecret) {
   Event.findByIdAndDelete(req.params.id)

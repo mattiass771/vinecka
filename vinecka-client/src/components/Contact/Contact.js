@@ -12,6 +12,8 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from "react-bootstrap/Spinner";
 
+const token = process.env.REACT_APP_API_SECRET
+
 export default ({userId}) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -29,7 +31,7 @@ export default ({userId}) => {
         emailjs.sendForm('service_vjc9vdo', 'template_o2r5vl8', e.target, process.env.REACT_APP_EMAILJS_USERID)
         .then((result) => {
             if (checkedNewsletter) {
-                axios.post(`${process.env.REACT_APP_BACKEND_URL}/mails/add`, {name, email})
+                axios.post(`${process.env.REACT_APP_BACKEND_URL}/mails/add`, {name, email, token})
                     .then(res => console.log(res))
                     .catch(err => err && console.log(err))
             }

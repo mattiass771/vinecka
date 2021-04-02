@@ -11,6 +11,8 @@ import Col from "react-bootstrap/Col";
 
 import { FcPaid } from "react-icons/fc";
 
+const token = process.env.REACT_APP_API_SECRET
+
 const KURIER = 'kurier'
 const ZASIELKOVNA = 'zasielkovna'
 const DOBIERKA = 'dobierka'
@@ -28,10 +30,10 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const [mailSent, setMailSent] = useState('')
     useEffect(() => {
         if (orderId && orderId.length !== 0) {
-            axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders/${orderId}/process-payment/`, {paymentResultCode: result, paymentId})
+            axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders/${orderId}/process-payment/`, {token, paymentResultCode: result, paymentId})
                 .then(res => {
                     setMailSent('can_send')
-                    axios.get(`${process.env.REACT_APP_BACKEND_URL}/orders/get-by-custom-id/${orderId}`)
+                    axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders/get-by-custom-id/${orderId}`, {token})
                         .then(res => {
                             setOrderInfo(res.data)
                         })
@@ -40,7 +42,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 .catch(err => err && console.log(err))
                 .then(() => {
                     if (userId) {
-                        axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/clear-cart`)
+                        axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/clear-cart`, {token})
                             .then(res => console.log(res.data))
                             .catch(error => error && console.log(error))
                     }

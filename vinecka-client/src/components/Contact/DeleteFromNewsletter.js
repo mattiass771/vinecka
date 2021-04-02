@@ -8,6 +8,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 
+const token = process.env.REACT_APP_API_SECRET
+
 export default () => {
     const [email, setEmail] = useState('')
     const [removed, setRemoved] = useState(false)
@@ -15,7 +17,7 @@ export default () => {
 
     const removeEmail = (e) => {
         e.preventDefault()
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/mails/delete-from-newsletter`, {email})
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/mails/delete-from-newsletter`, {email, token})
             .then(res => {
                 setRemoved(true)
                 setTimeout(() => setRemoved(false), 3000)

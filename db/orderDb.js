@@ -25,26 +25,26 @@ const orderSchema = new Schema({
   
 const Order = mongoose.model("Order", orderSchema);
 
-router.route("/").get((req, res) => {
+router.route("/").post((req, res) => {
     Order.find()
       .then((orders) => res.json(orders))
       .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.route("/get-by-custom-id/:customOrderId").get((req, res) => {
+router.route("/get-by-custom-id/:customOrderId").post((req, res) => {
   const orderId = req.params.customOrderId
   Order.findOne({orderId: orderId})
     .then((order) => res.json(order))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.route("/get-payment-credentials").get((req, res) => {
+router.route("/get-payment-credentials").post((req, res) => {
   const secret = process.env.TRUSTPAY_SECRET
   const accountId = process.env.TRUSTPAY_PID
   res.status(200).json({secret, accountId})
 });
 
-router.route("/delete-order/:orderId").delete((req, res) => {
+router.route("/delete-order/:orderId").post((req, res) => {
   Order.findByIdAndDelete(req.params.orderId)
     .then(() => res.json("Bye bye. :("))
     .catch((err) => res.status(400).json(`Error: ${err}`));
@@ -138,7 +138,7 @@ router.route("/add").post((req, res) => {
   }
 });
 
-router.route("/:id").delete((req, res) => {
+router.route("/delete-order/:id").post((req, res) => {
   Order.findByIdAndDelete(req.params.id)
     .then(() => res.json("Order deleted."))
     .catch((err) => res.status(400).json(`Error: ${err}`));

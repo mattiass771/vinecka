@@ -30,6 +30,7 @@ import { RiSecurePaymentFill } from "react-icons/ri";
 import defaultImage from "../../default.jpg"
 
 const {MIN_HEIGHT_JUMBO} = options
+const token = process.env.REACT_APP_API_SECRET
 
 //Home.js
 export default ({userId, isOwner, updateCart, setUpdateCart}) => {
@@ -56,7 +57,7 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
     setLoading(true)
     setFeaturedWines([])
     setFeaturedIds([])
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/home/`)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/home/`, {token})
       .then(res => {
         const featured = res.data.featuredWines
         const events = [res.data.descriptionEvents, res.data.imageLinkEvents]
@@ -67,7 +68,7 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
         setDescriptionGeneral(description)
         setFeaturedIds(featured)
         featured.map(item => {
-          return axios.get(`${process.env.REACT_APP_BACKEND_URL}/shop/find-item-by-id/${item}`)
+          return axios.post(`${process.env.REACT_APP_BACKEND_URL}/shop/find-item-by-id/${item}`, {token})
             .then(res => {
               const response = res.data
               const newObj = {...response[0], shopId: response[1]}
@@ -77,7 +78,7 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
         })
       })
       .catch(err => err && console.log('Error while fetching featured wines, ', err))
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/shop/`)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/shop/`, {token})
       .then(res => setCarouselData(res.data))
       .catch(err => err && console.log('Error while fetching shops for carousel, ', err))
       .then(() => setLoading(false))

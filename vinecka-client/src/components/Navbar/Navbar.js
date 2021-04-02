@@ -33,9 +33,11 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
       setShoppingCartLength(finalCount)
     } else if (!isLoggedIn && localShoppingCart) {
       const parsedCart = JSON.parse(localShoppingCart)
-      const counts = parsedCart.map(item => Number(item.count))
-      const finalCount = counts.reduce((total,x) => total+x)
-      setShoppingCartLength(finalCount)
+      if (parsedCart.length !== 0) {
+        const counts = parsedCart.map(item => Number(item.count))
+        const finalCount = counts.reduce((total,x) => total+x)
+        setShoppingCartLength(finalCount)
+      }
     } else {
       setShoppingCartLength(0)
     }

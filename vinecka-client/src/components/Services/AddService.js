@@ -17,6 +17,9 @@ import {CKEditor} from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { editorConfig } from '../../config/options'
 
+const token = process.env.REACT_APP_API_SECRET
+const awstoken = process.env.REACT_APP_S3_TOKEN
+
 export default ({servicePopup, setServicePopup, refresh, setRefresh}) => {
     const [name, setName] = useState('')
     const [idFromName, setIdFromName] = useState('')
@@ -35,7 +38,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh}) => {
 
     const deleteFile = (file) => {
         axios
-          .get(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${idFromName}`, {
+          .post(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${idFromName}`, {token}, {
             params: file
           })
           .then(() => 
@@ -45,7 +48,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh}) => {
     };
 
     const getUploadParams = ({ meta }) => {
-        return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${idFromName}` };
+        return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${idFromName}?awstoken=${awstoken}` };
     };
 
     const handleChangeStatus = ({ meta, file }, status) => {
@@ -58,7 +61,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh}) => {
     };
 
     const handleSave = () => {
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/services/add`, {name, link, description, imageLink})
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/services/add`, {name, link, description, imageLink, token})
             .then(res => {
                 setRefresh(!refresh)
                 setServicePopup(false)

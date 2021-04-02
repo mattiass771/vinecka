@@ -10,6 +10,8 @@ import Button from "react-bootstrap/Button";
 import { Checkbox } from 'pretty-checkbox-react';
 import '@djthoms/pretty-checkbox';
 
+const token = process.env.REACT_APP_API_SECRET
+
 // Login.js
 export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppingCart = false, newUser, setNewUser, setUserInformation, userInformation}) => {
   const [passwordFirst, setPasswordFirst] = useState("");
@@ -46,12 +48,13 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
         fullName: fullName,
         email: email,
         phone: phone,
-        address: address
+        address: address,
+        token: token
       })
       .then((res) => {
-        if (!regSuccess) setRegSuccess(true)
+        if (shoppingCart && !regSuccess) setRegSuccess(true)
         if (checkedNewsletter) {
-          axios.post(`${process.env.REACT_APP_BACKEND_URL}/mails/add`, {name: firstName, email})
+          axios.post(`${process.env.REACT_APP_BACKEND_URL}/mails/add`, {name: firstName, email, token})
               .then(res => console.log(res.data))
               .catch(err => err && console.log(err))
         }
@@ -105,7 +108,7 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
 
   const checkIfEmailInDatabase = () => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/users/email/${email}`)
+      .post(`${process.env.REACT_APP_BACKEND_URL}/users/email/${email}`, {token})
       .then((res) => setEmailExists(res.data))
       .catch((err) => err && console.log(`Error: ${err}`));
   };

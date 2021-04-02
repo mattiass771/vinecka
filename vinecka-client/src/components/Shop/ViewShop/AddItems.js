@@ -10,9 +10,11 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import InputGroup from "react-bootstrap/InputGroup"
 
-
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
+
+const token = process.env.REACT_APP_API_SECRET
+const awstoken = process.env.REACT_APP_S3_TOKEN
 
 export default ({ showAddItems, setShowAddItems, shopData }) => {
   const [itemName, setItemName] = useState("");
@@ -56,7 +58,8 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
           maxCount: maxCount,
           color,
           type,
-          taste
+          taste,
+          token
         })
         .then(() => setShowAddItems(false))
         .catch((err) => err && console.log(err));
@@ -65,7 +68,7 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
 
   const deleteFile = (file) => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${shopId}`, {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${shopId}`, {token}, {
         params: file
       })
       .then(() => 
@@ -82,7 +85,7 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
 
   // specify upload params and url for your files
   const getUploadParams = ({ meta }) => {
-    return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${shopId}` };
+    return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${shopId}?awstoken=${awstoken}` };
   };
 
   // called every time a file's `status` changes

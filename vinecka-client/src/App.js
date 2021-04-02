@@ -23,8 +23,11 @@ import AdultModal from './AdultModal';
 import Contact from './components/Contact/Contact';
 import DeleteFromNewsletter from './components/Contact/DeleteFromNewsletter';
 import Popup from './components/Law/Popup';
+import emailjs from 'emailjs-com';
 
 import Spinner from "react-bootstrap/Spinner";
+
+const token = process.env.REACT_APP_API_SECRET
 
 // App.js
 export default () => {
@@ -36,16 +39,16 @@ export default () => {
   const [shoppingCart, setShoppingCart] = useState([])
 
   useEffect(() => {
+    emailjs.init(process.env.REACT_APP_EMAILJS_USERID);
     setLoadingData(true)
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/get-user-data`, {
-        withCredentials: true
+      .post(`${process.env.REACT_APP_BACKEND_URL}/get-user-data`, {token}, {
+        withCredentials: true,
       })
       .then((res) => {
         if (res.data) {
-          const { _id, userName, fullName, email, shopId, isOwner, shoppingCart } = res.data;
+          const { _id, userName, fullName, email, shopId, isOwner } = res.data;
           setUserData({ _id, userName, fullName, email, shopId, isOwner });
-          setShoppingCart(shoppingCart)
           setIsLoggedIn(userName ? true : false);
         } else {
           setUserData({})
@@ -58,7 +61,7 @@ export default () => {
   useEffect(() => {
     if (userData._id) {
       console.log('hello')
-      axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/${userData._id}/cart/`)
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userData._id}/cart/`, {token})
         .then(res => setShoppingCart(res.data))
         .catch(err => console.log('error updating shopping cart...', err))
     }
@@ -66,8 +69,8 @@ export default () => {
 
   const handleLogOut = () => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/logout`, {
-        withCredentials: true
+      .post(`${process.env.REACT_APP_BACKEND_URL}/logout`, {token}, {
+        withCredentials: true,
       })
       .then(() => {
         setUserData({});

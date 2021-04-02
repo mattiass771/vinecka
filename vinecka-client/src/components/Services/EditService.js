@@ -17,6 +17,9 @@ import {CKEditor} from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { editorConfig } from '../../config/options'
 
+const token = process.env.REACT_APP_API_SECRET
+const awstoken = process.env.REACT_APP_S3_TOKEN
+
 export default ({servicePopup, setServicePopup, refresh, setRefresh, serviceData}) => {
     const [name, setName] = useState(serviceData.name)
     const [idFromName, setIdFromName] = useState(serviceData.idFromName)
@@ -44,7 +47,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh, serviceData
 
     const deleteFile = (file) => {
         axios
-          .get(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${idFromName}`, {
+          .post(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${idFromName}`, {token}, {
             params: file
           })
           .then(() => 
@@ -54,7 +57,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh, serviceData
     };
 
     const getUploadParams = ({ meta }) => {
-        return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${idFromName}` };
+        return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${idFromName}?awstoken=${awstoken}` };
     };
 
     const handleChangeStatus = ({ meta, file }, status) => {
@@ -68,7 +71,7 @@ export default ({servicePopup, setServicePopup, refresh, setRefresh, serviceData
 
     const handleSave = () => {
         console.log(serviceData)
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/services/update-service/${serviceData._id}`, {name, link, description, imageLink})
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/services/update-service/${serviceData._id}`, {name, link, description, imageLink, token})
             .then(res => {
                 console.log(res.data)
                 setRefresh(!refresh)

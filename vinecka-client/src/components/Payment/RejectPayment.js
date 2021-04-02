@@ -9,6 +9,8 @@ import Col from "react-bootstrap/Col";
 
 import {FcHighPriority} from "react-icons/fc"
 
+const token = process.env.REACT_APP_API_SECRET
+
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);
 }
@@ -21,12 +23,12 @@ export default ({userId}) => {
 
     useEffect(() => {
         if (orderId && orderId.length !== 0) {
-            axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders/${orderId}/process-payment/`, {paymentResultCode: result, paymentId})
+            axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders/${orderId}/process-payment/`, {paymentResultCode: result, paymentId, token})
                 .then(res => console.log(res.data))
                 .catch(err => err && console.log(err))
                 .then(() => {
                     if (userId) {
-                        axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/clear-cart`)
+                        axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/clear-cart`, {token})
                             .then(res => console.log(res.data))
                             .catch(error => error && console.log(error))
                     }

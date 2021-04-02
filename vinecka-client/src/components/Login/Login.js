@@ -10,6 +10,8 @@ import SignUp from "./SignUp";
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
+const token = process.env.REACT_APP_API_SECRET
+
 // Login.js
 export default ({shoppingCart = false}) => {
   const [signUp, setSignUp] = useState("display-none");
@@ -27,6 +29,7 @@ export default ({shoppingCart = false}) => {
         <Col md={{span: 6, offset: 3}} className="text-center mt-1 pb-2">
           <h2>Prihláste sa!</h2>
           <form action={shoppingCart ? `${process.env.REACT_APP_BACKEND_URL}/login?shopping=cart` : `${process.env.REACT_APP_BACKEND_URL}/login`} method="post">
+            <input type="hidden" name="token" value={token} />
             <input
               className="form-control text-center"
               type="text"
@@ -63,6 +66,7 @@ export default ({shoppingCart = false}) => {
           <Row className="justify-content-center">
             <Col md={6} className="text-center mt-1">
               <form action={shoppingCart ? `${process.env.REACT_APP_BACKEND_URL}/login?shopping=cart` : `${process.env.REACT_APP_BACKEND_URL}/login`} method="post">
+                <input type="hidden" name="token" value={token} />
                 <input
                   className="form-control text-center"
                   type="text"

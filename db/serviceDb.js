@@ -12,7 +12,7 @@ const serviceSchema = new Schema({
   
 const Service = mongoose.model("Service", serviceSchema);
 
-router.route("/").get((req, res) => {
+router.route("/").post((req, res) => {
     Service.find()
       .then((service) => res.json(service))
       .catch((err) => res.status(400).json(`Error: ${err}`));
@@ -51,7 +51,7 @@ router.route("/update-service/:serviceId").post((req, res) => {
   });
 });
 
-router.route("/:id").delete((req, res) => {
+router.route("/delete-service/:id").post((req, res) => {
   Service.findByIdAndDelete(req.params.id)
     .then(() => res.json("Service deleted."))
     .catch((err) => res.status(400).json(`Error: ${err}`));

@@ -21,6 +21,8 @@ import PaymentOptions from './PaymentOptions'
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
+const token = process.env.REACT_APP_API_SECRET
+
 const deliveryOptions = {
     OSOBNY: 'osobny',
     ROZVOZ: 'rozvoz',
@@ -68,6 +70,8 @@ export default ({userId, updateCart, setUpdateCart}) => {
 
     const [selectedPickupPoint, setSelectedPickupPoint] = useState('')
 
+    const token = process.env.REACT_APP_API_SECRET
+
     const executeScroll = () => lastRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })   
 
     const handleSessionStorage = (customKey, value) => {
@@ -104,7 +108,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const sortItems = (cartItems) => {
         let sortShop = []
         for (let cartItem of cartItems) {
-            axios.get(`${process.env.REACT_APP_BACKEND_URL}/shop/${cartItem.shopId}`)
+            axios.post(`${process.env.REACT_APP_BACKEND_URL}/shop/get-shop/${cartItem.shopId}`, {token})
                 .then((res) => {
                     if (res.data && res.data.shopName) {
                         const { shopName, owner } = res.data
@@ -112,7 +116,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         const { count, itemId } = cartItem
                         const findItem = itemsArr.find(el => el._id === cartItem.itemId)
                         if (findItem === undefined) {
-                            axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`)
+                            axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`, {token})
                                 .then((res) => console.log(res))
                                 .catch(err => err && console.log('could not delete item', err))
                         } else {
@@ -159,7 +163,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         console.log('importing item ', itemId)
                         await axios
                             .post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/add-cart-item/${shopId}/${itemId}`, {
-                                shopId, itemId, count
+                                shopId, itemId, count, token
                             })
                             .then((res) => console.log(res))
                             .catch(err => err && console.log(err))
@@ -170,7 +174,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 addItemsToShoppingCartFromLocal()
             }
             axios
-                .get(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}`)
+                .post(`${process.env.REACT_APP_BACKEND_URL}/users/get-user/${userId}`, {token})
                 .then((res) => {
                     if (res.data) {
                         const {shoppingCart, fullName, email, phone, address} = res.data
@@ -208,7 +212,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
 
     const removeItemFromCart = (e, itemId, shopId) => {
         if (userId) {
-            axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${shopId}/${itemId}`)
+            axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${shopId}/${itemId}`, {token})
                 .then((res) => {
                     const newShops = shops.map(shop => {
                         const newItemData = shop.itemData.filter(item => item.itemId !== itemId)
@@ -326,13 +330,13 @@ export default ({userId, updateCart, setUpdateCart}) => {
         setPassOrderInfo({ orderId, userInformation, userId, shops, result, status, deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck })
         let orderError = false;
         const {id, carrierPickupPoint, url, place, nameStreet} = selectedPickupPoint
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders/add`, { orderId, userInformation, userId, shops, total, result, status, 
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders/add`, { token, orderId, userInformation, userId, shops, total, result, status, 
             deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck, packetInformation: {addressId: id, carrierPickupPoint, url, place, nameStreet} })
             .then(res => {
                 console.log('order created!')
                 setNewUser(true)
                 if (checkedNewsletter) {
-                    axios.post(`${process.env.REACT_APP_BACKEND_URL}/mails/add`, {name: userInformation.fullName, email: userInformation.email})
+                    axios.post(`${process.env.REACT_APP_BACKEND_URL}/mails/add`, {name: userInformation.fullName, email: userInformation.email, token})
                         .then(res => console.log(res))
                         .catch(err => err && console.log(err))
                 }   

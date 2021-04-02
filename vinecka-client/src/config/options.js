@@ -21,6 +21,8 @@ export const editorConfig = {
     }
 }
 
+export const token = process.env.REACT_APP_API_SECRET
+
 export default {
     MAX_HEIGHT_JUMBO: 350,
     MIN_HEIGHT_JUMBO: 350

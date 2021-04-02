@@ -1,6 +1,6 @@
-const { truncate } = require("fs");
 const mongoose = require("mongoose");
 const router = require("express").Router();
+const bcrypt = require("bcrypt");
 
 const Schema = mongoose.Schema;
 
@@ -30,7 +30,7 @@ const CartItem = mongoose.model("CartItem", shoppingCartSchema)
 
 // ROUTES //
 
-router.route("/:userId/cart/").get((req,res) => {
+router.route("/:userId/cart/").post((req,res) => {
   User.findById(req.params.userId)
     .then(user => res.json(user.shoppingCart))
     .catch(err => res.status(400).json(`Error: ${err}`)) 
@@ -56,7 +56,7 @@ router.route("/:userId/cart/add-cart-item/:shopId/:itemId").post((req,res) => {
 })
 
 router.route("/:userId/cart/delete-cart-item/:shopId/:itemId").post((req, res) => {
-  const { shopId, itemId, userId } = req.params;
+  const { itemId, userId } = req.params;
   User.findById(userId, (err, userFound) => {
     if (err) return console.log(err);
     userFound.shoppingCart = (userFound.shoppingCart).filter(obj => (obj.itemId !== itemId))
@@ -68,7 +68,7 @@ router.route("/:userId/cart/delete-cart-item/:shopId/:itemId").post((req, res) =
   });
 });
 
-router.route("/:userId/cart/clear-cart").get((req, res) => {
+router.route("/:userId/cart/clear-cart").post((req, res) => {
   const { userId } = req.params;
   User.findById(userId, (err, userFound) => {
     if (err) return console.log(err);
@@ -81,31 +81,34 @@ router.route("/:userId/cart/clear-cart").get((req, res) => {
   });
 });
 
-router.route("/").get((req, res) => {
+router.route("/").post((req, res) => {
   User.find()
     .then((users) => res.json(users))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.route("/:userId").get((req, res) => {
+router.route("/get-user/:userId").post((req, res) => {
   User.findById(req.params.userId)
     .then((user) => res.json(user))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.route("/email/:userEmail").get((req, res) => {
+router.route("/email/:userEmail").post((req, res) => {
   const email = req.params.userEmail;
   User.findOne({ email: email })
     .then((user) => res.json(user))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.route("/add-user").post((req, res) => {
+router.route("/add-user").post(async (req, res) => {
   const { userName, password, fullName, email, phone, address } = req.body;
 
+  const salt = await bcrypt.genSalt(10);
+  const passwordH = await bcrypt.hash(password, salt);
+  
   const addUser = new User({
     userName,
-    password,
+    password: passwordH,
     fullName,
     email,
     phone,
@@ -134,7 +137,7 @@ router.route("/edit-user/:userId/:find/:replace").put((req, res) => {
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.route("/delete-user/:userId").delete((req, res) => {
+router.route("/delete-user/:userId").post((req, res) => {
   User.findByIdAndDelete(req.params.userId)
     .then(() => res.json("Bye bye. :("))
     .catch((err) => res.status(400).json(`Error: ${err}`));

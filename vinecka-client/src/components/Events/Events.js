@@ -40,7 +40,7 @@ export default ({isOwner}) => {
     };
 
     const deleteCard = (eventId) => {
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/events/${eventId}/`, { token })
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/events/delete-event/${eventId}/`, { token })
             .then(() => setRefresh(!refresh))
             .catch((err) => err && console.log(`Error ${err}`));
     };
@@ -56,7 +56,7 @@ export default ({isOwner}) => {
                 const result = sortEventsData(events)
                 setEventsData(result)
             })
-            .catch(err => err && console.log(err))
+            .catch(err => console.log(err))
     }, [refresh])
 
     const handleSubmit = (passLink) => {

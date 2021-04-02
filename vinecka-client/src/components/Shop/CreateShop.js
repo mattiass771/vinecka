@@ -9,6 +9,8 @@ import shortid from 'shortid';
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
+const token = process.env.REACT_APP_API_SECRET
+
 // CreateShop.js
 export default ({ userData }) => {
   const [shopName, setShopName] = useState("");
@@ -25,7 +27,8 @@ export default ({ userData }) => {
         owner,
         ownerId,
         description,
-        url: shortid.generate()
+        url: shortid.generate(),
+        token
       })
       .then((res) => console.log(res.data))
       .catch((err) => err && console.log(`Error catched: ${err}`))

@@ -17,6 +17,7 @@
   "dependencies": {
     "@djthoms/pretty-checkbox": "^3.1.0",
     "aws-sdk": "^2.842.0",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "bootstrap": "4.5.3",
     "buffer": "^6.0.3",

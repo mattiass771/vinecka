@@ -14,7 +14,7 @@ const homeSchema = new Schema({
   
 const Home = mongoose.model("Home", homeSchema);
 
-router.route("/").get((req, res) => {
+router.route("/").post((req, res) => {
     Home.findOne()
       .then((home) => res.json(home))
       .catch((err) => res.status(400).json(`Error: ${err}`));

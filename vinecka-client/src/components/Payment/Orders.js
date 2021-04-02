@@ -15,6 +15,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import {BsTrashFill} from "react-icons/bs";
 import DeleteModal from "./DeleteModal";
 
+const token = process.env.REACT_APP_API_SECRET
+
 export default ({email, isOwner}) => {
     const [ordersData, setOrdersData] = useState([])
     const [statusObj, setStatusObj] = useState({})
@@ -30,7 +32,7 @@ export default ({email, isOwner}) => {
     // TODO: pridat moznost znovu zaplatit pri rejected order
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/orders`)
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders`, {token})
             .then(res => {
                 const result = res.data
                 const validatedOrdersData = isOwner ? result : result.filter(obj => obj.userInformation.email === email)
@@ -52,7 +54,7 @@ export default ({email, isOwner}) => {
         expandObj[_id] = oldValue
         setExpandedObj({...expandedObj, ...expandObj})
 
-        axios.put(`${process.env.REACT_APP_BACKEND_URL}/orders/${_id}/update-status/`, {status: newVal})
+        axios.put(`${process.env.REACT_APP_BACKEND_URL}/orders/${_id}/update-status/`, {status: newVal, token})
             .then(res => console.log(res.data))
             .catch(err => err && console.log(err))
             .then(() => setRefresh(!refresh))

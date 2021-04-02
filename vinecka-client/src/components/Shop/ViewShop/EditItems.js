@@ -10,9 +10,11 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import InputGroup from "react-bootstrap/InputGroup"
 
-
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
+
+const token = process.env.REACT_APP_API_SECRET
+const awstoken = process.env.REACT_APP_S3_TOKEN
 
 export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp, setShouldReload, shouldReload }) => {
   const [itemName, setItemName] = useState("");
@@ -48,7 +50,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
   const handleSaveItem = () => {
     if (itemName) {
       axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/itemName/${itemName}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/itemName/${itemName}`, {token})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -57,7 +59,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
     if (price) {
       axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/price/${price}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/price/${price}`, {token})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -66,7 +68,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
     if (description) {
       axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/description/${description}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/description/${description}`, {token})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -75,7 +77,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
     if (imageLink) {
       axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/imageLink/${imageLink}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/imageLink/${imageLink}`, {token})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -84,7 +86,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
     if (maxCount) {
       axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/maxCount/${maxCount}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/maxCount/${maxCount}`, {token})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -93,7 +95,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
     if (color) {
       axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/color/${color}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/color/${color}`, {token})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -102,7 +104,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
     if (type) {
       axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/type/${type}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/type/${type}`, {token})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -111,7 +113,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
     if (taste) {
       axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/taste/${taste}`, {})
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/taste/${taste}`, {token})
         .then(() => {
           setShowEditItems('')
           setShouldReload(!shouldReload)
@@ -122,7 +124,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
 
   const deleteFile = (file) => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${shopId}`, {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${shopId}`, {token}, {
         params: file
       })
       .then(() => 
@@ -138,7 +140,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
   }, [imageLink, description, price, itemName, color, type, taste]);
 
   const getUploadParams = ({ meta }) => {
-    return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${shopId}` };
+    return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${shopId}?awstoken=${awstoken}` };
   };
 
   const handleChangeStatus = ({ meta, file }, status) => {

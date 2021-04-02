@@ -14,6 +14,9 @@ import Button from 'react-bootstrap/Button'
 
 const IMAGE_PREFIX = 'homescreen-service-image'
 
+const token = process.env.REACT_APP_API_SECRET
+const awstoken = process.env.REACT_APP_S3_TOKEN
+
 export default ({servicesPopup, setServicesPopup, forceRefresh, setForceRefresh, servicesImage, servicesText}) => {
     const description = servicesText
     const [imageLink, setImageLink] = useState(servicesImage)
@@ -30,7 +33,7 @@ export default ({servicesPopup, setServicesPopup, forceRefresh, setForceRefresh,
 
     const deleteFile = (file) => {
         axios
-          .get(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${IMAGE_PREFIX}`, {
+          .post(`${process.env.REACT_APP_BACKEND_URL}/deleteFile/${IMAGE_PREFIX}`, {token}, {
             params: file
           })
           .then(() => 
@@ -40,7 +43,7 @@ export default ({servicesPopup, setServicesPopup, forceRefresh, setForceRefresh,
     };
 
     const getUploadParams = ({ meta }) => {
-        return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${IMAGE_PREFIX}` };
+        return { url: `${process.env.REACT_APP_BACKEND_URL}/fileUpload/${IMAGE_PREFIX}?awstoken=${awstoken}` };
     };
 
     const handleChangeStatus = ({ meta, file }, status) => {
@@ -53,7 +56,7 @@ export default ({servicesPopup, setServicesPopup, forceRefresh, setForceRefresh,
     };
 
     const handleSave = () => {
-        axios.put(`${process.env.REACT_APP_BACKEND_URL}/home/services-description`, { descriptionServices: description, imageLinkServices: imageLink })
+        axios.put(`${process.env.REACT_APP_BACKEND_URL}/home/services-description`, { descriptionServices: description, imageLinkServices: imageLink, token })
             .then(res => {
                 console.log(res.data)
                 setForceRefresh(!forceRefresh)

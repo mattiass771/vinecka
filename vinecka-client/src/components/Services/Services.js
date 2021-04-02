@@ -12,6 +12,8 @@ import EditService from './EditService'
 
 import {MdDateRange, MdLocationOn, MdDelete, MdEdit} from 'react-icons/md'
 
+const token = process.env.REACT_APP_API_SECRET
+
 export default ({isOwner}) => {
     const [servicesData, setServicesData] = useState([])
     const [servicePopup, setServicePopup] = useState(false)
@@ -35,13 +37,13 @@ export default ({isOwner}) => {
     };
 
     const deleteCard = (serviceId) => {
-        axios.delete(`${process.env.REACT_APP_BACKEND_URL}/services/${serviceId}/`)
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/services/delete-service/${serviceId}/`, {token})
             .then(() => setRefresh(!refresh))
             .catch((err) => err && console.log(`Error ${err}`));
     };
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/services/`)
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/services/`, {token})
             .then(res => {
                 const result = res.data
                 setServicesData(result)

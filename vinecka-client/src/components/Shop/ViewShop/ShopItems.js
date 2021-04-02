@@ -13,6 +13,8 @@ import { FiPlusSquare } from "react-icons/fi";
 
 import ShowItem from './ShowItem'
 
+const token = process.env.REACT_APP_API_SECRET
+
 export default ({ shopData, isOwner, userId, updateCart, setUpdateCart }) => {
   const [showAddItems, setShowAddItems] = useState(false);
   const [shopItems, setShopItems] = useState(shopData.shopItems);
@@ -28,7 +30,7 @@ export default ({ shopData, isOwner, userId, updateCart, setUpdateCart }) => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}`)
+      .post(`${process.env.REACT_APP_BACKEND_URL}/shop/get-shop/${shopId}`, {token})
       .then((res) => setShopItems(res.data.shopItems))
       .catch((err) => err && console.log(err.data))
       .then(() => {
