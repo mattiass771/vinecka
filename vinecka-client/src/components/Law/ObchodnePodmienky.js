@@ -3,38 +3,46 @@ import React from 'react'
 export default () => {
     return (
         <div>
-            <h3>
-                <strong>Predávajúci</strong> </h3>
+            <h1>Obchodné podmienky</h1>
+            <h3><strong>Predávajúci</strong></h3>
             <p>Predávajúcim a prevádzkovateľom internetového obchodu je spoločnosť:</p>
             <p>Krizanovic &amp; Prievozník, s. r. o. so sídlom Hradská 66/51 900 82 Blatné, IČO: 52510484, zapísaná v obchodnom registri Okresného súdu Bratislava I, odd. Sro, vl.č.  
             138857/B, DIČ: 2121048963 (ďalej tiež ako „predávajúci“ a/alebo tiež ako „prevádzkovateľ“ a/alebo tiež ako „Križanovič &amp; Prievozník, s.r.o.“) je prevádzkovateľom internetového obchodu umiestneného na internetovej adrese: 
-            <a href="${process.env.REACT_APP_BACKEND_URL}//${process.env.REACT_APP_API_SECRET}">masvino.sk </a>. </p>
+            <a href="https://www.masvino.sk">masvino.sk </a>. </p>
             <h3>
                 <strong>Objednávanie a nákup tovaru </strong> 
             </h3>
-                <p>Tovar je možné objednať prostredníctvom nášho internetového obchodu zaslaním objednávky, emailu, alebo telefonicky. </p>
+                <p>Tovar je možné objednať prostredníctvom nášho internetového obchodu zaslaním objednávky, <a href="https://www.masvino.sk/kontakt">emailu, alebo telefonicky.</a> </p>
             <h3>
                 <strong>Zrušenie objednávky </strong> 
             </h3>
-                <p>Objednávku je možné zrušiť emailom na: <a href="">reklamacie@masvino.sk </a> </p>
+                <p>Objednávku je možné zrušiť emailom na: <a href="https://www.masvino.sk/kontakt">masvino.sk@gmail.com</a> </p>
             <h3>
                 <strong>Spôsob dodania a dodacie termíny </strong> 
             </h3>
                 <p>Pri objednávke dostanete 3 možnosti prevzatia objednaného tovaru: </p>
-            <h6>
+            <p>
                 <strong>1. Tovar Vám doručí náš vlastný kuriér iba v rámci Pezinka a blízkeho okolia </strong> 
-            </h6>
+            </p>
             <p>Služby pred doručením : </p>
             <ul style={{textAlign: 'left', paddingLeft: '10%'}}>
                 <li>Príjemca je v deň doručenia telefonicky kontaktovaný kuriérom ešte pred samotným doručením </li>
                 <li>Príjemca má možnosť zmeniť miesto a čas doručenia. </li>
             </ul>
-            <h6>
+            <p>
                 <strong>2. Osobný odber Pezinok </strong> 
-            </h6>
-                <p>Sacherka Cafe, Radničné nám. 42/5, 902 01 Pezinok. Kontakt 
-                <a href="tel:0948 721 868">0902 717 413 </a>. </p>
+            </p>
+                <p>Ul. Eugena Suchoňa 24, 902 01 Pezinok. 0948 721 868. Kontakt 
+                <a href="tel:0948 721 868">0948 721 868 </a>. </p>
                 <p>Pri vlastnom odbere platíte iba cenu tovaru. </p>
+            <p>
+                <strong>3. Osobný odber v pobočke Zásielkovňa </strong> 
+            </p>
+                <p>Miesto odberu si vyberiete sami, pri zadávaní možnosti doručenia. </p>
+            <p>
+                <strong>4. Doručenie kuriérom poskytnutým spoločnosťou Zásielkovňa </strong> 
+            </p>
+                <p>Kuriér doručí tovar na Vami vyplnenú adresu doručenia, pre upresnenie času a dátumu doručenia Vás bude kontaktovať. </p>
             <h3>
                 <strong>Platba za tovar </strong> 
             </h3> 

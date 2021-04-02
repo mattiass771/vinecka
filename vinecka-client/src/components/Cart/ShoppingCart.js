@@ -228,7 +228,9 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 .then(() => {
                     setUpdateCart(!updateCart)
                 }) 
-            if (shops.length === 1) setShops('')
+            if (shops.length === 1 && shops[0].itemData.length === 1) {
+                window.location.reload()
+            }
         } else {
             const localShoppingCart = JSON.parse(localStorage.getItem('shoppingCart'))
             const newLocalShoppingCart = localShoppingCart.filter(item => item.itemId !== itemId)

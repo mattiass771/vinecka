@@ -171,7 +171,7 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
         onClick={() => history.push(`/kosik`)} 
         onMouseEnter={() => setShoppingHover(true)} 
         onMouseLeave={() => setShoppingHover(false)} 
-        style={{cursor: 'pointer', color: shoppingHover ? "whitesmoke" : "#e4b21d", position: 'fixed', bottom: 35, right:35, width: "60px", height: "60px", backgroundColor: "rgba(250,250,250,0.0)", zIndex: '+9', borderRadius: '5px'}}>
+        style={{cursor: 'pointer', color: shoppingHover ? "whitesmoke" : "#e4b21d", position: 'fixed', bottom: 75, right:35, width: "60px", height: "60px", backgroundColor: "rgba(250,250,250,0.0)", zIndex: '+9', borderRadius: '5px'}}>
         <div className="justify-content-end text-center" 
           style={{marginLeft: '45px', marginTop: '-16px', fontSize: '120%', fontFamily: 'Cabin', width:'16px', height:'16px'}}
         >
