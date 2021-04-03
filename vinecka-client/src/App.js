@@ -23,6 +23,8 @@ import AdultModal from './AdultModal';
 import Contact from './components/Contact/Contact';
 import DeleteFromNewsletter from './components/Contact/DeleteFromNewsletter';
 import Popup from './components/Law/Popup';
+import CookiesPopup from './components/Law/CookiesPopup'
+
 import emailjs from 'emailjs-com';
 
 import Spinner from "react-bootstrap/Spinner";
@@ -60,7 +62,6 @@ export default () => {
 
   useEffect(() => {
     if (userData._id) {
-      console.log('hello')
       axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userData._id}/cart/`, {token})
         .then(res => setShoppingCart(res.data))
         .catch(err => console.log('error updating shopping cart...', err))
@@ -79,8 +80,10 @@ export default () => {
       .catch((err) => console.log(`Error ${err}`))
       .then(() => window.location.reload());
   };
+
   return (
     <Router>
+      <CookiesPopup setShowLawPopup={setShowLawPopup} />
       {window.localStorage.getItem('mas-vino-isAdult') !== "true" &&
         <AdultModal initShow={true} />
       }
@@ -136,7 +139,7 @@ export default () => {
               <Services isOwner={userData.isOwner} />
             </Route>
             <Route exact path={`/kontakt`}>
-              <Contact userId={userData._id} />
+              <Contact userId={userData._id} isOwner={userData.isOwner} />
             </Route>
             <Route exact path={`/odhlasit-newsletter`}>
               <DeleteFromNewsletter />

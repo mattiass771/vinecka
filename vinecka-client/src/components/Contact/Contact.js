@@ -11,10 +11,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from "react-bootstrap/Spinner";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 const token = process.env.REACT_APP_API_SECRET
 
-export default ({userId}) => {
+export default ({userId, isOwner}) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [message, setMessage] = useState('')
@@ -23,6 +25,7 @@ export default ({userId}) => {
     const [failed, setFailed] = useState(false)
     const [checkedGdpr, setCheckedGdpr] = useState(false)
     const [checkedNewsletter, setCheckedNewsletter] = useState(false)
+    const [showNewsMails, setShowNewsMails] = useState('')
 
     const sendEmail = (e) => {
         e.preventDefault();
@@ -48,9 +51,32 @@ export default ({userId}) => {
         });
     }
 
+    const getNewsMails = () => {
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/mails/emails`, {token})
+            .then(res => setShowNewsMails(res.data))
+            .catch(err => console.log(err))
+    }
+
   return (
     <div className="whitesmoke-bg-pnine">
         <Container className="py-4">
+            {isOwner && 
+            <Row className="mb-4 mt-4 text-center justify-content-center">
+                <Button variant="dark" onClick={() => getNewsMails()} >Newsletter E-Maily</Button>
+            </Row>
+            }
+            {isOwner && typeof showNewsMails === 'string' && showNewsMails.length !== 0 &&
+            <Modal show={showNewsMails.length !== 0} onHide={() => setShowNewsMails('')}>
+                <Modal.Body>
+                        {showNewsMails}
+                </Modal.Body>
+                <Modal.Footer className="row justify-content-center">
+                    <Button variant="dark" onClick={() => setShowNewsMails('')}>
+                        Zavrieť
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            }
             <Row className="mb-4 mt-4 text-center justify-content-center">
                 <Col xs={3}><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></Col>
                 <Col xs={6}><h1>Kontaktujte nás!</h1></Col>

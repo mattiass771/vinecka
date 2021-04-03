@@ -11,17 +11,17 @@ const mailsSchema = new Schema({
   
 const Mails = mongoose.model("Mails", mailsSchema);
 
-router.route("/").get((req, res) => {
+router.route("/").post((req, res) => {
     Mails.find()
       .then((mails) => res.json(mails))
       .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.route("/emails").get((req, res) => {
+router.route("/emails").post((req, res) => {
     Mails.find()
       .then((mails) => {
             const mailsOnly = mails.map(val => val.email)
-            return res.json(mailsOnly)
+            return res.json(mailsOnly.join(', '))
       })
       .catch((err) => res.status(400).json(`Error: ${err}`));
 });
