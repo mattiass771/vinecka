@@ -5,7 +5,7 @@ import Table from 'react-bootstrap/Table'
 export default () => {
     return (
         <div>
-            <p>Prevádzkovateľom internetového obchodu (ďalej len „e-shop“) umiestne­ného na doméne vinecka.sk je:</p>
+            <p>Prevádzkovateľom internetového obchodu (ďalej len „e-shop“) umiestne­ného na doméne masvino.sk je:</p>
             <p>
             <strong>Križanovič &amp; Prievozník s.r.o. </strong>so sídlom Hradská 66/51 900 82 Blatné
             <strong>zápis:</strong> oddiel Sro, vložka číslo 
@@ -37,7 +37,7 @@ export default () => {
             <strong>Údaje o Vás môžete meniť a vymazať:</strong> Vo Vašom účte môžete kedykoľvek zmeniť informácie, ktoré máme o vás uložené alebo svoj profil vymazať. Taktiež sa môžete kedykoľvek odhlásiť zo zasielania nášho newslettra (spravodajcu o novinkách a akciách).</li>
             <li>
             <strong>Kontaktné údaje zodpovednej osoby: </strong>
-            <a href="">info@vinecka.sk</a>, +421 902 717 413.</li>
+            <a href="">masvino.sk@gmail.com</a>, +421 902 717 413.</li>
             <li>
             <strong>Vaše práva v súvislosti s osobnými údajmi:</strong> Máte právo na (i) prístup k Vašim osobným údajom; (ii) opravu nesprávnych osobných údajov; (iii) obmedzenie (blokovanie) spracúvania osobných údajov; (iv) namietanie spracúvania Vašich osobných údajov; (v) právo na výmaz osobných údajov; (vi) prenosnosť osobných údajov; (vii) podanie návrhu na začatie konania na Úrade na ochranu osobných údajov SR.</li></ol>
             <h2>II. Získavanie, spracovanie a použitie osobných údajov</h2>
@@ -290,8 +290,8 @@ export default () => {
             <strong>G. Údaje z Facebooku a fanúšikovská stránka na Facebooku</strong></h3>
             <p>Ak pre uľahčenie registrácie využijete sociálnu sieť Facebook, umožníte prevádzkovateľovi tiež prístup k Vášmu verejnému profilu, dátumu narodenia, údajom o aktuálnom mieste pobytu a emailovej adrese. Súčasťou Vášho verejného profilu na Facebooku je Vaše meno a priezvisko, profilový obrázok, veková kategória, údaj o pohlaví a ďalšie verejné informácie podľa vášho nastavenia.</p>
             <p>Prevádzkovateľ je autorom a správcom fanúšikovskej stránky na Facebooku – 
-            <a href="https://www.facebook.com/muskavspajzke/" target="_blank" rel="noopener">
-            <u>https://www.facebook.com/muskavspajzke/</u>.</a> Táto stránka sociálnej siete Facebook slúži na prezentáciu produktov a súvisiacich služieb, článkov a názorov prevádzkovateľa. Vzhľadom na propagáciu produktov je určená osobám starším ako 18 rokov. Prevádzkovateľ môže získavať anonymné štatistické údaje o návštevníkoch  svojej fanúšikovskej stránky prostredníctvom súborov cookies podľa pravidiel spoločnosti Facebook (Facebook Inc., 1601 South California Avenue, Palo Alto, CA 94304, USA).</p>
+            <a href="https://www.facebook.com/masvino.sk/" target="_blank" rel="noopener">
+            <u>https://www.facebook.com/masvino.sk/</u>.</a> Táto stránka sociálnej siete Facebook slúži na prezentáciu produktov a súvisiacich služieb, článkov a názorov prevádzkovateľa. Vzhľadom na propagáciu produktov je určená osobám starším ako 18 rokov. Prevádzkovateľ môže získavať anonymné štatistické údaje o návštevníkoch  svojej fanúšikovskej stránky prostredníctvom súborov cookies podľa pravidiel spoločnosti Facebook (Facebook Inc., 1601 South California Avenue, Palo Alto, CA 94304, USA).</p>
             <p>Prevádzkovateľ v rámci fanúšikovskej stránky spracúva aj ďalšie kategórie osobných údajov o užívateľoch, ktorých rozsah je závislý od nastavenia profilu návštevníka týchto stránok a jeho aktivity na tejto stránke (reakcií na príspevky).</p>
             <p>Poskytovanie osobných údajov návštevníkmi fanúšikovskej stránky prevádzkovateľa  je dobrovoľné, bez ich poskytnutia osobné údaje nebudú spracúvané, pričom údaje sú spracúvané na právnom základe oprávneného záujmu prevádzkovateľa za účelom šírenia marketingových informácii o svojich produktoch. Doba uchovania týchto údajov je 10 rokov.</p>
             <p> </p>
@@ -302,8 +302,8 @@ export default () => {
             <b>výpis evidovaných osobných údajov</b>, 
             <b>zmenu</b>, alebo 
             <b>vymazanie svojich osobných údajov</b> písomne elektronickou poštou na adrese 
-            <a href="">info@masvino.sk</a> alebo priamo u zodpovednej osoby prevádzkovateľa 
-            <a href="">zodpovednaosoba@masvino.sk</a> na tieto účely môžete použiť aj pripravené formuláre, ktoré Vám uľahčia vyjadrenie Vašej vôle.</p>
+            <a href="">masvino.sk@gmail.com</a> alebo priamo u zodpovednej osoby prevádzkovateľa 
+            <a href="">masvino.sk@gmail.com</a> na tieto účely môžete použiť aj pripravené formuláre, ktoré Vám uľahčia vyjadrenie Vašej vôle.</p>
             <p> </p>
             <h2>IV. Práva dotknutých osôb</h2>
             <p>Ako dotknutá osoba poskytujúca osobné údaje máte na základe písomnej žiadosti, telefonicky, osobne, e-mailom u prevádzkovateľa právo na:</p>
@@ -315,9 +315,9 @@ export default () => {
             <li>prenosnosť osobných údajov;</li>
             <li>podanie návrhu na začatie konania na Úrade na ochranu osobných údajov SR, Hraničná 12, 820 07 Bratislava 27.</li></ul>
             <p>Ak máte otázky k ochrane údajov, môžete sa na nás kedykoľvek obrátiť na telefónnom čísle +421 948 721 868, na e-mail: 
-            <a href="">info@masvino.sk</a>, alebo na adrese Hradská 66/51 900 82 Blatné.</p>
+            <a href="">masvino.sk@gmail.com</a>, alebo na adrese Hradská 66/51 900 82 Blatné.</p>
             <p>Služby a produkty poskytované v rámci e-shopu, na ktoré sa podľa týchto podmienok vyžaduje súhlas dotknutej osoby, nie sú určené osobám mladším ako 18 rokov.</p>
-            <p>V Pezinku, 19.6.2020.</p>
+            <p>V Pezinku, 1.4.2021.</p>
     </div>
     )
 }

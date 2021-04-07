@@ -154,7 +154,7 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
         </Nav>
       </Navbar.Collapse>
     </Navbar>
-    <div style={{...iconStyles, top: visible ? '0' : '-169px'}} >
+    {/* <div style={{...iconStyles, top: visible ? '0' : '-169px'}} >
       &nbsp;&nbsp;
       <a rel="noopener noreferrer" target="_blank" href="https://facebook.com" style={{textDecoration: 'none', color: 'whitesmoke'}}>
         <FaFacebookSquare style={{fontSize: '195%'}} />
@@ -163,7 +163,7 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
         <FaInstagram style={{fontSize: '195%'}} />
       </a>&nbsp;&nbsp;&nbsp;
       <Link to="/kontakt"><MdMailOutline style={{fontSize: '225%', color: 'whitesmoke'}} /></Link>
-    </div>
+    </div> */}
     {shoppingCartLength > 0 && 
       <div 
         onClick={() => history.push(`/kosik`)} 

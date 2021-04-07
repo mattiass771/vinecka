@@ -21,10 +21,10 @@ export default ({initShow}) => {
             <div className="w-100 text-center" style={{backgroundColor: '#2b371b'}} >
                 <img src={logo} height="60%" width="60%"/>
             </div>
-            <Modal.Body className="text-center" style={{fontSize: "150%", color: 'whitesmoke', backgroundColor: '#2b371b'}}>Týmto potvrdzujem, ze som plnoletý a ze si mozem legalne objednat vinko.</Modal.Body>
+            <Modal.Body className="text-center" style={{fontSize: "150%", color: 'whitesmoke', backgroundColor: '#2b371b'}}>Týmto potvrdzujem, že som plnoletý a môžem si legálne objednať víno.</Modal.Body>
             <Modal.Footer className="row justify-content-center">
                 <Button variant="dark" onClick={() => history.goBack()}>
-                    Niesom plnoletý&nbsp;  
+                    Nie som plnoletý&nbsp;  
                     <GiBabyBottle style={{fontSize: '175%'}} />
                 </Button>
                 <Button variant="dark" onClick={() => handleConfirm()}>
