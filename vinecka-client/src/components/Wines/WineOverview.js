@@ -158,7 +158,6 @@ export default ({ userData, shopData,updateCart, setUpdateCart }) => {
             <option>Biele</option>
             <option>Červené</option>
             <option>Ružové</option>
-            <option>Ovocné</option>
           </Form.Control>
         </Col>
         <Col className="mb-1" xs={12} md={4}>

@@ -103,22 +103,31 @@ router.route("/email/:userEmail").post((req, res) => {
 router.route("/add-user").post(async (req, res) => {
   const { userName, password, fullName, email, phone, address } = req.body;
 
-  const salt = await bcrypt.genSalt(10);
-  const passwordH = await bcrypt.hash(password, salt);
-  
-  const addUser = new User({
-    userName,
-    password: passwordH,
-    fullName,
-    email,
-    phone,
-    address
-  });
+  if (userName && typeof userName !== 'string') return res.status(400).json("Invalid datatype provided.")
+  if (password && typeof password !== 'string') return res.status(400).json("Invalid datatype provided.")
+  if (fullName && typeof fullName !== 'string') return res.status(400).json("Invalid datatype provided.")
+  if (email && typeof email !== 'string') return res.status(400).json("Invalid datatype provided.")
+  if (phone && typeof phone !== 'string') return res.status(400).json("Invalid datatype provided.")
+  if (address && typeof address !== 'string') return res.status(400).json("Invalid datatype provided.")
 
-  addUser
-    .save()
-    .then(() => res.json(`Welcome to the platform ${userName}!`))
-    .catch((err) => res.status(400).json(`Error: ${err}`));
+  if (password && typeof password === 'string') {
+    const salt = await bcrypt.genSalt(10);
+    const passwordH = await bcrypt.hash(password, salt);
+    
+    const addUser = new User({
+      userName,
+      password: passwordH,
+      fullName,
+      email,
+      phone,
+      address
+    });
+  
+    addUser
+      .save()
+      .then(() => res.json(`Welcome to the platform ${userName}!`))
+      .catch((err) => res.status(400).json(`Error: ${err}`));
+  } else return res.status(400).json("Invalid request.")
 });
 
 router.route("/edit-user/:userId/:find/:replace").put((req, res) => {

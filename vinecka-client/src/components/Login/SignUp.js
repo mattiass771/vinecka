@@ -397,11 +397,11 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
             checkedGdpr &&
             emailExists === null ? (
               <Button onClick={handleSignUp} variant="dark">
-                Prihlásiť sa!
+                Registrovať sa!
               </Button>
             ) : (
               <Button disabled variant="dark">
-                Prihlásiť sa!
+                Registrovať sa!
               </Button>
             )}
           </Col>

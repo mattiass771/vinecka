@@ -7,12 +7,12 @@ export default () => {
         <div>
             <p>Prevádzkovateľom internetového obchodu (ďalej len „e-shop“) umiestne­ného na doméne masvino.sk je:</p>
             <p>
-            <strong>Križanovič &amp; Prievozník s.r.o. </strong>so sídlom Hradská 66/51 900 82 Blatné
-            <strong>zápis:</strong> oddiel Sro, vložka číslo 
-            <span>138857/B</span>, register Okresného súdu Bratislava I, 
-            <strong>IČO:</strong> 52510484, 
-            <strong>DIČ:</strong> 2121048963
-            <strong>tel.:</strong> +421 948 721 868, 
+            <strong>Križanovič &amp; Prievozník s.r.o. </strong>so sídlom Hradská 66/51 900 82 Blatné<br />
+            <strong>zápis:</strong> oddiel Sro, vložka číslo
+            <span>138857/B</span>, register Okresného súdu Bratislava I, <br />
+            <strong>IČO:</strong> 52510484, <br />
+            <strong>DIČ:</strong> 2121048963<br />
+            <strong>tel.:</strong> +421 948 721 868, <br />
             <strong>e-mail:</strong> 
             <a href="">info@masvino.sk</a></p>
             <p>(ďalej len „prevádzkovateľ“).</p>

@@ -13,6 +13,14 @@ const bcrypt = require("bcrypt");
 
 require("dotenv").config();
 
+// REDIRECT TO HTTPS
+app.use((req, res, next) => {
+  if(req.headers["x-forwarded-proto"] === "https"){
+      return next();
+  };
+  res.redirect('https://'+req.hostname+req.url);
+});
+
 // AWS Config
 
 AWS.config.update({

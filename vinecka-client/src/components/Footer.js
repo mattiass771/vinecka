@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
+import {Link} from 'react-router-dom';
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -8,7 +9,7 @@ import { BiCodeAlt } from "react-icons/bi";
 import { MdMailOutline } from "react-icons/md";
 import { FaFacebookF,FaInstagram } from "react-icons/fa";
 
-export default ({showLawPopup, setShowLawPopup}) => {
+export default ({setShowLawPopup}) => {
 
   const footerStyles = {
     transition: 'bottom 0.6s',
@@ -27,7 +28,7 @@ export default ({showLawPopup, setShowLawPopup}) => {
             </a>
           </Col>
           <Col className="mb-2" md={6} lg={3}>
-            <a rel="noopener noreferrer" target="_blank" href="https://facebook.com" style={{textDecoration: 'none', color: 'whitesmoke'}}>
+            <a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/masvinosk-179187951980" style={{textDecoration: 'none', color: 'whitesmoke'}}>
               <FaFacebookF style={{fontSize: '130%', marginTop: '-2px', marginRight: '-4px'}} />acebook.com<strong>/masvino.sk</strong>
             </a>
           </Col>
@@ -37,7 +38,9 @@ export default ({showLawPopup, setShowLawPopup}) => {
             </a>
           </Col>
           <Col className="mb-2" md={6} lg={3}>
-            <MdMailOutline style={{fontSize: '150%', marginTop: '-2px', color: 'whitesmoke'}} /><strong style={{color: 'whitesmoke'}}>masvino.sk@gmail.com</strong>
+            <Link to="/kontakt">
+              <MdMailOutline style={{fontSize: '150%', marginTop: '-2px', color: 'whitesmoke'}} /><strong style={{color: 'whitesmoke'}}>masvino.sk@gmail.com</strong>
+            </Link>
           </Col>
         </Row>
         <Row className="text-center my-2" style={{fontSize: '80%'}}>
