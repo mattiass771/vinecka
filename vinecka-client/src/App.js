@@ -31,7 +31,7 @@ import Spinner from "react-bootstrap/Spinner";
 
 const token = process.env.REACT_APP_API_SECRET
 
-// App.js
+// App.jss
 export default () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
