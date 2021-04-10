@@ -22,7 +22,7 @@ body {
   color: #333333 !important;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
-  padding-top: 168px;
+  padding-top: 188px;
   --ck-z-default: 100;
   --ck-z-modal: calc( var(--ck-z-default) + 999);
 }
@@ -32,23 +32,12 @@ body {
   color: #333333;
 }
 
-body:after{
-  content:"";
-  position:fixed; /* stretch a fixed position to the whole screen */
-  top:0;
-  height:100vh; /* fix for mobile browser address bar appearing disappearing */
-  left:0;
-  right:0;
-  z-index:-1; /* needed to keep in the background */
-  background: url(./bg.png) center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
 .body-image {
   background: url(./boteia.jpg) no-repeat center center fixed; 
+  -webkit-background-size: 100%; 
+  -moz-background-size: 100%; 
+  -o-background-size: 100%; 
+  background-size: 100%; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -63,6 +52,12 @@ body:after{
   body {
     padding-top: 147px !important;
   }
+}
+
+.test {
+  -webkit-box-shadow: 0px 0px 8px 2px rgba(51,51,51,1);
+-moz-box-shadow: 0px 0px 8px 2px rgba(51,51,51,1);
+box-shadow: 0px 0px 8px 2px rgba(51,51,51,1);
 }
 
 
@@ -81,6 +76,22 @@ body:after{
 .btn-dark:hover {
   background-color: whitesmoke !important;
   color: #2b371b !important
+}
+
+@media only screen and (min-width : 768px) {
+  .navi-user {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+  }
+}
+
+@media only screen and (max-width : 767px) {
+  .navi-user {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+  }
 }
 
 @media only screen and (min-width : 768px) {

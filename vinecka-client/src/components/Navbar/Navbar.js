@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
@@ -13,6 +13,7 @@ import { MdMailOutline } from "react-icons/md";
 // Navbar.js
 export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = localStorage.getItem('shoppingCart'), updateCart }) => {
   let history = useHistory();
+  let location = useLocation();
   const [prevScrollPos, setPrevScrollPos] = useState(0); 
   const [visible, setVisible] = useState(true);
   const [shoppingCartLength, setShoppingCartLength] = useState(0)
@@ -101,7 +102,7 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
         />
         <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: 'whitesmoke', marginBottom: '-31px'}} />
     </div>
-    <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-169px', paddingTop: '120px'}} variant="dark" expand="md">
+    <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-188px', paddingTop: '120px'}} variant="dark" expand="md">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="row justify-content-center text-center">
         <Nav className="my-4 my-md-0">
@@ -129,7 +130,7 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
               Kontakt
           </Nav.Link>
         </Nav>
-        <Nav style={{position: "absolute", right: 16, top: 16}}>
+        <Nav className="navi-user">
             <Nav.Link as={Link} href="/kosik" to="/kosik" className="navihover  pt-3 pb-3 mr-1 ml-1">
                 {shoppingCartLength > 0 &&
                 <div style={{ marginBottom: '-12px', marginLeft: '25px', fontSize: '60%', fontFamily: 'Cabin', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
@@ -154,30 +155,20 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
         </Nav>
       </Navbar.Collapse>
     </Navbar>
-    {/* <div style={{...iconStyles, top: visible ? '0' : '-169px'}} >
-      &nbsp;&nbsp;
-      <a rel="noopener noreferrer" target="_blank" href="https://facebook.com" style={{textDecoration: 'none', color: 'whitesmoke'}}>
-        <FaFacebookSquare style={{fontSize: '195%'}} />
-      </a>&nbsp;&nbsp;&nbsp;
-      <a rel="noopener noreferrer" target="_blank" href="https://instagram.com/masvino.sk" style={{textDecoration: 'none', color: 'whitesmoke'}}>
-        <FaInstagram style={{fontSize: '195%'}} />
-      </a>&nbsp;&nbsp;&nbsp;
-      <Link to="/kontakt"><MdMailOutline style={{fontSize: '225%', color: 'whitesmoke'}} /></Link>
-    </div> */}
-    {shoppingCartLength > 0 && 
+    {shoppingCartLength > 0 && location.pathname !== '/kosik' &&
       <div 
         onClick={() => history.push(`/kosik`)} 
         onMouseEnter={() => setShoppingHover(true)} 
         onMouseLeave={() => setShoppingHover(false)} 
-        style={{cursor: 'pointer', color: shoppingHover ? "whitesmoke" : "#e4b21d", position: 'fixed', bottom: 75, right:35, width: "60px", height: "60px", backgroundColor: "rgba(250,250,250,0.0)", zIndex: '+9', borderRadius: '5px'}}>
+        style={{cursor: 'pointer', color: shoppingHover ? "whitesmoke" : "#333333", position: 'fixed', bottom: 85, right:25, width: "70px", height: "70px", backgroundColor: "rgba(250,250,250,0.0)", zIndex: '+9', borderRadius: '5px'}}>
         <div className="justify-content-end text-center" 
-          style={{marginLeft: '45px', marginTop: '-16px', fontSize: '120%', fontFamily: 'Cabin', width:'16px', height:'16px'}}
+          style={{marginLeft: '55px', marginTop: '-16px', marginBottom: '5px', fontSize: '120%', fontFamily: 'Cabin', width:'16px', height:'16px'}}
         >
-            <span style={{backgroundColor: '#e4b21d', padding: '2px 5px', width: '30px', height: '30px', color: 'whitesmoke', borderRadius: '15px'}}>
+            <span style={{backgroundColor: 'red', padding: '2px 5px', color: 'whitesmoke', borderRadius: '15px'}}>
               <strong>{shoppingCartLength.toString()}</strong>
             </span>
         </div>
-        <FaShoppingCart style={{height: '80%', width: '80%', margin: "10%" }} />
+        <FaShoppingCart className="test" style={{height: '80%', width: '80%', margin: "10%", padding: '5px 5px 5px 2px', backgroundColor: shoppingHover ? '#333333' : 'rgba(250,250,250,1.0)', borderRadius: '5px' }} />
       </div>
     }
     </>

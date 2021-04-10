@@ -444,7 +444,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     </Row>
                     {!loading && shops &&
                     <>
-                    <Row className="text-center pt-4">
+                    <Row ref={lastRef}  className="text-center pt-4">
                         <Col>
                             <h2>Doručovacie údaje {registration && 's registráciou'}</h2>
                         </Col>
@@ -500,7 +500,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         {shops && showTotalCartPrice()}
                     </Row>}
                     {!loading && 
-                    <Row ref={lastRef} className="text-center">
+                    <Row className="text-center">
                         <Col>
                             {((deliveryCheck && deliveryCheck !== ZASIELKOVNA) || selectedPickupPoint) && paymentCheck && userInformation && shops.length > 0 ?
                                 <>
