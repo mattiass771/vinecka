@@ -43,7 +43,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 .then(() => {
                     if (userId) {
                         axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/clear-cart`, {token})
-                            .then(res => console.log(res.data))
+                            .then(res => setUpdateCart(!updateCart))
                             .catch(error => error && console.log(error))
                     }
                     localStorage.removeItem('shoppingCart')
@@ -66,9 +66,10 @@ export default ({userId, updateCart, setUpdateCart}) => {
             const { fullName, email, address, phone } = userInformation
 
             const zasielkaXml = buildXmlBody({orderId, userInformation, kurierom: KURIER, deliveryCheck: deliveryType, result, addressId, carrierPickupPoint, total, paymentCheck: paymentType, dobierka: DOBIERKA })
+            
             if ([ZASIELKOVNA, KURIER].includes(deliveryType)) {
                 axios.post(`https://www.zasilkovna.cz/api/rest`, zasielkaXml)
-                    .then(res => console.log(res.data))
+                    .then(res => console.log('ZASIELKOVNA PACKET VYTVORENY', res.data))
                     .catch(err => console.log(err))
             }            
             

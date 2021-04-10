@@ -67,6 +67,8 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const [paymentCheck, setPaymentCheck] = useState(sessionStorage.getItem('paymentCheck') || '')
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [orderProcessing, setOrderProcessing] = useState(false)
+    const [discount, setDiscount] = useState('')
+    const [isValidDiscount, setIsValidDiscount] = useState(false)
 
     const [selectedPickupPoint, setSelectedPickupPoint] = useState('')
 
@@ -310,8 +312,9 @@ export default ({userId, updateCart, setUpdateCart}) => {
         setOrderProcessing(true)
         let result = 0
         let deliveryPrice = 0
+        let discountPrice = 0
         shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
-        const total = result
+        let total = result
         const status = 'vytvorena'
         switch (deliveryCheck) {
             case OSOBNY: break;
@@ -329,10 +332,15 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 break;
             default: break;
         }
+        if (isValidDiscount) {
+            discountPrice = result*0.1
+            result = result*0.9
+            total = total*0.9
+        }
         setPassOrderInfo({ orderId, userInformation, userId, shops, result, status, deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck })
         let orderError = false;
         const {id, carrierPickupPoint, url, place, nameStreet} = selectedPickupPoint
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders/add`, { token, orderId, userInformation, userId, shops, total, result, status, 
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders/add`, { token, discountPrice, orderId, userInformation, userId, shops, total, result, status, 
             deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck, packetInformation: {addressId: id, carrierPickupPoint, url, place, nameStreet} })
             .then(res => {
                 console.log('order created!')
@@ -386,9 +394,17 @@ export default ({userId, updateCart, setUpdateCart}) => {
         if (regSuccess) setRegSuccess(false)
     }, [login, registration, shipmentOnly])
 
+    useEffect(() => {
+        if (typeof discount === 'string' && discount.toUpperCase() === process.env.REACT_APP_DISCOUNT_TOKEN) {
+            setIsValidDiscount(true)
+        } else (
+            setIsValidDiscount(false)
+        )
+    }, [discount])
 
     const showTotalCartPrice = () => {
         let result = 0
+        let isDiscount = 0
         shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
         if (result >= 150 && !isDeliveryFree) {
             setIsDeliveryFree(true)
@@ -403,12 +419,39 @@ export default ({userId, updateCart, setUpdateCart}) => {
             case KURIER: result += KURIER_PRICE; break;
             default: break;
         }
+        if (isValidDiscount) (
+            isDiscount = result*0.1
+        )
         return (
-            <Col>
-                <h3>Finálna suma: {Number(result).toFixed(2).toString().replace(/\./g,',')} €</h3>
-                {resWithoutDelivery < 150 ? <p style={{fontSize: '125%'}}>Nakúpte ešte za <strong>{(150 - resWithoutDelivery).toFixed(2)} €</strong> a dopravu máte zadarmo.</p> : 
+            <>
+            <Col xs={4}>
+                <input 
+                    className={`text-center form-control ${(discount && !isValidDiscount) ? 'invalid-input' : ''}`}
+                    type="text"
+                    value={discount}
+                    onChange={(e) => setDiscount((e.target.value).toUpperCase())}
+                    placeholder="Zľavový kupón"
+                />
+            </Col>
+            <Col xs={12}>
+                {isDiscount > 0 ?
+                <>
+                    <h3>
+                        Finálna suma: {Number(result-isDiscount).toFixed(2).toString().replace(/\./g,',')} € 
+                    </h3>
+                    <em>
+                        (po zľave v hodnote <strong>{Number(isDiscount).toFixed(2).toString().replace(/\./g,',')}</strong> €)
+                    </em>
+                </>
+                :
+                <h3>
+                    Finálna suma: {Number(result).toFixed(2).toString().replace(/\./g,',')} €
+                </h3>
+                }
+                {resWithoutDelivery < 150 ? <p style={{marginTop: '5px', fontSize: '125%'}}>Nakúpte ešte za <strong>{(150 - resWithoutDelivery).toFixed(2)} €</strong> a dopravu máte zadarmo.</p> : 
                 <p style={{fontSize: '125%'}}>Dopravu máte <strong>zadarmo</strong>.</p>}
             </Col>
+            </>
         )
     }
 
@@ -494,7 +537,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                             <PaymentOptions options={paymentOptions} paymentCheck={paymentCheck} setPaymentCheck={setPaymentCheck} />}
                     </SlideDown>
                     {!loading && 
-                    <Row className="text-center pt-4">
+                    <Row className="text-center pt-4 justify-content-center">
                         <br />
                         <br />
                         {shops && showTotalCartPrice()}

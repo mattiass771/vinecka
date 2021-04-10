@@ -106,7 +106,7 @@ export default ({email, isOwner}) => {
         })
     }
 
-    const ShowBuyerDetails = ({passUserInformation, buyerId}) => {
+    const ShowBuyerDetails = ({passUserInformation, buyerId, isValidDiscount}) => {
         const { fullName, phone, address, email } = passUserInformation
         return (
             <div className="text-center" key={buyerId}>
@@ -115,6 +115,7 @@ export default ({email, isOwner}) => {
                     <Col md={2}><strong>{phone}</strong></Col>
                     <Col md={3}><strong>{email}</strong></Col>
                     <Col md={3}><strong>{address}</strong></Col>
+                    { isValidDiscount && <Col md={2}><strong>Zľava 10%</strong></Col> }
                 </Row>
                 <hr />
             </div>
@@ -149,14 +150,16 @@ export default ({email, isOwner}) => {
     const ShowOrders = () => {
         const filteredData = setFilter(ordersData)
         return filteredData.map(order => {
-            const { _id, orderId, userInformation, result, createdAt, status, shops, userId: buyerId, deliveryType, paymentType, deliveryPrice } = order
+            const { _id, orderId, userInformation, result, createdAt, status, shops, userId: buyerId, deliveryType, paymentType, deliveryPrice, discountPrice } = order
             const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'orangered' : status === 'ocakavana' ? '#D4A121' : status === 'prevodom' ? '#6B3030' : status === 'dobierka' ? '#2B371B' : status === 'odoslana' ? 'navy' : 'black';
             return (
                 <tbody key={orderId}>
                     <tr onClick={() => handleExpanded(_id)}>
                         <td>{orderId}</td>
                         <td>{moment(createdAt).format("DD MMM YYYY, HH:mm")}</td>
-                        <td>{result && result.toFixed(2).toString().replace(/\./g,',')} €</td>
+                        {discountPrice ?
+                        <td>{result && result.toFixed(2).toString().replace(/\./g,',')} € <br /> (- {discountPrice.toFixed(2).toString().replace(/\./g,',')} €)</td> : 
+                        <td>{result && result.toFixed(2).toString().replace(/\./g,',')} €</td>}
                         <td>{deliveryType === 'osobny' ? 'osobny odber' : deliveryType}{deliveryPrice ? ` - ${Number(deliveryPrice).toFixed(2).toString().replace(/\./g, ',')} €` : ''}</td>
                         <td>{paymentType}</td>
                         <td style={{color: statusColor}}>
@@ -185,7 +188,7 @@ export default ({email, isOwner}) => {
                     {expandedObj[_id] &&
                     <tr style={{backgroundColor: status === 'odmietnuta' ? '#ffecec' : 'rgb(250, 250, 250)' }}>
                         <td colSpan="6">
-                            <ShowBuyerDetails passUserInformation={userInformation} buyerId={buyerId} />
+                            <ShowBuyerDetails isValidDiscount={discountPrice} passUserInformation={userInformation} buyerId={buyerId} />
                             <ShowOrderDetails passShops={shops} />
                         </td>    
                     </tr>}
