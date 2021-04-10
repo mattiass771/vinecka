@@ -46,7 +46,10 @@ body {
 
 @media only screen and (max-width: 767px) {
   body {
-    padding-top: 147px !important;
+    padding-top: 167px !important;
+  }
+  .body-image {
+    background-attachment: scroll;
   }
 }
 
