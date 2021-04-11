@@ -48,7 +48,7 @@ body:after{
 }
 
 .body-image {
-  background: url(./boteia.jpg) no-repeat center center fixed; 
+  background: url(./poz.png) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -63,7 +63,7 @@ body:after{
   left:0;
   right:0;
   z-index:-1; /* needed to keep in the background */
-  background: url(./boteia.jpg) center center;
+  background: url(./poz.png) center center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

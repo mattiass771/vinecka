@@ -111,7 +111,7 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
             <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
           </Button>
           }
-          <Link to={`/akcie`}>
+          <Link to={`/eventy`}>
             <Card className="h-100 w-100 body-image" onMouseEnter={() => setIsHoveredEvents('block')} onTouchStart={() => setIsHoveredEvents('block')} onMouseLeave={() => setIsHoveredEvents('none')} style={{ textAlign:"center", color: "whitesmoke",
             //  background: 'rgba(52,58,64,0)',
               border: '1.5px solid white' }} >
