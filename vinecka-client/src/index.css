@@ -78,9 +78,9 @@ body:after{
   body {
     padding-top: 167px !important;
   }
-  .body-image {
+  /* .body-image {
     background-attachment: scroll;
-  }
+  } */
 }
 
 .test {
