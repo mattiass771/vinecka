@@ -54,7 +54,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
 
     useEffect(() => {
         if (orderInfo && mailSent === 'can_send') {
-            const {deliveryType, userInformation, result, packetInformation, total, paymentType, shops } = orderInfo
+            const {deliveryType, userInformation, result, packetInformation, total, paymentType, shops, deliveryPrice, discountPrice } = orderInfo
             let addressId, carrierPickupPoint, url, place, nameStreet;
             if (packetInformation) {
                 addressId = packetInformation.addressId
@@ -83,10 +83,9 @@ export default ({userId, updateCart, setUpdateCart}) => {
             const itemString = items.join(", ")
             const splitName = fullName.split(' ')
             const firstName = splitName[0]
-            const deliveryPrice = result - total
             const deliveryStreet = nameStreet ? nameStreet : address
             const emailData = {
-                result, deliveryPrice, paymentType, deliveryType, firstName, fullName, email, total, itemString, url, place, deliveryStreet, orderId, phone
+                discountPrice: discountPrice.toFixed(2), total: total.toFixed(2), result: result.toFixed(2), deliveryPrice: deliveryPrice.toFixed(2), paymentType, deliveryType, firstName, fullName, email, itemString, url, place, deliveryStreet, orderId, phone
             }
     
             emailjs.send('service_d4aksie', 'template_gqe4ejf', emailData, process.env.REACT_APP_EMAILJS_USERID)
