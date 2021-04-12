@@ -130,7 +130,10 @@ export default () => {
               <RejectPayment userId={userData._id} />
             </Route>
             <Route exact path={`/objednavky`}>
-              <Orders email={userData.email} isOwner={userData.isOwner} />
+              {isLoggedIn ? 
+              <Orders email={userData.email} isOwner={userData.isOwner} /> :
+              <Login />
+              }
             </Route>
             <Route exact path={`/eventy`}>
               <Events isOwner={userData.isOwner} />
