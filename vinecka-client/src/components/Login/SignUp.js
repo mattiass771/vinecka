@@ -117,7 +117,7 @@ export default ({regSuccess, setRegSuccess, uncheckGdpr, setUncheckGdpr, shoppin
     if (
       email &&
       emailExists === null &&
-      email.match(/[a-z]+[.]?[a-z]*[@][a-z]+[.][a-z]{1,5}/gi)
+      email.match(/[a-z0-9]+[.]?[a-z0-9]*[@][a-z0-9]+[.][a-z]{1,5}/gi)
     )
       return "";
     else if (email && email.length > 0) return "invalid-input";

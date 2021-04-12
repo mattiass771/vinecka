@@ -53,7 +53,7 @@ export default ({ uncheckGdpr, setUncheckGdpr ,setUserInformation, userInformati
   const checkIfEmailMeetsCriteria = () => {
     if (
       email &&
-      email.match(/[a-z]+[.]?[a-z]*[@][a-z]+[.][a-z]{1,5}/gi)
+      email.match(/[a-z0-9]+[.]?[a-z0-9]*[@][a-z0-9]+[.][a-z0-9]{1,5}/gi)
     )
       return "";
     else if (email && email.length > 0) return "invalid-input";
