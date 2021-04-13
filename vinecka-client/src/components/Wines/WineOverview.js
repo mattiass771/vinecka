@@ -143,9 +143,9 @@ export default ({ userData, shopData,updateCart, setUpdateCart }) => {
   return (
     <Container className="pb-4">
       <Row className="mb-4 mt-4 text-center justify-content-center">
-        <Col xs={4}><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></Col>
-        <Col xs={4}><h1>Filtre</h1></Col>
-        <Col xs={4}><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></Col>
+        <div className="d-none d-md-block col-md-4" xs={4}><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></div>
+        <div className="col-md-4" xs={4}><h1>Filtre</h1></div>
+        <div className="d-none d-md-block col-md-4" xs={4}><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></div>
       </Row>
       <Row className="mb-4 text-center justify-content-center">
         <Col className="mb-1" xs={12} md={4}>

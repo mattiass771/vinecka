@@ -78,9 +78,9 @@ export default ({userId, isOwner}) => {
             </Modal>
             }
             <Row className="mb-4 mt-4 text-center justify-content-center">
-                <Col xs={3}><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></Col>
-                <Col xs={6}><h1>Kontaktujte nás!</h1></Col>
-                <Col xs={3}><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></Col>
+                <div className="d-none d-md-block col-md-3"><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></div>
+                <div className="col-md-6"><h1>Kontaktujte nás!</h1></div>
+                <div className="d-none d-md-block col-md-3"><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></div>
             </Row>
             <Row className="mb-4 mt-4 text-center justify-content-center" style={{fontSize:"125%"}}>
                 <Col xs={10}>Máte nejake otázky, alebo ste aj vy vinár/vinárstvo fungujúce v Malokarpatskej oblasti?<br /> Neváhajte a napíšte nám správu prostredníctvom formulára nižšie. Pokojne sa nám v krátkosti predstavte v správe a detaily vám následne upresníme v ďaľšej komunikácii. <br />Tešíme sa na našu budúcu spoluprácu!</Col>
@@ -189,13 +189,13 @@ export default ({userId, isOwner}) => {
                     </Col>
                 </Row>}
             </Form>
-            <Row className="text-left my-4" style={{fontSize: "150%"}}>
-                <Col xs={{offset: 2, span: 4}}>IBAN:</Col>
-                <Col xs={{span: 6}}><strong>SK21 1111 0000 0016 0902 7005</strong></Col>
-                <Col xs={{offset: 2, span: 4}}>BIC/SWIFT:</Col>
-                <Col xs={{span: 6}}><strong>UNCRSKBX</strong></Col>
-                <Col xs={{offset: 2, span: 4}}>VARIABILNY SYMBOL:</Col>
-                <Col xs={{span: 6}}><strong>ID objednávky{userId && ` (nájdete v sekcii ${<Link to="/objednavky">Objednávky</Link>})`}</strong></Col>
+            <Row className="text-center text-md-left my-4" style={{fontSize: "150%"}}>
+                <Col xs={12} md={{offset: 1, span: 5}}>IBAN:</Col>
+                <Col xs={12} md={{span: 5}}><strong>SK21 1111 0000 0016 0902 7005</strong></Col>
+                <Col xs={12} md={{offset: 1, span: 5}}>BIC/SWIFT:</Col>
+                <Col xs={12} md={{span: 5}}><strong>UNCRSKBX</strong></Col>
+                <Col xs={12} md={{offset: 1, span: 5}}>VARIABILNY SYMBOL:</Col>
+                <Col xs={12} md={{span: 5}}><strong>ID objednávky{userId && ` (nájdete v sekcii ${<Link to="/objednavky">Objednávky</Link>})`}</strong></Col>
             </Row>
             <Row className="mb-4 mt-4 text-center justify-content-center" style={{fontSize:"125%"}}>
                 <Col xs={10}>
