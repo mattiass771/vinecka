@@ -49,8 +49,8 @@ export default () => {
       })
       .then((res) => {
         if (res.data) {
-          const { _id, userName, fullName, email, shopId, isOwner } = res.data;
-          setUserData({ _id, userName, fullName, email, shopId, isOwner });
+          const { _id, userName, fullName, email, shopId, isOwner, newComerStamp } = res.data;
+          setUserData({ _id, userName, fullName, email, shopId, isOwner, newComerStamp });
           setIsLoggedIn(userName ? true : false);
         } else {
           setUserData({})
@@ -118,7 +118,7 @@ export default () => {
               {isLoggedIn ? <Home userId={userData._id} isOwner={userData.isOwner} /> : <Login />}
             </Route>
             <Route exact path="/kosik">
-              <ShoppingCart updateCart={updateCart} setUpdateCart={setUpdateCart} userId={userData._id} />
+              <ShoppingCart newComerStamp={userData.newComerStamp} updateCart={updateCart} setUpdateCart={setUpdateCart} userId={userData._id} />
             </Route>
             <Route exact path={`/success-payment`}>
               <SuccessPayment userId={userData._id} updateCart={updateCart} setUpdateCart={setUpdateCart} />

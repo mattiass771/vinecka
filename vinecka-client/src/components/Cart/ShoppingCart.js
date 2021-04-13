@@ -22,6 +22,7 @@ import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
 const token = process.env.REACT_APP_API_SECRET
+const envComerStamp = process.env.REACT_APP_NEWCOMER_STAMP
 
 const deliveryOptions = {
     OSOBNY: 'osobny',
@@ -41,7 +42,7 @@ const paymentOptions = {
     DOBIERKA: 'dobierka'
 }
 
-export default ({userId, updateCart, setUpdateCart}) => {
+export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
     let history = useHistory()
     const { OSOBNY, ROZVOZ, ROZVOZ_FIRST, ROZVOZ_SECOND, ZASIELKOVNA, ZASIELKOVNA_PRICE, KURIER, KURIER_PRICE } = deliveryOptions
     const { DOBIERKA, PREVOD, INTERNET_BANKING, KARTA } = paymentOptions
@@ -68,7 +69,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [orderProcessing, setOrderProcessing] = useState(false)
     const [discount, setDiscount] = useState('')
-    const [isValidDiscount, setIsValidDiscount] = useState(false)
+    const [isValidDiscount, setIsValidDiscount] = useState(newComerStamp === envComerStamp || false)
 
     const [selectedPickupPoint, setSelectedPickupPoint] = useState('')
 
@@ -345,6 +346,11 @@ export default ({userId, updateCart, setUpdateCart}) => {
             .then(res => {
                 console.log('order created!')
                 setNewUser(true)
+                if (newComerStamp === envComerStamp) {
+                    axios.put(`${process.env.REACT_APP_BACKEND_URL}/users/delete-newcomer-discount/${userId}`, {token})
+                        .then(res => 'Discount removed.')
+                        .catch(err => err && console.log(err))
+                }
                 if (checkedNewsletter) {
                     axios.post(`${process.env.REACT_APP_BACKEND_URL}/mails/add`, {name: userInformation.fullName, email: userInformation.email, token})
                         .then(res => console.log(res))
@@ -397,9 +403,11 @@ export default ({userId, updateCart, setUpdateCart}) => {
     useEffect(() => {
         if (typeof discount === 'string' && discount.toUpperCase() === process.env.REACT_APP_DISCOUNT_TOKEN) {
             setIsValidDiscount(true)
-        } else (
+        } else if (newComerStamp === envComerStamp) {
+            setIsValidDiscount(true)
+        } else {
             setIsValidDiscount(false)
-        )
+        }
     }, [discount])
 
     const showTotalCartPrice = () => {
@@ -424,6 +432,18 @@ export default ({userId, updateCart, setUpdateCart}) => {
         )
         return (
             <>
+            {newComerStamp === envComerStamp ?
+            <Col className="text-center" xs={4}>
+                <h6>Je použitá poregistračná zľava 10% z celkovej ceny objednávky.</h6>
+                <br />
+                <input 
+                    className={`text-center form-control`}
+                    type="text"
+                    placeholder="Zľavy nemožno kombinovať"
+                    disabled
+                />
+                <br />
+            </Col> :  
             <Col xs={4}>
                 <input 
                     className={`text-center form-control ${(discount && !isValidDiscount) ? 'invalid-input' : ''}`}
@@ -433,6 +453,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                     placeholder="Zľavový kupón"
                 />
             </Col>
+            }
             <Col xs={12}>
                 {isDiscount > 0 ?
                 <>

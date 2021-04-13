@@ -175,8 +175,8 @@ app.post("/logout", (req, res) => {
 app.post("/get-user-data", (req, res) => {
   let showUserData;
   if (req.user) {
-    const {_id, userName, fullName, email, shopId, isOwner} = req.user
-    showUserData = {_id, userName, fullName, email, shopId, isOwner}
+    const {_id, userName, fullName, email, shopId, isOwner, newComerStamp } = req.user
+    showUserData = {_id, userName, fullName, email, shopId, isOwner, newComerStamp }
   }
   return req.user ? res.json(showUserData) : res.json({});
 });

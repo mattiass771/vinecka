@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 
 const Schema = mongoose.Schema;
 
+const newComerStamp = process.env.NEWCOMER_STAMP
+
 // SCHEMAS //
 
 const shoppingCartSchema = new Schema({
@@ -15,13 +17,14 @@ const shoppingCartSchema = new Schema({
 })
 
 const userSchema = new Schema({
-  userName: { type: String, required: true, default: "example@egzamply.com" },
-  password: { type: String, required: true, default: "password" },
-  fullName: { type: String, required: true, default: "User Name" },
+  userName: { type: String, required: true },
+  password: { type: String, required: true },
+  fullName: { type: String, required: true },
   email: { type: String, required: true },
   phone: { type: String, required: true},
   isOwner: { type: Boolean, required: true, default: false},
   address: { type: String, required: true },
+  newComerStamp: { type: String, required: true, default: newComerStamp },
   shoppingCart: [shoppingCartSchema]
 });
 
@@ -138,6 +141,19 @@ router.route("/edit-user/:userId/:find/:replace").put((req, res) => {
   User.findById(userId)
     .then((userFound) => {
       userFound[find] = newValue;
+      userFound
+        .save()
+        .then(() => res.json(`User info updated!`))
+        .catch((e) => res.status(400).json(`Error: ${e}`));
+    })
+    .catch((err) => res.status(400).json(`Error: ${err}`));
+});
+
+router.route("/delete-newcomer-discount/:userId").put((req, res) => {
+  const { userId } = req.params;
+  User.findById(userId)
+    .then((userFound) => {
+      userFound['newComerStamp'] = "used";
       userFound
         .save()
         .then(() => res.json(`User info updated!`))
