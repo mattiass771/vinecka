@@ -30,6 +30,7 @@
     "express-fileupload": "1.2.0",
     "express-session": "1.17.1",
     "fs": "0.0.1-security",
+    "helmet": "^4.4.1",
     "locutus": "^2.0.14",
     "moment": "^2.29.1",
     "mongodb": "^3.6.2",
