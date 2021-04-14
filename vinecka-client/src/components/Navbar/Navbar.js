@@ -1,17 +1,20 @@
 import React, {useState, useEffect} from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 
+import DiscountBar from '../../DiscountBar'
+
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 
 import logo from "./logo5.png"
 
 import { FiShoppingCart } from "react-icons/fi"
-import { FaShoppingCart, FaFacebookSquare, FaInstagram } from "react-icons/fa"
-import { MdMailOutline } from "react-icons/md";
+import { FaShoppingCart } from "react-icons/fa"
+
+const envComerStamp = process.env.REACT_APP_NEWCOMER_STAMP
 
 // Navbar.js
-export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = localStorage.getItem('shoppingCart'), updateCart }) => {
+export default ({ newComerStamp, isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = localStorage.getItem('shoppingCart'), updateCart }) => {
   let history = useHistory();
   let location = useLocation();
   const [prevScrollPos, setPrevScrollPos] = useState(0); 
@@ -67,13 +70,6 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
     pointerEvents: 'none'
   }
 
-  const iconStyles = {
-    position: 'fixed',
-    transition: 'top 0.6s',
-    zIndex: '+3',
-    backgroundColor: 'rgba(0,0,0,0.0)'
-  }
-
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
     if ((limit - currentScrollPos) < 1750 && currentScrollPos > 250) setVisible(false)
@@ -90,7 +86,11 @@ export default ({ isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = lo
 
   return (
     <>
-      <div className="text-center w-100" style={{...logoStyles, top: visible ? '20px' : '-169px'}}>
+      {
+        newComerStamp === envComerStamp &&
+        <DiscountBar visible={visible} />
+      }
+      <div className="text-center w-100" style={{...logoStyles, top: visible ? '20px' : '-188px'}}>
         <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: 'whitesmoke', marginBottom: '-31px'}} />
         <img
           alt=""

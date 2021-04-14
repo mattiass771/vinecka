@@ -69,11 +69,9 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [orderProcessing, setOrderProcessing] = useState(false)
     const [discount, setDiscount] = useState('')
-    const [isValidDiscount, setIsValidDiscount] = useState(newComerStamp === envComerStamp || false)
+    const [isValidDiscount, setIsValidDiscount] = useState('')
 
     const [selectedPickupPoint, setSelectedPickupPoint] = useState('')
-
-    const token = process.env.REACT_APP_API_SECRET
 
     const executeScroll = () => lastRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })   
 
@@ -333,10 +331,10 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
                 break;
             default: break;
         }
-        if (isValidDiscount) {
-            discountPrice = result*0.1
-            result = result*0.9
-            total = total*0.9
+        if (isValidDiscount && isValidDiscount > 0) {
+            discountPrice = result*(1-isValidDiscount)
+            result = result*isValidDiscount
+            total = total*isValidDiscount
         }
         setPassOrderInfo({ orderId, userInformation, userId, shops, result, status, deliveryPrice, deliveryType: deliveryCheck, paymentType: paymentCheck })
         let orderError = false;
@@ -402,11 +400,13 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
 
     useEffect(() => {
         if (typeof discount === 'string' && discount.toUpperCase() === process.env.REACT_APP_DISCOUNT_TOKEN) {
-            setIsValidDiscount(true)
+            setIsValidDiscount(0.90)
         } else if (newComerStamp === envComerStamp) {
-            setIsValidDiscount(true)
+            setIsValidDiscount(0.90)
+        } else if (discount.toUpperCase() === process.env.REACT_APP_CUSTOMER_DISCOUNT) {
+            setIsValidDiscount(0.95)
         } else {
-            setIsValidDiscount(false)
+            setIsValidDiscount('')
         }
     }, [discount])
 
@@ -427,8 +427,8 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
             case KURIER: result += KURIER_PRICE; break;
             default: break;
         }
-        if (isValidDiscount) (
-            isDiscount = result*0.1
+        if (isValidDiscount && isValidDiscount > 0) (
+            isDiscount = result*(1-isValidDiscount)
         )
         return (
             <>
@@ -446,7 +446,7 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
             </Col> :  
             <Col xs={4}>
                 <input 
-                    className={`text-center form-control ${(discount && !isValidDiscount) ? 'invalid-input' : ''}`}
+                    className={`text-center form-control ${(discount && !isValidDiscount ) ? 'invalid-input' : ''}`}
                     type="text"
                     value={discount}
                     onChange={(e) => setDiscount((e.target.value).toUpperCase())}
@@ -543,7 +543,11 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
                             {(!userInformation && shops && !login  && !userId  ) &&
                                 <p>
                                     {shipmentOnly ? 
-                                    <Button className="mt-2" onClick={() => handleRegistration()} variant="dark">Chcem sa registrovať!</Button> :
+                                    <>
+                                        <em>Registráciou od nás získate 10% zľavu z celkovej sumy vášho prvého nákupu!</em>
+                                        <br />
+                                        <Button className="mt-2" onClick={() => handleRegistration()} variant="dark">Chcem sa registrovať!</Button>
+                                    </> :
                                     <Button className="mt-2" onClick={() => handleShipmentOnly()} variant="dark">Bez registrácie</Button>}
                                 </p>
                             }

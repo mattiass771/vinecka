@@ -201,11 +201,14 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
   }
   
   const showCarouselWithData = () => {
-    return carouselData.map(shop => {
+    let nextImage = ''
+    return carouselData.map((shop, i) => {
       const {shopName, owner, url, imageLink, textColor} = shop
-      const image = imageLink
-        ? getImage(imageLink)
-        : defaultImage;
+      const image = nextImage
+        ? nextImage
+        : getImage(imageLink);
+      const nextImageLink = shop[i+1] ? shop[i+1].imageLink : ''
+      nextImage = nextImageLink ? getImage(nextImageLink) : ''
       return (
         <Carousel.Item className="car-image-bg" key={`${url}-${imageLink}`} 
           style={{
