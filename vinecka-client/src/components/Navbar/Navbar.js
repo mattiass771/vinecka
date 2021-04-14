@@ -91,7 +91,7 @@ export default ({ newComerStamp, isLoggedIn, handleLogOut, shoppingCart, localSh
         <DiscountBar visible={visible} />
       }
       <div className="text-center w-100" style={{...logoStyles, top: visible ? '20px' : '-188px'}}>
-        <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: 'whitesmoke', marginBottom: '-31px'}} />
+        <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#fab20f', marginBottom: '-32px'}} />
         <img
           alt=""
           src={logo}
@@ -100,7 +100,7 @@ export default ({ newComerStamp, isLoggedIn, handleLogOut, shoppingCart, localSh
           style={{marginTop: '-20px'}}
           
         />
-        <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: 'whitesmoke', marginBottom: '-31px'}} />
+        <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#fab20f', marginBottom: '-32px'}} />
     </div>
     <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-188px', paddingTop: '120px'}} variant="dark" expand="md">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
