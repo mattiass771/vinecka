@@ -12,7 +12,7 @@ const AWS = require('aws-sdk')
 const bcrypt = require("bcrypt");
 const helmet = require("helmet");
 
-app.use(helmet());
+// app.use(helmet());
 
 require("dotenv").config();
 
