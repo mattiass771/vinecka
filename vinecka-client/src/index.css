@@ -116,10 +116,20 @@ body:after{
     right: 16px;
     top: 16px;
   }
+  .navi-user-folded {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+  }
 }
 
 @media only screen and (max-width : 767px) {
   .navi-user {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+  }
+  .navi-user-folded {
     position: absolute;
     right: 16px;
     bottom: 16px;
@@ -215,7 +225,13 @@ tr.inner-table:hover {
 
 /* NAVBAR */
 
+.navidown {
+  color: #333333 !important;
+}
 
+.navidown:hover {
+  color: #fab20f !important;
+}
 
 .navihover:hover {
   color: #fab20f !important;

@@ -97,7 +97,7 @@ export default () => {
         crossOrigin="anonymous"
       />
       <div>
-        <Navbar newComerStamp={userData.newComerStamp} updateCart={updateCart} shoppingCart={shoppingCart} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
+        <Navbar userName={userData.fullName} newComerStamp={userData.newComerStamp} updateCart={updateCart} shoppingCart={shoppingCart} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
         {loadingData ? 
               <Spinner
                 style={{ marginLeft: "49%", marginTop: "20%", color: 'whitesmoke' }}

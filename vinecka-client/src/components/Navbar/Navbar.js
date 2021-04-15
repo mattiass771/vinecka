@@ -4,6 +4,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import DiscountBar from '../../DiscountBar'
 
 import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 import Nav from "react-bootstrap/Nav";
 
 import logo from "./logo5.png"
@@ -14,7 +15,8 @@ import { FaShoppingCart } from "react-icons/fa"
 const envComerStamp = process.env.REACT_APP_NEWCOMER_STAMP
 
 // Navbar.js
-export default ({ newComerStamp, isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = localStorage.getItem('shoppingCart'), updateCart }) => {
+export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = localStorage.getItem('shoppingCart'), updateCart }) => {
+  const firstName = userName ? userName.split(' ') : ['Užívateľ']
   let history = useHistory();
   let location = useLocation();
   const [prevScrollPos, setPrevScrollPos] = useState(0); 
@@ -74,7 +76,7 @@ export default ({ newComerStamp, isLoggedIn, handleLogOut, shoppingCart, localSh
     const currentScrollPos = window.pageYOffset;
     if ((limit - currentScrollPos) < 1750 && currentScrollPos > 250) setVisible(false)
     else {
-      setVisible((prevScrollPos > currentScrollPos) || currentScrollPos < 250 );
+      setVisible(currentScrollPos < 250 );
     }
     setPrevScrollPos(currentScrollPos);
   }
@@ -90,7 +92,7 @@ export default ({ newComerStamp, isLoggedIn, handleLogOut, shoppingCart, localSh
         newComerStamp === envComerStamp &&
         <DiscountBar visible={visible} />
       }
-      <div className="text-center w-100" style={{...logoStyles, top: visible ? '20px' : '-188px'}}>
+      <div className="text-center w-100" style={{...logoStyles, top: visible ? '20px' : '-118px'}}>
         <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#fab20f', marginBottom: '-32px'}} />
         <img
           alt=""
@@ -102,7 +104,7 @@ export default ({ newComerStamp, isLoggedIn, handleLogOut, shoppingCart, localSh
         />
         <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#fab20f', marginBottom: '-32px'}} />
     </div>
-    <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-188px', paddingTop: '120px'}} variant="dark" expand="md">
+    <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-118px', paddingTop: '120px'}} variant="dark" expand="md">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="row justify-content-center text-center">
         <Nav className="my-4 my-md-0">
@@ -130,29 +132,81 @@ export default ({ newComerStamp, isLoggedIn, handleLogOut, shoppingCart, localSh
               Kontakt
           </Nav.Link>
         </Nav>
-        <Nav className="navi-user">
-            <Nav.Link as={Link} href="/kosik" to="/kosik" className="navihover  pt-3 pb-3 mr-1 ml-1">
-                {shoppingCartLength > 0 &&
-                <div style={{ marginBottom: '-12px', marginLeft: '25px', fontSize: '60%', fontFamily: 'Cabin', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
-                  {shoppingCartLength.toString()}
-                </div>}
-                <FiShoppingCart />
-            </Nav.Link>
-          {isLoggedIn ? (
-            <>
-              <Nav.Link as={Link} href="/objednavky" to="/objednavky" className="navihover  pt-3 pb-3 mr-1 ml-1">
-                  Objednávky
+        {visible ? 
+          <Nav className={`navi-user`}>
+              <Nav.Link as={Link} href="/kosik" to="/kosik" className={`navihover pt-3 pb-3 mr-1 ml-1 `}>
+                  {shoppingCartLength > 0 &&
+                  <div style={{ marginBottom: '-12px', marginLeft: '25px', fontSize: '60%', fontFamily: 'Cabin', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
+                    {shoppingCartLength.toString()}
+                  </div>}
+                  <FiShoppingCart />
               </Nav.Link>
-              <Nav.Link as={Link} href="" to="" onClick={() => triggerLogout()} className="navihover  pt-3 pb-3 mr-1 ml-1">
-                Odhlásiť
+            {isLoggedIn ? (
+              <>
+                <Nav.Link as={Link} href="/objednavky" to="/objednavky" className="navihover pt-3 pb-3 mr-1 ml-1">
+                    Objednávky
+                </Nav.Link>
+                <Nav.Link as={Link} href="" to="" onClick={() => triggerLogout()} className="navihover  pt-3 pb-3 mr-1 ml-1">
+                  Odhlásiť
+                </Nav.Link>
+              </>
+            ) : (
+              <Nav.Link as={Link} href="/login-page" to="/login-page" className="navihover pt-3 pb-3 mr-1 ml-1">
+                  Prihlásiť
               </Nav.Link>
-            </>
-          ) : (
-            <Nav.Link as={Link} href="/login-page" to="/login-page" className="navihover pt-3 pb-3 mr-1 ml-1">
-                Prihlásiť
-            </Nav.Link>
-          )}
-        </Nav>
+            )}
+          </Nav> :
+          <>
+            <Nav className={`navi-user-folded d-none d-md-block`} >
+              <NavDropdown title={firstName[0]} id="basic-nav-dropdown" style={{zIndex: '+299'}}>
+                <Nav.Link as={Link} href="/kosik" to="/kosik" className={`navidown`}>
+                    {shoppingCartLength > 0 &&
+                    <div style={{ color:'whitesmoke', marginBottom: '-12px', marginLeft: '25px', fontSize: '80%', fontFamily: 'Cabin', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
+                      &nbsp;{shoppingCartLength.toString()}
+                    </div>}
+                    <FiShoppingCart />
+                </Nav.Link>
+                {isLoggedIn ? (
+                  <>
+                    <Nav.Link as={Link} href="/objednavky" to="/objednavky" className="navidown">
+                        Objednávky
+                    </Nav.Link>
+                    <Nav.Link as={Link} href="" to="" onClick={() => triggerLogout()} className="navidown">
+                      Odhlásiť
+                    </Nav.Link>
+                  </>
+                ) : (
+                  <Nav.Link as={Link} href="/login-page" to="/login-page" className="navidown">
+                      Prihlásiť
+                  </Nav.Link>
+                )}
+              </NavDropdown>
+            </Nav>
+            <Nav className={`navi-user d-md-none`}>
+                <Nav.Link as={Link} href="/kosik" to="/kosik" className={`navihover pt-3 pb-3 mr-1 ml-1 `}>
+                    {shoppingCartLength > 0 &&
+                    <div style={{ marginBottom: '-12px', marginLeft: '25px', fontSize: '60%', fontFamily: 'Cabin', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
+                      {shoppingCartLength.toString()}
+                    </div>}
+                    <FiShoppingCart />
+                </Nav.Link>
+              {isLoggedIn ? (
+                <>
+                  <Nav.Link as={Link} href="/objednavky" to="/objednavky" className="navihover pt-3 pb-3 mr-1 ml-1">
+                      Objednávky
+                  </Nav.Link>
+                  <Nav.Link as={Link} href="" to="" onClick={() => triggerLogout()} className="navihover  pt-3 pb-3 mr-1 ml-1">
+                    Odhlásiť
+                  </Nav.Link>
+                </>
+              ) : (
+                <Nav.Link as={Link} href="/login-page" to="/login-page" className="navihover pt-3 pb-3 mr-1 ml-1">
+                    Prihlásiť
+                </Nav.Link>
+              )}
+            </Nav>
+          </>
+        }
       </Navbar.Collapse>
     </Navbar>
     {shoppingCartLength > 0 && location.pathname !== '/kosik' &&
