@@ -214,15 +214,15 @@ export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCar
         onClick={() => history.push(`/kosik`)} 
         onMouseEnter={() => setShoppingHover(true)} 
         onMouseLeave={() => setShoppingHover(false)} 
-        style={{cursor: 'pointer', color: shoppingHover ? "whitesmoke" : "#333333", position: 'fixed', bottom: 85, right:25, width: "70px", height: "70px", backgroundColor: "rgba(250,250,250,0.0)", zIndex: '+9', borderRadius: '5px'}}>
+        style={{cursor: 'pointer', color: shoppingHover ? "#fab20f" : "#333333", position: 'fixed', bottom: 85, left:25, width: "70px", height: "70px", backgroundColor: "rgba(250,250,250,0.0)", zIndex: '+9', borderRadius: '5px'}}>
         <div className="justify-content-end text-center" 
           style={{marginLeft: '55px', marginTop: '-16px', marginBottom: '5px', fontSize: '120%', fontFamily: 'Cabin', width:'16px', height:'16px'}}
         >
-            <span style={{backgroundColor: 'red', padding: '2px 5px', color: 'whitesmoke', borderRadius: '15px'}}>
+            <span style={{backgroundColor: 'red', padding: '2px 5px', color: '#fab20f', borderRadius: '15px'}}>
               <strong>{shoppingCartLength.toString()}</strong>
             </span>
         </div>
-        <FaShoppingCart className="test" style={{height: '80%', width: '80%', margin: "10%", padding: '5px 5px 5px 2px', backgroundColor: shoppingHover ? '#333333' : 'rgba(250,250,250,1.0)', borderRadius: '5px' }} />
+        <FaShoppingCart className="test" style={{height: '80%', width: '80%', margin: "10%", padding: '5px 5px 5px 2px', backgroundColor: shoppingHover ? '#333333' : '#fab20f', borderRadius: '5px' }} />
       </div>
     }
     </>
