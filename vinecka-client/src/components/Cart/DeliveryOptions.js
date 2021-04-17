@@ -10,7 +10,7 @@ import '@djthoms/pretty-checkbox';
 const Packeta = window.Packeta || {};
 const packetaApiKey = process.env.REACT_APP_PACKETA_API_KEY;
 
-export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryCheck, isDeliveryFree, localDeliveryPrice, boxCount}) => {
+export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryCheck, isDeliveryFree, localDeliveryPrice}) => {
     const [deliveryHover, setDeliveryHover] = useState('')
     const { OSOBNY, ROZVOZ, ZASIELKOVNA, ZASIELKOVNA_PRICE, KURIER } = options
 
@@ -183,8 +183,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     onTouchEnd={() => setDeliveryHover('')}
                     onClick={() => setDeliveryCheck(deliveryCheck === ZASIELKOVNA ? '' : ZASIELKOVNA)}
                 >
-                    Od váhy, každá krabica (6 fliaš) vlastné poštovné - <strong>{isDeliveryFree ? 'zadarmo' : `${((Math.ceil(boxCount/6)*ZASIELKOVNA_PRICE)).toFixed(2)} €`}</strong> <br />
-                    Fliaš: <strong>{boxCount}</strong>, Krabíc: <strong>{Math.ceil(boxCount/6)}</strong>.
+                    <strong>{isDeliveryFree ? 'zadarmo' : `${ZASIELKOVNA_PRICE.toFixed(2)} €`}</strong>
                 </Col>
             </Row>
             {deliveryCheck === ZASIELKOVNA &&

@@ -16,7 +16,7 @@ const envComerStamp = process.env.REACT_APP_NEWCOMER_STAMP
 
 // Navbar.js
 export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = localStorage.getItem('shoppingCart'), updateCart }) => {
-  const firstName = userName ? userName.split(' ') : ['Užívateľ']
+  const firstName = userName ? userName.split(' ') : ['Používateľ']
   let history = useHistory();
   let location = useLocation();
   const [prevScrollPos, setPrevScrollPos] = useState(0); 
@@ -92,19 +92,19 @@ export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCar
         newComerStamp === envComerStamp &&
         <DiscountBar visible={visible} />
       }
-      <div className="text-center w-100" style={{...logoStyles, top: visible ? '20px' : '-118px'}}>
-        <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#fab20f', marginBottom: '-32px'}} />
+      <div className="text-center w-100" style={{...logoStyles, top: visible ? '20px' : '-90px'}}>
+        <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#fab20f', marginBottom: '-22px'}} />
         <img
           alt=""
           src={logo}
           width="auto"
-          height="135"
+          height="100"
           style={{marginTop: '-20px'}}
           
         />
-        <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#fab20f', marginBottom: '-32px'}} />
+        <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#fab20f', marginBottom: '-22px'}} />
     </div>
-    <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-118px', paddingTop: '120px'}} variant="dark" expand="md">
+    <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-90px', paddingTop: '95px'}} variant="dark" expand="md">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="row justify-content-center text-center">
         <Nav className="my-4 my-md-0">
@@ -136,7 +136,7 @@ export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCar
           <Nav className={`navi-user`}>
               <Nav.Link as={Link} href="/kosik" to="/kosik" className={`navihover pt-3 pb-3 mr-1 ml-1 `}>
                   {shoppingCartLength > 0 &&
-                  <div style={{ marginBottom: '-12px', marginLeft: '25px', fontSize: '60%', fontFamily: 'Cabin', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
+                  <div style={{ marginBottom: '-12px', marginLeft: '25px', fontSize: '60%', fontFamily: 'Montserrat', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
                     {shoppingCartLength.toString()}
                   </div>}
                   <FiShoppingCart />
@@ -158,7 +158,9 @@ export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCar
           </Nav> :
           <>
             <Nav className={`navi-user-folded d-none d-md-block`} >
-              <NavDropdown title={firstName[0]} id="basic-nav-dropdown" style={{zIndex: '+299'}}>
+              <NavDropdown variant="light" title={
+                  <span className={`navihover`}>{firstName[0]}</span>
+                } id="nav-dropdown" style={{zIndex: '+299'}}>
                 <Nav.Link as={Link} href="/kosik" to="/kosik" className={`navidown`}>
                     {shoppingCartLength > 0 &&
                     <div style={{ color:'whitesmoke', marginBottom: '-12px', marginLeft: '25px', fontSize: '80%', fontFamily: 'Cabin', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
@@ -185,7 +187,7 @@ export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCar
             <Nav className={`navi-user d-md-none`}>
                 <Nav.Link as={Link} href="/kosik" to="/kosik" className={`navihover pt-3 pb-3 mr-1 ml-1 `}>
                     {shoppingCartLength > 0 &&
-                    <div style={{ marginBottom: '-12px', marginLeft: '25px', fontSize: '60%', fontFamily: 'Cabin', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
+                    <div style={{ marginBottom: '-12px', marginLeft: '25px', fontSize: '60%', fontFamily: 'Montserrat', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
                       {shoppingCartLength.toString()}
                     </div>}
                     <FiShoppingCart />
@@ -214,7 +216,7 @@ export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCar
         onClick={() => history.push(`/kosik`)} 
         onMouseEnter={() => setShoppingHover(true)} 
         onMouseLeave={() => setShoppingHover(false)} 
-        style={{cursor: 'pointer', color: shoppingHover ? "#fab20f" : "#333333", position: 'fixed', bottom: 85, left:25, width: "70px", height: "70px", backgroundColor: "rgba(250,250,250,0.0)", zIndex: '+9', borderRadius: '5px'}}>
+        style={{cursor: 'pointer', color: shoppingHover ? "whitesmoke" : "#333333", position: 'fixed', bottom: 85, right:25, width: "70px", height: "70px", backgroundColor: "rgba(250,250,250,0.0)", zIndex: '+9', borderRadius: '5px'}}>
         <div className="justify-content-end text-center" 
           style={{marginLeft: '55px', marginTop: '-16px', marginBottom: '5px', fontSize: '120%', fontFamily: 'Cabin', width:'16px', height:'16px'}}
         >
@@ -222,7 +224,7 @@ export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCar
               <strong>{shoppingCartLength.toString()}</strong>
             </span>
         </div>
-        <FaShoppingCart className="test" style={{height: '80%', width: '80%', margin: "10%", padding: '5px 5px 5px 2px', backgroundColor: shoppingHover ? '#333333' : '#fab20f', borderRadius: '5px' }} />
+        <FaShoppingCart className="test" style={{height: '80%', width: '80%', margin: "10%", padding: '5px 5px 5px 2px', backgroundColor: shoppingHover ? '#333333' : 'whitesmoke', borderRadius: '5px' }} />
       </div>
     }
     </>

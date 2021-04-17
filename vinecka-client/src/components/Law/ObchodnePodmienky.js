@@ -22,7 +22,7 @@ export default () => {
             </h3>
                 <p>Pri objednávke dostanete 3 možnosti prevzatia objednaného tovaru: </p>
             <p>
-                <strong>1. Tovar Vám doručí náš vlastný kuriér iba v rámci Pezinka a blízkeho okolia </strong> 
+                <strong>1. Tovar Vám doručí náš vlastný kuriér iba v rámci Bratislavy, Pezinka a blízkeho okolia </strong> 
             </p>
             <p>Služby pred doručením : </p>
             <ul style={{textAlign: 'left', paddingLeft: '10%'}}>
@@ -59,7 +59,7 @@ export default () => {
             <h3>
                 <strong>Reklamácie </strong> 
             </h3>
-                <p>Reklamácie musia by uplatňované písomnou formou e-mailom na adresu: <a href="">reklamacie@masvino.com</a> </p>
+                <p>Reklamácie musia by uplatňované písomnou formou e-mailom na adresu: <a href="https://masvino.sk/kontakt">masvino.sk@gmail.com</a> </p>
                 <p>Reklamačný poriadok sa riadi všeobecnými reklamačnými podmienkami. Reklamácia sa vzťahuje len na preukázateľné výrobné chyby spôsobené výrobcom, alebo poškodenie ktoré vzniklo počas prepravy tovaru k zákazníkovi. Zákazník je povinný tovar po prevzatí od kuriéra skontrolovať a v prípade poškodenia spísať s kuriérom protokol o poškodení. Reklamácia sa nevzťahuje na chyby spôsobené užívateľom počas bežného používania tovaru.</p>
             <h3>
                 <strong>Záruka </strong> 

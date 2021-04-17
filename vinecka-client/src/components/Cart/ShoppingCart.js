@@ -59,7 +59,6 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
     const [paymentPopup, setPaymentPopup] = useState(false)  
     const [checkedNewsletter, setCheckedNewsletter] = useState(false)
     const [deliveryCheck, setDeliveryCheck] = useState(sessionStorage.getItem('deliveryCheck') || '')
-    const [boxCount, setBoxCount] = useState(0)
     const [isDeliveryFree, setIsDeliveryFree] = useState(false)
     const [localDeliveryPrice, setLocalDeliveryPrice] = useState('')
     const [newUser, setNewUser] = useState(false)
@@ -122,7 +121,6 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
                                 .catch(err => err && console.log('could not delete item', err))
                         } else {
                             const { itemName, price, imageLink } = findItem
-                            setBoxCount(boxCount => boxCount+Number(count))
                             const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
                             if (index >= 0) {
                                 const prevItems = sortShop[index].itemData
@@ -152,7 +150,6 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
     }, [])
 
     useEffect(() => {
-        setBoxCount(0)
         setIsDeliveryFree(false)
         const localShoppingCart = localStorage.getItem('shoppingCart')
         if (userId) {
@@ -322,8 +319,8 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
                 deliveryPrice += localDeliveryPrice;
                 break;
             case ZASIELKOVNA: 
-                result += ((Math.ceil(boxCount/6)*ZASIELKOVNA_PRICE)); 
-                deliveryPrice += ((Math.ceil(boxCount/6)*ZASIELKOVNA_PRICE));
+                result += ZASIELKOVNA_PRICE; 
+                deliveryPrice += ZASIELKOVNA_PRICE;
                 break;
             case KURIER: 
                 result += KURIER_PRICE; 
@@ -423,7 +420,7 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
         switch (deliveryCheck) {
             case OSOBNY: break;
             case ROZVOZ: result += localDeliveryPrice; break;
-            case ZASIELKOVNA: result += ((Math.ceil(boxCount/6)*ZASIELKOVNA_PRICE)); break;
+            case ZASIELKOVNA: result += ZASIELKOVNA_PRICE; break;
             case KURIER: result += KURIER_PRICE; break;
             default: break;
         }
@@ -555,7 +552,7 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
                     </Row>}
                     <SlideDown className={"my-dropdown-slidedown"}>
                         {shops && userInformation && 
-                            <DeliveryOptions isDeliveryFree={isDeliveryFree} localDeliveryPrice={localDeliveryPrice} boxCount={boxCount} options={deliveryOptions} deliveryCheck={deliveryCheck} setSelectedPickupPoint={setSelectedPickupPoint} setDeliveryCheck={setDeliveryCheck} />}
+                            <DeliveryOptions isDeliveryFree={isDeliveryFree} localDeliveryPrice={localDeliveryPrice} options={deliveryOptions} deliveryCheck={deliveryCheck} setSelectedPickupPoint={setSelectedPickupPoint} setDeliveryCheck={setDeliveryCheck} />}
                     </SlideDown>
                     <SlideDown className={"my-dropdown-slidedown"}>
                         {shops && userInformation && ((deliveryCheck && deliveryCheck !== ZASIELKOVNA) || selectedPickupPoint) && 
