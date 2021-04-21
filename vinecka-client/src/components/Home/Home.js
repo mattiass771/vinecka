@@ -261,7 +261,7 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
               <hr style={{backgroundColor: "whitesmoke", paddingBottom: "1px"}} />
             </Col>
             <Col xs={10} sm={8} md={6} xl={4} >
-              <h2>Vína malých karpát</h2>
+              <h2>Vína Malých Karpát</h2>
             </Col>
             <Col className="pt-2"  xs={1} sm={2} md={3} xl={4} >
               <hr style={{backgroundColor: "whitesmoke", paddingBottom: "1px"}}/>
@@ -269,7 +269,7 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
           </Row>
           <Row className="text-center justify-content-center">
             <Col>
-              <em style={{fontSize: "160%"}}>Vychutnajte si tie najlepšie vínka z Malokarpatskej oblasti.</em>
+              <em style={{fontSize: "160%"}}>Vychutnajte si tie najlepšie vína z Malokarpatskej oblasti.</em>
             </Col>
           </Row>
           <ShowGeneral />
@@ -277,12 +277,12 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
         <Container className="d-none d-sm-block d-md-none">
           <Row className="text-center justify-content-center pt-2">
             <Col xs={10} sm={8} md={6} xl={4} >
-              <h3>Vína malých karpát</h3>
+              <h3>Vína Malých Karpát</h3>
             </Col>
           </Row>
           <Row className="text-center justify-content-center">
             <Col>
-              <em style={{fontSize: "115%"}}>Vychutnajte si tie najlepšie vínka z Malokarpatskej oblasti.</em>
+              <em style={{fontSize: "115%"}}>Vychutnajte si tie najlepšie vína z Malokarpatskej oblasti.</em>
             </Col>
           </Row>
           <ShowGeneral fSz="100%" />
@@ -290,12 +290,12 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
         <Container className="d-block d-sm-none">
           <Row className="text-center justify-content-center">
             <Col xs={10} sm={8} md={6} xl={4} >
-              <h4>Vína malých karpát</h4>
+              <h4>Vína Malých Karpát</h4>
             </Col>
           </Row>
           <Row className="text-center justify-content-center">
             <Col>
-              <em style={{fontSize: "100%"}}>Vychutnajte si tie najlepšie vínka z Malokarpatskej oblasti.</em>
+              <em style={{fontSize: "100%"}}>Vychutnajte si tie najlepšie vína z Malokarpatskej oblasti.</em>
             </Col>
           </Row>
           <ShowGeneral fSz="85%" />

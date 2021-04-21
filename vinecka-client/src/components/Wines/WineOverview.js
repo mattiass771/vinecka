@@ -166,7 +166,7 @@ export default ({ userData, shopData,updateCart, setUpdateCart }) => {
             value={tasteDrop}
             onChange={(e) => handleTasteDrop(e.target.value)}
           >
-            {!tasteDrop && <option>Chut</option>}
+            {!tasteDrop && <option>Chuť</option>}
             <option>Suché</option>
             <option>Polosuché</option>
             <option>Polosladké</option>
