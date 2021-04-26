@@ -98,12 +98,12 @@ body:after{
 }
 
 .btn-dark {
-  background-color: #2b371b !important;
+  background-color: #141a10 !important;
 }
 
 .btn-dark:hover {
   background-color: whitesmoke !important;
-  color: #2b371b !important
+  color: #141a10 !important
 }
 
 .navdropdown {

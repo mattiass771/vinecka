@@ -223,7 +223,7 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
               <h1>{shopName}</h1>
             </Carousel.Caption>
           </Link>
-          <div style={{backgroundColor: '#2b371b95', color: "whitesmoke", padding: '40px', marginTop: MIN_HEIGHT_JUMBO, height: MIN_HEIGHT_JUMBO}}>
+          <div style={{backgroundColor: '#141a1095', color: "whitesmoke", padding: '40px', marginTop: MIN_HEIGHT_JUMBO, height: MIN_HEIGHT_JUMBO}}>
           </div>
         </Carousel.Item>
       )
@@ -301,7 +301,7 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
           <ShowGeneral fSz="85%" />
         </Container>
       </div>
-      {/* <svg className="d-none d-lg-block" preserveAspectRatio="none" height="20%" width="100%" style={{position: "absolute", top: 376, left: 0}} xmlns="http://www.w3.org/2000/svg" viewBox="130 -70 1200 390"><path fill="#2b371b80" fill-opacity="1" d="M0,288L60,277.3C120,267,240,245,360,213.3C480,181,600,139,720,112C840,85,960,75,1080,85.3C1200,96,1320,128,1380,144L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg> */}
+      {/* <svg className="d-none d-lg-block" preserveAspectRatio="none" height="20%" width="100%" style={{position: "absolute", top: 376, left: 0}} xmlns="http://www.w3.org/2000/svg" viewBox="130 -70 1200 390"><path fill="#141a1080" fill-opacity="1" d="M0,288L60,277.3C120,267,240,245,360,213.3C480,181,600,139,720,112C840,85,960,75,1080,85.3C1200,96,1320,128,1380,144L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg> */}
       <div className="mt-4 pt-3 pb-3 px-4">
         {isOwner &&
         <Row>
@@ -321,7 +321,7 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
           </Col>
         </Row>
       </div>
-      <div className="pt-3 pb-3" style={{backgroundColor: '#2b371b95', color: "whitesmoke"}}>
+      <div className="pt-3 pb-3" style={{backgroundColor: '#141a1095', color: "whitesmoke"}}>
         <Container className="pt-3 pb-3">
             <Row className="text-center pt-2 pb-4">
               <Col className="mt-4" lg={3} sm={6} xs={12}>

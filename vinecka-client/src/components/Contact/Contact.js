@@ -78,9 +78,9 @@ export default ({userId, isOwner}) => {
             </Modal>
             }
             <Row className="mb-4 mt-4 text-center justify-content-center">
-                <div className="d-none d-md-block col-md-3"><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></div>
+                <div className="d-none d-md-block col-md-3"><hr style={{backgroundColor: '#141a10', height: '1px', marginTop: '22px'}} /></div>
                 <div className="col-md-6"><h1>Kontaktujte nás!</h1></div>
-                <div className="d-none d-md-block col-md-3"><hr style={{backgroundColor: '#2b371b', height: '1px', marginTop: '22px'}} /></div>
+                <div className="d-none d-md-block col-md-3"><hr style={{backgroundColor: '#141a10', height: '1px', marginTop: '22px'}} /></div>
             </Row>
             <Row className="mb-4 mt-4 text-center justify-content-center" style={{fontSize:"125%"}}>
                 <Col xs={10}>Máte nejake otázky, alebo ste aj vy vinár/vinárstvo fungujúce v Malokarpatskej oblasti?<br /> Neváhajte a napíšte nám správu prostredníctvom formulára nižšie. Pokojne sa nám v krátkosti predstavte v správe a detaily vám následne upresníme v ďaľšej komunikácii. <br />Tešíme sa na našu budúcu spoluprácu!</Col>

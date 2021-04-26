@@ -151,7 +151,7 @@ export default ({email, isOwner}) => {
         const filteredData = setFilter(ordersData)
         return filteredData.map(order => {
             const { _id, orderId, userInformation, result, createdAt, status, shops, userId: buyerId, deliveryType, paymentType, deliveryPrice, discountPrice } = order
-            const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'orangered' : status === 'ocakavana' ? '#D4A121' : status === 'prevodom' ? '#6B3030' : status === 'dobierka' ? '#2B371B' : status === 'odoslana' ? 'navy' : 'black';
+            const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'orangered' : status === 'ocakavana' ? '#D4A121' : status === 'prevodom' ? '#6B3030' : status === 'dobierka' ? '#141a10' : status === 'odoslana' ? 'navy' : 'black';
             return (
                 <tbody key={orderId}>
                     <tr onClick={() => handleExpanded(_id)}>
@@ -166,7 +166,7 @@ export default ({email, isOwner}) => {
                             {isOwner ?
                             <Form.Control
                                 style={{width: '80%', float: 'left', 
-                                    backgroundColor: statusObj[_id] === 'vytvorena' ? 'orange' : statusObj[_id] === 'zaplatena' ? 'green' : statusObj[_id] === 'odmietnuta' ? 'orangered' : statusObj[_id] === 'ocakavana' ? '#D4A121' : statusObj[_id] === 'prevodom' ? '#6B3030' : statusObj[_id] === 'dobierka' ? '#2B371B' : statusObj[_id] === 'odoslana' ? 'navy' : statusColor, 
+                                    backgroundColor: statusObj[_id] === 'vytvorena' ? 'orange' : statusObj[_id] === 'zaplatena' ? 'green' : statusObj[_id] === 'odmietnuta' ? 'orangered' : statusObj[_id] === 'ocakavana' ? '#D4A121' : statusObj[_id] === 'prevodom' ? '#6B3030' : statusObj[_id] === 'dobierka' ? '#141a10' : statusObj[_id] === 'odoslana' ? 'navy' : statusColor, 
                                     color: "whitesmoke"}}
                                 as="select"
                                 value={statusObj[_id] || status}

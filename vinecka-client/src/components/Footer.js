@@ -15,7 +15,7 @@ export default ({setShowLawPopup}) => {
     transition: 'bottom 0.6s',
     width: '100%',
     zIndex: '+2',
-    backgroundColor: '#2b371b'
+    backgroundColor: '#141a10'
   }
 
   return (

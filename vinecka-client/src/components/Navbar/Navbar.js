@@ -61,7 +61,7 @@ export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCar
     transition: 'top 0.6s',
     width: '100%',
     zIndex: '+2',
-    backgroundColor: '#2b371b',
+    backgroundColor: '#141a10',
     fontSize: '120%'
   }
 
@@ -93,7 +93,7 @@ export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCar
         <DiscountBar visible={visible} />
       }
       <div className="text-center w-100" style={{...logoStyles, top: visible ? '20px' : '-90px'}}>
-        <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#fab20f', marginBottom: '-22px'}} />
+        <hr className="col-lg-3 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#fab20f', marginBottom: '-22px'}} />
         <img
           alt=""
           src={logo}
@@ -102,7 +102,7 @@ export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCar
           style={{marginTop: '-20px'}}
           
         />
-        <hr className="col-lg-2 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#fab20f', marginBottom: '-22px'}} />
+        <hr className="col-lg-3 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#fab20f', marginBottom: '-22px'}} />
     </div>
     <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-90px', paddingTop: '95px'}} variant="dark" expand="md">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
