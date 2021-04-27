@@ -134,8 +134,8 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     onTouchEnd={() => setDeliveryHover('')}
                     onClick={() => setDeliveryCheck(deliveryCheck === ROZVOZ ? '' : ROZVOZ)}
                 >
-                    Bratislava, Pezinok, Vinosady, Limbach, Viničné - <strong>{isDeliveryFree ? 'zadarmo' : `${ROZVOZ_FIRST} €`}</strong><br/>
-                    Modra, Šenkvice, Slovenský Grob,<br /> Svätý Jur, Dubová, Čierna Voda - <strong>{isDeliveryFree ? 'zadarmo' : `${ROZVOZ_SECOND} €`}</strong>
+                    Bratislava, Pezinok, Vinosady, Limbach, Viničné - <strong>{isDeliveryFree ? 'zadarmo' : `${ROZVOZ_FIRST.toFixed(2).toString().replace(/\./, ',')} €`}</strong><br/>
+                    Modra, Šenkvice, Slovenský Grob,<br /> Svätý Jur, Dubová, Čierna Voda - <strong>{isDeliveryFree ? 'zadarmo' : `${ROZVOZ_SECOND.toFixed(2).toString().replace(/\./, ',')} €`}</strong>
                 </Col>
             </Row>}
             <Row 
@@ -183,7 +183,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     onTouchEnd={() => setDeliveryHover('')}
                     onClick={() => setDeliveryCheck(deliveryCheck === ZASIELKOVNA ? '' : ZASIELKOVNA)}
                 >
-                    <strong>{isDeliveryFree ? 'zadarmo' : `${ZASIELKOVNA_PRICE.toFixed(2)} €`}</strong>
+                    <strong>{isDeliveryFree ? 'zadarmo' : `${ZASIELKOVNA_PRICE.toFixed(2).toString().replace(/\./, ',')} €`}</strong>
                 </Col>
             </Row>
             {deliveryCheck === ZASIELKOVNA &&
@@ -240,7 +240,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     onTouchEnd={() => setDeliveryHover('')}
                     onClick={() => setDeliveryCheck(deliveryCheck === KURIER ? '' : KURIER)}
                 >
-                    <strong>{isDeliveryFree ? 'zadarmo' : `${KURIER_PRICE} €`}</strong>
+                    <strong>{isDeliveryFree ? 'zadarmo' : `${KURIER_PRICE.toFixed(2).toString().replace(/\./, ',')} €`}</strong>
                 </Col>
             </Row>
             <Row className="pt-4" style={{borderBottom: '2px solid #c1c1c1'}} />

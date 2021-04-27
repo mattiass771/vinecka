@@ -22,7 +22,9 @@ const shopItemSchema = {
     default: "https://loading.io/icon/jzph2f"
   },
   customColor: { type: String },
-  maxCount: {type: Number}
+  maxCount: {type: Number},
+  histamineFree: { type: Boolean, default: false },
+  inStock: { type: Array }
 };
 
 const shopSchema = new Schema({
@@ -127,6 +129,23 @@ router.route("/:shopId/update-item/:itemId/:find/:replace").put((req, res) => {
   });
 });
 
+router.route("/:shopId/update-item-with-body/:itemId/:find/").put((req, res) => {
+  const { shopId, find, itemId } = req.params;
+  const { replace } = req.body
+
+  Shop.findById(shopId, (err, shopFound) => {
+    if (err) return console.log(err.data);
+    shopFound.shopItems.find((val) => val._id.toString() === itemId)[
+      find
+    ] = replace;
+
+    shopFound
+      .save()
+      .then(() => res.json(`Item updated!`))
+      .catch((error) => res.status(400).json(`Error: ${error}`));
+  });
+});
+
 // REPLACE ATTRIBUTE WITH INPUT FOR SHOP-PREFS
 router.route("/:shopId/update-pref/:find/:replace").put((req, res) => {
   const { shopId, find, replace } = req.params;
@@ -160,7 +179,7 @@ router.route("/:shopId/update-shop-description/").put((req, res) => {
 });
 
 router.route("/:shopId/add-item").post((req, res) => {
-  const { itemName, price, description, imageLink, maxCount,color, type, taste } = req.body;
+  const { itemName, price, description, imageLink, maxCount,color, type, taste, histamineFree, inStock } = req.body;
 
   const addShopItem = new ShopItem({
     itemName,
@@ -170,7 +189,9 @@ router.route("/:shopId/add-item").post((req, res) => {
     maxCount,
     color,
     type,
-    taste
+    taste,
+    histamineFree,
+    inStock
   });
 
   Shop.findById(req.params.shopId, (err, shopFound) => {

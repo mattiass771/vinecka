@@ -8,10 +8,14 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup"
 
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
+
+import { Checkbox } from 'pretty-checkbox-react';
+import '@djthoms/pretty-checkbox';
 
 const token = process.env.REACT_APP_API_SECRET
 const awstoken = process.env.REACT_APP_S3_TOKEN
@@ -26,6 +30,8 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
   const [color, setColor] = useState("");
   const [type, setType] = useState("");
   const [taste, setTaste] = useState("");
+  const [histamineFree, setHistamineFree] = useState(false)
+  const [inStock, setInStock] = useState([])
 
   const shopId = shopData._id;
 
@@ -59,6 +65,8 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
           color,
           type,
           taste,
+          histamineFree,
+          inStock,
           token
         })
         .then(() => setShowAddItems(false))
@@ -97,6 +105,18 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
       setImageLink(`${shopId}-${meta.name}`);
     }
   };
+
+  const handleStockOptions = (val) => {
+    if (val.includes('Nieje')) {
+      setInStock([])
+      return;
+    }
+    if (inStock.includes(val)) {
+      setInStock(inStock.filter(place => place !== val))
+    } else {
+      setInStock([...inStock, val])
+    }
+  }
 
   return (
     <Modal show={showAddItems} onHide={() => resetPropsOnHide()}>
@@ -165,6 +185,42 @@ export default ({ showAddItems, setShowAddItems, shopData }) => {
             />
           </Col>
         </Row>
+        <Row className="justify-content-md-center">
+          <Col className="form-group">
+            <Checkbox 
+              style={{
+                  cursor: 'pointer',
+              }}
+              color="warning"
+              shape="curve"
+              animation="jelly"
+              name='histamineFree'
+              checked={histamineFree}
+              onChange={() => setHistamineFree(!histamineFree)}
+            />&nbsp;
+            Bez histamínu?
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col className="mb-1" xs={12}>
+            <Form.Control
+              as="select"
+              value="Na sklade?"
+              onChange={(e) => handleStockOptions(e.target.value)}
+            >
+              <option>Na sklade?</option>
+              <option>Nieje na sklade</option>
+              <option style={{backgroundColor: inStock.includes('Bratislava') ? 'olive' : ''}}>Bratislava</option>
+              <option style={{backgroundColor: inStock.includes('Pezinok') ? 'olive' : ''}}>Pezinok</option>
+            </Form.Control>
+          </Col>
+        </Row>
+        {inStock && inStock.length > 0 &&
+        <Row className="justify-content-md-center">
+          <Col className="mb-1" xs={12}>
+            Vybraté sklady: <strong>{inStock.join(', ')}</strong>
+          </Col>
+        </Row>}
         <Row className="justify-content-md-center">
           <Col>
             <label htmlFor="sizes">Maximalny pocet flias v jednej objednavke:</label>

@@ -9,6 +9,8 @@ import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 
+import HISTAMIN_FREE from "./histamin_biela.png";
+
 import axios from "axios";
 
 import { MdDelete, MdEdit } from "react-icons/md";
@@ -69,7 +71,7 @@ export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOw
     }
 
     return shopItems.map((item, i) => {
-      const { _id, itemName, price, description, imageLink, maxCount, color, taste } = item;
+      const { _id, itemName, price, description, imageLink, maxCount, color, taste, histamineFree } = item;
       const passShopId = shopId === 'home' ? item.shopId : shopId
 
       const image = getImage(imageLink)
@@ -159,6 +161,9 @@ export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOw
             >
               <MdEdit style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
             </Button>}
+            {histamineFree && 
+              <img src={HISTAMIN_FREE} alt="histamin-free" style={{position: 'absolute', top: 0, right: 0}} />
+            }
             {editing[_id] && <EditItems shouldReload={shouldReload} setShouldReload={setShouldReload} itemDataProp={item} showEditItems={editing[_id]} setShowEditItems={setEditing} shopId={passShopId} itemId={_id} />}
             <img className="shop-item-img" style={{height: "407px"}} src={image} />
             <div style={{overflowY: 'hidden', color: "#333333", marginTop: "-110px" , backgroundColor: "rgba(255,255,255, 0.7)"}}>
