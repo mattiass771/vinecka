@@ -12,7 +12,7 @@ const packetaApiKey = process.env.REACT_APP_PACKETA_API_KEY;
 
 export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryCheck, isDeliveryFree, localDeliveryPrice}) => {
     const [deliveryHover, setDeliveryHover] = useState('')
-    const { OSOBNY, ROZVOZ, ZASIELKOVNA, ZASIELKOVNA_PRICE, KURIER } = options
+    const { OSOBNY, ROZVOZ, ZASIELKOVNA, ZASIELKOVNA_PRICE, KURIER, ROZVOZ_FIRST ,ROZVOZ_SECOND ,KURIER_PRICE } = options
 
     const showSelectedPickupPoint = (point) => {
         let idElement = document.getElementById('packeta-point-id');
@@ -134,8 +134,8 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     onTouchEnd={() => setDeliveryHover('')}
                     onClick={() => setDeliveryCheck(deliveryCheck === ROZVOZ ? '' : ROZVOZ)}
                 >
-                    Bratislava, Pezinok, Vinosady, Limbach, Viničné - <strong>{isDeliveryFree ? 'zadarmo' : '1,90 €'}</strong><br/>
-                    Modra, Šenkvice, Slovenský Grob,<br /> Svätý Jur, Dubová, Čierna Voda - <strong>{isDeliveryFree ? 'zadarmo' : '3,90 €'}</strong>
+                    Bratislava, Pezinok, Vinosady, Limbach, Viničné - <strong>{isDeliveryFree ? 'zadarmo' : ROZVOZ_FIRST}</strong><br/>
+                    Modra, Šenkvice, Slovenský Grob,<br /> Svätý Jur, Dubová, Čierna Voda - <strong>{isDeliveryFree ? 'zadarmo' : ROZVOZ_SECOND}</strong>
                 </Col>
             </Row>}
             <Row 
@@ -240,7 +240,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     onTouchEnd={() => setDeliveryHover('')}
                     onClick={() => setDeliveryCheck(deliveryCheck === KURIER ? '' : KURIER)}
                 >
-                    <strong>{isDeliveryFree ? 'zadarmo' : '6,90 €'}</strong>
+                    <strong>{isDeliveryFree ? 'zadarmo' : KURIER_PRICE}</strong>
                 </Col>
             </Row>
             <Row className="pt-4" style={{borderBottom: '2px solid #c1c1c1'}} />

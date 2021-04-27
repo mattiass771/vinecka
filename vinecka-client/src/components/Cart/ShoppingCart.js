@@ -27,12 +27,12 @@ const envComerStamp = process.env.REACT_APP_NEWCOMER_STAMP
 const deliveryOptions = {
     OSOBNY: 'osobny',
     ROZVOZ: 'rozvoz',
-    ROZVOZ_FIRST: 1.90,
-    ROZVOZ_SECOND: 3.90,
+    ROZVOZ_FIRST: 1.50,
+    ROZVOZ_SECOND: 2.10,
     ZASIELKOVNA: 'zasielkovna',
-    ZASIELKOVNA_PRICE: 4.90,
+    ZASIELKOVNA_PRICE: 2.90,
     KURIER: 'kurier',
-    KURIER_PRICE: 6.90,
+    KURIER_PRICE: 4.50,
 }
 
 const paymentOptions = {

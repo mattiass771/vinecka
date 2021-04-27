@@ -44,7 +44,7 @@ return (
             Čierna Voda).&nbsp;</p>
         <p>Pri nákupe nad 150 eur je doprava zdarma.</p>
         <p>Tarify za doručenie sú pri objednávke menšej ako 150 eur sú nasledovné:</p>
-        <p><strong>Bratislava,Pezinok, Vinosady, Limbach, Viničné:</strong>&nbsp;1,90 eur<br /><strong>Modra, Šenkvice, Dubová, Svätý Jur, Slovenský Grob, Čierna Voda:</strong>&nbsp;3,90 eur<strong><br />Zásielkovňa:</strong>&nbsp;4,90 eur za krabicu (6 fliaš) <br /><b>Kuriér</b>: 6,90 eur</p>
+        <p><strong>Bratislava,Pezinok, Vinosady, Limbach, Viničné:</strong>&nbsp;1,50 eur<br /><strong>Modra, Šenkvice, Dubová, Svätý Jur, Slovenský Grob, Čierna Voda:</strong>&nbsp;2,10 eur<strong><br />Zásielkovňa:</strong>&nbsp;2,90 eur za krabicu (6 fliaš) <br /><b>Kuriér</b>: 4,50 eur</p>
         <p><b>Všetky ceny sú uvedené vrátane DPH podľa platnej legislatívy.</b></p>
         <h5>Osobný odber</h5>
         <p>Ul.Eugena Suchoňa 24, 902 01 PezinokMožná dohoda volajte na 0948 721 868.</p>
