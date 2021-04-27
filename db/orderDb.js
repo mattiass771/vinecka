@@ -21,7 +21,8 @@ const orderSchema = new Schema({
     deliveryType: {type: String},
     paymentType: {type: String},
     packetInformation: {type: Object},
-    discountPrice: { type: Number }
+    discountPrice: { type: Number },
+    mailed: { type: Boolean, required: true, default: false }
   });
   
 const Order = mongoose.model("Order", orderSchema);
@@ -80,6 +81,24 @@ router.route("/:orderId/update-status/").put((req, res) => {
       orderFound
         .save()
         .then(() => res.json(`Status updated!`))
+        .catch((error) => res.status(400).json(`Error: ${error}`));
+    } else {
+      return res.status(404).json(`Order missing, order not processed!`)
+    }
+  });
+});
+
+router.route("/:orderId/update-mailed/").put((req, res) => {
+  const { orderId } = req.params;
+
+  Order.findById(orderId, (err, orderFound) => {
+    if (err) return console.log('Error updating mail: ', err);
+    if (orderFound) {
+      orderFound.mailed = true;
+  
+      orderFound
+        .save()
+        .then(() => res.json(`Mailed updated!`))
         .catch((error) => res.status(400).json(`Error: ${error}`));
     } else {
       return res.status(404).json(`Order missing, order not processed!`)

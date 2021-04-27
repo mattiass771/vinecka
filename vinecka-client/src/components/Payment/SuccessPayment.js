@@ -56,7 +56,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
 
     useEffect(() => {
         if (orderInfo && mailSent === 'can_send') {
-            const {deliveryType, userInformation, result, packetInformation, total, paymentType, shops, deliveryPrice, discountPrice } = orderInfo
+            const {_id, deliveryType, userInformation, result, packetInformation, total, paymentType, shops, deliveryPrice, discountPrice, mailed } = orderInfo
             let addressId, carrierPickupPoint, url, place, nameStreet;
             if (packetInformation) {
                 addressId = packetInformation.addressId
@@ -89,14 +89,19 @@ export default ({userId, updateCart, setUpdateCart}) => {
             const emailData = {
                 discountPrice: discountPrice.toFixed(2), total: total.toFixed(2), result: result.toFixed(2), deliveryPrice: deliveryPrice.toFixed(2), paymentType, deliveryType, firstName, fullName, email, itemString, url, place, deliveryStreet, orderId, phone
             }
-    
-            emailjs.send('service_d4aksie', 'template_gqe4ejf', emailData, process.env.REACT_APP_EMAILJS_USERID)
-            .then((result) => {
-                setMailSent('')
-                console.log('success mailed', result)
-            }, (error) => {
-                console.log('error mail', error)
-            });
+
+            if (!mailed) {
+                emailjs.send('service_d4aksie', 'template_gqe4ejf', emailData, process.env.REACT_APP_EMAILJS_USERID)
+                    .then((result) => {
+                        setMailSent('')
+                        console.log('mail created.')
+                        axios.put(`${process.env.REACT_APP_BACKEND_URL}/orders/${_id}/update-mailed`, {token})
+                            .then(res => console.log('sent.'))
+                            .catch(errMarkMail => console.log(errMarkMail))
+                    }, (error) => {
+                        console.log('error mail', error)
+                    });
+            }
         }
     }, [orderInfo])
     

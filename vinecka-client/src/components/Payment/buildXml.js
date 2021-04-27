@@ -12,7 +12,6 @@ export default ({
     kurierom,
     deliveryCheck
 }) => {
-    console.log(paymentCheck, dobierka, typeof paymentCheck, typeof dobierka, result)
     const {fullName, email, phone, address} = userInformation
     const splitName = fullName.split(' ')
     const splitAddress = address.split(',')
@@ -37,6 +36,5 @@ export default ({
         .up();
     
     const xml = root.end({ prettyPrint: true });
-    console.log(xml);
     return xml
 }
