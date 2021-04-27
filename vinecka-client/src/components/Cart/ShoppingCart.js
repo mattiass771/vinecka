@@ -158,16 +158,14 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
                 const addItemsToShoppingCartFromLocal = async () => {
                     for (let cartItem of parsedShoppingCart) {
                         const {shopId, itemId, count} = cartItem
-                        console.log('importing item ', itemId)
                         await axios
                             .post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/add-cart-item/${shopId}/${itemId}`, {
                                 shopId, itemId, count, token
                             })
-                            .then((res) => console.log(res))
+                            .then((res) => console.log('Importing done.'))
                             .catch(err => err && console.log(err))
                     }
                     localStorage.removeItem('shoppingCart')
-                    console.log('Importing done.')
                 }
                 addItemsToShoppingCartFromLocal()
             }
