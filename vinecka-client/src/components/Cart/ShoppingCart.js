@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react"
 import {Link, useHistory} from 'react-router-dom'
 import axios from 'axios'
-import { nanoid } from 'nanoid'
+import moment from 'moment'
 
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
@@ -54,7 +54,7 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
     const [registration, setRegistration] = useState(false)
     const [shipmentOnly, setShipmentOnly] = useState(true)
     const [loading, setLoading] = useState(false)
-    const [orderId, setOrderId] = useState(nanoid())
+    const [orderId, setOrderId] = useState(moment().unix())
     const [passOrderInfo, setPassOrderInfo] = useState({})
     const [paymentPopup, setPaymentPopup] = useState(false)  
     const [checkedNewsletter, setCheckedNewsletter] = useState(false)

@@ -43,11 +43,13 @@ export default ({userId, updateCart, setUpdateCart}) => {
                 .then(() => {
                     if (userId) {
                         axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/clear-cart`, {token})
-                            .then(res => setUpdateCart(!updateCart))
+                            .then(res => localStorage.removeItem('shoppingCart'))
                             .catch(error => error && console.log(error))
+                            .then(() => setUpdateCart(!updateCart))
+                    } else {
+                        localStorage.removeItem('shoppingCart')
+                        setTimeout(() => setUpdateCart(!updateCart), 500)
                     }
-                    localStorage.removeItem('shoppingCart')
-                    setUpdateCart(!updateCart)
                 })            
         }
     }, [])
