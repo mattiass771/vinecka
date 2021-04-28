@@ -5,19 +5,17 @@ import Modal from 'react-bootstrap/Modal'
 import crypto from 'crypto'
 import locutus from 'locutus/php/misc/pack'
 
+const accId = process.env.REACT_APP_TRUSTPAY_PID
+const secret = process.env.REACT_APP_TRUSTPAY_SECRET
+
 export default ({paymentPopup, setPaymentPopup, orderInfo, paymentCheck, options}) => {
     const {KARTA, INTERNET_BANKING} = options
     const {result, orderId, userInformation } = orderInfo
     const {address, fullName, email} = userInformation
     const splitAddress = address.split(',')
     const [isCardPayment, setIsCardPayment] = useState('')
-    const [creds, setCreds] = useState('')
 
     useEffect(() => {
-        const accountId = process.env.REACT_APP_TRUSTPAY_PID
-        const secret = process.env.REACT_APP_TRUSTPAY_SECRET
-        const credentialObj = {accountId, secret}
-        setCreds(credentialObj)
         setIsCardPayment(paymentCheck)
     }, [])
 
@@ -33,13 +31,13 @@ export default ({paymentPopup, setPaymentPopup, orderInfo, paymentCheck, options
 
     const constructOrder = () => {
         const baseUrl = "https://amapi.trustpay.eu/mapi5/wire/paypopup";
-        const accountId = creds.accountId;
+        const accountId = accId;
         const amount = result.toFixed(2);
         const currency = "EUR";
         const reference = orderId;
         const paymentType = 0;
     
-        const secretKey = creds.secret;
+        const secretKey = secret;
         const sigData = `${accountId}/${amount}/${currency}/${reference}/${paymentType}`;
         const signature = GetSignature(secretKey, sigData); //eslint-disable-line
     
@@ -49,7 +47,7 @@ export default ({paymentPopup, setPaymentPopup, orderInfo, paymentCheck, options
 
     const constructCardOrder = () => {
         const baseUrl = "https://amapi.trustpay.eu/mapi5/Card/PayPopup";
-        const accountId = creds.accountId;
+        const accountId = accId;
         const amount = result.toFixed(2);
         const currency = "EUR";
         const reference = orderId;
@@ -61,7 +59,7 @@ export default ({paymentPopup, setPaymentPopup, orderInfo, paymentCheck, options
         const cardHolder = fullName
         const payerEmail = email
     
-        const secretKey = creds.secret;
+        const secretKey = secret;
         const sigData = `${accountId}/${amount}/${currency}/${reference}/${paymentType}/${billingCity}/${billingCountry}/${billingPostCode}/${billingStreet}/${cardHolder}/${payerEmail}`;
         const signature = GetSignature(secretKey, sigData); //eslint-disable-line
     

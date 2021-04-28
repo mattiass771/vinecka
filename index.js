@@ -50,7 +50,7 @@ const expressSession = require("cookie-session")({
 app.use(
   cors({
     origin: [/.*mas-vino\.herokuapp\.com*/, /.*masvino\.sk*/], // allow to server to accept request from different origin
-    origin:true,
+    // origin:true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // allow session cookie from browser to pass through
     allowedHeaders: ['Content-Type','Access-Control-Allow-Origin','X-Requested-With']
