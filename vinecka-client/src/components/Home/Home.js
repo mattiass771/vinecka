@@ -158,7 +158,7 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
   const ShowGeneral = ({fSz = '115%'}) => {
     return (
       <Row className="text-center mb-2">
-        <Col className="mt-4 mb-4" style={{fontSize: fSz}}>
+        <Col className="mt-2 mb-2" style={{fontSize: fSz}}>
           {isOwner &&
             <Button
               onClick={() => setDescriptionsPopup(true)}
@@ -254,8 +254,8 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
       <Carousel indicators={false} style={{height: MIN_HEIGHT_JUMBO*2 }}>
         {carouselData && showCarouselWithData()}  
       </Carousel>
-      <div style={{color: "whitesmoke", padding: '30px', marginTop: -MIN_HEIGHT_JUMBO}}>
-        <Container className="d-none d-md-block">
+      <div style={{color: "whitesmoke", padding: '20px 0px', marginTop: -MIN_HEIGHT_JUMBO}}>
+        <Container className="d-none d-md-block" fluid>
           <Row className="text-center justify-content-center pt-4">
             <Col className="pt-2" xs={1} sm={2} md={3} xl={4} >
               <hr style={{backgroundColor: "whitesmoke", paddingBottom: "1px"}} />
@@ -269,12 +269,13 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
           </Row>
           <Row className="text-center justify-content-center">
             <Col>
-              <em style={{fontSize: "160%"}}>Vychutnajte si tie najlepšie vína z Malokarpatskej oblasti.</em>
+              <em style={{fontSize: "160%"}}>Vychutnajte si tie najlepšie vína z Malokarpatskej oblasti. </em>
+              <br /><strong style={{fontSize: "125%"}}>#podpormemalychvinarov</strong>
             </Col>
           </Row>
           <ShowGeneral />
         </Container>
-        <Container className="d-none d-sm-block d-md-none">
+        <Container className="d-none d-sm-block d-md-none" fluid>
           <Row className="text-center justify-content-center pt-2">
             <Col xs={10} sm={8} md={6} xl={4} >
               <h3>Vína Malých Karpát</h3>
@@ -283,11 +284,12 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
           <Row className="text-center justify-content-center">
             <Col>
               <em style={{fontSize: "115%"}}>Vychutnajte si tie najlepšie vína z Malokarpatskej oblasti.</em>
+              <br /><strong style={{fontSize: "90%"}}>#podpormemalychvinarov</strong>
             </Col>
           </Row>
           <ShowGeneral fSz="100%" />
         </Container>
-        <Container className="d-block d-sm-none">
+        <Container className="d-block d-sm-none pt-2" fluid>
           <Row className="text-center justify-content-center">
             <Col xs={10} sm={8} md={6} xl={4} >
               <h4>Vína Malých Karpát</h4>
@@ -295,7 +297,8 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
           </Row>
           <Row className="text-center justify-content-center">
             <Col>
-              <em style={{fontSize: "100%"}}>Vychutnajte si tie najlepšie vína z Malokarpatskej oblasti.</em>
+              <em style={{fontSize: "100%"}}>Vychutnajte si tie najlepšie vína z Malokarpatskej oblasti. </em>
+              <br /><strong style={{fontSize: "80%"}}>#podpormemalychvinarov</strong>
             </Col>
           </Row>
           <ShowGeneral fSz="85%" />
