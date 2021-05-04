@@ -9,6 +9,7 @@ import "react-dropzone-uploader/dist/styles.css";
 import Home from "./components/Home/Home";
 import Vinarne from "./components/Shop/Vinarne";
 import Login from "./components/Login/Login";
+import ChangePassword from "./components/Login/ChangePassword";
 import ShopOnline from "./components/Shop/shopOnline/ShopOnline"
 import ShoppingCart from "./components/Cart/ShoppingCart"
 import PayGate from "./components/Cart/PayGate"
@@ -146,6 +147,9 @@ export default () => {
             </Route>
             <Route exact path={`/odhlasit-newsletter`}>
               <DeleteFromNewsletter />
+            </Route>
+            <Route exact path={`/zmena-hesla`}>
+              <ChangePassword />
             </Route>
             <Route exact path={`/:shopUrl`}>
               <ShopOnline userId={userData._id} isOwner={userData.isOwner} updateCart={updateCart} setUpdateCart={setUpdateCart} />

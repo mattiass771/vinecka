@@ -1,4 +1,3 @@
-const { PinpointEmail } = require("aws-sdk");
 const mongoose = require("mongoose");
 const router = require("express").Router();
 

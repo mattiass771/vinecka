@@ -25,6 +25,7 @@ const userSchema = new Schema({
   isOwner: { type: Boolean, required: true, default: false},
   address: { type: String, required: true },
   newComerStamp: { type: String, required: true, default: newComerStamp },
+  resetSecret: { type: String, index: { expires: 600 }},
   shoppingCart: [shoppingCartSchema]
 });
 
@@ -36,6 +37,31 @@ const CartItem = mongoose.model("CartItem", shoppingCartSchema)
 router.route("/:userId/cart/").post((req,res) => {
   User.findById(req.params.userId)
     .then(user => res.json(user.shoppingCart))
+    .catch(err => res.status(400).json(`Error: ${err}`)) 
+})
+
+router.route("/:userId/password-reset-key-check/").post((req,res) => {
+  const {securityKey, newPassword} = req.body
+  const {userId} = req.params
+  User.findById(userId)
+    .then(async user => {
+      if (user.resetSecret && user.resetSecret === securityKey) {
+        if (password && typeof password === 'string') {
+          const salt = await bcrypt.genSalt(10);
+          const passwordH = await bcrypt.hash(newPassword, salt);
+          user['password'] = passwordH
+          user
+            .save()
+            .then(() => res.json(`Password was updated!`))
+            .catch((err) => res.status(400).json(`Error: ${err}`));
+          return res.json('success')
+        }
+      } else if (user.resetSecret && user.resetSecret !== securityKey) {
+        return res.json('invalid')
+      } else if (!(user.resetSecret)) {
+        return res.json('expired')
+      }
+    })
     .catch(err => res.status(400).json(`Error: ${err}`)) 
 })
 
