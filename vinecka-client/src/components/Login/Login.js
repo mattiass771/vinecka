@@ -27,6 +27,9 @@ export default ({shoppingCart = false}) => {
   return (
     shoppingCart ?
     <Container>
+      {showPassReqPopup &&
+        <RequestPassword showPassReqPopup={showPassReqPopup} setShowPassReqPopup={setShowPassReqPopup} />
+      }
       <Row>
         <Col md={{span: 6, offset: 3}} className="text-center mt-1 pb-2">
           <h2>Prihláste sa!</h2>
@@ -45,7 +48,13 @@ export default ({shoppingCart = false}) => {
               placeholder="heslo"
               name="password"
             />
-            <br />
+            <Row className={`justify-content-md-center`}>
+              <Col md={6} className="text-center my-1">
+                <a href="#" className="link-no-deco" onClick={() => setShowPassReqPopup(true)}>
+                  Zabudol som heslo.
+                </a>
+              </Col>
+            </Row>
             <input
               className="btn btn-dark"
               id="sub"
