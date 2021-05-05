@@ -23,7 +23,6 @@ export default ({eventsPopup, setEventsPopup, forceRefresh, setForceRefresh, eve
 
     const getImage = (image) => {
         try {
-            console.log(image)
           const img = `https://vineckabucket.s3.eu-central-1.amazonaws.com/${image.replace(/_/g, '-')}`
           return img;
         } catch {

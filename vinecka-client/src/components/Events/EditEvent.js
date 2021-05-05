@@ -82,7 +82,6 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh, eventData}) => 
         if (untilDate <= startDate) {
             setUntilDate('')
         }
-        console.log(until)
     },[startDate])
 
     useEffect(() => {
@@ -91,7 +90,6 @@ export default ({eventPopup, setEventPopup, refresh, setRefresh, eventData}) => 
         } else {
             setUntil('')
         }
-        console.log(until)
     },[untilDate])
 
     const handleSave = () => {
