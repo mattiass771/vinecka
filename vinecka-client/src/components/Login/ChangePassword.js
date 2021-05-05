@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from 'axios'
 
 import Container from "react-bootstrap/Container";
@@ -11,12 +11,11 @@ import { useLocation, useHistory, Link } from "react-router-dom";
 
 const token = process.env.REACT_APP_API_SECRET
 
-const useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-}
-
 // Login.js
 export default () => {
+    const useQuery = () => {
+        return new URLSearchParams(useLocation().search);
+    }
     let history = useHistory();
     let query = useQuery();
     const userId = query.get('User')
@@ -58,47 +57,59 @@ export default () => {
 
   return (
     <Container>
-      <Row>
         <Alert show={serverResponse === 'expired'} variant="warning">
             <Alert.Heading>Kľúč pre zmenu hesla vypršal, ak si stále nepamätáš heslo, zadaj požiadavku prosím znova.</Alert.Heading>
         </Alert>
-        <Alert show={serverResponse === 'invalid'} variant="warning">
+        <Alert show={serverResponse === 'invalid'} variant="danger">
             <Alert.Heading>Kľúč pre zmenu hesla sa nezhoduje, skús zadať požiadavku znova.</Alert.Heading>
-            <p>V prípade, že by problém pretrvával, nás neváhaj kontaktovať prostredníctvom formuláru, ktorý nájdeš pod sekciou <Link to="/kontakt">Kontakt</Link>.</p>
+            <p>V prípade, že by problém pretrvával, nás neváhaj kontaktovať prostredníctvom formulára, ktorý nájdeš pod sekciou <Link to="/kontakt">Kontakt</Link>.</p>
         </Alert>
-        <Col md={{span: 6, offset: 3}} className="text-center mt-1 pb-2">
-          <h2>Zmena hesla!</h2>
-            <input
-              className={`form-control text-center ${checkIfPasswordMeetsCriteria(newPassword)}`}
-              type="password"
-              placeholder="Nové heslo"
-              name="newPassword"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-            />
-            <input
-              className={`form-control text-center ${checkIfPasswordMeetsCriteria(repeatNewPassword)}`}
-              type="password"
-              placeholder="Potvrdiť heslo"
-              name="repeatNewPassword"
-              value={repeatNewPassword}
-              onChange={(e) => setRepeatNewPassword(e.target.value)}
-            />
-            <br />
-            {(checkIfPasswordMeetsCriteria(newPassword) === "" && checkIfPasswordMeetsCriteria(repeatNewPassword) === "" && repeatNewPassword !== newPassword) &&
-                <em style={{color: 'orangered'}}>Heslá musia byť rovnaké!</em>
-            }
-            {(checkIfPasswordMeetsCriteria(newPassword) === "invalid-input" || checkIfPasswordMeetsCriteria(repeatNewPassword) === "invalid-input") &&
-                <em style={{color: 'orangered'}}>Heslo musí mať 8 znakov a musí pozostávať z najmenej jedného veľkého, malého písmena a musí obsahovať minimálne jednu číslicu.</em>
-            }
-            {(checkIfPasswordMeetsCriteria(repeatNewPassword) === "" &&
-                checkIfPasswordMeetsCriteria(repeatNewPassword) === "" && 
-                repeatNewPassword === newPassword) ?
-                <Button variant="dark" onClick={() => handlePasswordChange()}>Zmeniť heslo</Button> : 
-                <Button variant="dark" disabled >Zmeniť heslo</Button>
-            }
-        </Col>
-      </Row>
+        <Row className="justify-content-md-center">
+            <Col md={6} className="text-center mt-3">
+                <h2>Zmena hesla!</h2>
+            </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+            <Col md={6} className="text-center mt-3">
+                <input
+                className={`form-control text-center ${checkIfPasswordMeetsCriteria(newPassword)}`}
+                type="password"
+                placeholder="Nové heslo"
+                name="newPassword"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                />
+            </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+            <Col md={6} className="text-center mt-3">
+                <input
+                className={`form-control text-center ${checkIfPasswordMeetsCriteria(repeatNewPassword)}`}
+                type="password"
+                placeholder="Potvrdiť heslo"
+                name="repeatNewPassword"
+                value={repeatNewPassword}
+                onChange={(e) => setRepeatNewPassword(e.target.value)}
+                />
+            </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col md={6} className="text-center mt-3">
+                <br />
+                {(checkIfPasswordMeetsCriteria(newPassword) === "" && checkIfPasswordMeetsCriteria(repeatNewPassword) === "" && repeatNewPassword !== newPassword) &&
+                    <em style={{color: 'orangered'}}>Heslá musia byť rovnaké!<br /></em>
+                }
+                {(checkIfPasswordMeetsCriteria(newPassword) === "invalid-input" || checkIfPasswordMeetsCriteria(repeatNewPassword) === "invalid-input") &&
+                    <em style={{color: 'orangered'}}>Heslo musí mať 8 znakov a musí pozostávať z najmenej jedného veľkého, malého písmena a musí obsahovať minimálne jednu číslicu.<br /></em>
+                }
+                {(checkIfPasswordMeetsCriteria(repeatNewPassword) === "" &&
+                    checkIfPasswordMeetsCriteria(repeatNewPassword) === "" && 
+                    repeatNewPassword === newPassword) ?
+                    <Button variant="dark" onClick={() => handlePasswordChange()}>Zmeniť heslo</Button> : 
+                    <Button variant="dark" disabled >Zmeniť heslo</Button>
+                }
+            </Col>
+        </Row>
     </Container>
   );
 };

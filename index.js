@@ -10,6 +10,7 @@ const Strategy = require("passport-local").Strategy;
 const fileUpload = require("express-fileupload");
 const AWS = require('aws-sdk')
 const bcrypt = require("bcrypt");
+const axios = require("axios")
 // const helmet = require("helmet");
 
 // app.use(helmet());
@@ -50,7 +51,7 @@ const expressSession = require("cookie-session")({
 app.use(
   cors({
     origin: [/.*mas-vino\.herokuapp\.com*/, /.*masvino\.sk*/], // allow to server to accept request from different origin
-    // origin:true,
+    origin:true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // allow session cookie from browser to pass through
     allowedHeaders: ['Content-Type','Access-Control-Allow-Origin','X-Requested-With']
@@ -183,6 +184,15 @@ app.post("/get-user-data", (req, res) => {
   }
   return req.user ? res.json(showUserData) : res.json({});
 });
+
+app.post("/verify-recaptcha", (req, res) => {
+  const {responseToken} = req.body
+  return axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_KEY}&response=${responseToken}`)
+    .then(response => {
+      return res.status(200).send(response.data)
+    })
+    .catch(err => res.json(err))
+})
 
 // FILE UPLOADER//
 //Upload Endpoint

@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
 import SignUp from "./SignUp";
+import RequestPassword from "./RequestPassword";
 
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
@@ -16,6 +17,7 @@ const token = process.env.REACT_APP_API_SECRET
 export default ({shoppingCart = false}) => {
   const [signUp, setSignUp] = useState("display-none");
   const [hideButton, setHideButton] = useState("");
+  const [showPassReqPopup, setShowPassReqPopup] = useState(false)
 
   const showSignUp = () => {
     setSignUp("");
@@ -56,6 +58,9 @@ export default ({shoppingCart = false}) => {
     </Container>
     :
     <div className="whitesmoke-bg-pnine">
+      {showPassReqPopup &&
+        <RequestPassword showPassReqPopup={showPassReqPopup} setShowPassReqPopup={setShowPassReqPopup} />
+      }
       <Container className="py-4">
           <br />
           <Row>
@@ -80,7 +85,13 @@ export default ({shoppingCart = false}) => {
                   placeholder="heslo"
                   name="password"
                 />
-                <br />
+                <Row className={`justify-content-md-center`}>
+                  <Col md={6} className="text-center my-1">
+                    <a href="#" className="link-no-deco" onClick={() => setShowPassReqPopup(true)}>
+                      Zabudol som heslo.
+                    </a>
+                  </Col>
+                </Row>
                 <input
                   className="btn btn-dark"
                   id="sub"

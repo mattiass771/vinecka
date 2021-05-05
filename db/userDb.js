@@ -175,6 +175,20 @@ router.route("/edit-user/:userId/:find/:replace").put((req, res) => {
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
+router.route("/add-reset-password-key/").post((req, res) => {
+  const { newSecret, email } = req.body;
+
+  User.findOne({email})
+    .then((userFound) => {
+      userFound['resetSecret'] = newSecret;
+      userFound
+        .save()
+        .then(() => res.json(`User secret updated!`))
+        .catch((e) => res.status(400).json(`Error: ${e}`));
+    })
+    .catch((err) => res.status(400).json(`Error: ${err}`));
+});
+
 router.route("/delete-newcomer-discount/:userId").put((req, res) => {
   const { userId } = req.params;
   User.findById(userId)

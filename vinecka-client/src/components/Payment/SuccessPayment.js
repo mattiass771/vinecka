@@ -17,11 +17,10 @@ const KURIER = 'kurier'
 const ZASIELKOVNA = 'zasielkovna'
 const DOBIERKA = 'dobierka'
 
-const useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-}
-
 export default ({userId, updateCart, setUpdateCart}) => {
+    const useQuery = () => {
+        return new URLSearchParams(useLocation().search);
+    }
     let query = useQuery();
     const orderId = query.get('Reference')
     const result = query.get('ResultCode')
