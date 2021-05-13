@@ -26,14 +26,15 @@ export default () => {
     const [serverResponse, setServerResponse] = useState("")
 
     const checkIfPasswordMeetsCriteria = (input) => {
+        console.log(input.search(/[0-9]/), input.search(/[a-z]/), input.search(/[A-Z]/), input, input.length)
         if (input.search(/[0-9]/) !== -1 &&
             input.search(/[a-z]/) !== -1 &&
             input.search(/[A-Z]/) !== -1 &&
             input &&
             input.length > 7) {
-            return "invalid-input";
-        } else {
             return "";
+        } else if (input && input.length !== 0) {
+            return "invalid-input";
         }
     };
 
@@ -41,14 +42,15 @@ export default () => {
         if ((checkIfPasswordMeetsCriteria(repeatNewPassword) === "" &&
             checkIfPasswordMeetsCriteria(repeatNewPassword) === "" && 
             repeatNewPassword === newPassword)) {
-                axios.post(`${process.env.REACT_APP_BACKEND_URL}/${userId}/password-reset-key-check/`, {token, securityKey, newPassword})
+                axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/password-reset-key-check/`, {token, securityKey, newPassword, userId})
                     .then(res => {
                         const resString = res.data
                         if (resString === 'success') {
-                            return history.push('/login')
+                            setServerResponse(resString)
+                            return setTimeout(() => history.push('/login-page'), 5000)
                         } else {
                             setServerResponse(resString)
-                            return setTimeout(() => history.push('/'), 5000)
+                            return setTimeout(() => history.push('/'), 8000)
                         }
                     })
                     .catch(err => console.log(err))
@@ -57,13 +59,6 @@ export default () => {
 
   return (
     <Container>
-        <Alert show={serverResponse === 'expired'} variant="warning">
-            <Alert.Heading>Kľúč pre zmenu hesla vypršal, ak si stále nepamätáš heslo, zadaj požiadavku prosím znova.</Alert.Heading>
-        </Alert>
-        <Alert show={serverResponse === 'invalid'} variant="danger">
-            <Alert.Heading>Kľúč pre zmenu hesla sa nezhoduje, skús zadať požiadavku znova.</Alert.Heading>
-            <p>V prípade, že by problém pretrvával, nás neváhaj kontaktovať prostredníctvom formulára, ktorý nájdeš pod sekciou <Link to="/kontakt">Kontakt</Link>.</p>
-        </Alert>
         <Row className="justify-content-md-center">
             <Col md={6} className="text-center mt-3">
                 <h2>Zmena hesla!</h2>
@@ -94,7 +89,7 @@ export default () => {
             </Col>
         </Row>
         <Row className="justify-content-md-center">
-          <Col md={6} className="text-center mt-3">
+          <Col md={6} className="text-center my-3">
                 <br />
                 {(checkIfPasswordMeetsCriteria(newPassword) === "" && checkIfPasswordMeetsCriteria(repeatNewPassword) === "" && repeatNewPassword !== newPassword) &&
                     <em style={{color: 'orangered'}}>Heslá musia byť rovnaké!<br /></em>
@@ -108,6 +103,23 @@ export default () => {
                     <Button variant="dark" onClick={() => handlePasswordChange()}>Zmeniť heslo</Button> : 
                     <Button variant="dark" disabled >Zmeniť heslo</Button>
                 }
+            </Col>
+        </Row>
+        <Row className="justify-content-md-center text-center py-4">
+            <Col>
+                <Alert show={serverResponse === 'success'} variant="success">
+                    <Alert.Heading>Zmena hesla prebehla úspešne.</Alert.Heading>
+                    <em>Za malú chvíľu budeš presmerovaný na prihlásenie.</em>
+                </Alert>
+                <Alert show={serverResponse === 'expired'} variant="warning">
+                    <Alert.Heading>Kľúč pre zmenu hesla vypršal, ak si stále nepamätáš heslo, zadaj požiadavku prosím znova.</Alert.Heading>
+                    <em>Za malú chvíľu budeš presmerovaný na domovskú stránku.</em>
+                </Alert>
+                <Alert show={serverResponse === 'invalid'} variant="danger">
+                    <Alert.Heading>Kľúč pre zmenu hesla sa nezhoduje, skús zadať požiadavku znova.</Alert.Heading>
+                    <p>V prípade, že by problém pretrvával, nás neváhaj kontaktovať prostredníctvom formulára, ktorý nájdeš pod sekciou <Link to="/kontakt">Kontakt</Link>.</p>
+                    <em>Za malú chvíľu budeš presmerovaný na domovskú stránku.</em>
+                </Alert>
             </Col>
         </Row>
     </Container>

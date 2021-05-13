@@ -22,7 +22,8 @@ const orderSchema = new Schema({
     paymentType: {type: String},
     packetInformation: {type: Object},
     discountPrice: { type: Number },
-    mailed: { type: Boolean, required: true, default: false }
+    mailed: { type: Boolean, required: true, default: false },
+    processing: { type: Boolean, required: true, default: true}
   });
   
 const Order = mongoose.model("Order", orderSchema);
@@ -112,21 +113,24 @@ router.route("/:orderId/process-payment/").post((req, res) => {
   const { paymentResultCode, paymentId } = req.body;
   Order.findOne({orderId: orderId}, (err, orderFound) => {
     if (err) return console.log(err.data);
-    if (orderFound) {
+    if (orderFound && orderFound.processing) {
       orderFound.status = ['4', '3', '0'].includes(paymentResultCode.toString()) ? 'zaplatena' : 
         ['1', '2', '5'].includes(paymentResultCode.toString()) ? 'ocakavana' : 
         ['69'].includes(paymentResultCode.toString()) ? 'prevodom' : 
         ['666'].includes(paymentResultCode.toString()) ? 'dobierka' : 'odmietnuta';
       orderFound.paymentResultCode = paymentResultCode
       orderFound.paymentId = paymentId
+      orderFound.processing = false
       orderFound.expireAt = null;
   
       orderFound
         .save()
         .then(() => res.json(`Payment updated!`))
         .catch((error) => res.status(400).json(`Error: ${error}`));
-    } else {
+    } else if (!orderFound) {
       return res.status(404).json(`Order missing, order not processed!`)
+    } else {
+      return res.status(204).json(`Order processed!`)
     }
   });
 });

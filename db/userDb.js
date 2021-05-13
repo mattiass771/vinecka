@@ -40,26 +40,26 @@ router.route("/:userId/cart/").post((req,res) => {
     .catch(err => res.status(400).json(`Error: ${err}`)) 
 })
 
-router.route("/:userId/password-reset-key-check/").post((req,res) => {
-  const {securityKey, newPassword} = req.body
-  const {userId} = req.params
-  User.findById(userId)
+router.route("/password-reset-key-check/").post((req,res) => {
+  const {securityKey, newPassword, userId} = req.body
+  User.findOne({email: userId})
     .then(async user => {
       if (user.resetSecret && user.resetSecret === securityKey) {
-        if (password && typeof password === 'string') {
+        if (newPassword && typeof newPassword === 'string') {
           const salt = await bcrypt.genSalt(10);
           const passwordH = await bcrypt.hash(newPassword, salt);
           user['password'] = passwordH
-          user
+          user['resetSecret'] = null
+          return user
             .save()
-            .then(() => res.json(`Password was updated!`))
+            .then(() => res.status(200).json('success')
+            )
             .catch((err) => res.status(400).json(`Error: ${err}`));
-          return res.json('success')
         }
       } else if (user.resetSecret && user.resetSecret !== securityKey) {
-        return res.json('invalid')
+        return res.status(200).json('invalid')
       } else if (!(user.resetSecret)) {
-        return res.json('expired')
+        return res.status(200).json('expired')
       }
     })
     .catch(err => res.status(400).json(`Error: ${err}`)) 

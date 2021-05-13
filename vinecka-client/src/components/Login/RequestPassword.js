@@ -48,7 +48,7 @@ export default ({showPassReqPopup, setShowPassReqPopup}) => {
 
     const handlePasswordChange = () => {
         const newSecret = nanoid()
-        const newPasswordLink = `${process.env.REACT_APP_BACKEND_URL}/zmena-hesla?User=${email}&Secret=${newSecret}`
+        const newPasswordLink = `${process.env.REACT_APP_FRONTEND_URL}/zmena-hesla?User=${email}&Secret=${newSecret}`
         const emailData = {newPasswordLink, email}
         axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/add-reset-password-key/`, {newSecret, email, token})
             .then(res => {
