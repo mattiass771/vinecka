@@ -150,7 +150,7 @@ export default ({email, isOwner}) => {
     const ShowOrders = () => {
         const filteredData = setFilter(ordersData)
         return filteredData.map(order => {
-            const { _id, orderId, userInformation, result, createdAt, status, shops, userId: buyerId, deliveryType, paymentType, deliveryPrice, discountPrice } = order
+            const { _id, orderId, userInformation, result, createdAt, status, shops, userId: buyerId, deliveryType, paymentType, deliveryPrice, discountPrice, paymentId } = order
             const statusColor = status === 'vytvorena' ? 'orange' : status === 'zaplatena' ? 'green' : status === 'odmietnuta' ? 'orangered' : status === 'ocakavana' ? '#D4A121' : status === 'prevodom' ? '#6B3030' : status === 'dobierka' ? '#141a10' : status === 'odoslana' ? 'navy' : 'black';
             return (
                 <tbody key={orderId}>
@@ -161,7 +161,7 @@ export default ({email, isOwner}) => {
                         <td>{result && result.toFixed(2).toString().replace(/\./g,',')} € <br /> (- {discountPrice.toFixed(2).toString().replace(/\./g,',')} €)</td> : 
                         <td>{result && result.toFixed(2).toString().replace(/\./g,',')} €</td>}
                         <td>{deliveryType === 'osobny' ? 'osobny odber' : deliveryType}{deliveryPrice ? ` - ${Number(deliveryPrice).toFixed(2).toString().replace(/\./g, ',')} €` : ''}</td>
-                        <td>{paymentType}</td>
+                        <td>{paymentType}{paymentId ? `, ${paymentId}` : ''}</td>
                         <td style={{color: statusColor}}>
                             {isOwner ?
                             <Form.Control

@@ -3,7 +3,7 @@ import axios from 'axios'
 import buildXmlBody from './buildXml'
 import emailjs from 'emailjs-com';
 
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useHistory } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -112,7 +112,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         <FcPaid style={{fontSize: "750%"}} />
                     </Col>
                 </Row>
-                {result.toString() === '666' ?
+                {(result && result.toString() === '666') ?
                 <Row>
                     <Col style={{fontSize: "150%"}}>
                         Zävazná objednávka číslo {orderId} bola spracovaná. 
@@ -120,7 +120,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         <br/>Platba bude realizovaná pri prebratí zásielky.
                     </Col>
                 </Row>
-                : result.toString() === '69' ?
+                : (result && result.toString() === '69') ?
                 <>
                     <Row>
                         <Col style={{fontSize: "150%"}}>
