@@ -11,6 +11,8 @@ const fileUpload = require("express-fileupload");
 const AWS = require('aws-sdk')
 const bcrypt = require("bcrypt");
 const axios = require("axios")
+const buildOrder = require("./db/buildNewOrder")
+
 // const helmet = require("helmet");
 
 // app.use(helmet());
@@ -192,6 +194,22 @@ app.post("/verify-recaptcha", (req, res) => {
       return res.status(200).send(response.data)
     })
     .catch(err => res.json(err))
+})
+
+// PAYGATE //
+app.post("/pay-gate/:option", (req, res) => {
+  const { option } = req.params
+  const { orderInfo } = req.body
+
+  if (option === 'karta') {
+    const returnUrl = buildOrder.constructCardOrder(orderInfo)
+    return res.status(200).json(returnUrl)
+  } else if (option === 'internet-banking') {
+    const returnUrl = buildOrder.constructOrder(orderInfo)
+    return res.status(200).json(returnUrl)
+  } else {
+    return res.status(404).json('Not found.')
+  }
 })
 
 // FILE UPLOADER//

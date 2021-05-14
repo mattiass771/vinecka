@@ -161,7 +161,7 @@ export default ({email, isOwner}) => {
                         <td>{result && result.toFixed(2).toString().replace(/\./g,',')} € <br /> (- {discountPrice.toFixed(2).toString().replace(/\./g,',')} €)</td> : 
                         <td>{result && result.toFixed(2).toString().replace(/\./g,',')} €</td>}
                         <td>{deliveryType === 'osobny' ? 'osobny odber' : deliveryType}{deliveryPrice ? ` - ${Number(deliveryPrice).toFixed(2).toString().replace(/\./g, ',')} €` : ''}</td>
-                        <td>{paymentType}{paymentId ? `, ${paymentId}` : ''}</td>
+                        <td>{paymentType}{paymentId ? `, TP-ID: ${paymentId}` : ''}</td>
                         <td style={{color: statusColor}}>
                             {isOwner ?
                             <Form.Control
@@ -173,6 +173,7 @@ export default ({email, isOwner}) => {
                                 onChange={(e) => handleStatus(e, _id)}
                                 onClick={(e) => e.stopPropagation()}
                             >
+                                <option>vytvorena</option>'
                                 <option>zaplatena</option>
                                 <option>odmietnuta</option>
                                 <option>ocakavana</option>
