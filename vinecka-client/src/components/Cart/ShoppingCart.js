@@ -240,11 +240,16 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                 const {itemId, itemName, price, imageLink, count} = item
                 return (
                     <Row style={{fontSize: '110%'}} className="m-2" key={itemId}>
-                        <Col xs={2}><img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} /></Col>
+                        <Col xs={2}>
+                            <img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} />
+                        </Col>
                         <Col xs={4}><strong>{itemName}</strong><br />{shopName}</Col>
                         <Col xs={2}>{price} €</Col>
                         <Col xs={2}>{count}x</Col>
-                        <Col xs={2}>Spolu: <strong>{getTotalItemPrice(count, price)} €</strong></Col>
+                        <Col xs={2}>
+                            Spolu: <strong>{getTotalItemPrice(count, price)} €</strong>&nbsp;
+                            <Button style={{position: 'absolute', top: 0}} onClick={() => removeItemFromCart(itemId)} variant="danger" size="sm">X</Button>
+                        </Col>
                     </Row>
                 )})
         })
