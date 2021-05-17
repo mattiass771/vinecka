@@ -304,6 +304,12 @@ const incrementItemFromCart = (itemId) => {
     })
   }
 
+  const showTotalPrice = () => {
+    let result = 0
+    shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
+    return result.toFixed(2).replace(/\./, ',')
+  }
+
   return (
     <>
       {
@@ -455,8 +461,13 @@ const incrementItemFromCart = (itemId) => {
           </Row>
         </Container>
         <Container className="mt-2" fluid>
-          <Row>
-            <Button variant="dark" onClick={() => history.push('/kosik')}>Prejsť do košíka.</Button>
+          <Row className="justify-content-between text-left">
+            <Col>
+              <Button variant="dark" onClick={() => history.push('/kosik')}>Prejsť do košíka.</Button>
+            </Col>
+            <Col>
+              Spolu: <strong>{showTotalPrice()} €</strong>
+            </Col>
           </Row>
         </Container>
       </Alert>
