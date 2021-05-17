@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {Link} from 'react-router-dom';
 
 import Row from "react-bootstrap/Row";
@@ -19,12 +19,11 @@ import EditItems from "./EditItems";
 
 const token = process.env.REACT_APP_API_SECRET
 
-export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOwner, url, setUpdateCart, updateCart}) => {
+export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOwner, url, setShoppingCart, shoppingCart}) => {
     const [count, setCount] = useState("")
     const [isHovered, setIsHovered] = useState("")
     const [clicked, setClicked] = useState('')
     const [editing, setEditing] = useState('')
-    const [showAddedPopup, setShowAddedPopup] = useState(false)
     const [hoverTimeout, setHoverTimeout] = useState('')
 
     const copyFunction = (passId) => {
@@ -99,40 +98,14 @@ export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOw
         setEditing({...editing, ...editingObj})
       }
 
-      const addItemToCart = (e) => {
-        const itemId = e.currentTarget.parentNode.parentNode.id;
+      const addItemToCart = (itemId) => {
         const passCount = count[_id] || 1
-        if (userId) {
-          axios
-            .post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/add-cart-item/${passShopId}/${itemId}`, {
-            shopId: passShopId, itemId, count: passCount, token
-            })
-            .then(() => {
-              setShowAddedPopup(false)
-              setTimeout(() => setShowAddedPopup(true), 50)
-              setUpdateCart(!updateCart)
-            })
-            .catch(err => err && console.log(err))
-            .then(() => setTimeout(() => setShowAddedPopup(false), 1500))
-        } else {
-          const localShoppingCart = localStorage.getItem('shoppingCart')
-          localStorage.removeItem('shoppingCart')
-          const newShoppingCart = localShoppingCart ? [...JSON.parse(localShoppingCart), {shopId: passShopId, itemId, count: passCount}] : [{shopId: passShopId, itemId, count: passCount}]
-          localStorage.setItem('shoppingCart', JSON.stringify(newShoppingCart))
-          setShowAddedPopup(false)
-          setUpdateCart(!updateCart)
-          setTimeout(() => setShowAddedPopup(true), 50)
-          setTimeout(() => setShowAddedPopup(false), 1500)
-        }
+        const newItem = { shopId: passShopId, itemId, count: passCount }
+        setShoppingCart([...shoppingCart, newItem])
       }
 
       return (
         <Col className={`pt-2 pb-2 ${(shopId === 'home' && i>1) && 'd-none'} ${(shopId === 'home' && i===2) && 'd-none d-lg-block'} ${(shopId === 'home' && i===3) && 'd-none d-xl-block'}`} style={{color: "whitesmoke", overflow:"hidden"}} xs={12} md={6} lg={4} xl={3} key={_id}>
-          {showAddedPopup &&
-            <Alert style={{position: "fixed", zIndex: '+9', top:156, right:0}} variant="success">
-              Polozka bola pridana do kosika!
-            </Alert>
-          }
           <Card onMouseEnter={() => handleMouseOver(_id)} onTouchStart={() => handleMouseOver(_id)} onMouseLeave={() => handleMouseLeave()} style={{height: "410px", maxWidth: "300px"}} id={_id} >
             {isOwner &&
             <Button
@@ -173,34 +146,22 @@ export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOw
               <Card.Text className={`mt-1 mb-1 pb-4`}>{price} €</Card.Text>
             </div>
             <Card.ImgOverlay className={`${isHovered[_id] === 'block' ? 'fade-in' : 'fade-out'}`} style={{ background: "rgba(52,58,64,0.7)"}} >
-                {isHovered[_id] === 'block' && hoverTimeout[_id] &&
-                <Button style={{width: "100%"}} onClick={(e) => addItemToCart(e)} variant="dark">Pridať do košíka.</Button>}
+                {(url && isHovered[_id] === 'block') && hoverTimeout[_id] &&
+                  <Link to={`/${url}`}>
+                    <Button style={{width: "100%"}} variant="dark">Navštíviť vináreň.</Button>
+                  </Link>
+                }
                 <Container>
-                {isHovered[_id] === 'block' && hoverTimeout[_id] &&
-                  <Row className="mt-2">
-                    <Col>
-                      <Form.Control
-                        as="select"
-                        value={count[_id]}
-                        onChange={(e) => handleCount(e)}
-                      >
-                        {showCount()}
-                      </Form.Control>
-                    </Col>
-                  </Row>}
                   {(isOwner && isHovered[_id] === 'block') && hoverTimeout[_id] &&
                   <Row>
                     <Col><a onClick={() => copyFunction(_id)} style={{textDecoration: 'none', cursor: 'pointer', color: clicked}}><strong>copy my id!</strong></a></Col>
                   </Row>}
                   {isHovered[_id] === 'block' && hoverTimeout[_id] &&
-                  <Row style={{height: '240px', marginTop: '5px', marginBottom: '5px'}}>
+                  <Row style={{height: '290px', marginTop: '5px', marginBottom: '5px', fontSize: '95%', overflowY: 'scroll'}}>
                     <Col>{description}</Col>
                   </Row>}
-                  {(url && isHovered[_id] === 'block') && hoverTimeout[_id] &&
-                    <Link to={`/${url}`}>
-                      <Button style={{width: "100%"}} variant="dark">Navštíviť vináreň.</Button>
-                    </Link>
-                  }
+                  {isHovered[_id] === 'block' && hoverTimeout[_id] &&
+                  <Button style={{width: "100%"}} onClick={() => addItemToCart(_id)} variant="dark">Pridať do košíka.</Button>}
                 </Container>
             </Card.ImgOverlay>
           </Card>

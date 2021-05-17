@@ -38,7 +38,6 @@ export default () => {
   const [userData, setUserData] = useState({});
   const [loadingData, setLoadingData] = useState(false);
   const [showLawPopup, setShowLawPopup] = useState('')
-  const [updateCart, setUpdateCart] = useState(true)
   const [shoppingCart, setShoppingCart] = useState([])
 
   useEffect(() => {
@@ -64,10 +63,28 @@ export default () => {
   useEffect(() => {
     if (userData._id) {
       axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userData._id}/cart/`, {token})
-        .then(res => setShoppingCart(res.data))
+        .then(res => {
+          const localCart = JSON.parse(localStorage.getItem('shoppingCart') || '[]')
+          const userCart = res.data
+          const syncCarts = [...localCart, ...userCart]
+          console.log(syncCarts)
+          setShoppingCart(syncCarts)
+        })
+        .catch(err => console.log('error updating shopping cart...', err))
+    } else {
+      const localCart = JSON.parse(localStorage.getItem('shoppingCart') || '[]')
+      setShoppingCart(localCart)
+    }
+  }, [userData])
+
+  useEffect(() => {
+    localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart))
+    if (userData._id) {
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userData._id}/update-cart/`, {newCart: shoppingCart, token})
+        .then(res => console.log('shopping cart was successfuly updated: ', res.data))
         .catch(err => console.log('error updating shopping cart...', err))
     }
-  }, [updateCart, userData])
+  }, [shoppingCart])
 
   const handleLogOut = () => {
     axios
@@ -98,7 +115,7 @@ export default () => {
         crossOrigin="anonymous"
       />
       <div>
-        <Navbar userName={userData.fullName} newComerStamp={userData.newComerStamp} updateCart={updateCart} shoppingCart={shoppingCart} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
+        <Navbar userId={userData._id} userName={userData.fullName} newComerStamp={userData.newComerStamp} shoppingCart={shoppingCart} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
         {loadingData ? 
               <Spinner
                 style={{ marginLeft: "49%", marginTop: "20%", color: 'whitesmoke' }}
@@ -107,22 +124,22 @@ export default () => {
         <div className="wrapper">
           <Switch>
             <Route exact path="/">
-              <Home userId={userData._id} isOwner={userData.isOwner} updateCart={updateCart} setUpdateCart={setUpdateCart}  />
+              <Home userId={userData._id} isOwner={userData.isOwner} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart}  />
             </Route>
             <Route exact path="/vinarstva">
               <Vinarne userData={userData} />
             </Route>
             <Route exact path="/vina">
-              <Vinka userData={userData} updateCart={updateCart} setUpdateCart={setUpdateCart} />
+              <Vinka userData={userData} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} />
             </Route>
             <Route exact path="/login-page">
               {isLoggedIn ? <Home userId={userData._id} isOwner={userData.isOwner} /> : <Login />}
             </Route>
             <Route exact path="/kosik">
-              <ShoppingCart newComerStamp={userData.newComerStamp} updateCart={updateCart} setUpdateCart={setUpdateCart} userId={userData._id} />
+              <ShoppingCart shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} newComerStamp={userData.newComerStamp} userId={userData._id} />
             </Route>
             <Route exact path={`/success-payment`}>
-              <SuccessPayment userId={userData._id} updateCart={updateCart} setUpdateCart={setUpdateCart} />
+              <SuccessPayment userId={userData._id} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} />
             </Route>
                 <Route exact path={`/failed-payment`}>
               <RejectPayment userId={userData._id} />
@@ -152,7 +169,7 @@ export default () => {
               <ChangePassword />
             </Route>
             <Route exact path={`/:shopUrl`}>
-              <ShopOnline userId={userData._id} isOwner={userData.isOwner} updateCart={updateCart} setUpdateCart={setUpdateCart} />
+              <ShopOnline userId={userData._id} isOwner={userData.isOwner} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} />
             </Route>
             <Route exact path={`/shop/payment`}>
               <PayGate />

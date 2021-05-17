@@ -17,7 +17,7 @@ const KURIER = 'kurier'
 const ZASIELKOVNA = 'zasielkovna'
 const DOBIERKA = 'dobierka'
 
-export default ({userId, updateCart, setUpdateCart}) => {
+export default ({userId, shoppingCart, setShoppingCart}) => {
     const useQuery = () => {
         return new URLSearchParams(useLocation().search);
     }
@@ -39,17 +39,7 @@ export default ({userId, updateCart, setUpdateCart}) => {
                         .catch(err => err && console.log(err))
                 })
                 .catch(err => err && console.log(err))
-                .then(() => {
-                    if (userId) {
-                        axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/clear-cart`, {token})
-                            .then(res => localStorage.removeItem('shoppingCart'))
-                            .catch(error => error && console.log(error))
-                            .then(() => setUpdateCart(!updateCart))
-                    } else {
-                        localStorage.removeItem('shoppingCart')
-                        setTimeout(() => setUpdateCart(!updateCart), 500)
-                    }
-                })            
+                .then(() => setShoppingCart([]))            
         }
     }, [])
 

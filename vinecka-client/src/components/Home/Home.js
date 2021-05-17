@@ -33,7 +33,7 @@ const {MIN_HEIGHT_JUMBO} = options
 const token = process.env.REACT_APP_API_SECRET
 
 //Home.js
-export default ({userId, isOwner, updateCart, setUpdateCart}) => {
+export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
   let history = useHistory();
   const [carouselData, setCarouselData] = useState('')
   const [featuredWines, setFeaturedWines] = useState([])
@@ -316,7 +316,7 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
           </Col>
         </Row>
         <Row className="text-center  mx-4">
-          <ShowItem updateCart={updateCart} setUpdateCart={setUpdateCart} colXsSettings={6} colMdSettings={3} shopItems={featuredWines} shopId={'home'} userId={userId} setShouldReload={false} shouldReload={false} isOwner={false} />
+          <ShowItem shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} colXsSettings={6} colMdSettings={3} shopItems={featuredWines} shopId={'home'} userId={userId} setShouldReload={false} shouldReload={false} isOwner={false} />
         </Row>
         <Row className="text-center pt-4 pb-2 justify-content-center">
           <Col>

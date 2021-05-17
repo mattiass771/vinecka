@@ -42,7 +42,7 @@ const paymentOptions = {
     DOBIERKA: 'dobierka'
 }
 
-export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
+export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
     let history = useHistory()
     const { OSOBNY, ROZVOZ, ROZVOZ_FIRST, ROZVOZ_SECOND, ZASIELKOVNA, ZASIELKOVNA_PRICE, KURIER, KURIER_PRICE } = deliveryOptions
     const { DOBIERKA, PREVOD, INTERNET_BANKING, KARTA } = paymentOptions
@@ -141,40 +141,26 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
                 .catch(err => {
                     if (err) return console.log(err)
                 })
-                .then(() => setShops([...sortShop]))
+                .then(() => {
+                    setShops([...sortShop])
+                    setLoading(false)
+                })
         }
     }
 
     useEffect(() => {
-        setLoading(true)
+        setLoading(false)
+        sortItems(shoppingCart)
     }, [])
 
     useEffect(() => {
         setIsDeliveryFree(false)
-        const localShoppingCart = localStorage.getItem('shoppingCart')
         if (userId) {
-            const parsedShoppingCart = localShoppingCart ? JSON.parse(localShoppingCart) : []
-            if (parsedShoppingCart.length !== 0) {
-                const addItemsToShoppingCartFromLocal = async () => {
-                    for (let cartItem of parsedShoppingCart) {
-                        const {shopId, itemId, count} = cartItem
-                        await axios
-                            .post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/add-cart-item/${shopId}/${itemId}`, {
-                                shopId, itemId, count, token
-                            })
-                            .then((res) => console.log('Importing done.'))
-                            .catch(err => err && console.log(err))
-                    }
-                    localStorage.removeItem('shoppingCart')
-                }
-                addItemsToShoppingCartFromLocal()
-            }
             axios
                 .post(`${process.env.REACT_APP_BACKEND_URL}/users/get-user/${userId}`, {token})
                 .then((res) => {
                     if (res.data) {
-                        const {shoppingCart, fullName, email, phone, address} = res.data
-                        sortItems([...shoppingCart, ...parsedShoppingCart])
+                        const {fullName, email, phone, address} = res.data
                         setUserInformation({ fullName, email, phone, address })
                         const splitAddress = address.split(',')
                         const splitName = fullName.split(' ')
@@ -189,11 +175,6 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
                 })
                 .catch(err => err && console.log(err))
                 .then(() => setTimeout(() => setLoading(false), 250))
-        } else {
-            const localShoppingCart = localStorage.getItem('shoppingCart')
-            localShoppingCart && sortItems(JSON.parse(localShoppingCart))
-            setTimeout(() => setLoading(false), 250)
-           
         }
     }, [refresh])
 
@@ -206,49 +187,24 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
         }
     };
 
-    const removeItemFromCart = (e, itemId, shopId) => {
-        if (userId) {
-            axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${shopId}/${itemId}`, {token})
-                .then((res) => {
-                    const newShops = shops.map(shop => {
-                        const newItemData = shop.itemData.filter(item => item.itemId !== itemId)
-                        if (newItemData.length !== 0) {
-                            return {...shop, itemData: newItemData}
-                        } else {
-                            return;
-                        }
-                    })
-                    setShops(newShops.filter(shop => shop !== undefined))
-                })
-                .catch(err => err && console.log('could not delete item', err))
-                .then(() => {
-                    setUpdateCart(!updateCart)
-                }) 
-            if (shops.length === 1 && shops[0].itemData.length === 1) {
-                window.location.reload()
-            }
+    const removeItemFromCart = (itemId) => {
+        const newShoppingCart = shoppingCart.filter(item => item.itemId !== itemId)
+        setShoppingCart(newShoppingCart)
+        if (newShoppingCart.length !== 0) {
+            const newShops = shops.map(shop => {
+                const newItemData = shop.itemData.filter(item => item.itemId !== itemId)
+                if (newItemData.length !== 0) {
+                    return {...shop, itemData: newItemData}
+                } else {
+                    return;
+                }
+            })
+            setShops(newShops.filter(shop => shop !== undefined))
         } else {
-            const localShoppingCart = JSON.parse(localStorage.getItem('shoppingCart'))
-            const newLocalShoppingCart = localShoppingCart.filter(item => item.itemId !== itemId)
-            localStorage.removeItem('shoppingCart')
-            if (newLocalShoppingCart.length !== 0) {
-                localStorage.setItem('shoppingCart', JSON.stringify(newLocalShoppingCart))
-                const newShops = shops.map(shop => {
-                    const newItemData = shop.itemData.filter(item => item.itemId !== itemId)
-                    if (newItemData.length !== 0) {
-                        return {...shop, itemData: newItemData}
-                    } else {
-                        return;
-                    }
-                })
-                
-                setShops(newShops.filter(shop => shop !== undefined))
-            } else {
-                setShops('')
-            }
-            setUpdateCart(!updateCart)
+            setShops('')
         }
     }
+    
 
     const showItemData = (itemData, shopId) => {
         const outputData = itemData.map((item, i) => {
@@ -258,7 +214,7 @@ export default ({userId, updateCart, setUpdateCart, newComerStamp}) => {
                     <h6>{item.itemName}</h6>
                     Počet: <strong>{item.count}</strong> <br/>
                     Cena: <strong>{item.price}</strong> €
-                    <Button style={{position: 'absolute', right: "20%", top: 0}} onClick={(e) => removeItemFromCart(e, item.itemId, shopId)} variant="danger" size="sm">X</Button>
+                    <Button style={{position: 'absolute', right: "20%", top: 0}} onClick={() => removeItemFromCart(item.itemId)} variant="danger" size="sm">X</Button>
                 </Col>
             )
         })

@@ -7,7 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 
 const token = process.env.REACT_APP_API_SECRET
 
-export default ({userId, isOwner, updateCart, setUpdateCart}) => {
+export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
     const {shopUrl} = useParams()
     const [isUrlAvailible, setIsUrlAvailible] = useState(true)
     const [shopData, setShopData] = useState({})
@@ -30,7 +30,7 @@ export default ({userId, isOwner, updateCart, setUpdateCart}) => {
           animation="border"
         /> :
         isUrlAvailible && shopData._id ? 
-        <ViewShop updateCart={updateCart} setUpdateCart={setUpdateCart} shopData={shopData} isOwner={isOwner} userId={userId} /> :
+        <ViewShop shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} shopData={shopData} isOwner={isOwner} userId={userId} /> :
         <div className="whitesmoke-bg-pnine" style={{paddingTop: '10px', paddingBottom: '200px'}}>
             <h3 style={{ marginTop: "20%" }} className="text-center">Pod adresou masvino.sk/{shopUrl} ešte neexistuje žiadna vináreň, ak si vinár a chceš u nás predávať, neváhaj nás <Link to="/kontakt">kontaktovať</Link>.</h3>
         </div>

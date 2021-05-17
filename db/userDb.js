@@ -26,7 +26,7 @@ const userSchema = new Schema({
   address: { type: String, required: true },
   newComerStamp: { type: String, required: true, default: newComerStamp },
   resetSecret: { type: String, index: { expires: 600 }},
-  shoppingCart: [shoppingCartSchema]
+  shoppingCart: { type: Array, required: true, default: [] }
 });
 
 const User = mongoose.model("User", userSchema);
@@ -61,6 +61,21 @@ router.route("/password-reset-key-check/").post((req,res) => {
       } else if (!(user.resetSecret)) {
         return res.status(200).json('expired')
       }
+    })
+    .catch(err => res.status(400).json(`Error: ${err}`)) 
+})
+
+router.route("/:userId/update-cart").post((req,res) => {
+  const {userId} = req.params
+  const {newCart} = req.body
+  User.findById(userId)
+    .then(async user => {
+          user['shoppingCart'] = newCart
+          return user
+            .save()
+            .then(() => res.status(200).json('success')
+            )
+            .catch((err) => res.status(400).json(`Error: ${err}`));
     })
     .catch(err => res.status(400).json(`Error: ${err}`)) 
 })

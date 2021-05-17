@@ -15,7 +15,7 @@ import ShowItem from './ShowItem'
 
 const token = process.env.REACT_APP_API_SECRET
 
-export default ({ shopData, isOwner, userId, updateCart, setUpdateCart }) => {
+export default ({ shopData, isOwner, userId, shoppingCart, setShoppingCart }) => {
   const [showAddItems, setShowAddItems] = useState(false);
   const [shopItems, setShopItems] = useState(shopData.shopItems);
   const [shouldReload, setShouldReload] = useState(false);
@@ -54,8 +54,8 @@ export default ({ shopData, isOwner, userId, updateCart, setUpdateCart }) => {
           setShouldReload={setShouldReload}
           shouldReload={shouldReload}
           isOwner={isOwner}
-          updateCart={updateCart} 
-          setUpdateCart={setUpdateCart}
+          shoppingCart={shoppingCart} 
+          setShoppingCart={setShoppingCart}
           />
         {isOwner && 
         <Col className="mt-2 mb-2" md={6} lg={4} xl={3}>

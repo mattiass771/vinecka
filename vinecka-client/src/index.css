@@ -216,11 +216,29 @@ tr.inner-table:hover {
 .fade-out{
   opacity:0;
   transition:  opacity 0.5s 0.1s;
-
 }
 .fade-in{
   opacity:1;
   transition:  opacity 0.5s 0.1s;
+}
+
+.fade-out-alert{
+  opacity:0;
+  transition:  opacity 2s 0.5s;
+  width: 0px;
+}
+.fade-in-alert{
+  opacity:1;
+  transition:  opacity 2s 0.5s;
+}
+
+.slide-out{
+  padding: 0px 200px;
+  transition: padding 0.5s 0.1s;
+}
+.slide-in{
+  padding: 10px;
+  transition: padding 0.5s 0.1s;;
 }
 
 /* NAVBAR */

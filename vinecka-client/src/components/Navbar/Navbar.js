@@ -1,51 +1,48 @@
 import React, {useState, useEffect} from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
+import axios from 'axios'
 
 import DiscountBar from '../../DiscountBar'
 
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Nav from "react-bootstrap/Nav";
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
+import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col";
 
 import logo from "./logo5.png"
 
 import { FiShoppingCart } from "react-icons/fi"
-import { FaShoppingCart } from "react-icons/fa"
 
 const envComerStamp = process.env.REACT_APP_NEWCOMER_STAMP
+const token = process.env.REACT_APP_API_SECRET
 
 // Navbar.js
-export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCart, localShoppingCart = localStorage.getItem('shoppingCart'), updateCart }) => {
+export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCart }) => {
   const firstName = userName ? userName.split(' ') : ['Používateľ']
   let history = useHistory();
   let location = useLocation();
   const [prevScrollPos, setPrevScrollPos] = useState(0); 
   const [visible, setVisible] = useState(true);
-  const [shoppingCartLength, setShoppingCartLength] = useState(0)
-  const [shoppingHover, setShoppingHover] = useState(false)
+  const [shoppingCartLength, setShoppingCartLength] = useState(999)
+  const [showAlert, setShowAlert] = useState(false)
+  const [shops, setShops] = useState([])
 
-  const triggerLogout = () => {
-    localStorage.removeItem('shoppingCart')
-    localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart))
-    handleLogOut()
+  const getImage = (image) => {
+    try {
+      const img = `https://vineckabucket.s3.eu-central-1.amazonaws.com/${image.replace(/_/g, '-')}`
+      return img;
+    } catch {
+      return null;
+    }
   }
 
-  useEffect(() => {
-    if (isLoggedIn && shoppingCart.length !== 0) {
-      const counts = shoppingCart.map(item => Number(item.count))
-      const finalCount = counts.reduce((total,x) => total+x)
-      setShoppingCartLength(finalCount)
-    } else if (!isLoggedIn && localShoppingCart) {
-      const parsedCart = JSON.parse(localShoppingCart)
-      if (parsedCart.length !== 0) {
-        const counts = parsedCart.map(item => Number(item.count))
-        const finalCount = counts.reduce((total,x) => total+x)
-        setShoppingCartLength(finalCount)
-      }
-    } else {
-      setShoppingCartLength(0)
-    }
-  }, [updateCart, shoppingCart])
+  const triggerLogout = () => {
+    handleLogOut()
+  }
 
   const limit = Math.max( 
     document.body.scrollHeight, 
@@ -85,6 +82,80 @@ export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCar
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [prevScrollPos, visible, handleScroll]);
+
+  useEffect(() => {
+    setShops([])
+    if (shoppingCart.length !== 0) {
+      const counts = shoppingCart.map(item => Number(item.count))
+      const finalCount = counts.reduce((total,x) => total+x)
+      if (finalCount > shoppingCartLength) {
+        setShowAlert(true)
+      } else {
+        setShowAlert(false)
+      }
+      setShoppingCartLength(finalCount)
+    } else {
+      setShoppingCartLength(0)
+    }
+    if (location.pathname !== '/kosik') {
+      let sortShop = []
+      shoppingCart.map(cartItem => {
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/shop/get-shop/${cartItem.shopId}`, {token})
+          .then((res) => {
+              if (res.data && res.data.shopName) {
+                  const { shopName, owner } = res.data
+                  const itemsArr = res.data.shopItems
+                  const { count, itemId } = cartItem
+                  const findItem = itemsArr.find(el => el._id === cartItem.itemId)
+                  if (findItem === undefined) {
+                      axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`, {token})
+                          .then((res) => console.log(res))
+                          .catch(err => err && console.log('could not delete item', err))
+                  } else {
+                      const { itemName, price, imageLink } = findItem
+                      const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
+                      if (index >= 0) {
+                          const prevItems = sortShop[index].itemData
+                          const isInCart = prevItems.findIndex(el => el.itemId === itemId)
+                          if (isInCart !== -1) {
+                              const prevCount = sortShop[index].itemData[isInCart].count
+                              sortShop[index].itemData[isInCart].count = Number(count) + Number(prevCount)
+                          } else {
+                              sortShop[index].itemData = [...prevItems, {itemId, itemName, price, imageLink, count}]
+                          }
+                      } else {
+                          const newShopId = cartItem.shopId
+                          sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemId, itemName, price, imageLink, count}]}]
+                      }
+                  }
+              }
+          })
+          .catch(err => {
+              if (err) return console.log(err)
+          })
+          .then(() => {
+              setShops([...sortShop])
+          })
+      })
+    }
+  }, [shoppingCart])
+
+  const showCartItems = () => {
+    return shops.sort((a, b) => (a.shopName > b.shopName) - (a.shopName < b.shopName)).map(shop => {
+      const {shopName, itemData} = shop
+      return itemData.map(item => {
+        const {itemId, itemName, price, imageLink, count} = item
+        return (
+          <Row style={{fontSize: '80%'}} className="m-2" key={itemId}>
+            <Col xs={2}><img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} /></Col>
+            <Col xs={6}><strong>{itemName}</strong><br />{shopName}</Col>
+            <Col xs={2}>{price}€</Col>
+            <Col xs={2}>{count}x</Col>
+          </Row>
+        )
+      })
+    })
+  }
 
   return (
     <>
@@ -211,21 +282,35 @@ export default ({ userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCar
         }
       </Navbar.Collapse>
     </Navbar>
-    {shoppingCartLength > 0 && location.pathname !== '/kosik' &&
-      <div 
-        onClick={() => history.push(`/kosik`)} 
-        onMouseEnter={() => setShoppingHover(true)} 
-        onMouseLeave={() => setShoppingHover(false)} 
-        style={{cursor: 'pointer', color: shoppingHover ? "whitesmoke" : "#333333", position: 'fixed', bottom: 85, right:25, width: "70px", height: "70px", backgroundColor: "rgba(250,250,250,0.0)", zIndex: '+9', borderRadius: '5px'}}>
-        <div className="justify-content-end text-center" 
-          style={{marginLeft: '55px', marginTop: '-16px', marginBottom: '5px', fontSize: '120%', fontFamily: 'Cabin', width:'16px', height:'16px'}}
-        >
-            <span style={{backgroundColor: 'red', padding: '2px 5px', color: '#fab20f', borderRadius: '15px'}}>
-              <strong>{shoppingCartLength.toString()}</strong>
-            </span>
-        </div>
-        <FaShoppingCart className="test" style={{height: '80%', width: '80%', margin: "10%", padding: '5px 5px 5px 2px', backgroundColor: shoppingHover ? '#333333' : 'whitesmoke', borderRadius: '5px' }} />
-      </div>
+    {(shoppingCartLength > 0 && location.pathname !== '/kosik') && 
+      <Alert 
+        className={`${showAlert ? 'fade-in-alert' : 'fade-out-alert'}`}
+        style={{
+          backgroundColor: "whitesmoke", 
+          position: "fixed", 
+          top: '21vh', 
+          right: 0,
+          zIndex: "+999", 
+          maxHeight: '78vh', 
+          overflowY: 'scroll',
+        }} 
+        onClose={() => setShowAlert(false)} 
+        dismissible
+      >
+        <Container className="d-none d-lg-block" style={{fontSize: '80%', height: '68vh', overflowY: 'scroll'}}>
+          {showCartItems()}
+        </Container>
+        <Container className="d-block d-lg-none" style={{fontSize: '110%'}}>
+          <Row>
+            Víno bolo pridané do košíka.
+          </Row>
+        </Container>
+        <Container className="mt-2">
+          <Row>
+            <Button variant="dark" onClick={() => history.push('/kosik')}>Prejsť do košíka.</Button>
+          </Row>
+        </Container>
+      </Alert>
     }
     </>
   );

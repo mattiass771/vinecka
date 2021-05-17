@@ -7,7 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 const token = process.env.REACT_APP_API_SECRET
 
 //Shop.js
-export default ({ userData, updateCart, setUpdateCart }) => {
+export default ({ userData, shoppingCart, setShoppingCart }) => {
   const [shopData, setShopData] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -26,7 +26,7 @@ export default ({ userData, updateCart, setUpdateCart }) => {
           style={{ marginLeft: "49%", marginTop: "20%" }}
           animation="border"
         />
-      ) : <WineOverview userData={userData} shopData={shopData} updateCart={updateCart} setUpdateCart={setUpdateCart} />}
+      ) : <WineOverview userData={userData} shopData={shopData} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} />}
     </>
   );
 };
