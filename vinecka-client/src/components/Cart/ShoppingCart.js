@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState } from "react"
 import {Link, useHistory} from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
@@ -6,7 +6,6 @@ import moment from 'moment'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
-import Image from 'react-bootstrap/Image'
 import Button from 'react-bootstrap/Button'
 import Spinner from "react-bootstrap/Spinner"
 import Alert from "react-bootstrap/Alert"
@@ -20,6 +19,9 @@ import PaymentOptions from './PaymentOptions'
 
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
+
+import { FiPlusSquare, FiMinusSquare } from "react-icons/fi"
+import { FaBullseye } from "react-icons/fa"
 
 const token = process.env.REACT_APP_API_SECRET
 const envComerStamp = process.env.REACT_APP_NEWCOMER_STAMP
@@ -46,7 +48,6 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
     let history = useHistory()
     const { OSOBNY, ROZVOZ, ROZVOZ_FIRST, ROZVOZ_SECOND, ZASIELKOVNA, ZASIELKOVNA_PRICE, KURIER, KURIER_PRICE } = deliveryOptions
     const { DOBIERKA, PREVOD, INTERNET_BANKING, KARTA } = paymentOptions
-    const lastRef = useRef(null)
     const [shops, setShops] = useState('')
     const [refresh, setRefresh] = useState(false)
     const [userInformation, setUserInformation] = useState('')
@@ -70,9 +71,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
     const [discount, setDiscount] = useState('')
     const [isValidDiscount, setIsValidDiscount] = useState('')
 
-    const [selectedPickupPoint, setSelectedPickupPoint] = useState('')
-
-    const executeScroll = () => lastRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })   
+    const [selectedPickupPoint, setSelectedPickupPoint] = useState('')  
 
     const handleSessionStorage = (customKey, value) => {
         return sessionStorage.setItem(customKey, value)
@@ -189,10 +188,42 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
 
     const removeItemFromCart = (itemId) => {
         const newShoppingCart = shoppingCart.filter(item => item.itemId !== itemId)
-        setShoppingCart(newShoppingCart)
+        setShoppingCart(newShoppingCart.filter(cart => cart !== null && cart !== undefined))
         if (newShoppingCart.length !== 0) {
             const newShops = shops.map(shop => {
                 const newItemData = shop.itemData.filter(item => item.itemId !== itemId)
+                if (newItemData.length !== 0) {
+                    return {...shop, itemData: newItemData}
+                } else {
+                    return;
+                }
+            })
+            setShops(newShops.filter(shop => shop !== null && shop !== undefined))
+        } else {
+            setShops('')
+            history.push('/vina')
+        }
+    }
+
+    const substractItemFromCart = (itemId) => {
+        const newShoppingCart = shoppingCart.map(item => {
+            if (item && item.itemId === itemId) {
+                if (item.count === 1) {
+                    return removeItemFromCart(itemId)
+                }
+                return {...item, count: item.count - 1}
+            }
+            return item
+        })
+        setShoppingCart(newShoppingCart.filter(cart => cart !== null && cart !== undefined))
+        if (newShoppingCart.length !== 0) {
+            const newShops = shops.map(shop => {
+                const newItemData = shop.itemData.map(item => {
+                    if (item && item.itemId === itemId) {
+                        return {...item, count: item.count - 1}
+                    }
+                    return item
+                })
                 if (newItemData.length !== 0) {
                     return {...shop, itemData: newItemData}
                 } else {
@@ -204,29 +235,33 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
             setShops('')
         }
     }
-    
 
-    const showItemData = (itemData, shopId) => {
-        const outputData = itemData.map((item, i) => {
-            return (
-                <Col className="float-left mt-2" data-id={`${item.itemId}`} xs={6} lg={4} key={`${item.itemId}`} style={{textAlign: "center"}}>
-                    <Image src={getImage(item.imageLink) ? getImage(item.imageLink) : ''} rounded style={{height:75}} />
-                    <h6>{item.itemName}</h6>
-                    Počet: <strong>{item.count}</strong> <br/>
-                    Cena: <strong>{item.price}</strong> €
-                    <Button style={{position: 'absolute', right: "20%", top: 0}} onClick={() => removeItemFromCart(item.itemId)} variant="danger" size="sm">X</Button>
-                </Col>
-            )
+    const incrementItemFromCart = (itemId) => {
+        const newShoppingCart = shoppingCart.map(item => {
+            if (item.itemId === itemId && item) {
+                return {...item, count: item.count + 1}
+            }
+            return item
         })
-        return outputData
-    }
-
-    const getTotalPrice = (itemData) => {
-        let total = 0
-        for (let item of itemData) {
-            total += Number((item.price).replace(/,/g,"."))*item.count
+        setShoppingCart(newShoppingCart.filter(cart => cart !== null && cart !== undefined))
+        if (newShoppingCart.length !== 0) {
+            const newShops = shops.map(shop => {
+                const newItemData = shop.itemData.map(item => {
+                    if (item && item.itemId === itemId) {
+                        return {...item, count: item.count + 1}
+                    }
+                    return item
+                })
+                if (newItemData.length !== 0) {
+                    return {...shop, itemData: newItemData}
+                } else {
+                    return;
+                }
+            })
+            setShops(newShops.filter(shop => shop !== undefined))
+        } else {
+            setShops('')
         }
-        return total
     }
 
     const getTotalItemPrice = (count, price) => {
@@ -238,20 +273,27 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
             const {shopName, itemData} = shop
             return itemData.map(item => {
                 const {itemId, itemName, price, imageLink, count} = item
-                return (
-                    <Row style={{fontSize: '110%'}} className="m-2" key={itemId}>
-                        <Col xs={2}>
-                            <img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} />
-                        </Col>
-                        <Col xs={4}><strong>{itemName}</strong><br />{shopName}</Col>
-                        <Col xs={2}>{price} €</Col>
-                        <Col xs={2}>{count}x</Col>
-                        <Col xs={2}>
-                            Spolu: <strong>{getTotalItemPrice(count, price)} €</strong>&nbsp;
-                            <Button style={{position: 'absolute', top: 0}} onClick={() => removeItemFromCart(itemId)} variant="danger" size="sm">X</Button>
-                        </Col>
-                    </Row>
-                )})
+                if (count > 0) {
+                    return (
+                        <Row style={{fontSize: '110%'}} className="m-2" key={itemId}>
+                            <Col xs={2}>
+                                <img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} />
+                            </Col>
+                            <Col xs={4}><strong>{itemName}</strong><br />{shopName}</Col>
+                            <Col xs={2}>{price} €</Col>
+                            <Col xs={2}>
+                                {count}x
+                                &nbsp;
+                                <FiPlusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 0}} onClick={() => incrementItemFromCart(itemId)} />
+                                <FiMinusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 20}} onClick={() => substractItemFromCart(itemId)} />
+                            </Col>
+                            <Col xs={2}>
+                                Spolu: <strong>{getTotalItemPrice(count, price)} €</strong>
+                            </Col>
+                        </Row>
+                    )
+                } else return;
+            })
         })
         if (!loading) {
             return output
@@ -325,21 +367,18 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
     }
 
     const handleRegistration = () => {
-        setTimeout(() => executeScroll(),750)
         setLogin(false)
         setShipmentOnly(false)
         setRegistration(true)
     }
 
     const handleShipmentOnly = () => {
-        setTimeout(() => executeScroll(),750)
         setLogin(false)
         setRegistration(false)
         setShipmentOnly(true)
     }
 
     const handleLogin = () => {
-        setTimeout(() => executeScroll(),750)
         setRegistration(false)
         setShipmentOnly(false)
         setLogin(true)
@@ -384,7 +423,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
         return (
             <>
             {newComerStamp === envComerStamp ?
-            <Col className="text-center" xs={4}>
+            <Col className="text-center" xs={12} md={4}>
                 <h6>Je použitá poregistračná zľava 10% z celkovej ceny objednávky.</h6>
                 <br />
                 <input 
@@ -395,7 +434,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                 />
                 <br />
             </Col> :  
-            <Col xs={4}>
+            <Col xs={12} md={4}>
                 <input 
                     className={`text-center form-control ${(discount && !isValidDiscount ) ? 'invalid-input' : ''}`}
                     type="text"
@@ -465,7 +504,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                     </div>}
                     {!loading && shops &&
                     <>
-                    <Row ref={lastRef}  className="text-center pt-4">
+                    <Row className="text-center pt-4">
                         <Col>
                             <h2>Doručovacie údaje {registration && 's registráciou'}</h2>
                         </Col>
@@ -519,7 +558,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                             <PaymentOptions options={paymentOptions} paymentCheck={paymentCheck} setPaymentCheck={setPaymentCheck} />}
                     </SlideDown>
                     {!loading && 
-                    <Row className="text-center">
+                    <Row className="text-center pt-4">
                         <Col>
                             {((deliveryCheck && deliveryCheck !== ZASIELKOVNA) || selectedPickupPoint) && paymentCheck && userInformation && shops.length > 0 ?
                                 <>

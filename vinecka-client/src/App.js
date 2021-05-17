@@ -67,20 +67,22 @@ export default () => {
           const localCart = JSON.parse(localStorage.getItem('shoppingCart') || '[]')
           const userCart = res.data
           const syncCarts = [...localCart, ...userCart]
-          console.log(syncCarts)
-          setShoppingCart(syncCarts)
+          const filteredCart = syncCarts.filter(cart => cart !== null && cart !== undefined)
+          setShoppingCart(filteredCart)
         })
         .catch(err => console.log('error updating shopping cart...', err))
     } else {
       const localCart = JSON.parse(localStorage.getItem('shoppingCart') || '[]')
-      setShoppingCart(localCart)
+      const filteredCart = localCart.filter(cart => cart !== null && cart !== undefined)
+      setShoppingCart(filteredCart)
     }
   }, [userData])
 
   useEffect(() => {
-    localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart))
+    const filteredCart = shoppingCart.filter(cart => cart !== null && cart !== undefined)
+    localStorage.setItem('shoppingCart', JSON.stringify(filteredCart))
     if (userData._id) {
-      axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userData._id}/update-cart/`, {newCart: shoppingCart, token})
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userData._id}/update-cart/`, {newCart: filteredCart, token})
         .then(res => console.log('shopping cart was successfuly updated: ', res.data))
         .catch(err => console.log('error updating shopping cart...', err))
     }
@@ -115,7 +117,7 @@ export default () => {
         crossOrigin="anonymous"
       />
       <div>
-        <Navbar userId={userData._id} userName={userData.fullName} newComerStamp={userData.newComerStamp} shoppingCart={shoppingCart} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
+        <Navbar userId={userData._id} userName={userData.fullName} newComerStamp={userData.newComerStamp} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
         {loadingData ? 
               <Spinner
                 style={{ marginLeft: "49%", marginTop: "20%", color: 'whitesmoke' }}

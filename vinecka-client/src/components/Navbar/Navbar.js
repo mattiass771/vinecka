@@ -15,13 +15,13 @@ import Col from "react-bootstrap/Col";
 
 import logo from "./logo5.png"
 
-import { FiShoppingCart } from "react-icons/fi"
+import { FiShoppingCart, FiPlusSquare, FiMinusSquare } from "react-icons/fi"
 
 const envComerStamp = process.env.REACT_APP_NEWCOMER_STAMP
 const token = process.env.REACT_APP_API_SECRET
 
 // Navbar.js
-export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCart }) => {
+export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCart, setShoppingCart }) => {
   const firstName = userName ? userName.split(' ') : ['Používateľ']
   let history = useHistory();
   let location = useLocation();
@@ -30,6 +30,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
   const [shoppingCartLength, setShoppingCartLength] = useState(999)
   const [showAlert, setShowAlert] = useState(false)
   const [shops, setShops] = useState([])
+  const [oldCart, setOldCart] = useState([])
 
   const getImage = (image) => {
     try {
@@ -85,13 +86,9 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
 
   useEffect(() => {
     if (shoppingCart.length !== 0) {
-      const counts = shoppingCart.map(item => Number(item.count))
+      const counts = shoppingCart.map(item => (item !== null && item !== undefined) && Number(item.count))
       const finalCount = counts.reduce((total,x) => total+x)
-      if (finalCount > shoppingCartLength) {
-        setShowAlert(true)
-      } else {
-        setShowAlert(false)
-      }
+      setShowAlert(true)
       setShoppingCartLength(finalCount)
     } else {
       setShowAlert(false)
@@ -100,7 +97,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
     }
     if (location.pathname !== '/kosik') {
       if (shops.length === 0) {
-        let sortShop = []
+        let sortShop = []      
         shoppingCart.map(cartItem => {
           axios.post(`${process.env.REACT_APP_BACKEND_URL}/shop/get-shop/${cartItem.shopId}`, {token})
             .then((res) => {
@@ -137,12 +134,22 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
             })
             .then(() => {
                 setShops([...sortShop])
+                setOldCart(shoppingCart)
             })
         })
       } else {
-        const cartItem = shoppingCart[shoppingCart.length-1]
-        let sortShop = [...shops]
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/shop/get-shop/${cartItem.shopId}`, {token})
+        const toUpdate = shoppingCart.filter(newItem => {
+          const firstCondition = oldCart.some(oldItem => (oldItem.itemId === newItem.itemId && oldItem.shopId === newItem.shopId && oldItem.count !== newItem.count))
+          const secondCondition = oldCart.some(oldItem => oldItem.itemId === newItem.itemId)
+          if (firstCondition || !secondCondition) {
+            return newItem
+          }
+        })
+        let sortShop = []  
+        const cartItem = toUpdate[0]
+        console.log(cartItem)
+        if (cartItem) {
+          axios.post(`${process.env.REACT_APP_BACKEND_URL}/shop/get-shop/${cartItem.shopId}`, {token})
             .then((res) => {
                 if (res.data && res.data.shopName) {
                     const { shopName, owner } = res.data
@@ -176,25 +183,123 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
                 if (err) return console.log(err)
             })
             .then(() => {
-                setShops([...sortShop])
+              let found = false
+              const newShops = shops.map(shop => {
+                if (shop.shopId === sortShop[0].shopId) {
+                  const newItemData = shop.itemData.map(item => {
+                    if (item.itemId === sortShop[0].itemData[0].itemId) {
+                      found = true
+                      return sortShop[0].itemData[0]
+                    } else return item
+                  })
+                  return {...shop, itemData: newItemData}
+                } else return shop
+              })
+              setShops(found ? [...newShops] : [...shops, ...sortShop])
+              setOldCart(shoppingCart)
             })
+        }
       }
     }
   }, [shoppingCart])
+
+  const removeItemFromCart = (itemId) => {
+    const newShoppingCart = shoppingCart.filter(item => item.itemId !== itemId)
+    setShoppingCart(newShoppingCart.filter(cart => cart !== null && cart !== undefined))
+    if (newShoppingCart.length !== 0) {
+        const newShops = shops.map(shop => {
+            const newItemData = shop.itemData.filter(item => item.itemId !== itemId)
+            if (newItemData.length !== 0) {
+                return {...shop, itemData: newItemData}
+            } else {
+                return;
+            }
+        })
+        setShops(newShops.filter(shop => shop !== undefined))
+    } else {
+        setShops([])
+    }
+}
+
+  const substractItemFromCart = (itemId) => {
+    const newShoppingCart = shoppingCart.map(item => {
+        if (item.itemId === itemId) {
+            if (item.count === 1) {
+                return removeItemFromCart(itemId)
+            }
+            return {...item, count: item.count - 1}
+        }
+        return item
+    })
+    setShoppingCart(newShoppingCart.filter(cart => cart !== null && cart !== undefined))
+    if (newShoppingCart.length !== 0) {
+        const newShops = shops.map(shop => {
+            const newItemData = shop.itemData.map(item => {
+                if (item.itemId === itemId) {
+                    return {...item, count: item.count - 1}
+                }
+                return item
+            })
+            if (newItemData.length !== 0) {
+                return {...shop, itemData: newItemData}
+            } else {
+                return;
+            }
+        })
+        setShops(newShops.filter(shop => shop !== undefined))
+    } else {
+        setShops([])
+    }
+}
+
+const incrementItemFromCart = (itemId) => {
+    const newShoppingCart = shoppingCart.map(item => {
+        if (item.itemId === itemId) {
+            return {...item, count: item.count + 1}
+        }
+        return item
+    })
+    setShoppingCart(newShoppingCart.filter(cart => cart !== null && cart !== undefined))
+    if (newShoppingCart.length !== 0) {
+        const newShops = shops.map(shop => {
+            const newItemData = shop.itemData.map(item => {
+                if (item.itemId === itemId) {
+                    return {...item, count: item.count + 1}
+                }
+                return item
+            })
+            if (newItemData.length !== 0) {
+                return {...shop, itemData: newItemData}
+            } else {
+                return;
+            }
+        })
+        setShops(newShops.filter(shop => shop !== undefined))
+    } else {
+        setShops([])
+    }
+}
 
   const showCartItems = () => {
     return shops.sort((a, b) => (a.shopName > b.shopName) - (a.shopName < b.shopName)).map(shop => {
       const {shopName, itemData} = shop
       return itemData.map(item => {
         const {itemId, itemName, price, imageLink, count} = item
-        return (
-          <Row style={{fontSize: '80%'}} className="m-2" key={itemId}>
-            <Col xs={2}><img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} /></Col>
-            <Col xs={6}><strong>{itemName}</strong><br />{shopName}</Col>
-            <Col xs={2}>{price}€</Col>
-            <Col xs={2}>{count}x</Col>
-          </Row>
-        )
+        if (count > 0) {
+          return (
+            <Row style={{fontSize: '80%'}} className="m-2" key={itemId}>
+              <Col xs={2}><img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} /></Col>
+              <Col xs={6}><strong>{itemName}</strong><br />{shopName}</Col>
+              <Col xs={2}>{price}€</Col>
+              <Col xs={2}>
+                {count}x
+                &nbsp;
+                <FiPlusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 0}} onClick={() => incrementItemFromCart(itemId)} />
+                <FiMinusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 10}} onClick={() => substractItemFromCart(itemId)} />            
+              </Col>
+            </Row>
+          )
+        } else return;
       })
     })
   }
@@ -330,24 +435,26 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
         style={{
           backgroundColor: "whitesmoke", 
           position: "fixed", 
-          top: '21vh', 
+          top: visible ? '164px' : '74px', 
           right: 0,
           zIndex: "+999", 
-          maxHeight: '78vh', 
+          maxHeight: '40vh', 
+          padding: '20px 0px 0px 0px',
           overflowY: 'scroll',
+          transition: 'top 0.6s',
         }} 
         onClose={() => setShowAlert(false)} 
         dismissible
       >
-        <Container className="d-none d-lg-block" style={{fontSize: '80%', maxHeight: '68vh', overflowY: 'scroll'}}>
+        <Container className="d-none d-lg-block" style={{fontSize: '80%', maxHeight: '30vh', overflowY: 'scroll'}} fluid>
           {showCartItems()}
         </Container>
-        <Container className="d-block d-lg-none" style={{fontSize: '110%'}}>
+        <Container className="d-block d-lg-none" style={{fontSize: '110%', margin: '20px'}} fluid>
           <Row>
             Víno bolo pridané do košíka.
           </Row>
         </Container>
-        <Container className="mt-2">
+        <Container className="mt-2" fluid>
           <Row>
             <Button variant="dark" onClick={() => history.push('/kosik')}>Prejsť do košíka.</Button>
           </Row>

@@ -98,10 +98,19 @@ export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOw
         setEditing({...editing, ...editingObj})
       }
 
-      const addItemToCart = (itemId) => {
-        const passCount = count[_id] || 1
-        const newItem = { shopId: passShopId, itemId, count: passCount }
-        setShoppingCart([...shoppingCart, newItem])
+      const addItemToCart = (itemId) => {        
+        if (shoppingCart.find(val => val.itemId === itemId)) {
+          const newShoppingCart = shoppingCart.map(item => {
+            if (item.itemId === itemId) {                
+                return {...item, count: item.count + 1}
+            }
+            return item
+          })
+          return setShoppingCart(newShoppingCart)
+        } else {
+          const newItem = { shopId: passShopId, itemId, count: 1 }
+          setShoppingCart([...shoppingCart, newItem])
+        }
       }
 
       return (
