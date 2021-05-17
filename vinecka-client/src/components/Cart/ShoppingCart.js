@@ -229,29 +229,24 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
         return total
     }
 
+    const getTotalItemPrice = (count, price) => {
+        return (Number((price).replace(/,/g,"."))*count).toFixed(2).replace(/\./, ',')
+    }
+
     const showCartItems = () => {
         const output = shops.sort((a, b) => (a.shopName > b.shopName) - (a.shopName < b.shopName)).map((shop, i) => {
-            return (
-                <div 
-                    key={shop.shopId} 
-                    className={`${(!(i%2) && shops.length > 1) ? 'border-custom-right' : ''} ${shops.length < 2 ? 'col-md-12' : 'col-md-6'} col-xs-12`} 
-                    style={{
-                        paddingTop: "15px", 
-                        paddingBottom: i !== shops.length-1 ? "25px" : '', 
-                        borderTop: '2px solid #c1c1c1'
-                    }} 
-                >
-                    <div style={{display: "flex", justifyContent:"space-between"}}>
-                        <div>
-                            <h4>{shop.shopName}</h4>
-                        </div>
-                        <div className="text-right">
-                            <h5>Suma: {(getTotalPrice(shop.itemData)).toFixed(2).toString().replace(/\./g,',')} €</h5>
-                        </div>
-                    </div>
-                    {showItemData(shop.itemData, shop.shopId)}
-                </div>
-            )
+            const {shopName, itemData} = shop
+            return itemData.map(item => {
+                const {itemId, itemName, price, imageLink, count} = item
+                return (
+                    <Row style={{fontSize: '110%'}} className="m-2" key={itemId}>
+                        <Col xs={2}><img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} /></Col>
+                        <Col xs={4}><strong>{itemName}</strong><br />{shopName}</Col>
+                        <Col xs={2}>{price} €</Col>
+                        <Col xs={2}>{count}x</Col>
+                        <Col xs={2}>Spolu: <strong>{getTotalItemPrice(count, price)} €</strong></Col>
+                    </Row>
+                )})
         })
         if (!loading) {
             return output
@@ -428,7 +423,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
     }
 
     return (
-        <div className="whitesmoke-bg-pnine" style={{minHeight: '500px'}}>
+        <div style={{minHeight: '100vh', backgroundColor: 'whitesmoke'}}>
             {loading &&
                 <Spinner
                     style={{ marginLeft: "49%", marginTop: "250px"}}
@@ -454,9 +449,15 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                             <h2>Vaše vína</h2>
                         </Col>
                     </Row>}
-                    <Row style={{borderBottom: !loading && shops && '2px solid #c1c1c1'}}>
-                        {shops && showCartItems()}
-                    </Row>
+                    {(!loading && shops) && 
+                    <div className="py-4" style={{borderBottom: '2px solid #c1c1c1'}}>
+                        {showCartItems()}
+                        <Row className="text-center pt-4 justify-content-center">
+                            <br />
+                            <br />
+                            {shops && showTotalCartPrice()}
+                        </Row>
+                    </div>}
                     {!loading && shops &&
                     <>
                     <Row ref={lastRef}  className="text-center pt-4">
@@ -512,12 +513,6 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                         {shops && userInformation && ((deliveryCheck && deliveryCheck !== ZASIELKOVNA) || selectedPickupPoint) && 
                             <PaymentOptions options={paymentOptions} paymentCheck={paymentCheck} setPaymentCheck={setPaymentCheck} />}
                     </SlideDown>
-                    {!loading && 
-                    <Row className="text-center pt-4 justify-content-center">
-                        <br />
-                        <br />
-                        {shops && showTotalCartPrice()}
-                    </Row>}
                     {!loading && 
                     <Row className="text-center">
                         <Col>

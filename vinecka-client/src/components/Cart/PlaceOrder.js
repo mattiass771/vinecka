@@ -148,7 +148,7 @@ export default ({ uncheckGdpr, setUncheckGdpr ,setUserInformation, userInformati
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
-            <label htmlFor="phone">Telefon:</label>
+            <label htmlFor="phone">Telefón:</label>
             <input
               className={`form-control text-center ${checkIfPhoneMeetsCriteria()}`}
               placeholder="povinné"
@@ -163,7 +163,7 @@ export default ({ uncheckGdpr, setUncheckGdpr ,setUserInformation, userInformati
             />
           </Col>
           <Col md={6} className={`text-center mt-1`}>
-            <label htmlFor="street">Ulica a cislo domu:</label>
+            <label htmlFor="street">Ulica a číslo domu:</label>
             <input
               className={`form-control text-center ${checkIfStreetMeetsCriteria()}`}
               placeholder="povinné"

@@ -84,7 +84,6 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
   }, [prevScrollPos, visible, handleScroll]);
 
   useEffect(() => {
-    setShops([])
     if (shoppingCart.length !== 0) {
       const counts = shoppingCart.map(item => Number(item.count))
       const finalCount = counts.reduce((total,x) => total+x)
@@ -95,48 +94,91 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
       }
       setShoppingCartLength(finalCount)
     } else {
+      setShowAlert(false)
       setShoppingCartLength(0)
+      setShops([])
     }
     if (location.pathname !== '/kosik') {
-      let sortShop = []
-      shoppingCart.map(cartItem => {
+      if (shops.length === 0) {
+        let sortShop = []
+        shoppingCart.map(cartItem => {
+          axios.post(`${process.env.REACT_APP_BACKEND_URL}/shop/get-shop/${cartItem.shopId}`, {token})
+            .then((res) => {
+                if (res.data && res.data.shopName) {
+                    const { shopName, owner } = res.data
+                    const itemsArr = res.data.shopItems
+                    const { count, itemId } = cartItem
+                    const findItem = itemsArr.find(el => el._id === cartItem.itemId)
+                    if (findItem === undefined) {
+                        axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`, {token})
+                            .then((res) => console.log(res))
+                            .catch(err => err && console.log('could not delete item', err))
+                    } else {
+                        const { itemName, price, imageLink } = findItem
+                        const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
+                        if (index >= 0) {
+                            const prevItems = sortShop[index].itemData
+                            const isInCart = prevItems.findIndex(el => el.itemId === itemId)
+                            if (isInCart !== -1) {
+                                const prevCount = sortShop[index].itemData[isInCart].count
+                                sortShop[index].itemData[isInCart].count = Number(count) + Number(prevCount)
+                            } else {
+                                sortShop[index].itemData = [...prevItems, {itemId, itemName, price, imageLink, count}]
+                            }
+                        } else {
+                            const newShopId = cartItem.shopId
+                            sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemId, itemName, price, imageLink, count}]}]
+                        }
+                    }
+                }
+            })
+            .catch(err => {
+                if (err) return console.log(err)
+            })
+            .then(() => {
+                setShops([...sortShop])
+            })
+        })
+      } else {
+        const cartItem = shoppingCart[shoppingCart.length-1]
+        let sortShop = [...shops]
         axios.post(`${process.env.REACT_APP_BACKEND_URL}/shop/get-shop/${cartItem.shopId}`, {token})
-          .then((res) => {
-              if (res.data && res.data.shopName) {
-                  const { shopName, owner } = res.data
-                  const itemsArr = res.data.shopItems
-                  const { count, itemId } = cartItem
-                  const findItem = itemsArr.find(el => el._id === cartItem.itemId)
-                  if (findItem === undefined) {
-                      axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`, {token})
-                          .then((res) => console.log(res))
-                          .catch(err => err && console.log('could not delete item', err))
-                  } else {
-                      const { itemName, price, imageLink } = findItem
-                      const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
-                      if (index >= 0) {
-                          const prevItems = sortShop[index].itemData
-                          const isInCart = prevItems.findIndex(el => el.itemId === itemId)
-                          if (isInCart !== -1) {
-                              const prevCount = sortShop[index].itemData[isInCart].count
-                              sortShop[index].itemData[isInCart].count = Number(count) + Number(prevCount)
-                          } else {
-                              sortShop[index].itemData = [...prevItems, {itemId, itemName, price, imageLink, count}]
-                          }
-                      } else {
-                          const newShopId = cartItem.shopId
-                          sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemId, itemName, price, imageLink, count}]}]
-                      }
-                  }
-              }
-          })
-          .catch(err => {
-              if (err) return console.log(err)
-          })
-          .then(() => {
-              setShops([...sortShop])
-          })
-      })
+            .then((res) => {
+                if (res.data && res.data.shopName) {
+                    const { shopName, owner } = res.data
+                    const itemsArr = res.data.shopItems
+                    const { count, itemId } = cartItem
+                    const findItem = itemsArr.find(el => el._id === cartItem.itemId)
+                    if (findItem === undefined) {
+                        axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`, {token})
+                            .then((res) => console.log(res))
+                            .catch(err => err && console.log('could not delete item', err))
+                    } else {
+                        const { itemName, price, imageLink } = findItem
+                        const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
+                        if (index >= 0) {
+                            const prevItems = sortShop[index].itemData
+                            const isInCart = prevItems.findIndex(el => el.itemId === itemId)
+                            if (isInCart !== -1) {
+                                const prevCount = sortShop[index].itemData[isInCart].count
+                                sortShop[index].itemData[isInCart].count = Number(count) + Number(prevCount)
+                            } else {
+                                sortShop[index].itemData = [...prevItems, {itemId, itemName, price, imageLink, count}]
+                            }
+                        } else {
+                            const newShopId = cartItem.shopId
+                            sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemId, itemName, price, imageLink, count}]}]
+                        }
+                    }
+                }
+            })
+            .catch(err => {
+                if (err) return console.log(err)
+            })
+            .then(() => {
+                setShops([...sortShop])
+            })
+      }
     }
   }, [shoppingCart])
 
@@ -297,7 +339,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
         onClose={() => setShowAlert(false)} 
         dismissible
       >
-        <Container className="d-none d-lg-block" style={{fontSize: '80%', height: '68vh', overflowY: 'scroll'}}>
+        <Container className="d-none d-lg-block" style={{fontSize: '80%', maxHeight: '68vh', overflowY: 'scroll'}}>
           {showCartItems()}
         </Container>
         <Container className="d-block d-lg-none" style={{fontSize: '110%'}}>
