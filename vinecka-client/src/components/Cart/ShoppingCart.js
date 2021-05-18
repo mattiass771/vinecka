@@ -275,22 +275,40 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                 const {itemId, itemName, price, imageLink, count} = item
                 if (count > 0) {
                     return (
-                        <Row style={{fontSize: '110%'}} className="m-2" key={itemId}>
-                            <Col xs={2}>
-                                <img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} />
-                            </Col>
-                            <Col xs={4}><strong>{itemName}</strong><br />{shopName}</Col>
-                            <Col xs={2}>{price} €</Col>
-                            <Col xs={2}>
-                                {count}x
-                                &nbsp;
-                                <FiPlusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 0}} onClick={() => incrementItemFromCart(itemId)} />
-                                <FiMinusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 20}} onClick={() => substractItemFromCart(itemId)} />
-                            </Col>
-                            <Col xs={2}>
-                                Spolu: <strong>{getTotalItemPrice(count, price)} €</strong>
-                            </Col>
-                        </Row>
+                        <>
+                            <Row className="d-none d-md-block" style={{fontSize: '110%'}} className="m-2" key={itemId}>
+                                <Col xs={2}>
+                                    <img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} />
+                                </Col>
+                                <Col xs={4}><strong>{itemName}</strong><br />{shopName}</Col>
+                                <Col xs={2}>{price} €</Col>
+                                <Col xs={2}>
+                                    {count}x
+                                    &nbsp;
+                                    <FiPlusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 0}} onClick={() => incrementItemFromCart(itemId)} />
+                                    <FiMinusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 20}} onClick={() => substractItemFromCart(itemId)} />
+                                </Col>
+                                <Col xs={2}>
+                                    Spolu: <strong>{getTotalItemPrice(count, price)} €</strong>
+                                </Col>
+                            </Row>
+                            <Row className="d-block d-md-none" style={{fontSize: '75%'}} className="m-2" key={itemId}>
+                                <Col xs={2}>
+                                    <img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} />
+                                </Col>
+                                <Col xs={4}><strong>{itemName}</strong><br />{shopName}</Col>
+                                <Col xs={2}>{price} €</Col>
+                                <Col xs={2}>
+                                    {count}x
+                                    &nbsp;
+                                    <FiPlusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 0}} onClick={() => incrementItemFromCart(itemId)} />
+                                    <FiMinusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 20}} onClick={() => substractItemFromCart(itemId)} />
+                                </Col>
+                                <Col xs={2}>
+                                    Spolu: <strong>{getTotalItemPrice(count, price)} €</strong>
+                                </Col>
+                            </Row>
+                        </>
                     )
                 } else return;
             })
