@@ -276,7 +276,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                 if (count > 0) {
                     return (
                         <>
-                            <Row className="d-none d-md-block" style={{fontSize: '110%'}} className="m-2" key={itemId}>
+                            <Row className="d-none d-sm-flex m-2" style={{fontSize: '110%'}} key={itemId}>
                                 <Col xs={2}>
                                     <img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} />
                                 </Col>
@@ -292,19 +292,19 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                                     Spolu: <strong>{getTotalItemPrice(count, price)} €</strong>
                                 </Col>
                             </Row>
-                            <Row className="d-block d-md-none" style={{fontSize: '75%'}} className="m-2" key={itemId}>
-                                <Col xs={2}>
-                                    <img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} />
+                            <Row className="d-flex d-sm-none m-2" style={{fontSize: '75%'}} key={itemId}>
+                                <Col className="mb-1" xs={2}>
+                                    <img src={getImage(imageLink)} style={{height: '40px', width: '30px'}} />
                                 </Col>
-                                <Col xs={4}><strong>{itemName}</strong><br />{shopName}</Col>
-                                <Col xs={2}>{price} €</Col>
-                                <Col xs={2}>
+                                <Col className="mb-1" xs={10}><strong>{itemName}</strong><br />{shopName}</Col>
+                                <Col xs={3}>{price} €</Col>
+                                <Col xs={3}>
                                     {count}x
                                     &nbsp;
                                     <FiPlusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 0}} onClick={() => incrementItemFromCart(itemId)} />
-                                    <FiMinusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 20}} onClick={() => substractItemFromCart(itemId)} />
+                                    <FiMinusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 13}} onClick={() => substractItemFromCart(itemId)} />
                                 </Col>
-                                <Col xs={2}>
+                                <Col xs={6}>
                                     Spolu: <strong>{getTotalItemPrice(count, price)} €</strong>
                                 </Col>
                             </Row>
