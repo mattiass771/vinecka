@@ -66,7 +66,7 @@ export default () => {
         .then(res => {
           const localCart = JSON.parse(localStorage.getItem('shoppingCart') || '[]')
           const userCart = res.data
-          const syncCarts = [...localCart, ...userCart]
+          const syncCarts = localCart.length !== 0 ? [...localCart] : [...userCart]
           const filteredCart = syncCarts.filter(cart => cart !== null && cart !== undefined)
           setShoppingCart(filteredCart)
         })
