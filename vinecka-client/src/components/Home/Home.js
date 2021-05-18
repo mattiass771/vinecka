@@ -310,6 +310,8 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
         <Row>
           <ShowUpdateFeatured />
         </Row>}
+        <br />
+        <br />
         <Row className="text-center pt-4 pb-2 justify-content-center">
           <Col>
             <h1>Naše najpredávanejšie</h1>
