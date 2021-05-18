@@ -83,12 +83,18 @@ export default ({userId, shoppingCart, setShoppingCart}) => {
                 emailjs.send('service_d4aksie', 'template_gqe4ejf', emailData, process.env.REACT_APP_EMAILJS_USERID)
                     .then((result) => {
                         setMailSent('')
-                        console.log('mail created.')
+                        emailjs.send('service_d4aksie', 'template_4xoooce', emailData, process.env.REACT_APP_EMAILJS_USERID)
+                            .then((resultSeller) => {
+                                console.log('seller mail created.')
+                            }, (errorSeller) => {
+                                console.log('error seller mail', errorSeller)
+                            });
+                        console.log('customer mail created.')
                         axios.put(`${process.env.REACT_APP_BACKEND_URL}/orders/${_id}/update-mailed`, {token})
                             .then(res => console.log('sent.'))
                             .catch(errMarkMail => console.log(errMarkMail))
                     }, (error) => {
-                        console.log('error mail', error)
+                        console.log('error customer mail', error)
                     });
             }
         }
