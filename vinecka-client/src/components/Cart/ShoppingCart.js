@@ -268,15 +268,15 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
         return (Number((price).replace(/,/g,"."))*count).toFixed(2).replace(/\./, ',')
     }
 
-    const showCartItems = () => {
+    const ShowCartItems = () => {
         const output = shops.sort((a, b) => (a.shopName > b.shopName) - (a.shopName < b.shopName)).map((shop, i) => {
             const {shopName, itemData} = shop
-            return itemData.map(item => {
+            return itemData.map((item, i) => {
                 const {itemId, itemName, price, imageLink, count} = item
                 if (count > 0) {
                     return (
-                        <>
-                            <Row className="d-none d-sm-flex m-2" style={{fontSize: '110%'}} key={itemId}>
+                        <React.Fragment key={itemId}>
+                            <Row className="d-none d-sm-flex m-2" style={{fontSize: '110%'}}>
                                 <Col xs={2}>
                                     <img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} />
                                 </Col>
@@ -308,9 +308,9 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                                     Spolu: <strong>{getTotalItemPrice(count, price)} €</strong>
                                 </Col>
                             </Row>
-                        </>
+                        </React.Fragment>
                     )
-                } else return;
+                } else return null;
             })
         })
         if (!loading) {
@@ -513,7 +513,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                     </Row>}
                     {(!loading && shops) && 
                     <div className="py-4" style={{borderBottom: '2px solid #c1c1c1'}}>
-                        {showCartItems()}
+                        <ShowCartItems />
                         <Row className="text-center pt-4 justify-content-center">
                             <br />
                             <br />

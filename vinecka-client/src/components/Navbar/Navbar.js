@@ -147,7 +147,6 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
         })
         let sortShop = []  
         const cartItem = toUpdate[0]
-        console.log(cartItem)
         if (cartItem) {
           axios.post(`${process.env.REACT_APP_BACKEND_URL}/shop/get-shop/${cartItem.shopId}`, {token})
             .then((res) => {
@@ -280,7 +279,7 @@ const incrementItemFromCart = (itemId) => {
     }
 }
 
-  const showCartItems = () => {
+  const ShowCartItems = () => {
     return shops.sort((a, b) => (a.shopName > b.shopName) - (a.shopName < b.shopName)).map(shop => {
       const {shopName, itemData} = shop
       return itemData.map(item => {
@@ -453,7 +452,7 @@ const incrementItemFromCart = (itemId) => {
         dismissible
       >
         <Container className="d-none d-lg-block" style={{fontSize: '80%', maxHeight: '30vh', overflowY: 'scroll'}} fluid>
-          {showCartItems()}
+          <ShowCartItems />
         </Container>
         <Container className="d-block d-lg-none" style={{fontSize: '110%', margin: '20px'}} fluid>
           <Row>
