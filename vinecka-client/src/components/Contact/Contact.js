@@ -14,6 +14,9 @@ import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
+import { Checkbox } from 'pretty-checkbox-react';
+import '@djthoms/pretty-checkbox';
+
 const token = process.env.REACT_APP_API_SECRET
 
 export default ({userId, isOwner}) => {
@@ -126,11 +129,13 @@ export default ({userId, isOwner}) => {
                 <Row className="justify-content-center mt-2">
                     <Col md={10}>
                     <em style={{float: 'left'}}>
-                        <input 
+                        <Checkbox 
                             style={{
                                 cursor: 'pointer',
                             }}
-                            type='checkbox'
+                            color="warning"
+                            shape="curve"
+                            animation="jelly"
                             name='checkedGdpr'
                             checked={checkedGdpr}
                             onChange={() => setCheckedGdpr(!checkedGdpr)}
@@ -141,11 +146,13 @@ export default ({userId, isOwner}) => {
                 <Row className="justify-content-center mt-2">
                     <Col md={10}>
                     <em style={{float: 'left'}}>
-                        <input 
+                        <Checkbox 
                             style={{
                                 cursor: 'pointer',
                             }}
-                            type='checkbox'
+                            color="warning"
+                            shape="curve"
+                            animation="jelly"
                             name='checkedNewsletter'
                             checked={checkedNewsletter}
                             onChange={() => setCheckedNewsletter(!checkedNewsletter)}

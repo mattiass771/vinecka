@@ -434,7 +434,7 @@ const incrementItemFromCart = (itemId) => {
         }
       </Navbar.Collapse>
     </Navbar>
-    {(shoppingCartLength > 0 && location.pathname !== '/kosik') && 
+    {(shoppingCartLength > 0 && !(['/kosik','/objednavky','/login-page','/kontakt','/sluzby','/eventy'].includes(location.pathname))) && 
       <Alert 
         className={`${showAlert ? 'fade-in-alert' : 'fade-out-alert'}`}
         style={{

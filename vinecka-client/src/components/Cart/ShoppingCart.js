@@ -276,7 +276,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                 if (count > 0) {
                     return (
                         <React.Fragment key={itemId}>
-                            <Row className="d-none d-sm-flex m-2" style={{fontSize: '110%'}}>
+                            <Row className="d-none d-sm-flex my-2" style={{fontSize: '110%'}}>
                                 <Col xs={2}>
                                     <img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} />
                                 </Col>
