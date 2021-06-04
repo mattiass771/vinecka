@@ -70,6 +70,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
     const [orderProcessing, setOrderProcessing] = useState(false)
     const [discount, setDiscount] = useState('')
     const [isValidDiscount, setIsValidDiscount] = useState('')
+    const [bottleCount, setBottleCount] = useState(0)
 
     const [selectedPickupPoint, setSelectedPickupPoint] = useState('')  
 
@@ -151,6 +152,11 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
         setLoading(false)
         sortItems(shoppingCart)
     }, [])
+
+    useEffect(() => {
+        const count = shoppingCart.map(item => item.count)
+        setBottleCount(count.length > 0 ? count.reduce((a,b) => a+b) : 0)
+    }, [shoppingCart])
 
     useEffect(() => {
         setIsDeliveryFree(false)
@@ -477,7 +483,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                     Finálna suma: {Number(result).toFixed(2).toString().replace(/\./g,',')} €
                 </h3>
                 }
-                {resWithoutDelivery < 150 ? <p style={{marginTop: '5px', fontSize: '125%'}}>Nakúpte ešte za <strong>{(150 - resWithoutDelivery).toFixed(2)} €</strong> a dopravu máte zadarmo.</p> : 
+                {bottleCount < 6 ? <p style={{marginTop: '5px', fontSize: '125%'}}>Doplňte kartón! Ak pridáte ešte <strong>{6-bottleCount}</strong> fliaš a dopravu máte zadarmo.</p> : 
                 <p style={{fontSize: '125%'}}>Dopravu máte <strong>zadarmo</strong>.</p>}
             </Col>
             </>

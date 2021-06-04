@@ -77,20 +77,6 @@ export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOw
         ? getImage(imageLink)
         : imageLink;
 
-      const showCount = () => {
-        let result = []
-        for (let num = 1; num<= (maxCount ?? 200); num++) {
-          result.push(<option key={num} value={num}>{num}</option>)
-        } 
-        return result
-      }
-
-      const handleCount = (e) => {
-        let countObj = {}
-        countObj[_id] = e.target.value
-        setCount({...count, ...countObj})
-      }
-
       const handleEditing = (e) => {
         const itemId = e.currentTarget.parentNode.id;
         let editingObj = {}
