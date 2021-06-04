@@ -332,21 +332,23 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
         shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
         let total = result
         const status = 'vytvorena'
-        switch (deliveryCheck) {
-            case OSOBNY: break;
-            case ROZVOZ: 
-                result += localDeliveryPrice; 
-                deliveryPrice += localDeliveryPrice;
-                break;
-            case ZASIELKOVNA: 
-                result += ZASIELKOVNA_PRICE; 
-                deliveryPrice += ZASIELKOVNA_PRICE;
-                break;
-            case KURIER: 
-                result += KURIER_PRICE; 
-                deliveryPrice += KURIER_PRICE;
-                break;
-            default: break;
+        if (!isDeliveryFree) {
+            switch (deliveryCheck) {
+                case OSOBNY: break;
+                case ROZVOZ: 
+                    result += localDeliveryPrice; 
+                    deliveryPrice += localDeliveryPrice;
+                    break;
+                case ZASIELKOVNA: 
+                    result += ZASIELKOVNA_PRICE; 
+                    deliveryPrice += ZASIELKOVNA_PRICE;
+                    break;
+                case KURIER: 
+                    result += KURIER_PRICE; 
+                    deliveryPrice += KURIER_PRICE;
+                    break;
+                default: break;
+            }
         }
         if (isValidDiscount && isValidDiscount > 0) {
             discountPrice = result*(1-isValidDiscount)
@@ -433,12 +435,14 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
         } else if (result < 6 && isDeliveryFree) {
             setIsDeliveryFree(false)
         }
-        switch (deliveryCheck) {
-            case OSOBNY: break;
-            case ROZVOZ: result += localDeliveryPrice; break;
-            case ZASIELKOVNA: result += ZASIELKOVNA_PRICE; break;
-            case KURIER: result += KURIER_PRICE; break;
-            default: break;
+        if (!isDeliveryFree) {
+            switch (deliveryCheck) {
+                case OSOBNY: break;
+                case ROZVOZ: result += localDeliveryPrice; break;
+                case ZASIELKOVNA: result += ZASIELKOVNA_PRICE; break;
+                case KURIER: result += KURIER_PRICE; break;
+                default: break;
+            }
         }
         if (isValidDiscount && isValidDiscount > 0) (
             isDiscount = result*(1-isValidDiscount)
