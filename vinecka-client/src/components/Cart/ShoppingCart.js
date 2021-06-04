@@ -428,12 +428,11 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
         let result = 0
         let isDiscount = 0
         shops.map(shop => (shop.itemData).map(item => result += (Number((item.price).replace(/,/g,"."))*item.count)))
-        if (result >= 150 && !isDeliveryFree) {
+        if (bottleCount >= 6 && !isDeliveryFree) {
             setIsDeliveryFree(true)
-        } else if (result < 150 && isDeliveryFree) {
+        } else if (result < 6 && isDeliveryFree) {
             setIsDeliveryFree(false)
         }
-        const resWithoutDelivery = result
         switch (deliveryCheck) {
             case OSOBNY: break;
             case ROZVOZ: result += localDeliveryPrice; break;
