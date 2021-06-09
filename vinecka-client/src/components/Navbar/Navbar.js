@@ -20,6 +20,8 @@ import { FiShoppingCart, FiPlusSquare, FiMinusSquare } from "react-icons/fi"
 const envComerStamp = process.env.REACT_APP_NEWCOMER_STAMP
 const token = process.env.REACT_APP_API_SECRET
 
+let timeoutId = null;
+
 // Navbar.js
 export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCart, setShoppingCart }) => {
   const firstName = userName ? userName.split(' ') : ['Používateľ']
@@ -39,6 +41,12 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
     } catch {
       return null;
     }
+  }
+
+  const triggerAlert = () => {
+    clearTimeout(timeoutId)
+    setShowAlert(true)
+    timeoutId = setTimeout(() => setShowAlert(false), 4000)
   }
 
   const triggerLogout = () => {
@@ -88,7 +96,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
     if (shoppingCart.length !== 0) {
       const counts = shoppingCart.map(item => (item !== null && item !== undefined) && Number(item.count))
       const finalCount = counts.reduce((total,x) => total+x)
-      setShowAlert(true)
+      triggerAlert()
       setShoppingCartLength(finalCount)
     } else {
       setShowAlert(false)

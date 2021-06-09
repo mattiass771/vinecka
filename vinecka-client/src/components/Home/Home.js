@@ -13,6 +13,7 @@ import Carousel from "react-bootstrap/Carousel";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import Image from "react-bootstrap/Image"
 
 import UpdateEvents from './UpdateEvents';
 import UpdateServices from './UpdateServices';
@@ -27,7 +28,9 @@ import { FiTruck } from "react-icons/fi";
 import { GoPackage } from "react-icons/go";
 import { RiSecurePaymentFill } from "react-icons/ri";
 
-import defaultImage from "../../default.jpg"
+import pozadieDovoz from "./zelene_dovoz.png"
+import autoDovoz from "./auto_dovoz.png"
+
 
 const {MIN_HEIGHT_JUMBO} = options
 const token = process.env.REACT_APP_API_SECRET
@@ -202,7 +205,7 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
   
   const showCarouselWithData = () => {
     let nextImage = ''
-    return carouselData.map((shop, i) => {
+    const output = carouselData.map((shop, i) => {
       const {shopName, owner, url, imageLink, textColor} = shop
       const image = nextImage
         ? nextImage
@@ -228,6 +231,40 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
         </Carousel.Item>
       )
     })
+    const pozadieDovozItem = [<Carousel.Item className="car-image-bg" key={`banner-dovoz`} 
+          style={{
+            height: MIN_HEIGHT_JUMBO*2, 
+            width: "100%",
+            background: `url(${pozadieDovoz}) center center no-repeat`, 
+            backgroundSize: 'cover'  
+          }}
+        >
+          <Row>
+            <div className="d-sm-none" style={{pointerEvents: 'none' ,position: 'absolute', right:0, bottom:MIN_HEIGHT_JUMBO}}>
+              <Image style={{float: 'right', maxHeight: MIN_HEIGHT_JUMBO/1.5, width: '100%', objectFit: 'contain'}} src={autoDovoz} alt="auto-dovoz" fluid />
+            </div>
+            <div className="d-none d-sm-block col-sm-7">
+              <article className="font-size-banner" style={{float: 'left', paddingTop: '100px', paddingLeft: '5px', color: 'whitesmoke'}}>
+                <p>Všetky objednávky <span style={{color: "#fab20f"}}>do 14:00 hod.</span></p>
+                <p style={{color: '#fab20f'}}>budú doručené ešte v ten istý deň!</p>
+                <p style={{fontSize: '50%'}}>Platí pre rozvoz v rámci Bratislavy a okolia</p>
+              </article>
+            </div>
+            <div className="col-12 d-sm-none">
+              <article className="font-size-banner" style={{float: 'left', paddingLeft: '5px', color: 'whitesmoke'}}>
+                <p>Všetky objednávky <span style={{color: "#fab20f"}}>do 14:00 hod.</span></p>
+                <p style={{color: '#fab20f'}}>budú doručené ešte v ten istý deň!</p>
+                <p style={{fontSize: '50%'}}>Platí pre rozvoz v rámci Bratislavy a okolia</p>
+              </article>
+            </div>
+            <div className="d-none d-sm-block col-sm-5">
+              <Image style={{float: 'right', paddingTop: '100px', minHeight: MIN_HEIGHT_JUMBO/1.6, width: '100%', objectFit: 'contain'}} src={autoDovoz} alt="auto-dovoz" fluid />
+            </div>
+          </Row>
+          <div style={{backgroundColor: '#141a1095', color: "green", padding: '40px', marginTop: MIN_HEIGHT_JUMBO, height: MIN_HEIGHT_JUMBO}}>
+          </div>
+      </Carousel.Item>]
+    return [...pozadieDovozItem, ...output]
   }
 
   return (
