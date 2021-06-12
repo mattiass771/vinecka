@@ -166,6 +166,7 @@ body:after{
 @media only screen and (max-width : 425px) {
   .font-sizing {
     font-size: 120% !important; 
+    max-height: 100px !important;
     margin-top: -25px;
   }
 }
