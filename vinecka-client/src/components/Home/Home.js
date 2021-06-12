@@ -28,8 +28,7 @@ import { FiTruck } from "react-icons/fi";
 import { GoPackage } from "react-icons/go";
 import { RiSecurePaymentFill } from "react-icons/ri";
 
-import pozadieDovoz from "./zelene_dovoz.png"
-import autoDovoz from "./auto_dovoz.png"
+import bannerDovoz from "./bannermasvinocropped.png"
 
 
 const {MIN_HEIGHT_JUMBO} = options
@@ -55,6 +54,29 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
   const [featuredsPopup, setFeaturedsPopup] = useState(false)
 
   const [forceRefresh, setForceRefresh] = useState(false)
+
+  const [bannerHeight, setBannerHeight] = useState('')
+  
+  const [dimensions, setDimensions] = React.useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const handleResize = () => {
+    setDimensions({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize, false);
+  }, []);
+
+  useEffect(() => {
+    const height = document.getElementById('banner').clientHeight;
+    setBannerHeight(height);
+  }, [dimensions])
 
   useEffect(() => {
     setLoading(true)
@@ -231,40 +253,7 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
         </Carousel.Item>
       )
     })
-    const pozadieDovozItem = [<Carousel.Item className="car-image-bg" key={`banner-dovoz`} 
-          style={{
-            height: MIN_HEIGHT_JUMBO*2, 
-            width: "100%",
-            background: `url(${pozadieDovoz}) center center no-repeat`, 
-            backgroundSize: 'cover'  
-          }}
-        >
-          <Row>
-            <div className="d-sm-none" style={{pointerEvents: 'none' ,position: 'absolute', right:0, bottom:MIN_HEIGHT_JUMBO}}>
-              <Image style={{float: 'right', maxHeight: MIN_HEIGHT_JUMBO/1.5, width: '100%', objectFit: 'contain'}} src={autoDovoz} alt="auto-dovoz" fluid />
-            </div>
-            <div className="d-none d-sm-block col-sm-7">
-              <article className="font-size-banner" style={{float: 'left', paddingTop: '100px', paddingLeft: '5px', color: 'whitesmoke'}}>
-                <p>Všetky objednávky <span style={{color: "#fab20f"}}>do 14:00 hod.</span></p>
-                <p style={{color: '#fab20f'}}>budú doručené ešte v ten istý deň!</p>
-                <p style={{fontSize: '50%'}}>Platí pre rozvoz v rámci Bratislavy a okolia</p>
-              </article>
-            </div>
-            <div className="col-12 d-sm-none">
-              <article className="font-size-banner" style={{float: 'left', paddingLeft: '5px', color: 'whitesmoke'}}>
-                <p>Všetky objednávky <span style={{color: "#fab20f"}}>do 14:00 hod.</span></p>
-                <p style={{color: '#fab20f'}}>budú doručené ešte v ten istý deň!</p>
-                <p style={{fontSize: '50%'}}>Platí pre rozvoz v rámci Bratislavy a okolia</p>
-              </article>
-            </div>
-            <div className="d-none d-sm-block col-sm-5">
-              <Image style={{float: 'right', paddingTop: '100px', minHeight: MIN_HEIGHT_JUMBO/1.6, width: '100%', objectFit: 'contain'}} src={autoDovoz} alt="auto-dovoz" fluid />
-            </div>
-          </Row>
-          <div style={{backgroundColor: '#141a1095', color: "green", padding: '40px', marginTop: MIN_HEIGHT_JUMBO, height: MIN_HEIGHT_JUMBO}}>
-          </div>
-      </Carousel.Item>]
-    return [...pozadieDovozItem, ...output]
+    return output
   }
 
   return (
@@ -291,7 +280,12 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
       <Carousel indicators={false} style={{height: MIN_HEIGHT_JUMBO*2 }}>
         {carouselData && showCarouselWithData()}  
       </Carousel>
-      <div style={{color: "whitesmoke", padding: '20px 0px', marginTop: -MIN_HEIGHT_JUMBO}}>
+      <Container id="banner" fluid>
+          <Row className="image-banner">
+              <Image src={bannerDovoz} fluid />
+          </Row>
+      </Container>
+      <div style={{color: "whitesmoke", padding: '20px 0px', marginTop: -MIN_HEIGHT_JUMBO-bannerHeight}}>
         <Container className="d-none d-md-block" fluid>
           <Row className="text-center justify-content-center pt-4">
             <Col className="pt-2" xs={1} sm={2} md={3} xl={4} >
@@ -341,20 +335,17 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
           <ShowGeneral fSz="85%" />
         </Container>
       </div>
+      <div className="pb-4" style={{height: bannerHeight}}></div>
       {/* <svg className="d-none d-lg-block" preserveAspectRatio="none" height="20%" width="100%" style={{position: "absolute", top: 376, left: 0}} xmlns="http://www.w3.org/2000/svg" viewBox="130 -70 1200 390"><path fill="#141a1080" fill-opacity="1" d="M0,288L60,277.3C120,267,240,245,360,213.3C480,181,600,139,720,112C840,85,960,75,1080,85.3C1200,96,1320,128,1380,144L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg> */}
       <div className="mt-4 pt-3 pb-3 px-4">
         {isOwner &&
         <Row>
           <ShowUpdateFeatured />
         </Row>}
-        <br />
-        <br />
         <Row className="text-center pt-4 pb-2 justify-content-center">
-          <Col>
-            <h1>Naše najpredávanejšie</h1>
-          </Col>
+            <p className="font-sizing shadow" style={{backgroundColor: 'whitesmoke', borderRadius: '5px', padding: '0px 10px'}}>Naše najpredávanejšie</p>
         </Row>
-        <Row className="text-center  mx-4">
+        <Row className="text-center mx-4">
           <ShowItem shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} colXsSettings={6} colMdSettings={3} shopItems={featuredWines} shopId={'home'} userId={userId} setShouldReload={false} shouldReload={false} isOwner={false} />
         </Row>
         <Row className="text-center pt-4 pb-2 justify-content-center">

@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Spinner from "react-bootstrap/Spinner"
 import Alert from "react-bootstrap/Alert"
+import Image from 'react-bootstrap/Image'
 
 import PlaceOrder from './PlaceOrder'
 import SignUp from '../Login/SignUp'
@@ -21,10 +22,19 @@ import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
 import { FiPlusSquare, FiMinusSquare } from "react-icons/fi"
-import { FaBullseye } from "react-icons/fa"
+
+import bannerDovoz from "../Home/bannermasvinocropped.png"
 
 const token = process.env.REACT_APP_API_SECRET
 const envComerStamp = process.env.REACT_APP_NEWCOMER_STAMP
+
+const bottleOptions = {
+    1: 'fľašu',
+    2: 'fľaše',
+    3: 'fľaše',
+    4: "fľaše",
+    5: "fliaš"
+}
 
 const deliveryOptions = {
     OSOBNY: 'osobny',
@@ -486,7 +496,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                     Finálna suma: {Number(result).toFixed(2).toString().replace(/\./g,',')} €
                 </h3>
                 }
-                {bottleCount < 6 ? <p style={{marginTop: '5px', fontSize: '125%'}}>Doplňte kartón! Ak pridáte ešte <strong>{6-bottleCount}</strong> fliaš a dopravu máte zadarmo.</p> : 
+                {bottleCount < 6 ? <p style={{marginTop: '5px', fontSize: '125%'}}>Doplňte kartón! Ak pridáte ešte <strong>{6-bottleCount}</strong> {bottleOptions[6-bottleCount]} a dopravu máte zadarmo.</p> : 
                 <p style={{fontSize: '125%'}}>Dopravu máte <strong>zadarmo</strong>.</p>}
             </Col>
             </>
@@ -509,13 +519,18 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                     Objednávku je možné dokončiť aj telefonicky, alebo mailom pod sekciou <Link to="/kontakt">Kontakt</Link>.
                 </p>
             </Alert>}
-            <SlideDown className={"my-dropdown-slidedown"}>
+            <SlideDown className={"my-dropdown-slidedown"}>  
+                <Container id="banner" fluid>
+                    <Row className="image-banner">
+                        <Image src={bannerDovoz} fluid />
+                    </Row>
+                </Container>
                 <Container style={{paddingTop: "50px", paddingBottom: "50px"}}>
                     { passOrderInfo && paymentPopup &&
                         <PayGate orderInfo={passOrderInfo} setPaymentPopup={setPaymentPopup} paymentPopup={paymentPopup} paymentCheck={paymentCheck} options={paymentOptions} />
                     }
                     {!loading && shops &&
-                    <Row className="text-center pt-4">
+                    <Row className="text-center">
                         <Col>
                             <h2>Vaše vína</h2>
                         </Col>

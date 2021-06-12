@@ -136,18 +136,41 @@ body:after{
   }
 }
 
+.font-sizing {
+  font-size: 125% !important;
+}
 
-@media only screen and (min-width : 1024px) {
-  .font-size-banner {
-    font-size: 230% !important; 
-    white-space: nowrap !important;
+
+@media only screen and (max-width : 1440px) {
+  .font-sizing {
+    font-size: 180% !important; 
+    margin-top: 25px;
   }
 }
 
-@media only screen and (max-width : 1024px) {
-  .font-size-banner {
-    font-size: 200% !important;
-    white-space: nowrap !important;
+@media only screen and (max-width : 1092px) {
+  .font-sizing {
+    font-size: 160% !important;
+    margin-top: 15px;
+  }
+}
+
+
+@media only screen and (max-width : 768px) {
+  .font-sizing {
+    font-size: 140% !important;
+    margin-top: 35px;
+  }
+}
+
+@media only screen and (max-width : 425px) {
+  .font-sizing {
+    font-size: 120% !important; 
+    margin-top: -25px;
+  }
+  .image-banner {
+    width: 124% !important;
+    margin-left: -12% !important;
   }
 }
 
@@ -160,20 +183,6 @@ body:after{
 @media only screen and (max-width : 767px) {
   .border-custom-right {
     border-right: 0px solid #c1c1c1;
-  }
-}
-
-@media only screen and (max-width : 767px) {
-  .font-size-banner {
-    font-size: 140% !important;
-    white-space: pre-line !important;
-  }
-}
-
-@media only screen and (max-width : 425px) {
-  .font-size-banner {
-    font-size: 120% !important;
-    white-space: pre-line !important;
   }
 }
 
@@ -220,6 +229,11 @@ code {
   box-shadow: 0px 0px 10px -2px #333333;
   border-radius: 5px;
   margin: 0 auto;
+}
+
+.shadow { 
+  -webkit-box-shadow: 0px 0px 10px -2px rgb(51, 51, 51); 
+  box-shadow: 0px 0px 10px -2px #333333;
 }
 
 .display-none {
