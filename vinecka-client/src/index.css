@@ -168,10 +168,6 @@ body:after{
     font-size: 120% !important; 
     margin-top: -25px;
   }
-  .image-banner {
-    width: 124% !important;
-    margin-left: -12% !important;
-  }
 }
 
 @media only screen and (min-width : 768px) {
