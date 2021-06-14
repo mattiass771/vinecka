@@ -29,6 +29,7 @@ import { GoPackage } from "react-icons/go";
 import { RiSecurePaymentFill } from "react-icons/ri";
 
 import bannerDovoz from "./bannermasvinocropped.png"
+import bannerMobileDovoz from "./dovozvyskovybanner.png"
 
 
 const {MIN_HEIGHT_JUMBO} = options
@@ -281,8 +282,11 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
         {carouselData && showCarouselWithData()}  
       </Carousel>
       <Container id="banner" fluid>
-          <Row className="image-banner">
+          <Row className="image-banner d-none d-sm-block">
               <Image src={bannerDovoz} fluid />
+          </Row>
+          <Row className="image-banner d-block d-sm-none">
+              <Image src={bannerMobileDovoz} style={{width: '100%', height: 'auto'}} />
           </Row>
       </Container>
       <div style={{color: "whitesmoke", padding: '20px 0px', marginTop: -MIN_HEIGHT_JUMBO-bannerHeight}}>
