@@ -520,7 +520,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                 </p>
             </Alert>}
             <SlideDown className={"my-dropdown-slidedown"}>  
-                <Container id="banner" fluid>
+                <Container className="d-none d-md-block" id="banner" fluid>
                     <Row className="image-banner">
                         <Image src={bannerDovoz} fluid />
                     </Row>
