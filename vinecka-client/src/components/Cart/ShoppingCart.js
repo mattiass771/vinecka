@@ -9,7 +9,6 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Spinner from "react-bootstrap/Spinner"
 import Alert from "react-bootstrap/Alert"
-import Image from 'react-bootstrap/Image'
 
 import PlaceOrder from './PlaceOrder'
 import SignUp from '../Login/SignUp'
@@ -22,8 +21,6 @@ import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
 
 import { FiPlusSquare, FiMinusSquare } from "react-icons/fi"
-
-import bannerDovoz from "../Home/bannermasvinocropped.png"
 
 const token = process.env.REACT_APP_API_SECRET
 const envComerStamp = process.env.REACT_APP_NEWCOMER_STAMP
@@ -520,11 +517,6 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                 </p>
             </Alert>}
             <SlideDown className={"my-dropdown-slidedown"}>  
-                <Container className="d-none d-md-block" id="banner" fluid>
-                    <Row className="image-banner">
-                        <Image src={bannerDovoz} fluid />
-                    </Row>
-                </Container>
                 <Container style={{paddingTop: "50px", paddingBottom: "50px"}}>
                     { passOrderInfo && paymentPopup &&
                         <PayGate orderInfo={passOrderInfo} setPaymentPopup={setPaymentPopup} paymentPopup={paymentPopup} paymentCheck={paymentCheck} options={paymentOptions} />

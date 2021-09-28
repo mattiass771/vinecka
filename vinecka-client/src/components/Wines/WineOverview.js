@@ -143,9 +143,9 @@ export default ({ userData, shopData, shoppingCart, setShoppingCart }) => {
   return (
     <Container className="pb-4">
       <Row className="mb-4 mt-4 text-center justify-content-center">
-        <div className="d-none d-md-block col-md-4" xs={3}><hr style={{backgroundColor: '#141a10', height: '1px', marginTop: '22px'}} /></div>
+        <div className="d-none d-md-block col-md-4" xs={3}><hr style={{backgroundColor: '#2c1111', height: '1px', marginTop: '22px'}} /></div>
         <div className="col-md-4" xs={6}><h2>Na aké máš chuť?</h2></div>
-        <div className="d-none d-md-block col-md-4" xs={3}><hr style={{backgroundColor: '#141a10', height: '1px', marginTop: '22px'}} /></div>
+        <div className="d-none d-md-block col-md-4" xs={3}><hr style={{backgroundColor: '#2c1111', height: '1px', marginTop: '22px'}} /></div>
       </Row>
       <Row className="mb-4 text-center justify-content-center">
         <Col className="mb-1" xs={12} md={4}>
@@ -195,7 +195,7 @@ export default ({ userData, shopData, shoppingCart, setShoppingCart }) => {
         </Row>}
       </SlideDown>
       <Row className="mb-4 text-center justify-content-center">
-        <Col xs={12}><hr style={{backgroundColor: '#141a10', height: '2px', marginTop: '22px'}} /></Col>
+        <Col xs={12}><hr style={{backgroundColor: '#2c1111', height: '2px', marginTop: '22px'}} /></Col>
       </Row>
       <Row className="text-center">
         {showWines()}

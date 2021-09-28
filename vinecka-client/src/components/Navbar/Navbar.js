@@ -67,7 +67,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
     transition: 'top 0.6s',
     width: '100%',
     zIndex: '+2',
-    backgroundColor: '#141a10',
+    backgroundColor: '#e5d3d3',
     fontSize: '120%'
   }
 
@@ -324,7 +324,7 @@ const incrementItemFromCart = (itemId) => {
         <DiscountBar visible={visible} />
       }
       <div className="text-center w-100" style={{...logoStyles, top: visible ? '20px' : '-90px'}}>
-        <hr className="col-lg-3 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#fab20f', marginBottom: '-22px'}} />
+        <hr className="col-lg-3 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#2c1111', marginBottom: '-22px'}} />
         <img
           alt=""
           src={logo}
@@ -333,7 +333,7 @@ const incrementItemFromCart = (itemId) => {
           style={{marginTop: '-20px'}}
           
         />
-        <hr className="col-lg-3 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#fab20f', marginBottom: '-22px'}} />
+        <hr className="col-lg-3 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#2c1111', marginBottom: '-22px'}} />
     </div>
     <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-90px', paddingTop: '95px'}} variant="dark" expand="md">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -367,7 +367,7 @@ const incrementItemFromCart = (itemId) => {
           <Nav className={`navi-user`}>
               <Nav.Link as={Link} href="/kosik" to="/kosik" className={`navihover pt-3 pb-3 mr-1 ml-1 `}>
                   {shoppingCartLength > 0 &&
-                  <div style={{ marginBottom: '-12px', marginLeft: '25px', fontSize: '60%', fontFamily: 'Montserrat', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
+                  <div style={{ color:'whitesmoke', marginBottom: '-12px', marginLeft: '25px', fontSize: '60%', fontFamily: 'Montserrat', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: '#2c1111'}}>
                     {shoppingCartLength.toString()}
                   </div>}
                   <FiShoppingCart />
@@ -394,7 +394,7 @@ const incrementItemFromCart = (itemId) => {
                 } id="nav-dropdown" style={{zIndex: '+299'}}>
                 <Nav.Link as={Link} href="/kosik" to="/kosik" className={`navidown`}>
                     {shoppingCartLength > 0 &&
-                    <div style={{ color:'whitesmoke', marginBottom: '-12px', marginLeft: '25px', fontSize: '80%', fontFamily: 'Cabin', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
+                    <div style={{ color:'whitesmoke', marginBottom: '-12px', marginLeft: '25px', fontSize: '80%', fontFamily: 'Cabin', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: '#2c1111'}}>
                       &nbsp;{shoppingCartLength.toString()}
                     </div>}
                     <FiShoppingCart />
@@ -418,7 +418,7 @@ const incrementItemFromCart = (itemId) => {
             <Nav className={`navi-user d-md-none`}>
                 <Nav.Link as={Link} href="/kosik" to="/kosik" className={`navihover pt-3 pb-3 mr-1 ml-1 `}>
                     {shoppingCartLength > 0 &&
-                    <div style={{ marginBottom: '-12px', marginLeft: '25px', fontSize: '60%', fontFamily: 'Montserrat', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: 'red'}}>
+                    <div style={{ color:'whitesmoke', marginBottom: '-12px', marginLeft: '25px', fontSize: '60%', fontFamily: 'Montserrat', width:'16px', height:'16px', borderRadius: '50%', backgroundColor: '#2c1111'}}>
                       {shoppingCartLength.toString()}
                     </div>}
                     <FiShoppingCart />

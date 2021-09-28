@@ -28,9 +28,6 @@ import { FiTruck } from "react-icons/fi";
 import { GoPackage } from "react-icons/go";
 import { RiSecurePaymentFill } from "react-icons/ri";
 
-import bannerDovoz from "./bannermasvinocropped.png"
-import bannerMobileDovoz from "./dovozvyskovybanner.png"
-
 
 const {MIN_HEIGHT_JUMBO} = options
 const token = process.env.REACT_APP_API_SECRET
@@ -55,29 +52,6 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
   const [featuredsPopup, setFeaturedsPopup] = useState(false)
 
   const [forceRefresh, setForceRefresh] = useState(false)
-
-  const [bannerHeight, setBannerHeight] = useState('')
-  
-  const [dimensions, setDimensions] = React.useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
-  const handleResize = () => {
-    setDimensions({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
-  }
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize, false);
-  }, []);
-
-  useEffect(() => {
-    const height = document.getElementById('banner').clientHeight;
-    setBannerHeight(height);
-  }, [dimensions])
 
   useEffect(() => {
     setLoading(true)
@@ -249,7 +223,7 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
               <h1>{shopName}</h1>
             </Carousel.Caption>
           </Link>
-          <div style={{backgroundColor: '#141a1095', color: "whitesmoke", padding: '40px', marginTop: MIN_HEIGHT_JUMBO, height: MIN_HEIGHT_JUMBO}}>
+          <div style={{backgroundColor: '#2c111195', color: "whitesmoke", padding: '40px', marginTop: MIN_HEIGHT_JUMBO, height: MIN_HEIGHT_JUMBO}}>
           </div>
         </Carousel.Item>
       )
@@ -281,15 +255,7 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
       <Carousel indicators={false} style={{height: MIN_HEIGHT_JUMBO*2 }}>
         {carouselData && showCarouselWithData()}  
       </Carousel>
-      <Container id="banner" fluid>
-          <Row className="image-banner d-none d-sm-block">
-              <Image src={bannerDovoz} fluid />
-          </Row>
-          <Row className="image-banner d-block d-sm-none">
-              <Image src={bannerMobileDovoz} style={{width: '100%', height: 'auto'}} />
-          </Row>
-      </Container>
-      <div style={{color: "whitesmoke", padding: '20px 0px', marginTop: -MIN_HEIGHT_JUMBO-bannerHeight}}>
+      <div style={{color: "whitesmoke", padding: '20px 0px', marginTop: -MIN_HEIGHT_JUMBO+50}}>
         <Container className="d-none d-md-block" fluid>
           <Row className="text-center justify-content-center pt-4">
             <Col className="pt-2" xs={1} sm={2} md={3} xl={4} >
@@ -339,8 +305,7 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
           <ShowGeneral fSz="85%" />
         </Container>
       </div>
-      <div className="pb-4" style={{height: bannerHeight}}></div>
-      {/* <svg className="d-none d-lg-block" preserveAspectRatio="none" height="20%" width="100%" style={{position: "absolute", top: 376, left: 0}} xmlns="http://www.w3.org/2000/svg" viewBox="130 -70 1200 390"><path fill="#141a1080" fill-opacity="1" d="M0,288L60,277.3C120,267,240,245,360,213.3C480,181,600,139,720,112C840,85,960,75,1080,85.3C1200,96,1320,128,1380,144L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg> */}
+      {/* <svg className="d-none d-lg-block" preserveAspectRatio="none" height="20%" width="100%" style={{position: "absolute", top: 376, left: 0}} xmlns="http://www.w3.org/2000/svg" viewBox="130 -70 1200 390"><path fill="#2c111180" fill-opacity="1" d="M0,288L60,277.3C120,267,240,245,360,213.3C480,181,600,139,720,112C840,85,960,75,1080,85.3C1200,96,1320,128,1380,144L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg> */}
       <div className="mt-4 pt-3 pb-3 px-4">
         {isOwner &&
         <Row>
@@ -358,7 +323,7 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
           </Col>
         </Row>
       </div>
-      <div className="pt-3 pb-3" style={{backgroundColor: '#141a1095', color: "whitesmoke"}}>
+      <div className="pt-3 pb-3" style={{backgroundColor: '#2c111195', color: "whitesmoke"}}>
         <Container className="pt-3 pb-3">
             <Row className="text-center pt-2 pb-4">
               <Col className="mt-4" lg={3} sm={6} xs={12}>
