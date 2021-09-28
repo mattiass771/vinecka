@@ -49,7 +49,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                     md={{span: 4, offset: 2}}
                     className="pay-deli-left-options"
                     style={{
-                        backgroundColor: deliveryCheck === OSOBNY ? '#2c1111' : deliveryHover === OSOBNY ? '#c6c6c6' : '', 
+                        backgroundColor: deliveryCheck === OSOBNY ? '#b59185' : deliveryHover === OSOBNY ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                     }} 
                     onMouseEnter={() => setDeliveryHover(OSOBNY)}
@@ -73,7 +73,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                 </Col>
                 <Col 
                     style={{
-                        backgroundColor: deliveryCheck === OSOBNY ? '#2c1111' : deliveryHover === OSOBNY ? '#c6c6c6' : '', 
+                        backgroundColor: deliveryCheck === OSOBNY ? '#b59185' : deliveryHover === OSOBNY ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                     }}  
                     className="text-right pay-deli-right-options" 
@@ -97,7 +97,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                 
                 <Col 
                     style={{
-                        backgroundColor: deliveryCheck === ROZVOZ ? '#2c1111' : deliveryHover === ROZVOZ ? '#c6c6c6' : '', 
+                        backgroundColor: deliveryCheck === ROZVOZ ? '#b59185' : deliveryHover === ROZVOZ ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                     }} 
                     className="pay-deli-left-options"
@@ -123,7 +123,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                 </Col>
                 <Col 
                     style={{
-                        backgroundColor: deliveryCheck === ROZVOZ ? '#2c1111' : deliveryHover === ROZVOZ ? '#c6c6c6' : '', 
+                        backgroundColor: deliveryCheck === ROZVOZ ? '#b59185' : deliveryHover === ROZVOZ ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                     }} 
                     className="pay-deli-right-options text-right"
@@ -146,7 +146,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
             >
                 <Col 
                     style={{
-                        backgroundColor: deliveryCheck === ZASIELKOVNA ? '#2c1111' : deliveryHover === ZASIELKOVNA ? '#c6c6c6' : '', 
+                        backgroundColor: deliveryCheck === ZASIELKOVNA ? '#b59185' : deliveryHover === ZASIELKOVNA ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                     }} 
                     className="pay-deli-left-options"
@@ -172,7 +172,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                 </Col>
                 <Col 
                     style={{
-                        backgroundColor: deliveryCheck === ZASIELKOVNA ? '#2c1111' : deliveryHover === ZASIELKOVNA ? '#c6c6c6' : '', 
+                        backgroundColor: deliveryCheck === ZASIELKOVNA ? '#b59185' : deliveryHover === ZASIELKOVNA ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                     }} 
                     className="pay-deli-right-options text-right"
@@ -201,7 +201,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
             >
                 <Col 
                     style={{
-                        backgroundColor: deliveryCheck === KURIER ? '#2c1111' : deliveryHover === KURIER ? '#c6c6c6' : '', 
+                        backgroundColor: deliveryCheck === KURIER ? '#b59185' : deliveryHover === KURIER ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                     }} 
                     className="pay-deli-left-options"
@@ -227,7 +227,7 @@ export default ({setSelectedPickupPoint, setDeliveryCheck, options, deliveryChec
                 </Col>
                 <Col 
                     style={{
-                        backgroundColor: deliveryCheck === KURIER ? '#2c1111' : deliveryHover === KURIER ? '#c6c6c6' : '', 
+                        backgroundColor: deliveryCheck === KURIER ? '#b59185' : deliveryHover === KURIER ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                         borderTopRightRadius: '5px', 
                         borderBottomRightRadius: '5px'

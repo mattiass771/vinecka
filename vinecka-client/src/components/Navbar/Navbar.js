@@ -67,7 +67,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
     transition: 'top 0.6s',
     width: '100%',
     zIndex: '+2',
-    backgroundColor: '#e5d3d3',
+    backgroundColor: '#b59185',
     fontSize: '120%'
   }
 
@@ -324,16 +324,16 @@ const incrementItemFromCart = (itemId) => {
         <DiscountBar visible={visible} />
       }
       <div className="text-center w-100" style={{...logoStyles, top: visible ? '20px' : '-90px'}}>
-        <hr className="col-lg-3 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#2c1111', marginBottom: '-22px'}} />
+        <hr className="col-lg-3 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#2c1111', marginBottom: '-12px'}} />
         <img
           alt=""
           src={logo}
           width="auto"
-          height="100"
-          style={{marginTop: '-20px'}}
+          height="135"
+          style={{marginTop: '-25px', marginLeft: '10px'}}
           
         />
-        <hr className="col-lg-3 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#2c1111', marginBottom: '-22px'}} />
+        <hr className="col-lg-3 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#2c1111', marginBottom: '-12px'}} />
     </div>
     <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-90px', paddingTop: '95px'}} variant="dark" expand="md">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />

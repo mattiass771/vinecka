@@ -223,7 +223,7 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
               <h1>{shopName}</h1>
             </Carousel.Caption>
           </Link>
-          <div style={{backgroundColor: '#2c111195', color: "whitesmoke", padding: '40px', marginTop: MIN_HEIGHT_JUMBO, height: MIN_HEIGHT_JUMBO}}>
+          <div style={{backgroundColor: '#b5918595', color: "whitesmoke", padding: '40px', marginTop: MIN_HEIGHT_JUMBO, height: MIN_HEIGHT_JUMBO}}>
           </div>
         </Carousel.Item>
       )
@@ -311,8 +311,8 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
         <Row>
           <ShowUpdateFeatured />
         </Row>}
-        <Row className="text-center pt-4 pb-2 justify-content-center">
-            <p className="font-sizing shadow" style={{backgroundColor: 'whitesmoke', borderRadius: '5px', padding: '0px 10px'}}>Naše najpredávanejšie</p>
+        <Row className="text-center mt-xl-4 pt-4 pb-4 justify-content-center">
+            <h2 style={{color: '#2c1111'}}>Naše najpredávanejšie</h2>
         </Row>
         <Row className="text-center mx-4">
           <ShowItem shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} colXsSettings={6} colMdSettings={3} shopItems={featuredWines} shopId={'home'} userId={userId} setShouldReload={false} shouldReload={false} isOwner={false} />
@@ -323,7 +323,7 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart}) => {
           </Col>
         </Row>
       </div>
-      <div className="pt-3 pb-3" style={{backgroundColor: '#2c111195', color: "whitesmoke"}}>
+      <div className="pt-3 pb-3" style={{backgroundColor: '#b5918595', color: "whitesmoke"}}>
         <Container className="pt-3 pb-3">
             <Row className="text-center pt-2 pb-4">
               <Col className="mt-4" lg={3} sm={6} xs={12}>

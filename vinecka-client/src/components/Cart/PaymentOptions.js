@@ -34,7 +34,7 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                 <Col 
                     md={{span: 4, offset: 2}}
                     style={{
-                        backgroundColor: paymentCheck === KARTA ? '#2c1111' : paymentHover === KARTA ? '#c6c6c6' : '', 
+                        backgroundColor: paymentCheck === KARTA ? '#b59185' : paymentHover === KARTA ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                     }} 
                     className="pay-deli-left-options"
@@ -59,7 +59,7 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                 </Col>
                 <Col 
                     style={{
-                        backgroundColor: paymentCheck === KARTA ? '#2c1111' : paymentHover === KARTA ? '#c6c6c6' : '', 
+                        backgroundColor: paymentCheck === KARTA ? '#b59185' : paymentHover === KARTA ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                     }}  
                     className="pay-deli-right-options text-right"
@@ -82,7 +82,7 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                 <Col 
                     md={{span: 3, offset: 2}}
                     style={{
-                        backgroundColor: paymentCheck === INTERNET_BANKING ? '#2c1111' : paymentHover === INTERNET_BANKING ? '#c6c6c6' : '', 
+                        backgroundColor: paymentCheck === INTERNET_BANKING ? '#b59185' : paymentHover === INTERNET_BANKING ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                     }} 
                     className="pay-deli-left-options"
@@ -107,7 +107,7 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                 </Col>
                 <Col 
                     style={{
-                        backgroundColor: paymentCheck === INTERNET_BANKING ? '#2c1111' : paymentHover === INTERNET_BANKING ? '#c6c6c6' : '', 
+                        backgroundColor: paymentCheck === INTERNET_BANKING ? '#b59185' : paymentHover === INTERNET_BANKING ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                     }}  
                     className="pay-deli-right-options text-right"
@@ -134,7 +134,7 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                 <Col 
                     md={{span: 3, offset: 2}}
                     style={{
-                        backgroundColor: paymentCheck === PREVOD ? '#2c1111' : paymentHover === PREVOD ? '#c6c6c6' : '', 
+                        backgroundColor: paymentCheck === PREVOD ? '#b59185' : paymentHover === PREVOD ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                     }} 
                     className="pay-deli-left-options"
@@ -159,7 +159,7 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                 </Col>
                 <Col 
                     style={{
-                        backgroundColor: paymentCheck === PREVOD ? '#2c1111' : paymentHover === PREVOD ? '#c6c6c6' : '', 
+                        backgroundColor: paymentCheck === PREVOD ? '#b59185' : paymentHover === PREVOD ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                     }}  
                     className="pay-deli-right-options text-right"
@@ -182,7 +182,7 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                 <Col 
                     md={{span: 3, offset: 2}}
                     style={{
-                        backgroundColor: paymentCheck === DOBIERKA ? '#2c1111' : paymentHover === DOBIERKA ? '#c6c6c6' : '', 
+                        backgroundColor: paymentCheck === DOBIERKA ? '#b59185' : paymentHover === DOBIERKA ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                         borderTopLeftRadius: '5px', 
                         borderBottomLeftRadius: '5px'
@@ -209,7 +209,7 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                 </Col>
                 <Col 
                     style={{
-                        backgroundColor: paymentCheck === DOBIERKA ? '#2c1111' : paymentHover === DOBIERKA ? '#c6c6c6' : '', 
+                        backgroundColor: paymentCheck === DOBIERKA ? '#b59185' : paymentHover === DOBIERKA ? '#c6c6c6' : '', 
                         cursor: 'pointer',
                         borderTopRightRadius: '5px', 
                         borderBottomRightRadius: '5px'

@@ -8,7 +8,8 @@
 
 body {
   margin: 0;
-  background: url(./bg.png) no-repeat center center fixed; 
+  /* background: url(./bg.png) no-repeat center center fixed;  */
+  background-color: #e0e0e0;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -40,7 +41,8 @@ body:after{
   left:0;
   right:0;
   z-index:-1; /* needed to keep in the background */
-  background: url(./bg.png) center center;
+  /* background: url(./bg.png) center center; */
+  background-color: #e0e0e0;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -98,7 +100,7 @@ body:after{
 }
 
 .btn-dark {
-  background-color: #2c1111 !important;
+  background-color: #b59185 !important;
 }
 
 .btn-dark:hover {
@@ -214,11 +216,6 @@ body:after{
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}
-
-.jumbotron {
-  -webkit-box-shadow: 0px 0px 7px 6px rgb(0, 20, 2); 
-  box-shadow: 0px 0px 7px 6px rgb(0, 20, 2);
 }
 
 .card {
