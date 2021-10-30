@@ -3,6 +3,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import axios from 'axios'
 
 import DiscountBar from '../../DiscountBar'
+import MaintenanceModeKeyPopup from "../MaintenanceMode/MaintenanceModeKeyPopup";
 
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -23,7 +24,7 @@ const token = process.env.REACT_APP_API_SECRET
 let timeoutId = null;
 
 // Navbar.js
-export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCart, setShoppingCart }) => {
+export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, shoppingCart, setShoppingCart, isOwner }) => {
   const firstName = userName ? userName.split(' ') : ['Používateľ']
   let history = useHistory();
   let location = useLocation();
@@ -33,6 +34,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
   const [showAlert, setShowAlert] = useState(false)
   const [shops, setShops] = useState([])
   const [oldCart, setOldCart] = useState([])
+  const [maintenanceToggle, setMaintenanceToggle] = useState(false)
 
   const getImage = (image) => {
     try {
@@ -322,6 +324,11 @@ const incrementItemFromCart = (itemId) => {
       {
         newComerStamp === envComerStamp &&
         <DiscountBar visible={visible} />
+      }
+      <MaintenanceModeKeyPopup maintenanceToggle={maintenanceToggle} setMaintenanceToggle={setMaintenanceToggle} />
+      {
+        isOwner &&
+        <Button onClick={() => setMaintenanceToggle(true)} style={{position: 'absolute', top: 0, left: 0, zIndex: '+999'}} variant="warning">Inventúra</Button>
       }
       <div className="text-center w-100" style={{...logoStyles, top: visible ? '20px' : '-90px'}}>
         <hr className="col-lg-3 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#2c1111', marginBottom: '-12px'}} />

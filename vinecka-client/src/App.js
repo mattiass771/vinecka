@@ -25,6 +25,7 @@ import Contact from './components/Contact/Contact';
 import DeleteFromNewsletter from './components/Contact/DeleteFromNewsletter';
 import Popup from './components/Law/Popup';
 import CookiesPopup from './components/Law/CookiesPopup'
+import MaintenanceModePage from './components/MaintenanceMode/MaintenanceModePage'
 
 import emailjs from 'emailjs-com';
 
@@ -39,6 +40,7 @@ export default () => {
   const [loadingData, setLoadingData] = useState(false);
   const [showLawPopup, setShowLawPopup] = useState('')
   const [shoppingCart, setShoppingCart] = useState([])
+  const [isMaintenance, setIsMaintenance] = useState(false)
 
   useEffect(() => {
     emailjs.init(process.env.REACT_APP_EMAILJS_USERID);
@@ -58,6 +60,9 @@ export default () => {
       })
       .catch((err) => err && console.log("Load Error " + err))
       .then(() => setLoadingData(false))
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/home/check-maintenance`, {token})
+      .then(res => setIsMaintenance(res.data))
+      .catch(err => console.log(err))
   }, []);
 
   useEffect(() => {
@@ -117,7 +122,7 @@ export default () => {
         crossOrigin="anonymous"
       />
       <div>
-        <Navbar userId={userData._id} userName={userData.fullName} newComerStamp={userData.newComerStamp} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
+        <Navbar isOwner={userData.isOwner} userId={userData._id} userName={userData.fullName} newComerStamp={userData.newComerStamp} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
         {loadingData ? 
               <Spinner
                 style={{ marginLeft: "49%", marginTop: "20%", color: 'whitesmoke' }}
@@ -126,19 +131,25 @@ export default () => {
         <div className="wrapper">
           <Switch>
             <Route exact path="/">
-              <Home userId={userData._id} isOwner={userData.isOwner} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart}  />
+              <Home isMaintenance={isMaintenance} userId={userData._id} isOwner={userData.isOwner} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart}  />
             </Route>
             <Route exact path="/vinarstva">
               <Vinarne userData={userData} />
             </Route>
             <Route exact path="/vina">
-              <Vinka userData={userData} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} />
+              {isMaintenance ?
+                <MaintenanceModePage /> : 
+                <Vinka userData={userData} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} />
+              }
             </Route>
             <Route exact path="/login-page">
               {isLoggedIn ? <Home userId={userData._id} isOwner={userData.isOwner} /> : <Login />}
             </Route>
             <Route exact path="/kosik">
-              <ShoppingCart shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} newComerStamp={userData.newComerStamp} userId={userData._id} />
+              {isMaintenance ?
+                <MaintenanceModePage /> : 
+                <ShoppingCart shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} newComerStamp={userData.newComerStamp} userId={userData._id} />
+              }
             </Route>
             <Route exact path={`/success-payment`}>
               <SuccessPayment userId={userData._id} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} />
@@ -171,7 +182,7 @@ export default () => {
               <ChangePassword />
             </Route>
             <Route exact path={`/:shopUrl`}>
-              <ShopOnline userId={userData._id} isOwner={userData.isOwner} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} />
+              <ShopOnline isMaintenance={isMaintenance} userId={userData._id} isOwner={userData.isOwner} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} />
             </Route>
             <Route exact path={`/shop/payment`}>
               <PayGate />

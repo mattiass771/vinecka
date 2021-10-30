@@ -386,6 +386,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                 setOrderProcessing(false)
                 if (!orderError) {
                     sessionStorage.clear()
+                    localStorage.setItem('mas-vino-isAdult', true)
                     if ([INTERNET_BANKING, KARTA].includes(paymentCheck)) {
                         setPaymentPopup(true)
                     } else if (paymentCheck === PREVOD) {

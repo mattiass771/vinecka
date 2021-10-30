@@ -9,7 +9,8 @@ const homeSchema = new Schema({
     imageLinkEvents: { type: String, required: true },
     descriptionServices: { type: String, required: true },
     imageLinkServices: { type: String, required: true },
-    descriptionGeneral: { type: String, required: true}
+    descriptionGeneral: { type: String, required: true},
+    maintenanceMode: { type: Boolean }
 });
   
 const Home = mongoose.model("Home", homeSchema);
@@ -18,6 +19,12 @@ router.route("/").post((req, res) => {
     Home.findOne()
       .then((home) => res.json(home))
       .catch((err) => res.status(400).json(`Error: ${err}`));
+});
+
+router.route("/check-maintenance").post((req, res) => {
+  Home.findOne()
+    .then((home) => res.json(home.maintenanceMode))
+    .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
 router.route("/featured-wines").post((req, res) => {
@@ -48,6 +55,25 @@ router.route("/general-description").put((req, res) => {
       .then(() => res.json(`Home settings updated!`))
       .catch((error) => res.status(400).json(`Error: ${error}`));
   });
+});
+
+router.route("/toggle-maintenance-mode").put((req, res) => {
+  const { secretKey, setMaintenanceMode } = req.body
+
+  if (secretKey === process.env.MAINTENANCE_MODE_SECRET_KEY) {
+    Home.findOne((err, homeFound) => {
+      if (err) return console.log(err.data);
+  
+      homeFound.maintenanceMode = setMaintenanceMode
+  
+      homeFound
+        .save()
+        .then(() => res.json(`Home settings updated!`))
+        .catch((error) => res.status(400).json(`Error: ${error}`));
+    });
+  } else {
+    return res.status(401).json(`Unauthorized: wrong secret key.`)
+  }
 });
 
 router.route("/events-description").put((req, res) => {
