@@ -12,16 +12,13 @@ export default () => {
     return (
         <Container>
             <Row style={{height: '65vh'}}>
-                <Col style={{fontSize: '200%', marginTop: '25vh', textAlign: 'center'}}>
+                <Col style={{fontSize: '200%', marginTop: '15vh', textAlign: 'center'}}>
                     Momentálne prebieha inventúra dostupných vín. 
                     <br />
                     <br />
                     <ImMan  style={{fontSize: '250%'}} />
                     <GoChecklist style={{marginLeft: '-30px', marginRight: '20px'}} />
                     <FaTruckLoading style={{fontSize: '250%'}} />
-                    <br />
-                    <br />
-                     Stránka bude plne funkčná do pár dní.
                 </Col>
             </Row>
         </Container>
