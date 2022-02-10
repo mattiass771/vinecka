@@ -14,6 +14,12 @@ import {RiMastercardFill, RiVisaFill} from 'react-icons/ri'
 import { Checkbox } from 'pretty-checkbox-react';
 import '@djthoms/pretty-checkbox';
 
+const iOSSafari = (userAgent) => {
+    return /iP(ad|od|hone)/i.test(userAgent) &&
+      /WebKit/i.test(userAgent) &&
+      !(/(CriOS|FxiOS|OPiOS|mercury)/i.test(userAgent));
+}
+
 export default ({setPaymentCheck, paymentCheck, options}) => {
     const [paymentHover, setPaymentHover] = useState('')
     const {KARTA, INTERNET_BANKING, PREVOD, DOBIERKA} = options
@@ -25,6 +31,7 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                     <h3>Platobná metóda</h3>
                 </Col>
             </Row>
+            {!iOSSafari &&
             <Row 
                 style={{ 
                     color: paymentCheck === KARTA ? 'whitesmoke' : ''
@@ -72,7 +79,7 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                 >
                     <RiMastercardFill style={{fontSize: "200%"}} />&nbsp;<RiVisaFill style={{fontSize: "200%"}} />&nbsp;&nbsp;
                 </Col>
-            </Row>
+            </Row>}
             <Row 
                 style={{ 
                     color: paymentCheck === INTERNET_BANKING ? 'whitesmoke' : ''
