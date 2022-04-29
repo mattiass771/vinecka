@@ -14,11 +14,7 @@ import {RiMastercardFill, RiVisaFill} from 'react-icons/ri'
 import { Checkbox } from 'pretty-checkbox-react';
 import '@djthoms/pretty-checkbox';
 
-const iOSSafari = (userAgent) => {
-    return /iP(ad|od|hone)/i.test(userAgent) &&
-      /WebKit/i.test(userAgent) &&
-      !(/(CriOS|FxiOS|OPiOS|mercury)/i.test(userAgent));
-}
+const safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
 export default ({setPaymentCheck, paymentCheck, options}) => {
     const [paymentHover, setPaymentHover] = useState('')
@@ -31,7 +27,7 @@ export default ({setPaymentCheck, paymentCheck, options}) => {
                     <h3>Platobná metóda</h3>
                 </Col>
             </Row>
-            {!iOSSafari &&
+            {!safari &&
             <Row 
                 style={{ 
                     color: paymentCheck === KARTA ? 'whitesmoke' : ''
