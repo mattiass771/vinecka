@@ -107,8 +107,6 @@ export default () => {
       .then(() => window.location.reload());
   };
 
-  userData.isOwner = true
-
   return (
     <Router>
       <CookiesPopup setShowLawPopup={setShowLawPopup} />

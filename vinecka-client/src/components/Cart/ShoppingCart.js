@@ -114,7 +114,6 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
  
     const sortItems = (cartItems) => {
         let sortShop = []
-        console.log('init')
         for (let cartItem of cartItems) {
             axios.post(`${process.env.REACT_APP_BACKEND_URL}/shop/get-shop/${cartItem.shopId}`, {token})
                 .then((res) => {
@@ -130,6 +129,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                                 .catch(err => err && console.log('could not delete item', err))
                         } else {
                             const { itemName, price, imageLink } = findItem
+                            const labeledPrice = label ? (label.price + Number(price?.replace(',', '.'))).toFixed(2).toString().replace('.', ',') : price
                             const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
                             if (index >= 0) {
                                 const prevItems = sortShop[index].itemData
@@ -140,11 +140,11 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                                     const prevCount = sortShop[index].itemData[isInCart].count
                                     sortShop[index].itemData[isInCart].count = Number(count) + Number(prevCount)
                                 } else {
-                                    sortShop[index].itemData = [...prevItems, {itemId, itemName, label, price, imageLink, count}]
+                                    sortShop[index].itemData = [...prevItems, {itemId, itemName, label, price: labeledPrice, imageLink, count}]
                                 }
                             } else {
                                 const newShopId = cartItem.shopId
-                                sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemId, itemName, price, label, imageLink, count}]}]
+                                sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemId, itemName, price: labeledPrice, label, imageLink, count}]}]
                             }
                         }
                     }
@@ -299,7 +299,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                                 <Col xs={2} style={{position: 'relative'}}>
                                     <img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} />
                                     {label !== undefined &&
-                                        <img src={label.imageLink} style={{position: 'absoulte', height: '40px', left: 0}} />
+                                        <img src={getImage(label.imageLink)} style={{position: 'absoulte', height: '40px', left: 0}} />
                                     }
                                 </Col>
                                 <Col xs={4}><strong>{itemName}</strong><br />{shopName}</Col>
@@ -318,7 +318,7 @@ export default ({userId, shoppingCart, setShoppingCart, newComerStamp}) => {
                                 <Col className="mb-1" xs={2}>
                                     <img src={getImage(imageLink)} style={{height: '40px', width: '30px'}} />
                                     {label !== undefined &&
-                                        <img src={label.imageLink} style={{position: 'absoulte', height: '40px', left: 0}} />
+                                        <img src={getImage(label.imageLink)} style={{position: 'absoulte', height: '40px', left: 0}} />
                                     }
                                 </Col>
                                 <Col className="mb-1" xs={10}><strong>{itemName}</strong><br />{shopName}</Col>

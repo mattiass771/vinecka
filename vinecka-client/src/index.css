@@ -250,6 +250,16 @@ tr.inner-table:hover {
 
 /* Fades */
 
+.fade-over:hover{
+  opacity: 0.75 !important;
+  transition:  opacity 0.3s;
+}
+.fade-over{
+  opacity: 1 !important;
+  transition:  opacity 0.3s;
+}
+
+
 .fade-out{
   opacity:0;
   transition:  opacity 0.5s 0.1s;

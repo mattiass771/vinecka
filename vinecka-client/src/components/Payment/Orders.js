@@ -70,12 +70,12 @@ export default ({email, isOwner}) => {
     const ShowItemDataForOrder = ({passItemData}) => {
         let shopTotal = 0
         return passItemData.map((item, i) => {
-            const { itemName, price, count, itemId } = item
+            const { itemName, price, count, itemId, label } = item
             shopTotal += (count * Number(price.replace(/,/g, '.')))
             return (
                 <React.Fragment key={itemId}>
                     <Col style={{border: '1px solid #cccccc'}} md={3}>
-                        ({count}) <strong>{itemName}</strong>, {price}€
+                        ({count}) <strong>{itemName}</strong>, {price}€<br />{label && `etiketa: ${label.name}`}
                     </Col>
                     {!passItemData[i+1] && 
                         <Col className="text-center" style={{border: '1px solid #cccccc', backgroundColor: "rgb(245, 245, 245)"}} md={2} order={12}>

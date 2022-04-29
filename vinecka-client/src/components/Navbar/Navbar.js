@@ -107,7 +107,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
     }
     if (location.pathname !== '/kosik') {
       if (shops.length === 0) {
-        let sortShop = []      
+        let sortShop = []
         shoppingCart.map(cartItem => {
           axios.post(`${process.env.REACT_APP_BACKEND_URL}/shop/get-shop/${cartItem.shopId}`, {token})
             .then((res) => {
@@ -160,7 +160,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
             return oldItem.itemId === newItem.itemId
           })
           if (firstCondition || !secondCondition) {
-            return newItem
+            return true
           }
         })
         let sortShop = []  
@@ -221,7 +221,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
         }
       }
     }
-  }, [shoppingCart])
+  }, [shoppingCart, shoppingCartLength])
 
   const removeItemFromCart = (itemId, label) => {
     const newShoppingCart = shoppingCart.filter(item => {
@@ -313,7 +313,7 @@ const incrementItemFromCart = (itemId, label) => {
               <Col xs={2}>
                 <img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} />
                 {label !== undefined &&
-                    <img src={label.imageLink} style={{position: 'absoulte', height: '40px', left: 0}} />
+                    <img src={getImage(label.imageLink)} style={{ height: '30px', marginTop: '-90px', marginLeft: '-30px'}} />
                 }
               </Col>
               <Col xs={6}><strong>{itemName}</strong><br />{shopName}</Col>

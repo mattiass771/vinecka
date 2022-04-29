@@ -67,11 +67,11 @@ export default ({userId, shoppingCart, setShoppingCart}) => {
             const itemData = shops.map(shop => shop.itemData)
             const items = itemData ? itemData.map(item => {
                 return item.map(el => {
-                    const {itemName, price, count} = el
-                    return `${itemName} - ${price}€/ks (${count})`
+                    const {itemName, price, count, label} = el
+                    return `${itemName} ${(label && label.name) ? `+ etk.: ${label.name}` : ''} - ${price}€/ks (${count})`
                 })
             }) : []
-            const itemString = items.join(", ")
+            const itemString = items.join("***")
             const splitName = fullName.split(' ')
             const firstName = splitName[0]
             const deliveryStreet = nameStreet ? nameStreet : address
