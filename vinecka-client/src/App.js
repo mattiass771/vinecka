@@ -26,6 +26,7 @@ import DeleteFromNewsletter from './components/Contact/DeleteFromNewsletter';
 import Popup from './components/Law/Popup';
 import CookiesPopup from './components/Law/CookiesPopup'
 import MaintenanceModePage from './components/MaintenanceMode/MaintenanceModePage'
+import LabelGenerator from './components/Labels/LabelGenerator'
 
 import emailjs from 'emailjs-com';
 
@@ -106,6 +107,8 @@ export default () => {
       .then(() => window.location.reload());
   };
 
+  userData.isOwner = true
+
   return (
     <Router>
       <CookiesPopup setShowLawPopup={setShowLawPopup} />
@@ -169,8 +172,8 @@ export default () => {
             <Route exact path={`/eventy`}>
               <Events isOwner={userData.isOwner} />
             </Route>
-            <Route exact path={`/sluzby`}>
-              <Services isOwner={userData.isOwner} />
+            <Route exact path={`/etikety`}>
+              <LabelGenerator isOwner={userData.isOwner} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} />
             </Route>
             <Route exact path={`/kontakt`}>
               <Contact userId={userData._id} isOwner={userData.isOwner} />

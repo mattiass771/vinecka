@@ -117,6 +117,8 @@ const homeRouter = require("./db/homeDb").router;
 app.use(`/home`, homeRouter);
 const eventsRouter = require("./db/eventDb").router;
 app.use(`/events`, eventsRouter);
+const labelsRouter = require("./db/labelsDb").router;
+app.use(`/labels`, labelsRouter);
 const servicesRouter = require("./db/serviceDb").router;
 app.use(`/services`, servicesRouter);
 const mailsRouter = require("./db/newsEmailsDb").router;

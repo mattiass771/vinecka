@@ -114,7 +114,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
                 if (res.data && res.data.shopName) {
                     const { shopName, owner } = res.data
                     const itemsArr = res.data.shopItems
-                    const { count, itemId } = cartItem
+                    const { count, itemId, label } = cartItem
                     const findItem = itemsArr.find(el => el._id === cartItem.itemId)
                     if (findItem === undefined) {
                         axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`, {token})
@@ -125,16 +125,21 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
                         const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
                         if (index >= 0) {
                             const prevItems = sortShop[index].itemData
-                            const isInCart = prevItems.findIndex(el => el.itemId === itemId)
+                            const isInCart = prevItems.findIndex(el => {
+                              if (label && label._id) {
+                                  return el.label ? el.itemId === itemId && el.label._id === label._id : false
+                              }
+                              return el.itemId === itemId
+                            })
                             if (isInCart !== -1) {
                                 const prevCount = sortShop[index].itemData[isInCart].count
                                 sortShop[index].itemData[isInCart].count = Number(count) + Number(prevCount)
                             } else {
-                                sortShop[index].itemData = [...prevItems, {itemId, itemName, price, imageLink, count}]
+                                sortShop[index].itemData = [...prevItems, {itemId, itemName, price, label, imageLink, count}]
                             }
                         } else {
                             const newShopId = cartItem.shopId
-                            sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemId, itemName, price, imageLink, count}]}]
+                            sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemId, itemName, price, label, imageLink, count}]}]
                         }
                     }
                 }
@@ -149,8 +154,17 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
         })
       } else {
         const toUpdate = shoppingCart.filter(newItem => {
-          const firstCondition = oldCart.some(oldItem => (oldItem.itemId === newItem.itemId && oldItem.shopId === newItem.shopId && oldItem.count !== newItem.count))
-          const secondCondition = oldCart.some(oldItem => oldItem.itemId === newItem.itemId)
+          const firstCondition = oldCart.some(oldItem => {
+            const labelId = newItem.label ? newItem.label._id : 'no-label'
+            const itemLabelId = oldItem.label ? oldItem.label._id : 'no-label'
+            return (oldItem.itemId === newItem.itemId && oldItem.shopId === newItem.shopId 
+              && oldItem.count !== newItem.count && labelId === itemLabelId)
+          })
+          const secondCondition = oldCart.some(oldItem => {
+            const labelId = newItem.label ? newItem.label._id : 'no-label'
+            const itemLabelId = oldItem.label ? oldItem.label._id : 'no-label'
+            return oldItem.itemId === newItem.itemId && labelId === itemLabelId
+          })
           if (firstCondition || !secondCondition) {
             return newItem
           }
@@ -163,7 +177,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
                 if (res.data && res.data.shopName) {
                     const { shopName, owner } = res.data
                     const itemsArr = res.data.shopItems
-                    const { count, itemId } = cartItem
+                    const { count, label, itemId } = cartItem
                     const findItem = itemsArr.find(el => el._id === cartItem.itemId)
                     if (findItem === undefined) {
                         axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`, {token})
@@ -174,16 +188,21 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
                         const index = sortShop.findIndex(el => el.shopId === cartItem.shopId)
                         if (index >= 0) {
                             const prevItems = sortShop[index].itemData
-                            const isInCart = prevItems.findIndex(el => el.itemId === itemId)
+                            const isInCart = prevItems.findIndex(el => {
+                              if (label && label._id) {
+                                  return el.label ? el.itemId === itemId && el.label._id === label._id : false
+                              }
+                              return el.itemId === itemId
+                            })
                             if (isInCart !== -1) {
                                 const prevCount = sortShop[index].itemData[isInCart].count
                                 sortShop[index].itemData[isInCart].count = Number(count) + Number(prevCount)
                             } else {
-                                sortShop[index].itemData = [...prevItems, {itemId, itemName, price, imageLink, count}]
+                                sortShop[index].itemData = [...prevItems, {itemId, itemName, price, label, imageLink, count}]
                             }
                         } else {
                             const newShopId = cartItem.shopId
-                            sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemId, itemName, price, imageLink, count}]}]
+                            sortShop = [...sortShop, {shopId: newShopId, shopName, owner, itemData: [{itemId, itemName, price, label, imageLink, count}]}]
                         }
                     }
                 }
@@ -212,8 +231,12 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
     }
   }, [shoppingCart])
 
-  const removeItemFromCart = (itemId) => {
-    const newShoppingCart = shoppingCart.filter(item => item.itemId !== itemId)
+  const removeItemFromCart = (itemId, label) => {
+    const newShoppingCart = shoppingCart.filter(item => {
+      const labelId = label ? label._id : 'no-label'
+      const itemLabelId = item.label ? item.label._id : 'no-label'
+      return item.itemId !== itemId || labelId !== itemLabelId
+    })
     setShoppingCart(newShoppingCart.filter(cart => cart !== null && cart !== undefined))
     if (newShoppingCart.length !== 0) {
         const newShops = shops.map(shop => {
@@ -230,11 +253,13 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
     }
 }
 
-  const substractItemFromCart = (itemId) => {
+  const substractItemFromCart = (itemId, label) => {
     const newShoppingCart = shoppingCart.map(item => {
-        if (item.itemId === itemId) {
+      const labelId = label ? label._id : 'no-label'
+      const itemLabelId = item.label ? item.label._id : 'no-label'
+      if (item && item.itemId === itemId && labelId === itemLabelId) {
             if (item.count === 1) {
-                return removeItemFromCart(itemId)
+                return removeItemFromCart(itemId, label)
             }
             return {...item, count: item.count - 1}
         }
@@ -244,7 +269,9 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
     if (newShoppingCart.length !== 0) {
         const newShops = shops.map(shop => {
             const newItemData = shop.itemData.map(item => {
-                if (item.itemId === itemId) {
+              const labelId = label ? label._id : 'no-label'
+              const itemLabelId = item.label ? item.label._id : 'no-label'
+              if (item && item.itemId === itemId && labelId === itemLabelId) {
                     return {...item, count: item.count - 1}
                 }
                 return item
@@ -261,9 +288,11 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
     }
 }
 
-const incrementItemFromCart = (itemId) => {
+const incrementItemFromCart = (itemId, label) => {
     const newShoppingCart = shoppingCart.map(item => {
-        if (item.itemId === itemId) {
+      const labelId = label ? label._id : 'no-label'
+      const itemLabelId = item.label ? item.label._id : 'no-label'
+      if (item && item.itemId === itemId && labelId === itemLabelId) {
             return {...item, count: item.count + 1}
         }
         return item
@@ -272,7 +301,9 @@ const incrementItemFromCart = (itemId) => {
     if (newShoppingCart.length !== 0) {
         const newShops = shops.map(shop => {
             const newItemData = shop.itemData.map(item => {
-                if (item.itemId === itemId) {
+              const labelId = label ? label._id : 'no-label'
+              const itemLabelId = item.label ? item.label._id : 'no-label'
+              if (item && item.itemId === itemId && labelId === itemLabelId) {
                     return {...item, count: item.count + 1}
                 }
                 return item
@@ -293,18 +324,23 @@ const incrementItemFromCart = (itemId) => {
     return shops.sort((a, b) => (a.shopName > b.shopName) - (a.shopName < b.shopName)).map(shop => {
       const {shopName, itemData} = shop
       return itemData.map(item => {
-        const {itemId, itemName, price, imageLink, count} = item
+        const {itemId, itemName, price, label, imageLink, count} = item
         if (count > 0) {
           return (
-            <Row style={{fontSize: '80%'}} className="m-2" key={itemId}>
-              <Col xs={2}><img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} /></Col>
+            <Row style={{fontSize: '80%'}} className="m-2" key={label ? `${itemId}-${label._id}` : itemId}>
+              <Col xs={2}>
+                <img src={getImage(imageLink)} style={{height: '60px', width: '40px'}} />
+                {label !== undefined &&
+                    <img src={label.imageLink} style={{position: 'absoulte', height: '40px', left: 0}} />
+                }
+              </Col>
               <Col xs={6}><strong>{itemName}</strong><br />{shopName}</Col>
               <Col xs={2}>{price}€</Col>
               <Col xs={2}>
                 {count}x
                 &nbsp;
-                <FiPlusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 0}} onClick={() => incrementItemFromCart(itemId)} />
-                <FiMinusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 10}} onClick={() => substractItemFromCart(itemId)} />            
+                <FiPlusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 0}} onClick={() => incrementItemFromCart(itemId, label)} />
+                <FiMinusSquare style={{cursor: 'pointer' ,position: 'absolute', top: 10}} onClick={() => substractItemFromCart(itemId, label)} />            
               </Col>
             </Row>
           )
@@ -358,12 +394,12 @@ const incrementItemFromCart = (itemId) => {
               Vína
           </Nav.Link>
 
-          <Nav.Link as={Link} href="/eventy" to="/eventy" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
-              Eventy
+          <Nav.Link as={Link} href="/etikety" to="/etikety" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
+              Etikety
           </Nav.Link>
 
-          <Nav.Link as={Link} href="/sluzby" to="/sluzby" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
-              Služby
+          <Nav.Link as={Link} href="/eventy" to="/eventy" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
+              Eventy
           </Nav.Link>
 
           <Nav.Link as={Link} href="/kontakt" to="/kontakt" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">

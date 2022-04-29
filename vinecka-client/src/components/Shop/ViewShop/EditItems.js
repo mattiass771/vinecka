@@ -25,6 +25,7 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
 
   const [itemName, setItemName] = useState("");
   const [price, setPrice] = useState("");
+  const [labeled, setLabeled] = useState("");
   const [description, setDescription] = useState("");
   const [imageLink, setImageLink] = useState("");
   const [canSaveItem, setCanSaveItem] = useState(false);
@@ -54,97 +55,58 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
     }
   };
 
-  const handleSaveItem = () => {
+  const handleSaveItem = async () => {
+    const requests = []
     if (itemName) {
-      axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/itemName/${itemName}`, {token})
-        .then(() => {
-          setShowEditItems('')
-          setShouldReload(!shouldReload)
-        })
-        .catch((err) => err && console.log(err));
+      requests.push(axios
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/itemName/${itemName}`, {token}))
     }
     if (price) {
-      axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/price/${price}`, {token})
-        .then(() => {
-          setShowEditItems('')
-          setShouldReload(!shouldReload)
-        })
-        .catch((err) => err && console.log(err));
+      requests.push(axios
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/price/${price}`, {token}))
     }
     if (description) {
-      axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/description/${description}`, {token})
-        .then(() => {
-          setShowEditItems('')
-          setShouldReload(!shouldReload)
-        })
-        .catch((err) => err && console.log(err));
+      requests.push(axios
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/description/${description}`, {token}))
     }
     if (imageLink) {
-      axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/imageLink/${imageLink}`, {token})
-        .then(() => {
-          setShowEditItems('')
-          setShouldReload(!shouldReload)
-        })
-        .catch((err) => err && console.log(err));
+      requests.push(axios
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/imageLink/${imageLink}`, {token}))
     }
     if (maxCount) {
-      axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/maxCount/${maxCount}`, {token})
-        .then(() => {
-          setShowEditItems('')
-          setShouldReload(!shouldReload)
-        })
-        .catch((err) => err && console.log(err));
+      requests.push(axios
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/maxCount/${maxCount}`, {token}))
     }
     if (color) {
-      axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/color/${color}`, {token})
-        .then(() => {
-          setShowEditItems('')
-          setShouldReload(!shouldReload)
-        })
-        .catch((err) => err && console.log(err));
+      requests.push(axios
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/color/${color}`, {token}))
     }
     if (type) {
-      axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/type/${type}`, {token})
-        .then(() => {
-          setShowEditItems('')
-          setShouldReload(!shouldReload)
-        })
-        .catch((err) => err && console.log(err));
+      requests.push(axios
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/type/${type}`, {token}))
     }
     if (taste) {
-      axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/taste/${taste}`, {token})
-        .then(() => {
-          setShowEditItems('')
-          setShouldReload(!shouldReload)
-        })
-        .catch((err) => err && console.log(err));
+      requests.push(axios
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/taste/${taste}`, {token}))
     }
     if (typeof histamineFree === "boolean") {
-      axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/histamineFree/${histamineFree}`, {token})
-        .then(() => {
-          setShowEditItems('')
-          setShouldReload(!shouldReload)
-        })
-        .catch((err) => err && console.log(err));
+      requests.push(axios
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item/${itemId}/histamineFree/${histamineFree}`, {token}))
     }
     if (inStock) {
-      axios
-        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item-with-body/${itemId}/inStock`, {replace: inStock, token})
-        .then(() => {
-          setShowEditItems('')
-          setShouldReload(!shouldReload)
-        })
-        .catch((err) => err && console.log(err));
+      requests.push(axios
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item-with-body/${itemId}/inStock`, {replace: inStock, token}))
     }
+    if (labeled) {
+      requests.push(axios
+        .put(`${process.env.REACT_APP_BACKEND_URL}/shop/${shopId}/update-item-with-body/${itemId}/labeled`, {replace: labeled, token}))
+    }
+    Promise.all(requests)
+      .then(() => {
+        setShowEditItems('')
+        setShouldReload(!shouldReload)
+      })
+      .catch((err) => err && console.log(err));
   };
 
   const deleteFile = (file) => {
@@ -275,6 +237,22 @@ export default ({ showEditItems, setShowEditItems, shopId, itemId, itemDataProp,
               onChange={() => setHistamineFree(typeof histamineFree === "boolean" ? !histamineFree : !itemData.histamineFree)}
             />&nbsp;
             Bez histamínu?
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col className="form-group">
+            <Checkbox 
+              style={{
+                  cursor: 'pointer',
+              }}
+              color="warning"
+              shape="curve"
+              animation="jelly"
+              name='labeled'
+              checked={typeof labeled === "boolean" ? labeled : itemData.labeled}
+              onChange={() => setLabeled(typeof labeled === "boolean" ? !labeled : !itemData.labeled)}
+            />&nbsp;
+            Etiketa?
           </Col>
         </Row>
         <Row className="justify-content-md-center">

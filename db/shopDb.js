@@ -24,7 +24,8 @@ const shopItemSchema = {
   customColor: { type: String },
   maxCount: {type: Number},
   histamineFree: { type: Boolean, default: false },
-  inStock: { type: Array }
+  inStock: { type: Array },
+  labeled: { type: Boolean, default: false }
 };
 
 const shopSchema = new Schema({
@@ -222,6 +223,21 @@ router.route("/find-item-by-id/:itemId").post((req, res) => {
     })
     const result = foundItem.find(obj => obj && obj._id.toString() === req.params.itemId)
     return res.send([result, shopId])
+  });
+})
+
+router.route("/find-items-with-labels/").post((req, res) => {
+  Shop.find((err, shopsFound) => {
+    if (err) return console.log(err.data);
+    const shopItems = shopsFound.map(shop => shop.shopItems.map(item => {
+      const shopId = shop._id
+      const itemCopy = JSON.parse(JSON.stringify(item))
+      itemCopy.shopId = shopId
+      return itemCopy
+    })).flat()
+    
+    const labeledItems = shopItems.filter(item => item.labeled)
+    return res.json(labeledItems)
   });
 })
 

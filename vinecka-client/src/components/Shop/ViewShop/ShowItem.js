@@ -84,10 +84,12 @@ export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOw
         setEditing({...editing, ...editingObj})
       }
 
-      const addItemToCart = (itemId) => {        
-        if (shoppingCart.find(val => val.itemId === itemId)) {
+      const addItemToCart = (itemId) => {      
+        console.log(shoppingCart.find(val => val.itemId === itemId && !val.label))
+        console.log(shoppingCart)
+        if (shoppingCart.find(val => val.itemId === itemId && !val.label)) {
           const newShoppingCart = shoppingCart.map(item => {
-            if (item.itemId === itemId) {                
+            if (item.itemId === itemId && !item.label) {                
                 return {...item, count: item.count + 1}
             }
             return item
