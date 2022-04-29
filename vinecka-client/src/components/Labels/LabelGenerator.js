@@ -33,17 +33,18 @@ export default ({isOwner, shoppingCart, setShoppingCart}) => {
         "červené": redBottle,
         "ružové": roseBottle
     }
-    const addItemToCart = (itemId, shopId, label) => {        
-        if (shoppingCart.find(val => val.itemId === itemId && val.label?._id === label._id)) {
+    const addItemToCart = (itemId, shopId, label) => { 
+        const itemLabelId = `${itemId}-${label._id}`       
+        if (shoppingCart.find(val => val.itemId === itemLabelId)) {
           const newShoppingCart = shoppingCart.map(item => {
-            if (item.itemId === itemId && item.label?._id === label._id) {                
+            if (item.itemId === itemLabelId) {                
                 return {...item, count: item.count + 1}
             }
             return item
           })
           return setShoppingCart(newShoppingCart)
         } else {
-          const newItem = { shopId, itemId, label, count: 1 }
+          const newItem = { shopId, itemId: itemLabelId, label, count: 1 }
           setShoppingCart([...shoppingCart, newItem])
         }
       }

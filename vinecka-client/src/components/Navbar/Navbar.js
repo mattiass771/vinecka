@@ -115,9 +115,10 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
                     const { shopName, owner } = res.data
                     const itemsArr = res.data.shopItems
                     const { count, itemId, label } = cartItem
-                    const findItem = itemsArr.find(el => el._id === cartItem.itemId)
+                    const actualItemId = cartItem.itemId.split('-')[0]
+                    const findItem = itemsArr.find(el => el._id === actualItemId)
                     if (findItem === undefined) {
-                        axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`, {token})
+                        axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${actualItemId}`, {token})
                             .then((res) => console.log(res))
                             .catch(err => err && console.log('could not delete item', err))
                     } else {
@@ -126,9 +127,6 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
                         if (index >= 0) {
                             const prevItems = sortShop[index].itemData
                             const isInCart = prevItems.findIndex(el => {
-                              if (label && label._id) {
-                                  return el.label ? el.itemId === itemId && el.label._id === label._id : false
-                              }
                               return el.itemId === itemId
                             })
                             if (isInCart !== -1) {
@@ -155,15 +153,11 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
       } else {
         const toUpdate = shoppingCart.filter(newItem => {
           const firstCondition = oldCart.some(oldItem => {
-            const labelId = newItem.label ? newItem.label._id : 'no-label'
-            const itemLabelId = oldItem.label ? oldItem.label._id : 'no-label'
             return (oldItem.itemId === newItem.itemId && oldItem.shopId === newItem.shopId 
-              && oldItem.count !== newItem.count && labelId === itemLabelId)
+              && oldItem.count !== newItem.count)
           })
           const secondCondition = oldCart.some(oldItem => {
-            const labelId = newItem.label ? newItem.label._id : 'no-label'
-            const itemLabelId = oldItem.label ? oldItem.label._id : 'no-label'
-            return oldItem.itemId === newItem.itemId && labelId === itemLabelId
+            return oldItem.itemId === newItem.itemId
           })
           if (firstCondition || !secondCondition) {
             return newItem
@@ -178,9 +172,10 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
                     const { shopName, owner } = res.data
                     const itemsArr = res.data.shopItems
                     const { count, label, itemId } = cartItem
-                    const findItem = itemsArr.find(el => el._id === cartItem.itemId)
+                    const actualItemId = cartItem.itemId.split('-')[0]
+                    const findItem = itemsArr.find(el => el._id === actualItemId)
                     if (findItem === undefined) {
-                        axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${cartItem.itemId}`, {token})
+                        axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/${userId}/cart/delete-cart-item/${cartItem.shopId}/${actualItemId}`, {token})
                             .then((res) => console.log(res))
                             .catch(err => err && console.log('could not delete item', err))
                     } else {
@@ -189,9 +184,6 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
                         if (index >= 0) {
                             const prevItems = sortShop[index].itemData
                             const isInCart = prevItems.findIndex(el => {
-                              if (label && label._id) {
-                                  return el.label ? el.itemId === itemId && el.label._id === label._id : false
-                              }
                               return el.itemId === itemId
                             })
                             if (isInCart !== -1) {
@@ -233,9 +225,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
 
   const removeItemFromCart = (itemId, label) => {
     const newShoppingCart = shoppingCart.filter(item => {
-      const labelId = label ? label._id : 'no-label'
-      const itemLabelId = item.label ? item.label._id : 'no-label'
-      return item.itemId !== itemId || labelId !== itemLabelId
+      return item.itemId !== itemId
     })
     setShoppingCart(newShoppingCart.filter(cart => cart !== null && cart !== undefined))
     if (newShoppingCart.length !== 0) {
@@ -255,9 +245,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
 
   const substractItemFromCart = (itemId, label) => {
     const newShoppingCart = shoppingCart.map(item => {
-      const labelId = label ? label._id : 'no-label'
-      const itemLabelId = item.label ? item.label._id : 'no-label'
-      if (item && item.itemId === itemId && labelId === itemLabelId) {
+      if (item && item.itemId === itemId) {
             if (item.count === 1) {
                 return removeItemFromCart(itemId, label)
             }
@@ -269,9 +257,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
     if (newShoppingCart.length !== 0) {
         const newShops = shops.map(shop => {
             const newItemData = shop.itemData.map(item => {
-              const labelId = label ? label._id : 'no-label'
-              const itemLabelId = item.label ? item.label._id : 'no-label'
-              if (item && item.itemId === itemId && labelId === itemLabelId) {
+              if (item && item.itemId === itemId) {
                     return {...item, count: item.count - 1}
                 }
                 return item
@@ -290,9 +276,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
 
 const incrementItemFromCart = (itemId, label) => {
     const newShoppingCart = shoppingCart.map(item => {
-      const labelId = label ? label._id : 'no-label'
-      const itemLabelId = item.label ? item.label._id : 'no-label'
-      if (item && item.itemId === itemId && labelId === itemLabelId) {
+      if (item && item.itemId === itemId) {
             return {...item, count: item.count + 1}
         }
         return item
@@ -301,9 +285,7 @@ const incrementItemFromCart = (itemId, label) => {
     if (newShoppingCart.length !== 0) {
         const newShops = shops.map(shop => {
             const newItemData = shop.itemData.map(item => {
-              const labelId = label ? label._id : 'no-label'
-              const itemLabelId = item.label ? item.label._id : 'no-label'
-              if (item && item.itemId === itemId && labelId === itemLabelId) {
+              if (item && item.itemId === itemId) {
                     return {...item, count: item.count + 1}
                 }
                 return item
