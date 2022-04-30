@@ -49,7 +49,7 @@ export default ({labelPopup, setLabelPopup, refresh, setRefresh}) => {
         deleteFile(meta);
         }
         if (status === "done") {
-        setImageLink(`${idFromName}-${meta.name}`);
+        setImageLink(`${idFromName}-${(meta.name).toString().replace(/\s/g, '-').toLowerCase()}`);
         }
     };
 
