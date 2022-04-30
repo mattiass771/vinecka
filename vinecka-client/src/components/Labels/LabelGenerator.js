@@ -169,9 +169,9 @@ export default ({isOwner, shoppingCart, setShoppingCart}) => {
                                         src={getImage(labelSelected.imageLink)}
                                         style={{
                                             position: 'absolute',
-                                            top: 120,
-                                            left: 16,
-                                            height: '100px'
+                                            top: 118,
+                                            left: 18,
+                                            height: '92px'
                                         }}
                                     />
                                 }
