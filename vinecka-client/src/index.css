@@ -9,7 +9,7 @@
 body {
   margin: 0;
   /* background: url(./bg.png) no-repeat center center fixed;  */
-  background-color: #e0e0e0;
+  background-color: #fff;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -42,7 +42,7 @@ body:after{
   right:0;
   z-index:-1; /* needed to keep in the background */
   /* background: url(./bg.png) center center; */
-  background-color: #e0e0e0;
+  background-color: #fff;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -100,7 +100,7 @@ body:after{
 }
 
 .btn-dark {
-  background-color: #b59185 !important;
+  background-color: #2c1111 !important;
 }
 
 .btn-dark:hover {
@@ -109,7 +109,7 @@ body:after{
 }
 
 .navdropdown {
-  color: whitesmoke !important;
+  color: #2c1111 !important;
 }
 
 @media only screen and (min-width : 768px) {
@@ -259,6 +259,18 @@ tr.inner-table:hover {
   transition:  opacity 0.3s;
 }
 
+.pad-over:hover{
+  color: white !important;
+  opacity: 0.9 !important;
+  transition: color 0.3s, opacity 0.3s;
+}
+
+.pad-over{
+  font-size: inherit !important;
+  color: inherit !important;
+  transition: color 0.3s, opacity 0.3s;
+}
+
 
 .fade-out{
   opacity:0;
@@ -291,15 +303,15 @@ tr.inner-table:hover {
 /* NAVBAR */
 
 .navidown {
-  color: #333333 !important;
+  color: #2c1111 !important;
 }
 
 .navidown:hover {
-  color: whitesmoke !important;
+  color: #c1c1c1 !important;
 }
 
 .navihover:hover {
-  color: whitesmoke !important;
+  color: #c1c1c1 !important;
 }
 .navihover {
   padding: 8px;

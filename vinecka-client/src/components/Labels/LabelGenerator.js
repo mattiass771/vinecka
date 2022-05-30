@@ -37,6 +37,7 @@ export default ({isOwner, shoppingCart, setShoppingCart}) => {
         "červené": redBottle,
         "ružové": roseBottle
     }
+    const [itemHovered, setItemHovered] = useState('')
     const deleteCard = (labelId) => {
         axios.post(`${process.env.REACT_APP_BACKEND_URL}/labels/delete-label/${labelId}/`, {token})
             .then(() => setRefresh(!refresh))
@@ -75,149 +76,326 @@ export default ({isOwner, shoppingCart, setShoppingCart}) => {
               animation="border"
             />
         ) : 
-        <Container className="container py-4 d-none d-lg-block" fluid>
-            {isOwner &&
-                <Row className="text-center">
-                    <Col>
-                        <Button onClick={() => setLabelPopup(true)} variant="dark">Pridat etikety</Button>
+        <>
+            <Container className="container py-4 d-none d-lg-block" fluid>
+                {isOwner &&
+                    <Row className="text-center">
+                        <Col>
+                            <Button onClick={() => setLabelPopup(true)} variant="dark">Pridat etikety</Button>
+                        </Col>
+                    </Row>
+                }
+                {isOwner && labelPopup &&
+                    <AddLabel refresh={refresh} setRefresh={setRefresh} setLabelPopup={setLabelPopup} labelPopup={labelPopup} />
+                }
+                <Row style={{height: '100%'}}>
+                    <Col className="text-center">
+                        <h1>Víno pre každú príležitosť!</h1>
+                        <p>
+                            Využi náš super jednoduchý generátor perfekných darčekov a poskladaj si víno ako
+                            ušité na mieru pre každú vhodnú (i nevhodnú) príležitosť. 
+                            Na výber máš obrovské množstvo kombinácii vín a etikiet, tak neváhaj a začni skladať!
+                        </p>
                     </Col>
                 </Row>
-            }
-            {isOwner && labelPopup &&
-                <AddLabel refresh={refresh} setRefresh={setRefresh} setLabelPopup={setLabelPopup} labelPopup={labelPopup} />
-            }
-            <Row style={{height: '100%'}}>
-                <Col className="text-center">
-                    <h1>Víno pre každú príležitosť!</h1>
-                    <p>
-                        Využi náš super jednoduchý generátor perfekných darčekov a poskladaj si víno ako
-                        ušité na mieru pre každú vhodnú (i nevhodnú) príležitosť. 
-                        Na výber máš obrovské množstvo kombinácii vín a etikiet, tak neváhaj a začni skladať!
-                    </p>
-                </Col>
-            </Row>
-            <Row  className="text-center">
-                <Col md={{span:4}}>
-                    <h4>Vyber si víno</h4>
-                </Col>
-                <Col md={{span:4, offset:4}}>
-                    <h4>Vyber si etiketu</h4>
-                </Col>
-            </Row>
-            <Row style={{height: '55vh'}}>
-                <Col md={4} style={{height: '100%', overflowY: 'scroll', alignContent: 'flex-start'}} className="d-flex flex-wrap">
-                    {wines.map(wine =>
-                        <div
-                            key={wine._id}
-                            style={{
-                                height: '0',
-                                width: '48%',
-                                paddingBottom: '48%',
-                                borderRadius: '8px',
-                                margin: '1%',
-                                background: `url(${getImage(wine.imageLink)}) no-repeat center`,
-                                backgroundSize: 'contain',
-                                backgroundColor: '#fff',
-                                cursor: 'pointer'
-                            }}
-                            className="shadow-generator fade-over"
-                            onClick={() => setWineSelected(wine)}
-                        >
-                            <span style={{paddingTop: '1px',backgroundColor: '#fff'}}>
-                                {wine.itemName}
-                                <br />
-                                {wine.price} €
-                            </span>
-                        </div>
-                    )}
-                </Col>
-                <Col md={4} style={{border: '3px solid #2c1111', backgroundColor: '#fff'}} className="d-flex text-center">
-                    {wineSelected?._id &&
-                        <div
-                            key={wineSelected._id}
-                            style={{
-                                height: '30vh',
-                                width: '100%',
-                                margin: '16px',
-                                backgroundSize: 'contain',
-                                backgroundColor: '#fff',
-                                position: 'relative',
-                            }}
-                        >
-                            <h4>
-                                {wineSelected.itemName}&nbsp;
-                                
-                                <Button disabled={!!!labelSelected._id} onClick={() => addItemToCart(wineSelected._id, wineSelected.shopId, labelSelected)} variant="dark">
-                                    <FiShoppingCart />
-                                </Button></h4>
-                            <h5>
-                                {labelSelected._id ? 
-                                    (Number(wineSelected.price.replace(',','.')) + labelSelected.price)
-                                        .toFixed(2).toString().replace('.', ',') : 
-                                    wineSelected.price
-                                } €
-                            </h5>
-                            <figure style={{position: 'relative', width: '100px', height: '45vh', margin: '0 auto'}}>
-                                <img 
-                                    src={bottleByColor[wineSelected.color]}
-                                    style={{
-                                        height: '35vh'
-                                    }}
-                                />
-                                {labelSelected._id &&
+                <Row  className="text-center">
+                    <Col md={{span:4}}>
+                        <h4>Vyber si víno</h4>
+                    </Col>
+                    <Col md={{span:4, offset:4}}>
+                        <h4>Vyber si etiketu</h4>
+                    </Col>
+                </Row>
+                <Row style={{height: '50vh'}}>
+                    <Col md={4} style={{height: '100%', overflowY: 'scroll', alignContent: 'flex-start'}} className="d-flex flex-wrap">
+                        {wines.map(wine =>
+                            <div
+                                key={wine._id}
+                                style={{
+                                    height: '0',
+                                    width: '48%',
+                                    paddingBottom: '48%',
+                                    borderRadius: '8px',
+                                    margin: '1%',
+                                    background: `url(${getImage(wine.imageLink)}) no-repeat center`,
+                                    backgroundSize: 'contain',
+                                    backgroundColor: '#fff',
+                                    cursor: 'pointer'
+                                }}
+                                className="shadow-generator fade-over"
+                                onClick={() => setWineSelected(wine)}
+                                onMouseEnter={() => setItemHovered(wine._id)}
+                                onTouchStart={() => setItemHovered(wine._id)}
+                                onMouseLeave={() => setItemHovered('')}
+                                onTouchEnd={() => setItemHovered('')}
+                            >
+                            {itemHovered === wine._id &&
+                                <span style={{paddingTop: '1px',backgroundColor: '#fff'}}>
+                                    {wine.itemName}
+                                    <br />
+                                    {wine.price} €
+                                </span>}
+                            </div>
+                        )}
+                    </Col>
+                    <Col md={4} style={{border: '3px solid #2c1111', backgroundColor: '#fff', minHeight: '450px'}} className="d-flex text-center">
+                        {wineSelected?._id &&
+                            <div
+                                key={wineSelected._id}
+                                style={{
+                                    height: '300px',
+                                    width: '100%',
+                                    margin: '16px',
+                                    backgroundSize: 'contain',
+                                    backgroundColor: '#fff',
+                                    position: 'relative',
+                                }}
+                            >
+                                <h4>
+                                    {wineSelected.itemName}&nbsp;
+                                    
+                                    <Button disabled={!!!labelSelected._id} onClick={() => addItemToCart(wineSelected._id, wineSelected.shopId, labelSelected)} variant="dark">
+                                        <FiShoppingCart />
+                                    </Button></h4>
+                                <h5>
+                                    {labelSelected._id ? 
+                                        (Number(wineSelected.price.replace(',','.')) + labelSelected.price)
+                                            .toFixed(2).toString().replace('.', ',') : 
+                                        wineSelected.price
+                                    } €
+                                </h5>
+                                <figure style={{position: 'relative', width: '100px',  margin: '0 auto'}}>
                                     <img 
-                                        src={getImage(labelSelected.imageLink)}
+                                        src={bottleByColor[wineSelected.color]}
                                         style={{
-                                            position: 'absolute',
-                                            top: 118,
-                                            left: 18,
-                                            height: '92px'
+                                            height: '300px'
                                         }}
                                     />
-                                }
-                            </figure>
-                        </div>
-                    }
-                </Col>
-                <Col md={4} style={{height: '100%', overflowY: 'scroll', alignContent: 'flex-start'}} className="d-flex flex-wrap">
-                    {labels.map(label =>
-                        <div
-                            key={label._id}
-                            style={{
-                                height: '0',
-                                width: '48%',
-                                paddingBottom: '48%',
-                                borderRadius: '8px',
-                                margin: '1%',
-                                background: `url(${getImage(label.imageLink)}) no-repeat center`,
-                                backgroundSize: 'contain',
-                                backgroundColor: '#fff',
-                                cursor: 'pointer'
-                            }}
-                            className="shadow-generator fade-over"
-                            onClick={() => setLabelSelected(label)}
-                        >
-                            {isOwner &&
-                            <Button
-                                onClick={() => deleteCard(label._id)}
+                                    {labelSelected._id &&
+                                        <img 
+                                            src={getImage(labelSelected.imageLink)}
+                                            style={{
+                                                position: 'absolute',
+                                                top: '43.5%',
+                                                right: '17%',
+                                                height: '32%'
+                                            }}
+                                        />
+                                    }
+                                </figure>
+                            </div>
+                        }
+                    </Col>
+                    <Col md={4} style={{height: '100%', overflowY: 'scroll', alignContent: 'flex-start'}} className="d-flex flex-wrap">
+                        {labels.map(label =>
+                            <div
+                                key={label._id}
                                 style={{
-                                    width: "40px",
-                                    height: "40px",
-                                    marginBottom: "0px",
-                                    zIndex: "+5"
+                                    height: '0',
+                                    width: '48%',
+                                    paddingBottom: '48%',
+                                    borderRadius: '8px',
+                                    margin: '1%',
+                                    background: `url(${getImage(label.imageLink)}) no-repeat center`,
+                                    backgroundSize: 'contain',
+                                    backgroundColor: '#fff',
+                                    cursor: 'pointer'
                                 }}
-                                variant="outline-danger"
-                                >
-                                <MdDelete style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
-                            </Button>}
-                            <span style={{paddingTop: '2px', borderTopLeftRadius: '8px' ,backgroundColor: '#fff'}}>
-                                {isOwner && label.name}
-                                &nbsp;{label.price.toFixed(2).toString().replace('.', ',')} €
-                            </span>
-                        </div>
-                    )}
-                </Col>
-            </Row>
-        </Container>
+                                className="shadow-generator fade-over"
+                                onClick={() => setLabelSelected(label)}
+                                onMouseEnter={() => setItemHovered(label._id)}
+                                onTouchStart={() => setItemHovered(label._id)}
+                                onMouseLeave={() => setItemHovered('')}
+                                onTouchEnd={() => setItemHovered('')}
+                            >
+                                {isOwner &&
+                                <Button
+                                    onClick={() => deleteCard(label._id)}
+                                    style={{
+                                        width: "40px",
+                                        height: "40px",
+                                        marginBottom: "0px",
+                                        zIndex: "+5"
+                                    }}
+                                    variant="outline-danger"
+                                    >
+                                    <MdDelete style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
+                                </Button>}
+                                {itemHovered === label._id &&
+                                <span style={{paddingTop: '2px', borderTopLeftRadius: '8px' ,backgroundColor: '#fff'}}>
+                                    {isOwner && label.name}
+                                    &nbsp;{label.price.toFixed(2).toString().replace('.', ',')} €
+                                </span>}
+                            </div>
+                        )}
+                    </Col>
+                </Row>
+            </Container>
+            <Container className="container py-4 d-block d-lg-none" fluid>
+                {isOwner &&
+                    <Row className="text-center">
+                        <Col>
+                            <Button onClick={() => setLabelPopup(true)} variant="dark">Pridat etikety</Button>
+                        </Col>
+                    </Row>
+                }
+                {isOwner && labelPopup &&
+                    <AddLabel refresh={refresh} setRefresh={setRefresh} setLabelPopup={setLabelPopup} labelPopup={labelPopup} />
+                }
+                <Row style={{height: '100%'}}>
+                    <Col className="text-center">
+                        <h1>Víno pre každú príležitosť!</h1>
+                        <p>
+                            Využi náš super jednoduchý generátor perfekných darčekov a poskladaj si víno ako
+                            ušité na mieru pre každú vhodnú (i nevhodnú) príležitosť. 
+                            Na výber máš obrovské množstvo kombinácii vín a etikiet, tak neváhaj a začni skladať!
+                        </p>
+                    </Col>
+                </Row>
+                <Row  className="text-center">
+                    <Col md={{span:4, offset:4}}>
+                        <h4>Vyber si etiketu</h4>
+                    </Col>
+                </Row>
+                <Row>    
+                    <Col md={12} style={{height: '80vh', overflowY: 'scroll', alignContent: 'flex-start'}} className="d-flex flex-wrap">
+                        {labels.map(label =>
+                            <div
+                                key={label._id}
+                                style={{
+                                    height: '0',
+                                    width: '48%',
+                                    paddingBottom: '48%',
+                                    borderRadius: '8px',
+                                    margin: '1%',
+                                    background: `url(${getImage(label.imageLink)}) no-repeat center`,
+                                    backgroundSize: 'contain',
+                                    backgroundColor: labelSelected._id === label._id ? '#2c1111' :'#fff',
+                                    cursor: 'pointer'
+                                }}
+                                className="shadow-generator fade-over"
+                                onClick={() => setLabelSelected(label)}
+                                onMouseEnter={() => setItemHovered(label._id)}
+                                onTouchStart={() => setItemHovered(label._id)}
+                                onMouseLeave={() => setItemHovered('')}
+                                onTouchEnd={() => setItemHovered('')}
+                            >
+                                {isOwner &&
+                                <Button
+                                    onClick={() => deleteCard(label._id)}
+                                    style={{
+                                        width: "40px",
+                                        height: "40px",
+                                        marginBottom: "0px",
+                                        zIndex: "+5"
+                                    }}
+                                    variant="outline-danger"
+                                    >
+                                    <MdDelete style={{ fontSize: "150%", margin: "0 0 15px -5px" }} />
+                                </Button>}
+                                {itemHovered === label._id &&
+                                <span style={{paddingTop: '2px', borderTopLeftRadius: '8px' ,backgroundColor: '#fff'}}>
+                                    {isOwner && label.name}
+                                    &nbsp;{label.price.toFixed(2).toString().replace('.', ',')} €
+                                </span>}
+                            </div>
+                        )}
+                    </Col>
+                </Row>
+                <Row  className="text-center">
+                    <Col md={{span:4}}>
+                        <h4>Vyber si víno</h4>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={12} style={{height: '80vh', overflowY: 'scroll', alignContent: 'flex-start'}} className="d-flex flex-wrap">
+                        {wines.map(wine =>
+                            <div
+                                key={wine._id}
+                                style={{
+                                    height: '0',
+                                    width: '48%',
+                                    paddingBottom: '48%',
+                                    borderRadius: '8px',
+                                    margin: '1%',
+                                    background: `url(${getImage(wine.imageLink)}) no-repeat center`,
+                                    backgroundSize: 'contain',
+                                    backgroundColor: wineSelected._id === wine._id ? '#c3c3c3' :'#fff',
+                                    cursor: 'pointer'
+                                }}
+                                className="shadow-generator fade-over"
+                                onClick={() => setWineSelected(wine)}
+                                onMouseEnter={() => setItemHovered(wine._id)}
+                                onTouchStart={() => setItemHovered(wine._id)}
+                                onMouseLeave={() => setItemHovered('')}
+                                onTouchEnd={() => setItemHovered('')}
+                            >
+                            {itemHovered === wine._id &&
+                                <span style={{paddingTop: '1px',backgroundColor: '#fff'}}>
+                                    {wine.itemName}
+                                    <br />
+                                    {wine.price} €
+                                </span>}
+                            </div>
+                        )}
+                    </Col>
+                </Row>
+                <Row  className="text-center">
+                    <Col md={{span:4}}>
+                        <h4>Skontroluj výsledok</h4>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={12} style={{border: '3px solid #2c1111', backgroundColor: '#fff', minHeight: '450px'}} className="d-flex text-center">
+                        {wineSelected?._id &&
+                            <div
+                                key={wineSelected._id}
+                                style={{
+                                    height: '300px',
+                                    width: '100%',
+                                    margin: '16px',
+                                    backgroundSize: 'contain',
+                                    backgroundColor: '#fff',
+                                    position: 'relative',
+                                }}
+                            >
+                                <h4>
+                                    {wineSelected.itemName}&nbsp;
+                                    
+                                    <Button disabled={!!!labelSelected._id} onClick={() => addItemToCart(wineSelected._id, wineSelected.shopId, labelSelected)} variant="dark">
+                                        <FiShoppingCart />
+                                    </Button></h4>
+                                <h5>
+                                    {labelSelected._id ? 
+                                        (Number(wineSelected.price.replace(',','.')) + labelSelected.price)
+                                            .toFixed(2).toString().replace('.', ',') : 
+                                        wineSelected.price
+                                    } €
+                                </h5>
+                                <figure style={{position: 'relative', width: '100px',  margin: '0 auto'}}>
+                                    <img 
+                                        src={bottleByColor[wineSelected.color]}
+                                        style={{
+                                            height: '300px'
+                                        }}
+                                    />
+                                    {labelSelected._id &&
+                                        <img 
+                                            src={getImage(labelSelected.imageLink)}
+                                            style={{
+                                                position: 'absolute',
+                                                top: '43.5%',
+                                                right: '17%',
+                                                height: '32%'
+                                            }}
+                                        />
+                                    }
+                                </figure>
+                            </div>
+                        }
+                    </Col>
+                </Row>
+            </Container>
+        </>
     )
 }

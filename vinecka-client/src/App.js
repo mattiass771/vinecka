@@ -27,6 +27,7 @@ import Popup from './components/Law/Popup';
 import CookiesPopup from './components/Law/CookiesPopup'
 import MaintenanceModePage from './components/MaintenanceMode/MaintenanceModePage'
 import LabelGenerator from './components/Labels/LabelGenerator'
+import HomeNew from "./components/Home/HomeNew";
 
 import emailjs from 'emailjs-com';
 
@@ -106,7 +107,6 @@ export default () => {
       .catch((err) => console.log(`Error ${err}`))
       .then(() => window.location.reload());
   };
-  userData.isOwner = true
 
   return (
     <Router>
@@ -133,7 +133,7 @@ export default () => {
         <div className="wrapper">
           <Switch>
             <Route exact path="/">
-              <Home isMaintenance={isMaintenance} userId={userData._id} isOwner={userData.isOwner} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart}  />
+              <HomeNew isMaintenance={isMaintenance} userId={userData._id} isOwner={userData.isOwner} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart}  />
             </Route>
             <Route exact path="/vinarstva">
               <Vinarne userData={userData} />

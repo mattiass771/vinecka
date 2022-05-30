@@ -69,7 +69,7 @@ export default ({ userId, userName, newComerStamp, isLoggedIn, handleLogOut, sho
     transition: 'top 0.6s',
     width: '100%',
     zIndex: '+2',
-    backgroundColor: '#b59185',
+    backgroundColor: 'white',
     fontSize: '120%'
   }
 
@@ -360,7 +360,7 @@ const incrementItemFromCart = (itemId, label) => {
         />
         <hr className="col-lg-3 col-md-3 d-none d-md-inline-block" style={{backgroundColor: '#2c1111', marginBottom: '-12px'}} />
     </div>
-    <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-90px', paddingTop: '95px'}} variant="dark" expand="md">
+    <Navbar collapseOnSelect className="justify-content-center" style={{...navbarStyles, top: visible ? '0' : '-90px', paddingTop: '95px'}} variant="light" expand="md">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="row justify-content-center text-center">
         <Nav className="my-4 my-md-0">
@@ -380,9 +380,11 @@ const incrementItemFromCart = (itemId, label) => {
               Etikety
           </Nav.Link>
 
+          {isOwner &&
           <Nav.Link as={Link} href="/eventy" to="/eventy" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
               Eventy
           </Nav.Link>
+          }
 
           <Nav.Link as={Link} href="/kontakt" to="/kontakt" className="navihover  pt-4 pb-3 mr-xl-4 ml-xl-4 mr-lg-2 ml-lg-2 mr-1 ml-1">
               Kontakt
