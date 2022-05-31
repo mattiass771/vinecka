@@ -70,8 +70,9 @@ export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOw
     }
 
     return shopItems.map((item, i) => {
-      const { _id, itemName, price, description, imageLink, maxCount, color, taste, histamineFree } = item;
+      const { _id, itemName, price, description, imageLink, maxCount, color, taste, histamineFree, label } = item;
       const passShopId = shopId === 'home' ? item.shopId : shopId
+      console.log(label)
 
       const image = getImage(imageLink)
         ? getImage(imageLink)
@@ -100,6 +101,22 @@ export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOw
           setShoppingCart([...shoppingCart, newItem])
         }
       }
+
+      const addLabeledItemToCart = (itemId, shopId = passShopId) => { 
+        const itemLabelId = `${itemId}-${label._id}`       
+        if (shoppingCart.find(val => val.itemId === itemLabelId)) {
+          const newShoppingCart = shoppingCart.map(item => {
+            if (item.itemId === itemLabelId) {                
+                return {...item, count: item.count + 1}
+            }
+            return item
+          })
+          return setShoppingCart(newShoppingCart)
+        } else {
+          const newItem = { shopId, itemId: itemLabelId, label, count: 1 }
+          setShoppingCart([...shoppingCart, newItem])
+        }
+    }
 
       return (
         <Col className={`pt-2 pb-2 ${(shopId === 'home' && i>1) && 'd-none'} ${(shopId === 'home' && i===2) && 'd-none d-lg-block'} ${(shopId === 'home' && i===3) && 'd-none d-xl-block'}`} style={{color: "whitesmoke", overflow:"hidden"}} xs={12} md={6} lg={4} xl={3} key={_id}>
@@ -136,8 +153,18 @@ export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOw
             }
             {editing[_id] && <EditItems shouldReload={shouldReload} setShouldReload={setShouldReload} itemDataProp={item} showEditItems={editing[_id]} setShowEditItems={setEditing} shopId={passShopId} itemId={_id} />}
             <img className="shop-item-img" style={{height: "407px"}} src={image} />
+            {label && 
+            <img 
+              src={getImage(label.imageLink)} 
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                height: '26%'
+              }}
+            />}
             <div style={{overflowY: 'hidden', color: "#333333", marginTop: "-110px" , backgroundColor: "rgba(255,255,255, 0.7)"}}>
-              <Card.Title className="mt-1 mb-1">{itemName}</Card.Title>
+              <Card.Title className="mt-1 mb-1" style={{minHeight: '2em'}}>{itemName}</Card.Title>
               {(color && taste) && 
               <Card.Text className="mt-1 mb-1">{`${color[0].toUpperCase()}${color.substring(1).toLowerCase()}, ${taste[0].toUpperCase()}${taste.substring(1).toLowerCase()}`}</Card.Text>}
               <Card.Text className={`mt-1 mb-1 pb-4`}>{price} €</Card.Text>
@@ -158,7 +185,7 @@ export default ({ shopItems, shopId, userId, setShouldReload, shouldReload, isOw
                     <Col>{description}</Col>
                   </Row>}
                   {isHovered[_id] === 'block' && hoverTimeout[_id] &&
-                  <Button style={{width: "100%"}} onClick={() => addItemToCart(_id)} variant="dark">Pridať do košíka.</Button>}
+                  <Button style={{width: "100%"}} onClick={() => label ? addLabeledItemToCart(_id, passShopId) : addItemToCart(_id)} variant="dark">Pridať do košíka.</Button>}
                 </Container>
             </Card.ImgOverlay>
           </Card>
