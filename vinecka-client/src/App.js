@@ -107,7 +107,6 @@ export default () => {
       .catch((err) => console.log(`Error ${err}`))
       .then(() => window.location.reload());
   };
-  userData.isOwner = true
 
   return (
     <Router>
