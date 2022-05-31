@@ -658,7 +658,7 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart, isMaintenance})
                         <hr style={{backgroundColor: '#373737', paddingBottom: '2px'}} />
                     </Col>
                 </Row>
-                <Row>
+                <Row className="d-none d-sm-block d-md-none">
                     <Col
                         lg={6}
                         md={12}
@@ -716,7 +716,100 @@ export default ({userId, isOwner, shoppingCart, setShoppingCart, isMaintenance})
                                 cursor: 'pointer'
                             }}
                             className="pad-over"
-                        onClick={() => history.push('/vina')}
+                            onClick={() => history.push('/vina')}
+                        >
+                            <article
+                                style={{
+                                    position: 'absolute',
+                                    right: 0,
+                                    top: '15%',
+                                    height: '70%',
+                                    width: '21rem',
+                                    backgroundColor: 'rgba(0,0,0,0.0)',
+                                    textAlign: 'right',
+                                    padding: '1rem'
+                                }}
+                            >
+                                <div style={{color: '#2c1111', fontSize: '300%', fontFamily: 'Rozha One', letterSpacing: '-2px', lineHeight: '4rem'}}>
+                                    <p style={{fontSize: '150%'}}>ČERVENÉ</p> 
+                                    <p style={{fontSize: '150%'}}>BIELE</p> 
+                                    <p style={{fontSize: '150%'}}>RUŽOVÉ</p> 
+                                </div>
+                                <p
+                                    style={{
+                                        letterSpacing: '-1px',
+                                    }}
+                                >
+                                    Malokarpatská oblasť je rôznorodá,
+                                    rovnako ako aj vína našich slovenských vinárov.
+                                    Vyberte si farbu, chuť i druh, ktorý najviac uľahodí
+                                    vášmu srdcu a vychutnajte si explóziu chutí,
+                                    ktorú s láskou vyrábajú naši malí vinári z
+                                    Malých Karpát.
+                                </p>
+                            </article>
+                        </div>
+                    </Col>
+                </Row>
+                <Row className="d-block d-sm-none">
+                    <Col
+                        lg={6}
+                        md={12}
+                        className="my-2"
+                    >
+                        <div
+                            className="pad-over"
+                            onClick={() => history.push('/etikety')}
+                            style={{
+                                height: '600px',
+                                backgroundColor: `#D6CCBA`,
+                                position: 'relative',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            <article
+                                style={{
+                                    position: 'absolute',
+                                    left: 0,
+                                    top: '15%',
+                                    height: '70%',
+                                    width: '21rem',
+                                    padding: '1rem',
+                                    backgroundColor: 'rgba(0,0,0,0.0)'
+                                }}
+                            >
+                                <div style={{color: '#2c1111', fontSize: '300%', fontFamily: 'Rozha One', letterSpacing: '-2px', lineHeight: '4rem'}}>
+                                    <p style={{fontSize: '150%'}}>PRÍBEH</p> 
+                                    <p style={{fontSize: '150%'}}>LÁSKA</p> 
+                                    <p style={{fontSize: '150%'}}>ŽIVOT</p> 
+                                </div>
+                                <p
+                                    style={{
+                                        letterSpacing: '-1px',
+                                    }}
+                                >
+                                    Nechajte sa uniesť a vytvorte z vína príbeh,
+                                    ktorý vyjadrí všetko za vás. Či už ide o lásku,
+                                    smútok, zábavu alebo len tak o všedný deň.
+                                    My máme príbeh na každý deň vášho života.
+                                </p>
+                            </article>
+                        </div>
+                    </Col>
+                    <Col
+                        lg={6}
+                        md={12}
+                        className="my-2"
+                    >
+                        <div
+                            className="pad-over"
+                            onClick={() => history.push('/vina')}
+                            style={{
+                                height: '600px',
+                                position: 'relative',
+                                backgroundColor: `#D6CCBA`,
+                                cursor: 'pointer'
+                            }}
                         >
                             <article
                                 style={{
